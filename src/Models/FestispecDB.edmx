@@ -1,0 +1,1500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="Festispec.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account" customannotation:ClrType="Festispec.Models.Account, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="ActivationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsActivated" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.Account_Employee" FromRole="Account_Employee_Source" ToRole="Account_Employee_Target" />
+        </EntityType>
+        <EntityType Name="Employee" customannotation:ClrType="Festispec.Models.Employee, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="Self.EmployeeRole" Nullable="false" />
+          <Property Name="Iban" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.Account_Employee" FromRole="Account_Employee_Target" ToRole="Account_Employee_Source" />
+          <NavigationProperty Name="Address" Relationship="Self.Employee_Address" FromRole="Employee_Address_Source" ToRole="Employee_Address_Target" />
+          <NavigationProperty Name="Availabilities" Relationship="Self.Employee_Availabilities" FromRole="Employee_Availabilities_Source" ToRole="Employee_Availabilities_Target" />
+          <NavigationProperty Name="Certificates" Relationship="Self.Employee_Certificates" FromRole="Employee_Certificates_Source" ToRole="Employee_Certificates_Target" />
+          <NavigationProperty Name="ContactDetails" Relationship="Self.Employee_ContactDetails" FromRole="Employee_ContactDetails_Source" ToRole="Employee_ContactDetails_Target" />
+          <NavigationProperty Name="PlannedEvents" Relationship="Self.Employee_PlannedEvents" FromRole="Employee_PlannedEvents_Source" ToRole="Employee_PlannedEvents_Target" />
+          <NavigationProperty Name="PlannedInspections" Relationship="Self.PlannedInspection_Inspector" FromRole="PlannedInspection_Inspector_Target" ToRole="PlannedInspection_Inspector_Source" />
+        </EntityType>
+        <EntityType Name="Address" customannotation:ClrType="Festispec.Models.Address, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StreetName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HouseNumber" Type="Int32" Nullable="false" />
+          <Property Name="Suffix" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Availability" customannotation:ClrType="Festispec.Models.Availability, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="Self.Employee_Availabilities" FromRole="Employee_Availabilities_Target" ToRole="Employee_Availabilities_Source" />
+        </EntityType>
+        <EntityType Name="Certificate" customannotation:ClrType="Festispec.Models.Certificate, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CertificateTitle" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CertificationDate" Type="DateTime" Nullable="false" />
+          <Property Name="ExpirationDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.Employee_Certificates" FromRole="Employee_Certificates_Target" ToRole="Employee_Certificates_Source" />
+        </EntityType>
+        <EntityType Name="ContactDetails" customannotation:ClrType="Festispec.Models.ContactDetails, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PlannedEvent" customannotation:ClrType="Festispec.Models.PlannedEvent, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" />
+          <Property Name="EventTitle" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.Employee_PlannedEvents" FromRole="Employee_PlannedEvents_Target" ToRole="Employee_PlannedEvents_Source" />
+        </EntityType>
+        <EntityType Name="PlannedInspection" customannotation:ClrType="Festispec.Models.PlannedInspection, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" />
+          <Property Name="WorkedHours" Type="Int32" Nullable="false" />
+          <Property Name="WorkedHoursAccepted" Type="DateTime" Nullable="false" />
+          <Property Name="CancellationReason" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsCancelled" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Festival" Relationship="Self.Festival_PlannedInspections" FromRole="Festival_PlannedInspections_Target" ToRole="Festival_PlannedInspections_Source" />
+          <NavigationProperty Name="Inspector" Relationship="Self.PlannedInspection_Inspector" FromRole="PlannedInspection_Inspector_Source" ToRole="PlannedInspection_Inspector_Target" />
+          <NavigationProperty Name="Questionnaire" Relationship="Self.PlannedInspection_Questionnaire" FromRole="PlannedInspection_Questionnaire_Source" ToRole="PlannedInspection_Questionnaire_Target" />
+        </EntityType>
+        <EntityType Name="Festival" customannotation:ClrType="Festispec.Models.Festival, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FestivalName" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.Festival_Address" FromRole="Festival_Address_Source" ToRole="Festival_Address_Target" />
+          <NavigationProperty Name="Customer" Relationship="Self.Customer_Festivals" FromRole="Customer_Festivals_Target" ToRole="Customer_Festivals_Source" />
+          <NavigationProperty Name="OpeningHours" Relationship="Self.Festival_OpeningHours" FromRole="Festival_OpeningHours_Source" ToRole="Festival_OpeningHours_Target" />
+          <NavigationProperty Name="PlannedInspections" Relationship="Self.Festival_PlannedInspections" FromRole="Festival_PlannedInspections_Source" ToRole="Festival_PlannedInspections_Target" />
+        </EntityType>
+        <EntityType Name="Customer" customannotation:ClrType="Festispec.Models.Customer, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KvkNr" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.Customer_Address" FromRole="Customer_Address_Source" ToRole="Customer_Address_Target" />
+          <NavigationProperty Name="ContactDetails" Relationship="Self.Customer_ContactDetails" FromRole="Customer_ContactDetails_Source" ToRole="Customer_ContactDetails_Target" />
+          <NavigationProperty Name="Festivals" Relationship="Self.Customer_Festivals" FromRole="Customer_Festivals_Source" ToRole="Customer_Festivals_Target" />
+          <NavigationProperty Name="Liaisons" Relationship="Self.Customer_Liaisons" FromRole="Customer_Liaisons_Source" ToRole="Customer_Liaisons_Target" />
+        </EntityType>
+        <EntityType Name="Liaison" customannotation:ClrType="Festispec.Models.Liaison, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LiaisonName" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ContactDetails" Relationship="Self.Liaison_ContactDetails" FromRole="Liaison_ContactDetails_Source" ToRole="Liaison_ContactDetails_Target" />
+          <NavigationProperty Name="Customer" Relationship="Self.Customer_Liaisons" FromRole="Customer_Liaisons_Target" ToRole="Customer_Liaisons_Source" />
+          <NavigationProperty Name="Notes" Relationship="Self.Liaison_Notes" FromRole="Liaison_Notes_Source" ToRole="Liaison_Notes_Target" />
+        </EntityType>
+        <EntityType Name="LiaisonNote" customannotation:ClrType="Festispec.Models.LiaisonNote, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Created" />
+          </Key>
+          <Property Name="Created" Type="DateTime" Nullable="false" />
+          <Property Name="LiaisonId" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Liaison" Relationship="Self.Liaison_Notes" FromRole="Liaison_Notes_Target" ToRole="Liaison_Notes_Source" />
+        </EntityType>
+        <EntityType Name="OpeningHours" customannotation:ClrType="Festispec.Models.OpeningHours, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Festival" Relationship="Self.Festival_OpeningHours" FromRole="Festival_OpeningHours_Target" ToRole="Festival_OpeningHours_Source" />
+        </EntityType>
+        <EntityType Name="Questionnaire" customannotation:ClrType="Festispec.Models.Questionnaire, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IsComplete" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Answers" Relationship="Self.Answer_Questionnaire" FromRole="Answer_Questionnaire_Target" ToRole="Answer_Questionnaire_Source" />
+          <NavigationProperty Name="PlannedInspection" Relationship="Self.PlannedInspection_Questionnaire" FromRole="PlannedInspection_Questionnaire_Target" ToRole="PlannedInspection_Questionnaire_Source" />
+          <NavigationProperty Name="Questions" Relationship="Self.Question_Questionnaires" FromRole="Question_Questionnaires_Target" ToRole="Question_Questionnaires_Source" />
+        </EntityType>
+        <EntityType Name="Answer" customannotation:ClrType="Festispec.Models.Answer, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Attachments" Relationship="Self.Answer_Attachments" FromRole="Answer_Attachments_Source" ToRole="Answer_Attachments_Target" />
+          <NavigationProperty Name="Inspector" Relationship="Self.Answer_Inspector" FromRole="Answer_Inspector_Source" ToRole="Answer_Inspector_Target" />
+          <NavigationProperty Name="Question" Relationship="Self.Answer_Question" FromRole="Answer_Question_Source" ToRole="Answer_Question_Target" />
+          <NavigationProperty Name="Questionnaire" Relationship="Self.Answer_Questionnaire" FromRole="Answer_Questionnaire_Source" ToRole="Answer_Questionnaire_Target" />
+        </EntityType>
+        <EntityType Name="Attachment" customannotation:ClrType="Festispec.Models.Attachment, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileContents" Type="Binary" MaxLength="5000000" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Answer" Relationship="Self.Answer_Attachments" FromRole="Answer_Attachments_Target" ToRole="Answer_Attachments_Source" />
+        </EntityType>
+        <EntityType Name="Question" customannotation:ClrType="Festispec.Models.Question, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumericMinimum" Type="Int32" Nullable="false" />
+          <Property Name="NumericMaximum" Type="Int32" Nullable="false" />
+          <Property Name="StringIsMultiline" Type="Boolean" Nullable="false" />
+          <Property Name="StringCharacterLimit" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Self.QuestionType" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.QuestionCategory_Questions" FromRole="QuestionCategory_Questions_Target" ToRole="QuestionCategory_Questions_Source" />
+          <NavigationProperty Name="Questionnaires" Relationship="Self.Question_Questionnaires" FromRole="Question_Questionnaires_Source" ToRole="Question_Questionnaires_Target" />
+        </EntityType>
+        <EntityType Name="QuestionCategory" customannotation:ClrType="Festispec.Models.QuestionCategory, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Questions" Relationship="Self.QuestionCategory_Questions" FromRole="QuestionCategory_Questions_Source" ToRole="QuestionCategory_Questions_Target" />
+        </EntityType>
+        <EnumType Name="EmployeeRole" IsFlags="false" customannotation:ClrType="Festispec.Models.EmployeeRole, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Employee" Value="0" />
+          <Member Name="Inspector" Value="1" />
+        </EnumType>
+        <EnumType Name="QuestionType" IsFlags="false" customannotation:ClrType="Festispec.Models.QuestionType, Festispec.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Numeric" Value="0" />
+          <Member Name="MultipleChoice" Value="1" />
+          <Member Name="String" Value="2" />
+        </EnumType>
+        <Association Name="Employee_Address">
+          <End Role="Employee_Address_Source" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Employee_Address_Target" Type="Self.Address" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Address_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Address_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_Availabilities">
+          <End Role="Employee_Availabilities_Source" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee_Availabilities_Target" Type="Self.Availability" Multiplicity="*" />
+        </Association>
+        <Association Name="Employee_Certificates">
+          <End Role="Employee_Certificates_Source" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee_Certificates_Target" Type="Self.Certificate" Multiplicity="*" />
+        </Association>
+        <Association Name="Employee_ContactDetails">
+          <End Role="Employee_ContactDetails_Source" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Employee_ContactDetails_Target" Type="Self.ContactDetails" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_ContactDetails_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_ContactDetails_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_PlannedEvents">
+          <End Role="Employee_PlannedEvents_Source" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee_PlannedEvents_Target" Type="Self.PlannedEvent" Multiplicity="*" />
+        </Association>
+        <Association Name="Festival_Address">
+          <End Role="Festival_Address_Source" Type="Self.Festival" Multiplicity="1" />
+          <End Role="Festival_Address_Target" Type="Self.Address" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Festival_Address_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Festival_Address_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Address">
+          <End Role="Customer_Address_Source" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer_Address_Target" Type="Self.Address" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer_Address_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_Address_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_ContactDetails">
+          <End Role="Customer_ContactDetails_Source" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer_ContactDetails_Target" Type="Self.ContactDetails" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer_ContactDetails_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_ContactDetails_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Festivals">
+          <End Role="Customer_Festivals_Source" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer_Festivals_Target" Type="Self.Festival" Multiplicity="*" />
+        </Association>
+        <Association Name="Liaison_ContactDetails">
+          <End Role="Liaison_ContactDetails_Source" Type="Self.Liaison" Multiplicity="1" />
+          <End Role="Liaison_ContactDetails_Target" Type="Self.ContactDetails" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Liaison_ContactDetails_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liaison_ContactDetails_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Liaison_Notes">
+          <End Role="Liaison_Notes_Source" Type="Self.Liaison" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Liaison_Notes_Target" Type="Self.LiaisonNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Liaison_Notes_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liaison_Notes_Target">
+              <PropertyRef Name="LiaisonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Liaisons">
+          <End Role="Customer_Liaisons_Source" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer_Liaisons_Target" Type="Self.Liaison" Multiplicity="*" />
+        </Association>
+        <Association Name="Festival_OpeningHours">
+          <End Role="Festival_OpeningHours_Source" Type="Self.Festival" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Festival_OpeningHours_Target" Type="Self.OpeningHours" Multiplicity="*" />
+        </Association>
+        <Association Name="Festival_PlannedInspections">
+          <End Role="Festival_PlannedInspections_Source" Type="Self.Festival" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Festival_PlannedInspections_Target" Type="Self.PlannedInspection" Multiplicity="*" />
+        </Association>
+        <Association Name="PlannedInspection_Inspector">
+          <End Role="PlannedInspection_Inspector_Source" Type="Self.PlannedInspection" Multiplicity="*" />
+          <End Role="PlannedInspection_Inspector_Target" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="Answer_Attachments">
+          <End Role="Answer_Attachments_Source" Type="Self.Answer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answer_Attachments_Target" Type="Self.Attachment" Multiplicity="*" />
+        </Association>
+        <Association Name="Answer_Inspector">
+          <End Role="Answer_Inspector_Source" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Answer_Inspector_Target" Type="Self.Employee" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer_Inspector_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer_Inspector_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="QuestionCategory_Questions">
+          <End Role="QuestionCategory_Questions_Source" Type="Self.QuestionCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestionCategory_Questions_Target" Type="Self.Question" Multiplicity="*" />
+        </Association>
+        <Association Name="Question_Questionnaires">
+          <End Role="Question_Questionnaires_Source" Type="Self.Question" Multiplicity="*" />
+          <End Role="Question_Questionnaires_Target" Type="Self.Questionnaire" Multiplicity="*" />
+        </Association>
+        <Association Name="Answer_Question">
+          <End Role="Answer_Question_Source" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Answer_Question_Target" Type="Self.Question" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer_Question_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer_Question_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Answer_Questionnaire">
+          <End Role="Answer_Questionnaire_Source" Type="Self.Answer" Multiplicity="*" />
+          <End Role="Answer_Questionnaire_Target" Type="Self.Questionnaire" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="PlannedInspection_Questionnaire">
+          <End Role="PlannedInspection_Questionnaire_Source" Type="Self.PlannedInspection" Multiplicity="1" />
+          <End Role="PlannedInspection_Questionnaire_Target" Type="Self.Questionnaire" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="PlannedInspection_Questionnaire_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlannedInspection_Questionnaire_Target">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Account_Employee">
+          <End Role="Account_Employee_Target" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Account_Employee_Source" Type="Self.Account" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Account_Employee_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account_Employee_Source">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FestispecContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="Availabilities" EntityType="Self.Availability" />
+          <EntitySet Name="Certificates" EntityType="Self.Certificate" />
+          <EntitySet Name="ContactDetails" EntityType="Self.ContactDetails" />
+          <EntitySet Name="PlannedEvents" EntityType="Self.PlannedEvent" />
+          <EntitySet Name="PlannedInspections" EntityType="Self.PlannedInspection" />
+          <EntitySet Name="Festivals" EntityType="Self.Festival" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Liaisons" EntityType="Self.Liaison" />
+          <EntitySet Name="LiaisonNotes" EntityType="Self.LiaisonNote" />
+          <EntitySet Name="OpeningHours" EntityType="Self.OpeningHours" />
+          <EntitySet Name="Questionnaires" EntityType="Self.Questionnaire" />
+          <EntitySet Name="Answers" EntityType="Self.Answer" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="QuestionCategories" EntityType="Self.QuestionCategory" />
+          <AssociationSet Name="Employee_Address" Association="Self.Employee_Address">
+            <End Role="Employee_Address_Source" EntitySet="Employees" />
+            <End Role="Employee_Address_Target" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Availabilities" Association="Self.Employee_Availabilities">
+            <End Role="Employee_Availabilities_Source" EntitySet="Employees" />
+            <End Role="Employee_Availabilities_Target" EntitySet="Availabilities" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Certificates" Association="Self.Employee_Certificates">
+            <End Role="Employee_Certificates_Source" EntitySet="Employees" />
+            <End Role="Employee_Certificates_Target" EntitySet="Certificates" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_ContactDetails" Association="Self.Employee_ContactDetails">
+            <End Role="Employee_ContactDetails_Source" EntitySet="Employees" />
+            <End Role="Employee_ContactDetails_Target" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_PlannedEvents" Association="Self.Employee_PlannedEvents">
+            <End Role="Employee_PlannedEvents_Source" EntitySet="Employees" />
+            <End Role="Employee_PlannedEvents_Target" EntitySet="PlannedEvents" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_Address" Association="Self.Festival_Address">
+            <End Role="Festival_Address_Source" EntitySet="Festivals" />
+            <End Role="Festival_Address_Target" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Address" Association="Self.Customer_Address">
+            <End Role="Customer_Address_Source" EntitySet="Customers" />
+            <End Role="Customer_Address_Target" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_ContactDetails" Association="Self.Customer_ContactDetails">
+            <End Role="Customer_ContactDetails_Source" EntitySet="Customers" />
+            <End Role="Customer_ContactDetails_Target" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Festivals" Association="Self.Customer_Festivals">
+            <End Role="Customer_Festivals_Source" EntitySet="Customers" />
+            <End Role="Customer_Festivals_Target" EntitySet="Festivals" />
+          </AssociationSet>
+          <AssociationSet Name="Liaison_ContactDetails" Association="Self.Liaison_ContactDetails">
+            <End Role="Liaison_ContactDetails_Source" EntitySet="Liaisons" />
+            <End Role="Liaison_ContactDetails_Target" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Liaison_Notes" Association="Self.Liaison_Notes">
+            <End Role="Liaison_Notes_Source" EntitySet="Liaisons" />
+            <End Role="Liaison_Notes_Target" EntitySet="LiaisonNotes" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Liaisons" Association="Self.Customer_Liaisons">
+            <End Role="Customer_Liaisons_Source" EntitySet="Customers" />
+            <End Role="Customer_Liaisons_Target" EntitySet="Liaisons" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_OpeningHours" Association="Self.Festival_OpeningHours">
+            <End Role="Festival_OpeningHours_Source" EntitySet="Festivals" />
+            <End Role="Festival_OpeningHours_Target" EntitySet="OpeningHours" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_PlannedInspections" Association="Self.Festival_PlannedInspections">
+            <End Role="Festival_PlannedInspections_Source" EntitySet="Festivals" />
+            <End Role="Festival_PlannedInspections_Target" EntitySet="PlannedInspections" />
+          </AssociationSet>
+          <AssociationSet Name="PlannedInspection_Inspector" Association="Self.PlannedInspection_Inspector">
+            <End Role="PlannedInspection_Inspector_Source" EntitySet="PlannedInspections" />
+            <End Role="PlannedInspection_Inspector_Target" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Attachments" Association="Self.Answer_Attachments">
+            <End Role="Answer_Attachments_Source" EntitySet="Answers" />
+            <End Role="Answer_Attachments_Target" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Inspector" Association="Self.Answer_Inspector">
+            <End Role="Answer_Inspector_Source" EntitySet="Answers" />
+            <End Role="Answer_Inspector_Target" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="QuestionCategory_Questions" Association="Self.QuestionCategory_Questions">
+            <End Role="QuestionCategory_Questions_Source" EntitySet="QuestionCategories" />
+            <End Role="QuestionCategory_Questions_Target" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="Question_Questionnaires" Association="Self.Question_Questionnaires">
+            <End Role="Question_Questionnaires_Source" EntitySet="Questions" />
+            <End Role="Question_Questionnaires_Target" EntitySet="Questionnaires" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Question" Association="Self.Answer_Question">
+            <End Role="Answer_Question_Source" EntitySet="Answers" />
+            <End Role="Answer_Question_Target" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Questionnaire" Association="Self.Answer_Questionnaire">
+            <End Role="Answer_Questionnaire_Source" EntitySet="Answers" />
+            <End Role="Answer_Questionnaire_Target" EntitySet="Questionnaires" />
+          </AssociationSet>
+          <AssociationSet Name="PlannedInspection_Questionnaire" Association="Self.PlannedInspection_Questionnaire">
+            <End Role="PlannedInspection_Questionnaire_Source" EntitySet="PlannedInspections" />
+            <End Role="PlannedInspection_Questionnaire_Target" EntitySet="Questionnaires" />
+          </AssociationSet>
+          <AssociationSet Name="Account_Employee" Association="Self.Account_Employee">
+            <End Role="Account_Employee_Target" EntitySet="Employees" />
+            <End Role="Account_Employee_Source" EntitySet="Accounts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="FestispecContext">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Festispec.Models.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="IsActivated" ColumnName="IsActivated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Festispec.Models.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Iban" ColumnName="Iban" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="Festispec.Models.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="StreetName" ColumnName="StreetName" />
+                <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Availabilities">
+            <EntityTypeMapping TypeName="Festispec.Models.Availability">
+              <MappingFragment StoreEntitySet="Availability">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Certificates">
+            <EntityTypeMapping TypeName="Festispec.Models.Certificate">
+              <MappingFragment StoreEntitySet="Certificate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CertificateTitle" ColumnName="CertificateTitle" />
+                <ScalarProperty Name="CertificationDate" ColumnName="CertificationDate" />
+                <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactDetails">
+            <EntityTypeMapping TypeName="Festispec.Models.ContactDetails">
+              <MappingFragment StoreEntitySet="ContactDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlannedEvents">
+            <EntityTypeMapping TypeName="Festispec.Models.PlannedEvent">
+              <MappingFragment StoreEntitySet="PlannedEvent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlannedInspections">
+            <EntityTypeMapping TypeName="Festispec.Models.PlannedInspection">
+              <MappingFragment StoreEntitySet="PlannedInspection">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="WorkedHours" ColumnName="WorkedHours" />
+                <ScalarProperty Name="WorkedHoursAccepted" ColumnName="WorkedHoursAccepted" />
+                <ScalarProperty Name="CancellationReason" ColumnName="CancellationReason" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Festivals">
+            <EntityTypeMapping TypeName="Festispec.Models.Festival">
+              <MappingFragment StoreEntitySet="Festival">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FestivalName" ColumnName="FestivalName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Festispec.Models.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="KvkNr" ColumnName="KvkNr" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Liaisons">
+            <EntityTypeMapping TypeName="Festispec.Models.Liaison">
+              <MappingFragment StoreEntitySet="Liaison">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="LiaisonName" ColumnName="LiaisonName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiaisonNotes">
+            <EntityTypeMapping TypeName="Festispec.Models.LiaisonNote">
+              <MappingFragment StoreEntitySet="LiaisonNote">
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="LiaisonId" ColumnName="LiaisonId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpeningHours">
+            <EntityTypeMapping TypeName="Festispec.Models.OpeningHours">
+              <MappingFragment StoreEntitySet="OpeningHours">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questionnaires">
+            <EntityTypeMapping TypeName="Festispec.Models.Questionnaire">
+              <MappingFragment StoreEntitySet="Questionnaire">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Answers">
+            <EntityTypeMapping TypeName="Festispec.Models.Answer">
+              <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="Festispec.Models.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileContents" ColumnName="FileContents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="Festispec.Models.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="NumericMinimum" ColumnName="NumericMinimum" />
+                <ScalarProperty Name="NumericMaximum" ColumnName="NumericMaximum" />
+                <ScalarProperty Name="StringIsMultiline" ColumnName="StringIsMultiline" />
+                <ScalarProperty Name="StringCharacterLimit" ColumnName="StringCharacterLimit" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionCategories">
+            <EntityTypeMapping TypeName="Festispec.Models.QuestionCategory">
+              <MappingFragment StoreEntitySet="QuestionCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Employee_Availabilities" TypeName="Festispec.Models.Employee_Availabilities" StoreEntitySet="Availability">
+            <EndProperty Name="Employee_Availabilities_Source">
+              <ScalarProperty Name="Id" ColumnName="Employee_Id" />
+            </EndProperty>
+            <EndProperty Name="Employee_Availabilities_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Employee_Certificates" TypeName="Festispec.Models.Employee_Certificates" StoreEntitySet="Certificate">
+            <EndProperty Name="Employee_Certificates_Source">
+              <ScalarProperty Name="Id" ColumnName="Employee_Id" />
+            </EndProperty>
+            <EndProperty Name="Employee_Certificates_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Employee_PlannedEvents" TypeName="Festispec.Models.Employee_PlannedEvents" StoreEntitySet="PlannedEvent">
+            <EndProperty Name="Employee_PlannedEvents_Source">
+              <ScalarProperty Name="Id" ColumnName="Employee_Id" />
+            </EndProperty>
+            <EndProperty Name="Employee_PlannedEvents_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Customer_Festivals" TypeName="Festispec.Models.Customer_Festivals" StoreEntitySet="Festival">
+            <EndProperty Name="Customer_Festivals_Source">
+              <ScalarProperty Name="Id" ColumnName="Customer_Id" />
+            </EndProperty>
+            <EndProperty Name="Customer_Festivals_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Customer_Liaisons" TypeName="Festispec.Models.Customer_Liaisons" StoreEntitySet="Liaison">
+            <EndProperty Name="Customer_Liaisons_Source">
+              <ScalarProperty Name="Id" ColumnName="Customer_Id" />
+            </EndProperty>
+            <EndProperty Name="Customer_Liaisons_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Festival_OpeningHours" TypeName="Festispec.Models.Festival_OpeningHours" StoreEntitySet="OpeningHours">
+            <EndProperty Name="Festival_OpeningHours_Source">
+              <ScalarProperty Name="Id" ColumnName="Festival_Id" />
+            </EndProperty>
+            <EndProperty Name="Festival_OpeningHours_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Festival_PlannedInspections" TypeName="Festispec.Models.Festival_PlannedInspections" StoreEntitySet="PlannedInspection">
+            <EndProperty Name="Festival_PlannedInspections_Source">
+              <ScalarProperty Name="Id" ColumnName="Festival_Id" />
+            </EndProperty>
+            <EndProperty Name="Festival_PlannedInspections_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PlannedInspection_Inspector" TypeName="Festispec.Models.PlannedInspection_Inspector" StoreEntitySet="PlannedInspection">
+            <EndProperty Name="PlannedInspection_Inspector_Target">
+              <ScalarProperty Name="Id" ColumnName="Inspector_Id" />
+            </EndProperty>
+            <EndProperty Name="PlannedInspection_Inspector_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Answer_Attachments" TypeName="Festispec.Models.Answer_Attachments" StoreEntitySet="Attachment">
+            <EndProperty Name="Answer_Attachments_Source">
+              <ScalarProperty Name="Id" ColumnName="Answer_Id" />
+            </EndProperty>
+            <EndProperty Name="Answer_Attachments_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="QuestionCategory_Questions" TypeName="Festispec.Models.QuestionCategory_Questions" StoreEntitySet="Question">
+            <EndProperty Name="QuestionCategory_Questions_Source">
+              <ScalarProperty Name="Id" ColumnName="Category_Id" />
+            </EndProperty>
+            <EndProperty Name="QuestionCategory_Questions_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Question_Questionnaires" TypeName="Festispec.Models.Question_Questionnaires" StoreEntitySet="QuestionQuestionnaire">
+            <EndProperty Name="Question_Questionnaires_Source">
+              <ScalarProperty Name="Id" ColumnName="Question_Id" />
+            </EndProperty>
+            <EndProperty Name="Question_Questionnaires_Target">
+              <ScalarProperty Name="Id" ColumnName="Questionnaire_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Answer_Questionnaire" TypeName="Festispec.Models.Answer_Questionnaire" StoreEntitySet="Answer">
+            <EndProperty Name="Answer_Questionnaire_Target">
+              <ScalarProperty Name="Id" ColumnName="Questionnaire_Id" />
+            </EndProperty>
+            <EndProperty Name="Answer_Questionnaire_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="45" Nullable="true" />
+          <Property Name="ActivationCode" Type="nvarchar" MaxLength="10" Nullable="true" />
+          <Property Name="IsActivated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Iban" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="ZipCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StreetName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HouseNumber" Type="int" Nullable="false" />
+          <Property Name="Suffix" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="City" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Country" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Availability">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="250" Nullable="true" />
+          <Property Name="Employee_Id" Type="int" customannotation:Index="{ Name: IX_Employee_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Certificate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CertificateTitle" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="CertificationDate" Type="datetime" Nullable="false" />
+          <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" customannotation:Index="{ Name: IX_Employee_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="true" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="true" />
+        </EntityType>
+        <EntityType Name="PlannedEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="EventTitle" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" customannotation:Index="{ Name: IX_Employee_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlannedInspection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="WorkedHours" Type="int" Nullable="false" />
+          <Property Name="WorkedHoursAccepted" Type="datetime" Nullable="false" />
+          <Property Name="CancellationReason" Type="nvarchar" MaxLength="250" Nullable="true" />
+          <Property Name="IsCancelled" Type="datetime" Nullable="false" />
+          <Property Name="Festival_Id" Type="int" customannotation:Index="{ Name: IX_Festival_Id, Order: 0 }" Nullable="false" />
+          <Property Name="Inspector_Id" Type="int" customannotation:Index="{ Name: IX_Inspector_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Festival">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FestivalName" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" customannotation:Index="{ Name: IX_Customer_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KvkNr" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Liaison">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LiaisonName" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" customannotation:Index="{ Name: IX_Customer_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LiaisonNote" customannotation:Index="{ }">
+          <Key>
+            <PropertyRef Name="Created" />
+          </Key>
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="LiaisonId" Type="int" customannotation:Index="{ Name: IX_LiaisonId, Order: 0 }" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OpeningHours">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="Festival_Id" Type="int" customannotation:Index="{ Name: IX_Festival_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questionnaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="IsComplete" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Questionnaire_Id" Type="int" customannotation:Index="{ Name: IX_Questionnaire_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="FileContents" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Answer_Id" Type="int" customannotation:Index="{ Name: IX_Answer_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="NumericMinimum" Type="int" Nullable="false" />
+          <Property Name="NumericMaximum" Type="int" Nullable="false" />
+          <Property Name="StringIsMultiline" Type="bit" Nullable="false" />
+          <Property Name="StringCharacterLimit" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Category_Id" Type="int" customannotation:Index="{ Name: IX_Category_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestionCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="45" Nullable="true" />
+        </EntityType>
+        <EntityType Name="QuestionQuestionnaire">
+          <Key>
+            <PropertyRef Name="Question_Id" />
+            <PropertyRef Name="Questionnaire_Id" />
+          </Key>
+          <Property Name="Question_Id" Type="int" customannotation:Index="{ Name: IX_Question_Id, Order: 0 }" Nullable="false" />
+          <Property Name="Questionnaire_Id" Type="int" customannotation:Index="{ Name: IX_Questionnaire_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <Association Name="Employee_Address">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_Availabilities">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_Certificates">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Certificate" Type="Self.Certificate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Certificate">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_ContactDetails">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ContactDetails" Type="Self.ContactDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_PlannedEvents">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PlannedEvent" Type="Self.PlannedEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlannedEvent">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Festival_Address">
+          <End Role="Festival" Type="Self.Festival" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Festival">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Address">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_ContactDetails">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="ContactDetails" Type="Self.ContactDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Festivals">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Festival" Type="Self.Festival" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Festival">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Liaison_ContactDetails">
+          <End Role="Liaison" Type="Self.Liaison" Multiplicity="1" />
+          <End Role="ContactDetails" Type="Self.ContactDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Liaison">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Liaison_Notes">
+          <End Role="Liaison" Type="Self.Liaison" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LiaisonNote" Type="Self.LiaisonNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Liaison">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LiaisonNote">
+              <PropertyRef Name="LiaisonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Liaisons">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Liaison" Type="Self.Liaison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liaison">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Festival_OpeningHours">
+          <End Role="Festival" Type="Self.Festival" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OpeningHours" Type="Self.OpeningHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Festival">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHours">
+              <PropertyRef Name="Festival_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Festival_PlannedInspections">
+          <End Role="Festival" Type="Self.Festival" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PlannedInspection" Type="Self.PlannedInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Festival">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlannedInspection">
+              <PropertyRef Name="Festival_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlannedInspection_Inspector">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PlannedInspection" Type="Self.PlannedInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlannedInspection">
+              <PropertyRef Name="Inspector_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Answer_Attachments">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="Answer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Answer_Inspector">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="QuestionCategory_Questions">
+          <End Role="QuestionCategory" Type="Self.QuestionCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Question_Questionnaires_Source">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestionQuestionnaire" Type="Self.QuestionQuestionnaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionQuestionnaire">
+              <PropertyRef Name="Question_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Question_Questionnaires_Target">
+          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestionQuestionnaire" Type="Self.QuestionQuestionnaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaire">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionQuestionnaire">
+              <PropertyRef Name="Questionnaire_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Answer_Question">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Answer_Questionnaire">
+          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaire">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="Questionnaire_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlannedInspection_Questionnaire">
+          <End Role="PlannedInspection" Type="Self.PlannedInspection" Multiplicity="1" />
+          <End Role="Questionnaire" Type="Self.Questionnaire" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PlannedInspection">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questionnaire">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Account_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" Table="Accounts" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employees" />
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" Table="Addresses" />
+          <EntitySet Name="Availability" EntityType="Self.Availability" Schema="dbo" Table="Availabilities" />
+          <EntitySet Name="Certificate" EntityType="Self.Certificate" Schema="dbo" Table="Certificates" />
+          <EntitySet Name="ContactDetails" EntityType="Self.ContactDetails" Schema="dbo" Table="ContactDetails" />
+          <EntitySet Name="PlannedEvent" EntityType="Self.PlannedEvent" Schema="dbo" Table="PlannedEvents" />
+          <EntitySet Name="PlannedInspection" EntityType="Self.PlannedInspection" Schema="dbo" Table="PlannedInspections" />
+          <EntitySet Name="Festival" EntityType="Self.Festival" Schema="dbo" Table="Festivals" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" Table="Customers" />
+          <EntitySet Name="Liaison" EntityType="Self.Liaison" Schema="dbo" Table="Liaisons" />
+          <EntitySet Name="LiaisonNote" EntityType="Self.LiaisonNote" Schema="dbo" Table="LiaisonNotes" />
+          <EntitySet Name="OpeningHours" EntityType="Self.OpeningHours" Schema="dbo" Table="OpeningHours" />
+          <EntitySet Name="Questionnaire" EntityType="Self.Questionnaire" Schema="dbo" Table="Questionnaires" />
+          <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" Table="Answers" />
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" Table="Attachments" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" Table="Questions" />
+          <EntitySet Name="QuestionCategory" EntityType="Self.QuestionCategory" Schema="dbo" Table="QuestionCategories" />
+          <EntitySet Name="QuestionQuestionnaire" EntityType="Self.QuestionQuestionnaire" Schema="dbo" Table="QuestionQuestionnaires" />
+          <AssociationSet Name="Employee_Address" Association="Self.Employee_Address">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Availabilities" Association="Self.Employee_Availabilities">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Certificates" Association="Self.Employee_Certificates">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Certificate" EntitySet="Certificate" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_ContactDetails" Association="Self.Employee_ContactDetails">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_PlannedEvents" Association="Self.Employee_PlannedEvents">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PlannedEvent" EntitySet="PlannedEvent" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_Address" Association="Self.Festival_Address">
+            <End Role="Festival" EntitySet="Festival" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Address" Association="Self.Customer_Address">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_ContactDetails" Association="Self.Customer_ContactDetails">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Festivals" Association="Self.Customer_Festivals">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Festival" EntitySet="Festival" />
+          </AssociationSet>
+          <AssociationSet Name="Liaison_ContactDetails" Association="Self.Liaison_ContactDetails">
+            <End Role="Liaison" EntitySet="Liaison" />
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Liaison_Notes" Association="Self.Liaison_Notes">
+            <End Role="Liaison" EntitySet="Liaison" />
+            <End Role="LiaisonNote" EntitySet="LiaisonNote" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Liaisons" Association="Self.Customer_Liaisons">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Liaison" EntitySet="Liaison" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_OpeningHours" Association="Self.Festival_OpeningHours">
+            <End Role="Festival" EntitySet="Festival" />
+            <End Role="OpeningHours" EntitySet="OpeningHours" />
+          </AssociationSet>
+          <AssociationSet Name="Festival_PlannedInspections" Association="Self.Festival_PlannedInspections">
+            <End Role="Festival" EntitySet="Festival" />
+            <End Role="PlannedInspection" EntitySet="PlannedInspection" />
+          </AssociationSet>
+          <AssociationSet Name="PlannedInspection_Inspector" Association="Self.PlannedInspection_Inspector">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PlannedInspection" EntitySet="PlannedInspection" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Attachments" Association="Self.Answer_Attachments">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Inspector" Association="Self.Answer_Inspector">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="QuestionCategory_Questions" Association="Self.QuestionCategory_Questions">
+            <End Role="QuestionCategory" EntitySet="QuestionCategory" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="Question_Questionnaires_Source" Association="Self.Question_Questionnaires_Source">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="QuestionQuestionnaire" EntitySet="QuestionQuestionnaire" />
+          </AssociationSet>
+          <AssociationSet Name="Question_Questionnaires_Target" Association="Self.Question_Questionnaires_Target">
+            <End Role="Questionnaire" EntitySet="Questionnaire" />
+            <End Role="QuestionQuestionnaire" EntitySet="QuestionQuestionnaire" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Question" Association="Self.Answer_Question">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="Answer_Questionnaire" Association="Self.Answer_Questionnaire">
+            <End Role="Questionnaire" EntitySet="Questionnaire" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="PlannedInspection_Questionnaire" Association="Self.PlannedInspection_Questionnaire">
+            <End Role="PlannedInspection" EntitySet="PlannedInspection" />
+            <End Role="Questionnaire" EntitySet="Questionnaire" />
+          </AssociationSet>
+          <AssociationSet Name="Account_Employee" Association="Self.Account_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="23044cda41a94580843bb512fc622e98" Name="Diagram1">
+        <EntityTypeShape EntityType="Festispec.Models.Account" Width="1.5" PointX="5.375" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Employee" Width="1.5" PointX="3.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Address" Width="1.5" PointX="0.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Availability" Width="1.5" PointX="9.125" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Certificate" Width="1.5" PointX="3.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.ContactDetails" Width="1.5" PointX="0.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.PlannedEvent" Width="1.5" PointX="9.125" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.PlannedInspection" Width="1.5" PointX="9.125" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Festival" Width="1.5" PointX="3.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Customer" Width="1.5" PointX="3.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Liaison" Width="1.5" PointX="0.5" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.LiaisonNote" Width="1.5" PointX="0.5" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.OpeningHours" Width="1.5" PointX="6.625" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Questionnaire" Width="1.5" PointX="11.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Answer" Width="1.5" PointX="7.125" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Attachment" Width="1.5" PointX="9.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.Question" Width="1.5" PointX="11.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Festispec.Models.QuestionCategory" Width="1.5" PointX="13.25" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="Festispec.Models.Employee_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Employee_Availabilities" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Employee_Certificates" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Employee_ContactDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Employee_PlannedEvents" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Festival_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Customer_Address" ManuallyRouted="true" >
+          <ConnectorPoint PointX="3.75" PointY="16.727513357579024" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="16.727513357579024" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="13.251552558417792" />
+          <ConnectorPoint PointX="2" PointY="13.251552558417792" />
+        </AssociationConnector>
+        <AssociationConnector Association="Festispec.Models.Customer_ContactDetails" ManuallyRouted="true" >
+          <ConnectorPoint PointX="3.75" PointY="16.02603266697303" />
+          <ConnectorPoint PointX="3.2395833333333335" PointY="16.02603266697303" />
+          <ConnectorPoint PointX="3.2395833333333335" PointY="10.155011806203358" />
+          <ConnectorPoint PointX="2" PointY="10.155011806203358" />
+        </AssociationConnector>
+        <AssociationConnector Association="Festispec.Models.Customer_Festivals" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Liaison_ContactDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Liaison_Notes" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Customer_Liaisons" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Festival_OpeningHours" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Festival_PlannedInspections" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.PlannedInspection_Inspector" ManuallyRouted="true" >
+          <ConnectorPoint PointX="9.125" PointY="13.484961008265398" />
+          <ConnectorPoint PointX="7.1770833333333339" PointY="13.484961008265398" />
+          <ConnectorPoint PointX="7.1770833333333339" PointY="11.622329752604166" />
+          <ConnectorPoint PointX="5.25" PointY="11.622329752604166" />
+        </AssociationConnector>
+        <AssociationConnector Association="Festispec.Models.Answer_Attachments" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Answer_Inspector" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.QuestionCategory_Questions" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Question_Questionnaires" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Answer_Question" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Answer_Questionnaire" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.PlannedInspection_Questionnaire" ManuallyRouted="false" />
+        <AssociationConnector Association="Festispec.Models.Account_Employee" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>
