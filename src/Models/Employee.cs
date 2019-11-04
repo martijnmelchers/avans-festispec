@@ -20,10 +20,6 @@ namespace Festispec.Models
 
         public virtual ICollection<PlannedEvent> PlannedEvents { get; set; }
 
-        public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
-
-        public virtual ICollection<Availability> Availabilities { get; set; }
-
         public virtual ICollection<Certificate> Certificates { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace Festispec.Models.EntityMapping
             HasRequired(e => e.ContactDetails).WithRequiredPrincipal();
 
             HasMany(e => e.PlannedEvents).WithRequired(pe => pe.Employee);
-            HasMany(e => e.Availabilities).WithRequired(a => a.Employee);
             HasMany(e => e.Certificates).WithRequired(c => c.Employee);
         }
     }
