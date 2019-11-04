@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class Question
+    public abstract class Question
     {
         public int Id { get; set; }
 
