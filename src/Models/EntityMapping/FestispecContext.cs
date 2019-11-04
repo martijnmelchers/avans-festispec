@@ -33,6 +33,7 @@ namespace Festispec.Models.EntityMapping
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionCategory> QuestionCategories { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
-
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<ReportEntry> ReportEntries { get; set; }
     }
 }

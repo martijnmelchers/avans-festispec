@@ -8,7 +8,7 @@ namespace Festispec.Models.EntityMapping
         {
             Property(re => re.Order).IsRequired();
 
-            HasRequired(re => re.Question);
+            HasRequired(re => re.Question).WithRequiredDependent();
             HasRequired(re => re.Report).WithMany(r => r.ReportEntries);
         }
     }
