@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Festispec.Models
 {
@@ -7,6 +8,8 @@ namespace Festispec.Models
         public int Id { get; set; }
 
         public string Contents { get; set; }
+
+        public DateTime Created { get; set; }
 
         public virtual Employee Inspector { get; set; }
 
