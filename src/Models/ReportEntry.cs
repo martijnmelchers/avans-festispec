@@ -6,8 +6,8 @@ namespace Festispec.Models
 
         public int Order { get; set; }
 
-        public Question Question { get; set; }
+        public virtual Question Question { get; set; }
 
-        public Report Report { get; set; }
+        public virtual Report Report { get; set; }
     }
 }

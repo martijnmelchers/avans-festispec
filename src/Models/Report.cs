@@ -9,6 +9,6 @@ namespace Festispec.Models
         
         public virtual ICollection<ReportEntry> ReportEntries { get; set; }
 
-        public Festival Festival { get; set; }
+        public virtual Festival Festival { get; set; }
     }
 }
