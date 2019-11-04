@@ -9,6 +9,7 @@ namespace Festispec.Models
     {
         Scatter,
         Pie,
-        Column
+        Column,
+        Line
     }
 }
