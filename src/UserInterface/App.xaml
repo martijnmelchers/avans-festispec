@@ -8,7 +8,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Padding="9,2,9,2" Background="#00D68D">
+                        <Border CornerRadius="10" Padding="9,2,9,2">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource Green}"/>
+                            </Border.Background>
                             <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </ControlTemplate>
@@ -22,7 +25,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Padding="9,2,9,2" Background="#FF4E4E">
+                        <Border CornerRadius="10" Padding="9,2,9,2" >
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource Red}"/>
+                            </Border.Background>
                             <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </ControlTemplate>
@@ -32,7 +38,7 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
 
-        <Style x:Key="TextBox" TargetType="TextBox">
+        <Style TargetType="TextBox">
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5" />
@@ -40,13 +46,16 @@
             </Style.Resources>
         </Style>
 
-        <!-- PasswordBox werkt nog niet-->
-        <Style x:Key="PasswordBox" TargetType="PasswordBox">
+        <Style TargetType="PasswordBox">
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Style.Resources>
         </Style>
+        
+        <!-- ============================ COLORS ============================ -->
+        <Color x:Key="Red">#FF4E4E</Color>
+        <Color x:Key="Green">#00D68D</Color>
     </Application.Resources>
 </Application>
