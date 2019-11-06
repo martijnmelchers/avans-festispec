@@ -4,43 +4,91 @@
              xmlns:local="clr-namespace:Festispec.UI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="GreenButton" TargetType="Button">
+        <Style x:Key="ButtonGreen" TargetType="Button">
+            <Setter Property="FontFamily" Value="Montserrat"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Padding" Value="20,10,20,10" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource Green}"/>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Padding="9,2,9,2">
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource Green}"/>
-                            </Border.Background>
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontFamily" Value="Montserrat"></Setter>
-            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource GreenHover}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
-        <Style x:Key="RedButton" TargetType="Button">
+        <Style x:Key="ButtonRed" TargetType="Button">
+            <Setter Property="FontFamily" Value="Montserrat"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Padding" Value="20,10,20,10" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource Red}"/>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Padding="9,2,9,2" >
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource Red}"/>
-                            </Border.Background>
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontFamily" Value="Montserrat"></Setter>
-            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource RedHover}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Montserrat"></Setter>
+            <Setter Property="FontWeight" Value="Regular"></Setter>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource Gray}"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="10" />
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource DarkGray}"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="BorderThickness" Value="1" />
                     <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Style.Resources>
@@ -53,9 +101,14 @@
                 </Style>
             </Style.Resources>
         </Style>
-        
+
         <!-- ============================ COLORS ============================ -->
         <Color x:Key="Red">#FF4E4E</Color>
+        <Color x:Key="RedHover">#fe3d3d</Color>
         <Color x:Key="Green">#00D68D</Color>
+        <Color x:Key="GreenHover">#00cb85</Color>
+        <Color x:Key="Gray">#F7F6F6</Color>
+        <Color x:Key="DarkGray">#CFCFCF</Color>
+        <Color x:Key="TextColor">#707070</Color>
     </Application.Resources>
 </Application>
