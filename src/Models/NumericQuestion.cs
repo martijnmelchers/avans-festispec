@@ -12,6 +12,6 @@ namespace Festispec.Models
         public int Maximum { get; set; }
 
         // bijv. Meter, personen, etc.
-        public string Unit { get; set; }
+        public AnswerUnit Unit { get; set; }
     }
 }

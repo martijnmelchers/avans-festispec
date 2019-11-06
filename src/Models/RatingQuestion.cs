@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class RatingQuestion : Question
+    public class RatingQuestion : NumericQuestion
     {
         public string LowRatingDescription { get; set; }
 
