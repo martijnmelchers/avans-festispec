@@ -9,5 +9,7 @@
     <Color x:Key="Gray">#F7F6F6</Color>
     <Color x:Key="DarkGray">#CFCFCF</Color>
     <Color x:Key="TextColor">#707070</Color>
+    <Color x:Key="ButtonGray">#828282</Color>
+    <Color x:Key="ButtonGrayHover">#7b7b7b</Color>
 
 </ResourceDictionary>

@@ -15,9 +15,10 @@
         <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
         <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
         <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="549" Margin="972,73,0,0" VerticalAlignment="Top" Width="713" Style="{DynamicResource ContentBox}" RadiusY="5" RadiusX="5"/>
-        <TextBox HorizontalAlignment="Left" Margin="1036,279,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="237" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
+        <TextBox HorizontalAlignment="Left" Margin="1036,279,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="237" Grid.Column="1"/>
         <Button Content="Opslaan" HorizontalAlignment="Left" Margin="1454,546,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="46" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="183"/>
-        <TextBox HorizontalAlignment="Left" Margin="1036,204,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="40" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
+        <Button Content="Opslaan" HorizontalAlignment="Left" Margin="1036,546,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen1}" Height="46" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="184"/>
+        <TextBox HorizontalAlignment="Left" Margin="1036,204,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="40" Grid.Column="1"/>
         <TextBlock Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="1036,114,0,0" Text="Hello my niggas" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="588" Grid.Column="1"/>
 
     </Grid>
