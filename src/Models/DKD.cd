@@ -9,9 +9,6 @@
   <Comment CommentText="Hoe voegen we meerdere vragen samen in één grafiek?">
     <Position X="14.138" Y="10.052" Height="0.75" Width="1.7" />
   </Comment>
-  <Comment CommentText="Question moet opgesplitst worden in Question en QuestionTemplate. Aparte tabel voor QuestionTemplate en dan de antwoorden direct aan de vraagtypes linken. Bovendien per antwoord type een apart type opslag maken">
-    <Position X="19.474" Y="6.833" Height="1.833" Width="1.7" />
-  </Comment>
   <Class Name="Festispec.Models.Customer">
     <Position X="6" Y="8.75" Width="1.5" />
     <AssociationLine Name="Address" Type="Festispec.Models.Address" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
@@ -196,7 +193,7 @@
     <AssociationLine Name="Role" Type="Festispec.Models.EmployeeRole" FixedToPoint="true">
       <Path>
         <Point X="11.25" Y="0.688" />
-        <Point X="14.5" Y="0.688" />
+        <Point X="12.75" Y="0.688" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.068" Y="0.092" />
@@ -290,18 +287,17 @@
       <Property Name="PlannedInspection" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Answers" />
       <Property Name="Questions" />
+      <Property Name="Answers" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Festispec.Models.Answer">
-    <Position X="16" Y="4" Width="1.25" />
+    <Position X="15.75" Y="4" Width="1.5" />
     <AssociationLine Name="Inspector" Type="Festispec.Models.Employee" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="16.312" Y="4" />
-        <Point X="16.312" Y="2.43" />
-        <Point X="14.002" Y="2.43" />
-        <Point X="14.002" Y="1" />
+        <Point X="15.75" Y="4.188" />
+        <Point X="12.317" Y="4.188" />
+        <Point X="12.317" Y="1" />
         <Point X="11.25" Y="1" />
       </Path>
     </AssociationLine>
@@ -312,9 +308,9 @@
     </AssociationLine>
     <AssociationLine Name="Attachments" Type="Festispec.Models.Attachment" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="16.875" Y="4" />
-        <Point X="16.875" Y="3.244" />
-        <Point X="17.5" Y="3.244" />
+        <Point X="16.8" Y="4" />
+        <Point X="16.8" Y="3.244" />
+        <Point X="17.75" Y="3.244" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -331,10 +327,10 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Festispec.Models.QuestionCategory">
-    <Position X="19.75" Y="2.25" Width="1.5" />
+    <Position X="19.75" Y="3" Width="1.5" />
     <AssociationLine Name="Questions" Type="Festispec.Models.Question" FixedFromPoint="true">
       <Path>
-        <Point X="20.125" Y="3.546" />
+        <Point X="20.125" Y="4.296" />
         <Point X="20.125" Y="5" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -354,7 +350,7 @@
     <AssociationLine Name="Category" Type="Festispec.Models.QuestionCategory" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="20.5" Y="5" />
-        <Point X="20.5" Y="3.546" />
+        <Point X="20.5" Y="4.296" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.9" Y="0.039" />
@@ -368,27 +364,25 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAABACAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAQAAAAAAAAAABACAA=</HashCode>
       <FileName>Question.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Category" />
+      <Property Name="GraphType" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Questionnaires" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Festispec.Models.Attachment">
-    <Position X="17.5" Y="2.5" Width="1.5" />
+    <Position X="17.75" Y="2.5" Width="1.5" />
     <AssociationLine Name="Answer" Type="Festispec.Models.Answer" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="18.25" Y="3.988" />
-        <Point X="18.25" Y="4.495" />
-        <Point X="17.25" Y="4.495" />
+        <Point X="18.438" Y="3.988" />
+        <Point X="18.438" Y="4.502" />
+        <Point X="17.25" Y="4.502" />
       </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.126" Y="-0.261" />
-      </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAgBAAAA=</HashCode>
@@ -549,6 +543,8 @@
     <AssociationLine Name="Question" Type="Festispec.Models.Question" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="13.75" Y="9.398" />
+        <Point X="20.542" Y="9.398" Type="JumpStart" />
+        <Point X="20.708" Y="9.398" Type="JumpEnd" />
         <Point X="21.125" Y="9.398" />
         <Point X="21.125" Y="6.296" />
       </Path>
@@ -584,8 +580,8 @@
       <Path>
         <Point X="14.75" Y="11.732" />
         <Point X="15.125" Y="11.732" />
-        <Point X="15.125" Y="12.715" />
-        <Point X="16.5" Y="12.715" />
+        <Point X="15.125" Y="12.811" />
+        <Point X="16.5" Y="12.811" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -601,29 +597,32 @@
     <Position X="22.25" Y="3.5" Width="1.5" />
     <InheritanceLine Type="Festispec.Models.Question" FixedFromPoint="true">
       <Path>
-        <Point X="21.25" Y="5.812" />
-        <Point X="21.625" Y="5.812" />
+        <Point X="21.25" Y="5.653" />
+        <Point X="21.625" Y="5.653" />
         <Point X="21.625" Y="4.309" />
         <Point X="22.25" Y="4.309" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>gAAAAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gAAAAACAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NumericQuestion.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Unit" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Festispec.Models.MultipleChoiceQuestion">
     <Position X="22.25" Y="5.5" Width="2" />
     <InheritanceLine Type="Festispec.Models.Question" FixedFromPoint="true">
       <Path>
-        <Point X="21.25" Y="5.812" />
-        <Point X="21.625" Y="5.812" />
-        <Point X="21.625" Y="6.273" />
-        <Point X="22.25" Y="6.273" />
+        <Point X="21.25" Y="5.653" />
+        <Point X="21.625" Y="5.653" />
+        <Point X="21.625" Y="6.289" />
+        <Point X="22.25" Y="6.289" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>MultipleChoiceQuestion.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -631,14 +630,14 @@
     <Position X="22.25" Y="7" Width="1.5" />
     <InheritanceLine Type="Festispec.Models.Question" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="21.25" Y="5.812" />
-        <Point X="21.625" Y="5.812" />
-        <Point X="21.625" Y="7.875" />
-        <Point X="22.25" Y="7.875" />
+        <Point X="21.25" Y="5.653" />
+        <Point X="21.625" Y="5.653" />
+        <Point X="21.625" Y="7.975" />
+        <Point X="22.25" Y="7.975" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAACAQAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>StringQuestion.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -651,14 +650,6 @@
   </Class>
   <Class Name="Festispec.Models.RatingQuestion">
     <Position X="22.25" Y="1.75" Width="2" />
-    <InheritanceLine Type="Festispec.Models.Question" FixedFromPoint="true">
-      <Path>
-        <Point X="21.25" Y="5.812" />
-        <Point X="21.625" Y="5.812" />
-        <Point X="21.625" Y="2.463" />
-        <Point X="22.25" Y="2.463" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>RatingQuestion.cs</FileName>
@@ -668,26 +659,19 @@
     <Position X="22.25" Y="0.75" Width="2" />
     <InheritanceLine Type="Festispec.Models.Question" FixedFromPoint="true">
       <Path>
-        <Point X="21.25" Y="5.812" />
-        <Point X="21.625" Y="5.812" />
+        <Point X="21.25" Y="5.653" />
+        <Point X="21.625" Y="5.653" />
         <Point X="21.625" Y="1.096" />
         <Point X="22.25" Y="1.096" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>UploadPictureQuestion.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Festispec.Models.ListableQuestion">
-    <Position X="26.5" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ListableQuestion.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Enum Name="Festispec.Models.EmployeeRole">
-    <Position X="14.5" Y="0.5" Width="1.5" />
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>EmployeeRole.cs</FileName>
@@ -703,8 +687,15 @@
   <Enum Name="Festispec.Models.GraphType">
     <Position X="16.5" Y="12" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AABAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAEBAAA=</HashCode>
       <FileName>GraphType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Festispec.Models.AnswerUnit">
+    <Position X="24.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>AnswerUnit.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
