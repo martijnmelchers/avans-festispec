@@ -1,0 +1,16 @@
+name: PR Build
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: [windows-2019]
+    steps:
+      - name: .NET Core Command-Line Interface
+        uses: joeltankam/dotnet-action@1.0.0
+      - name: Build UI project
+        run: |
+          cd src/UserInterface
+          dotnet restore
+          dotnet build
