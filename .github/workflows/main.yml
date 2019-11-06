@@ -1,0 +1,17 @@
+name: Build User Interface
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: [windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build UI project
+        run: |
+          cd src/UserInterface
+          dotnet restore
+          dotnet build
