@@ -1,0 +1,5 @@
+# Visual Studio Files
+.vs/
+bin/
+obj/
+packages/
