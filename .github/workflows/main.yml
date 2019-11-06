@@ -7,9 +7,11 @@ jobs:
 
     runs-on: [windows-latest]
     steps:
-      - uses: actions/checkout
+      - name: Checkout
+        uses: actions/checkout
+
       - name: Build UI project
-      - run: |
+        run: |
           cd src/UserInterface
           dotnet restore
           dotnet build
