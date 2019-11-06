@@ -12,4 +12,27 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="21"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MediumLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
