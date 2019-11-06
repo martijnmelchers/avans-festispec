@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:UserInterface.Styling">
+                    xmlns:local="clr-namespace:Festispec.UI.Styling">
     <Style TargetType="TextBox">
         <Setter Property="FontFamily" Value="Montserrat"></Setter>
         <Setter Property="FontWeight" Value="Regular"></Setter>
