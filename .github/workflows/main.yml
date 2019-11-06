@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: Build UI project
         run: |
+          dir
           cd src/UserInterface
           dotnet restore
           dotnet build
