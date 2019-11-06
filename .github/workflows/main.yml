@@ -1,4 +1,4 @@
-name: PR Build
+name: Build User Interface
 
 on: [pull_request]
 
