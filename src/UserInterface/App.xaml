@@ -4,17 +4,17 @@
              xmlns:local="clr-namespace:Festispec.UI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="ButtonGreen" TargetType="Button">
+        
+
+
+
+        <Style x:Key="ButtonBase" TargetType="Button">
             <Setter Property="FontFamily" Value="Montserrat"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="FontSize" Value="20"></Setter>
             <Setter Property="Padding" Value="20,10,20,10" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource Green}"/>
-                </Setter.Value>
-            </Setter>
+           
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -24,35 +24,13 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource GreenHover}"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
+           
         </Style>
 
-        <Style x:Key="ButtonRed" TargetType="Button">
-            <Setter Property="FontFamily" Value="Montserrat"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Padding" Value="20,10,20,10" />
-            <Setter Property="Foreground" Value="White" />
+        <Style x:Key="ButtonRed" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
             <Setter Property="Background">
                 <Setter.Value>
                     <SolidColorBrush Color="{DynamicResource Red}"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2" >
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
@@ -64,6 +42,24 @@
                     </Setter>
                 </Trigger>
             </Style.Triggers>
+
+        </Style>
+        <Style x:Key="ButtonGreen" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource Green}"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource GreenHover}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+
         </Style>
 
         <Style TargetType="TextBox">

@@ -15,6 +15,6 @@
         <TextBox HorizontalAlignment="Left" Margin="462,320,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="237" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
         <Button Content="Blijven Leven" HorizontalAlignment="Left" Margin="1409,745,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
         <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
-
+        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
     </Grid>
 </Window>
