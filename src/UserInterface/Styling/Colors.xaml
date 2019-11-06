@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:UserInterface.Styling">
+                    xmlns:local="clr-namespace:Festispec.UI.Styling">
     
     <Color x:Key="Red">#FF4E4E</Color>
     <Color x:Key="RedHover">#fe3d3d</Color>
