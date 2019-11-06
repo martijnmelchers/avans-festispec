@@ -6,6 +6,8 @@ namespace Festispec.Models.EntityMapping
     {
         public QuestionMapping()
         {
+            Ignore(q => q.GraphType);
+
             Property(q => q.Contents).IsRequired().HasMaxLength(250);
 
             HasRequired(q => q.Category).WithMany(qc => qc.Questions);

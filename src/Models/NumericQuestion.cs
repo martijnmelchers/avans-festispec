@@ -13,5 +13,7 @@ namespace Festispec.Models
 
         // bijv. Meter, personen, etc.
         public AnswerUnit Unit { get; set; }
+
+        public override GraphType GraphType => GraphType.Line;
     }
 }

@@ -8,5 +8,6 @@ namespace Festispec.Models
     public class MultipleChoiceQuestion : Question
     {
         public virtual ICollection<string> Options { get; set; }
+        public override GraphType GraphType => GraphType.Pie;
     }
 }

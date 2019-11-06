@@ -10,6 +10,7 @@ namespace Festispec.Models
         Scatter,
         Pie,
         Column,
-        Line
+        Line,
+        None
     }
 }

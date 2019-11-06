@@ -7,5 +7,6 @@ namespace Festispec.Models
 {
     public class UploadPictureQuestion : Question
     {
+        public override GraphType GraphType => GraphType.None;
     }
 }
