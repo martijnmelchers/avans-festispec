@@ -8,16 +8,17 @@
         Title="MainWindow" DataContext="{Binding Main, Source={StaticResource Locator}}" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition Width="659*"/>
+            <ColumnDefinition Width="1118*"/>
         </Grid.ColumnDefinitions>
         <ComboBox HorizontalAlignment="Left" Margin="254,250,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
-        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="1409,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="228"/>
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="459" Margin="972,73,0,0" VerticalAlignment="Top" Width="713" Style="{DynamicResource ContentBox}" RadiusY="5" RadiusX="5"/>
-        <TextBox HorizontalAlignment="Left" Margin="1036,184,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="237" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
-        <Button Content="Opslaan" HorizontalAlignment="Left" Margin="1454,460,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="1" Width="183"/>
-        <TextBox HorizontalAlignment="Left" Margin="1036,121,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="40" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
+        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="750,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="228"/>
+        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="750,811,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="228"/>
+        <Rectangle Grid.Column="2" HorizontalAlignment="Left" Height="459" Margin="314,73,0,0" VerticalAlignment="Top" Width="713" Style="{DynamicResource ContentBox}" RadiusY="5" RadiusX="5"/>
+        <TextBox HorizontalAlignment="Left" Margin="378,184,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="237" Grid.Column="2" TextChanged="TextBox_TextChanged"/>
+        <Button Content="Opslaan" HorizontalAlignment="Left" Margin="796,460,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="183"/>
+        <TextBox HorizontalAlignment="Left" Margin="378,121,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="40" Grid.Column="2" TextChanged="TextBox_TextChanged"/>
         <TextBlock Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="98,73,0,0" Text="Hello my niggas" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="588" Grid.ColumnSpan="2"/>
 
     </Grid>

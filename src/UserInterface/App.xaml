@@ -8,129 +8,17 @@
              StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
+        <ResourceDictionary>
         <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:Festispec.UI.ViewModels" />
-        <Style x:Key="ButtonBase" TargetType="Button">
-            <Setter Property="FontFamily" Value="Montserrat"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Padding" Value="20,10,20,10" />
-            <Setter Property="Foreground" Value="White" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2" >
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-        <Style x:Key="ButtonRed" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource Red}"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource RedHover}"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="ButtonGreen" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource Green}"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource GreenHover}"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="FontFamily" Value="Montserrat"></Setter>
-            <Setter Property="FontWeight" Value="Regular"></Setter>
-            <Setter Property="Foreground">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="FontSize" Value="15"></Setter>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource Gray}"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderBrush">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource DarkGray}"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="1.5" />
-            <Setter Property="Padding" Value="10" />
-            <Style.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="5" />
-                </Style>
-            </Style.Resources>
-
-        </Style>
-
-        <Style TargetType="PasswordBox">
-            <Style.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="5" />
-                </Style>
-            </Style.Resources>
-        </Style>
-
-        <Style x:Key="ContentBox" TargetType="Rectangle">
-            <Setter Property="Fill" Value="White"/>
-            <Setter Property="Stroke">
-                <Setter.Value>
-                    <SolidColorBrush Opacity="0" />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Border.Effect">
-                <Setter.Value>
-                    <DropShadowEffect  Color="Black" Opacity="0.2" BlurRadius="20" ShadowDepth="0"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="Header" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Montserrat"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="40"/>
-            <Setter Property="Foreground">
-                <Setter.Value>
-                    <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-
-        <!-- ============================ COLORS ============================ -->
-        <Color x:Key="Red">#FF4E4E</Color>
-        <Color x:Key="RedHover">#fe3d3d</Color>
-        <Color x:Key="Green">#00D68D</Color>
-        <Color x:Key="GreenHover">#00cb85</Color>
-        <Color x:Key="Gray">#F7F6F6</Color>
-        <Color x:Key="DarkGray">#CFCFCF</Color>
-        <Color x:Key="TextColor">#707070</Color>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="Styling/Boxes.xaml"/>
+                <ResourceDictionary  Source="Styling/Button.xaml"/>
+                <ResourceDictionary  Source="Styling/Colors.xaml"/>
+                <ResourceDictionary  Source="Styling/Forms.xaml"/>
+                <ResourceDictionary  Source="Styling/Markup.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+       
     </Application.Resources>
 
 </Application>
