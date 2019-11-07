@@ -37,6 +37,9 @@
             <ComboBoxItem>Voorbeeld 3</ComboBoxItem>
         </ComboBox>
         <PasswordBox Grid.Column="2" HorizontalAlignment="Left" Margin="423,258,0,0" Grid.Row="1" VerticalAlignment="Top" Width="286" Height="39"/>
+        <Expander Grid.Column="2" Header="Test123" HorizontalAlignment="Left" Height="159" Margin="799,297,0,0" Grid.Row="1" VerticalAlignment="Top" Width="300">
+            <Grid Background="#ffffff"/>
+        </Expander>
 
     </Grid>
 </Window>
