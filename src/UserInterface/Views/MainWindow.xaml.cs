@@ -19,5 +19,10 @@ namespace Festispec.UI
 
             DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
         }
+
+        private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
