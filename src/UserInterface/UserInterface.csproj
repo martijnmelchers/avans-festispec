@@ -8,12 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="View\**" />
+    <EmbeddedResource Remove="View\**" />
+    <EntityDeploy Remove="View\**" />
+    <None Remove="View\**" />
+    <Page Remove="View\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
   </ItemGroup>
 

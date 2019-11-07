@@ -1,4 +1,4 @@
-﻿using Festispec.UI.ViewModel;
+﻿using Festispec.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 

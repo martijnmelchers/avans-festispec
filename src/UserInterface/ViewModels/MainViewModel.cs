@@ -11,7 +11,6 @@ namespace Festispec.UI.ViewModels
         public MainViewModel(IExampleService exampleService)
         {
             _exampleService = exampleService;
-            MessageBox.Show(_exampleService.ReturnString());
         }
     }
 }
