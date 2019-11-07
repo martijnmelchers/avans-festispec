@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Festispec.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="131,232,0,0" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="254"/>
+
 
     </Grid>
 </Window>

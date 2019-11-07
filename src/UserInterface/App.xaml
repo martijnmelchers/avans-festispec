@@ -6,10 +6,7 @@
              mc:Ignorable="d"
              xmlns:local="clr-namespace:Festispec.UI"
              StartupUri="MainWindow.xaml">
-    
+
     <Application.Resources>
-        <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:UI.ViewModel" />
-        </ResourceDictionary>
     </Application.Resources>
 </Application>
