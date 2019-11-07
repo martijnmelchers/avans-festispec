@@ -1,10 +1,6 @@
 ﻿
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Festispec.UnitTests

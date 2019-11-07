@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Windows;
-using DomainServices;
-using UI.ViewModel;
+﻿using System.Windows;
 
 namespace Festispec.UI
 {
