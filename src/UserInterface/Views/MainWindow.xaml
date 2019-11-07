@@ -31,7 +31,7 @@
         <Label Content="Postcode" Grid.Column="1" HorizontalAlignment="Left" Margin="401,341,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="26" Width="142" Grid.Row="1" Grid.ColumnSpan="2"/>
         <TextBox HorizontalAlignment="Left" Margin="242,371,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="40" Grid.Column="2" Grid.Row="1" />
         <Label Content="Huisnummer" Grid.Column="2" HorizontalAlignment="Left" Margin="242,341,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="26" Width="150" Grid.Row="1"/>
-        <ComboBox Grid.Column="2" HorizontalAlignment="Left" Margin="385,371,0,0" Grid.Row="1" VerticalAlignment="Top" Width="336" Height="40" SelectionChanged="ComboBox_SelectionChanged">
+        <ComboBox Grid.Column="2" HorizontalAlignment="Left" Margin="385,371,0,0" Grid.Row="1" VerticalAlignment="Top" Width="336" Height="40">
             <ComboBoxItem>Voorbeeld 1</ComboBoxItem>
             <ComboBoxItem>Voorbeeld 2</ComboBoxItem>
             <ComboBoxItem>Voorbeeld 3</ComboBoxItem>
