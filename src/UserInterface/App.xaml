@@ -8,9 +8,7 @@
              StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
-        <ResourceDictionary>
-        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:Festispec.UI.ViewModels" />
-            <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary  Source="Styling/Boxes.xaml"/>
                 <ResourceDictionary  Source="Styling/Button.xaml"/>
                 <ResourceDictionary  Source="Styling/Colors.xaml"/>
