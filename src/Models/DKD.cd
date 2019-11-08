@@ -33,7 +33,7 @@
         <Point X="3" Y="3.79" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="Liaisons" Type="Festispec.Models.Liaison" FixedFromPoint="true">
+    <AssociationLine Name="ContactPersons" Type="Festispec.Models.ContactPerson" FixedFromPoint="true">
       <Path>
         <Point X="6" Y="9.313" />
         <Point X="4.75" Y="9.313" />
@@ -49,7 +49,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAACCAAAQAAABAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAACCAAAQAAAAAACAgAAAAAAAAA=</HashCode>
       <FileName>Customer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -57,7 +57,7 @@
       <Property Name="ContactDetails" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Liaisons" />
+      <Property Name="ContactPersons" />
       <Property Name="Festivals" />
     </ShowAsCollectionAssociation>
   </Class>
@@ -128,7 +128,7 @@
       <Property Name="Reports" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Festispec.Models.Liaison">
+  <Class Name="Festispec.Models.ContactPerson">
     <Position X="3.25" Y="8.75" Width="1.5" />
     <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
@@ -145,7 +145,7 @@
     </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAEiAAAAAAAAAAAAEAACAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Liaison.cs</FileName>
+      <FileName>ContactPerson.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ContactDetails" />
@@ -155,23 +155,23 @@
       <Property Name="Notes" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Festispec.Models.LiaisonNote">
+  <Class Name="Festispec.Models.ContactPersonNote">
     <Position X="0.5" Y="8.75" Width="1.5" />
     <Members>
-      <Property Name="LiaisonId" Hidden="true" />
+      <Property Name="ContactPersonId" Hidden="true" />
     </Members>
-    <AssociationLine Name="Liaison" Type="Festispec.Models.Liaison" FixedToPoint="true">
+    <AssociationLine Name="ContactPerson" Type="Festispec.Models.ContactPerson" FixedToPoint="true">
       <Path>
         <Point X="2" Y="9.875" />
         <Point X="3.25" Y="9.875" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAEAABA=</HashCode>
-      <FileName>LiaisonNote.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAQAAAAAgAEAAAA=</HashCode>
+      <FileName>ContactPersonNote.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Liaison" />
+      <Property Name="ContactPerson" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Festispec.Models.ContactDetails">
@@ -459,7 +459,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAEAAAAACAAQAEAAAACAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAEAAAAACAAQAAAAAACAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Account.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
