@@ -7,7 +7,6 @@ namespace Festispec.Models
 {
     public enum GraphType
     {
-        Scatter,
         Pie,
         Column,
         Line,
