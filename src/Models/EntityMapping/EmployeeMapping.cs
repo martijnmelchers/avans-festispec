@@ -7,7 +7,6 @@ namespace Festispec.Models.EntityMapping
         public EmployeeMapping()
         {
             Property(e => e.EmployeeName).IsRequired().HasMaxLength(45);
-            Property(e => e.Role).IsRequired();
 
             // https://en.wikipedia.org/wiki/International_Bank_Account_Number#Basic_Bank_Account_Number
             // "Each country can have a different national routing/account numbering system, up to a maximum of 30 alphanumeric characters."

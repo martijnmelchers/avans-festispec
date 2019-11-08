@@ -7,7 +7,7 @@ namespace Festispec.Models.EntityMapping
         public ReportMapping()
         {
             HasMany(r => r.ReportEntries).WithRequired(re => re.Report);
-            HasRequired(r => r.Festival).WithMany(f => f.Reports);
+            HasRequired(r => r.Festival).WithOptional(f => f.Report);
         }
     }
 }
