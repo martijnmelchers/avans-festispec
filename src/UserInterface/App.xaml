@@ -16,6 +16,7 @@
                 <ResourceDictionary  Source="Styling/Forms.xaml"/>
                 <ResourceDictionary  Source="Styling/Markup.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="Montserrat">pack://application:,,,/Assets/Montserrat/#Montserrat</FontFamily>
         </ResourceDictionary>
        
     </Application.Resources>

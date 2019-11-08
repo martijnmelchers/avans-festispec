@@ -91,16 +91,20 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type Expander}">
-        <Style.Triggers>
-            <Trigger Property="IsExpanded" Value="True">
-
-            </Trigger>
-        </Style.Triggers>
         <Setter Property="Foreground">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource TextColor}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"></Setter>
+        <Setter Property="FontWeight" Value="Regular"></Setter>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="15"></Setter>
+        
         
             <Setter Property="Template">
             <Setter.Value>

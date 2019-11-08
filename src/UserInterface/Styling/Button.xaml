@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:Festispec.UI.Styling">
     
     <Style x:Key="ButtonBase" TargetType="Button">
-        <Setter Property="FontFamily" Value="Montserrat"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="FontSize" Value="20"></Setter>
         <Setter Property="Padding" Value="20,10,20,10" />

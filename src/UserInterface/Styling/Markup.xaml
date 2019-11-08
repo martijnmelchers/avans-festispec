@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:Festispec.UI.Styling">
     
     <Style x:Key="Header" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontSize" Value="40"/>
         <Setter Property="Foreground">
@@ -14,7 +14,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="21"/>
         <Setter Property="Padding" Value="0" />
@@ -26,7 +26,7 @@
     </Style>
 
     <Style x:Key="MediumLabel" TargetType="Label">
-        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
         <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="Padding" Value="0" />
         <Setter Property="Foreground">
