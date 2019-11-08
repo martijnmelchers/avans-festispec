@@ -7,6 +7,6 @@ namespace Festispec.Models
 {
     public class DrawQuestion : StringQuestion
     {
-        public byte[] FileContents { get; set; }
+        public string PicturePath { get; set; }
     }
 }
