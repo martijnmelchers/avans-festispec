@@ -15,7 +15,7 @@ namespace Festispec.Models
             modelBuilder.Configurations.AddFromAssembly(typeof(FestispecContext).Assembly);
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
         //public DbSet<Address> Addresses { get; set; }
         //public DbSet<Answer> Answers { get; set; }
         //public DbSet<Attachment> Attachments { get; set; }
