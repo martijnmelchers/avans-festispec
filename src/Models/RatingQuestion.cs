@@ -10,5 +10,7 @@ namespace Festispec.Models
         public string LowRatingDescription { get; set; }
 
         public string HighRatingDescription { get; set; }
+
+        public override GraphType GraphType => GraphType.Column;
     }
 }
