@@ -1,6 +1,7 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
+using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.DomainServices
