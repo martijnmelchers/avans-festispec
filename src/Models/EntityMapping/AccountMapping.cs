@@ -7,7 +7,6 @@ namespace Festispec.Models.EntityMapping
         public AccountMapping()
         {
             Property(a => a.Password).HasMaxLength(45);
-            Property(a => a.ActivationCode).HasMaxLength(10);
 
             HasRequired(a => a.Employee).WithRequiredDependent(e => e.Account);
         }

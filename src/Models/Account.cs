@@ -14,8 +14,6 @@ namespace Festispec.Models
 
         public string Password { get; set; }
 
-        public string ActivationCode { get; set; }
-
         public DateTime IsActivated { get; set; }
 
         public virtual Employee Employee { get; set; }
