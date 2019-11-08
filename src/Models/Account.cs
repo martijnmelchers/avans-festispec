@@ -18,6 +18,8 @@ namespace Festispec.Models
 
         public virtual Employee Employee { get; set; }
 
+        public EmployeeRole EmployeeRole { get; set; }
+
         // Remove any sensitive information that can't be sent to the end user
         public Account ToSafeAccount()
         {

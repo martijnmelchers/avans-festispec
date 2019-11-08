@@ -8,8 +8,6 @@ namespace Festispec.Models
 
         public string EmployeeName { get; set; }
 
-        public EmployeeRole Role { get; set; }
-
         public string Iban { get; set; }
 
         public virtual Account Account { get; set; }
