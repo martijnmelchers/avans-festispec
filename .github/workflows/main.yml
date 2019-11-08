@@ -1,10 +1,9 @@
-name: Build User Interface
+name: Build & Test
 
 on: [pull_request]
 
 jobs:
-  build:
-
+  UserInterface:
     runs-on: [windows-latest]
     steps:
       - name: Checkout
@@ -15,3 +14,14 @@ jobs:
           cd src/UserInterface
           dotnet restore
           dotnet build
+          
+  UnitTests:
+    runs-on: [windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Run Unit Tests
+        run: |
+          dotnet restore
+          dotnet test
