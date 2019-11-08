@@ -1,6 +1,6 @@
 ﻿namespace Festispec.Models
 {
-    public class Attachment
+    public class Attachment : Entity
     {
         public int Id { get; set; }
 

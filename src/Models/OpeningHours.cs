@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class OpeningHours
+    public class OpeningHours : Entity
     {
         public int Id { get; set; }
 

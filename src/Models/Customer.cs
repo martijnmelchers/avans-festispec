@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class Customer
+    public class Customer : Entity
     {
         public int Id { get; set; }
 

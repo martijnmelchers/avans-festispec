@@ -1,6 +1,6 @@
 namespace Festispec.Models
 {
-    public abstract class ReportEntry
+    public abstract class ReportEntry : Entity
     {
         public int Id { get; set; }
 

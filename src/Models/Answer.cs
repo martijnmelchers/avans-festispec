@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 namespace Festispec.Models
 {
-    public class Answer
+    public abstract class Answer : Entity
     {
         public int Id { get; set; }
 
         public string Contents { get; set; }
-
-        public DateTime Created { get; set; }
 
         public virtual Employee Inspector { get; set; }
 

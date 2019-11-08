@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class Festival
+    public class Festival : Entity
     {
         public int Id { get; set; }
 

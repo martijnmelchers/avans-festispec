@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Festispec.Models
 {
-    public class Report
+    public class Report : Entity
     {
         public int Id { get; set; }
         

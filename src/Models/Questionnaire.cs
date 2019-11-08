@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
-    public class Questionnaire
+    public class Questionnaire : Entity
     {
         public int Id { get; set; }
 
