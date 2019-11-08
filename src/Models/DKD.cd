@@ -287,8 +287,8 @@
       <Property Name="PlannedInspection" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Questions" />
       <Property Name="Answers" />
+      <Property Name="Questions" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Festispec.Models.Answer">
@@ -459,7 +459,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAACAAAAEAAAACAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAEAAAAACAAQAEAAAACAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Account.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -580,8 +580,8 @@
       <Path>
         <Point X="14.75" Y="11.732" />
         <Point X="15.125" Y="11.732" />
-        <Point X="15.125" Y="12.811" />
-        <Point X="16.5" Y="12.811" />
+        <Point X="15.125" Y="12.715" />
+        <Point X="16.5" Y="12.715" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -687,7 +687,7 @@
   <Enum Name="Festispec.Models.GraphType">
     <Position X="16.5" Y="12" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAEBAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAEBAAA=</HashCode>
       <FileName>GraphType.cs</FileName>
     </TypeIdentifier>
   </Enum>
