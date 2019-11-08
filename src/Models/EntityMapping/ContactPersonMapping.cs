@@ -12,7 +12,7 @@ namespace Festispec.Models.EntityMapping
     {
         public ContactPersonMapping()
         {
-            Property(l => l.LiaisonName).IsRequired().HasMaxLength(45);
+            Property(l => l.ContactPersonName).IsRequired().HasMaxLength(45);
             Property(l => l.Role).IsRequired().HasMaxLength(20);
 
             HasRequired(l => l.ContactDetails).WithRequiredPrincipal();

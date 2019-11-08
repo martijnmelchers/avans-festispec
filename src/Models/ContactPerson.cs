@@ -8,7 +8,7 @@ namespace Festispec.Models
 
         public string Role { get; set; }
 
-        public string LiaisonName { get; set; }
+        public string ContactPersonName { get; set; }
 
         public virtual ContactDetails ContactDetails { get; set; }
 
