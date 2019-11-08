@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class Liaison
+    public class ContactPerson
     {
         public int Id { get; set; }
 
@@ -14,6 +14,6 @@ namespace Festispec.Models
 
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<LiaisonNote> Notes { get; set; }
+        public virtual ICollection<ContactPersonNote> Notes { get; set; }
     }
 }

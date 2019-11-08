@@ -6,10 +6,11 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class LiaisonNote
+    public class ContactPersonNote
     {
-        public int LiaisonId { get; set; }
-        public Liaison Liaison { get; set; } 
+        public int ContactPersonId { get; set; }
+
+        public ContactPerson ContactPerson { get; set; } 
 
         public DateTime Created { get; set; } 
 

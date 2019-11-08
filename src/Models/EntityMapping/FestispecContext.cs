@@ -22,11 +22,11 @@ namespace Festispec.Models.EntityMapping
         public DbSet<Availability> Availabilities { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<ContactDetails> ContactDetails { get; set; }
+        public DbSet<ContactPerson> ContactPersons { get; set; }
+        public DbSet<ContactPersonNote> ContactPersonNotes { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Festival> Festivals { get; set; }
-        public DbSet<Liaison> Liaisons { get; set; }
-        public DbSet<LiaisonNote> LiaisonNotes { get; set; }
         public DbSet<OpeningHours> OpeningHours { get; set; }
         public DbSet<PlannedEvent> PlannedEvents { get; set; }
         public DbSet<PlannedInspection> PlannedInspections { get; set; }
