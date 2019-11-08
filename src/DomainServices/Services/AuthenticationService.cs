@@ -43,8 +43,6 @@ namespace Festispec.DomainServices.Services
         {
             var account = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
-            Console.WriteLine(password);
-            Console.WriteLine(account.Password);
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");
 
