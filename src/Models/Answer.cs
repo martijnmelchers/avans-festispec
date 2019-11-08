@@ -7,8 +7,6 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        public string Contents { get; set; }
-
         public virtual Employee Inspector { get; set; }
 
         public virtual Question Question { get; set; }
