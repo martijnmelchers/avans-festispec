@@ -16,6 +16,48 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Montserrat\Montserrat-Black.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-BlackItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Bold.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-BoldItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-ExtraBold.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-ExtraBoldItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-ExtraLight.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-ExtraLightItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Italic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Light.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-LightItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Medium.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-MediumItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Regular.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-SemiBold.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-SemiBoldItalic.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-Thin.ttf" />
+    <None Remove="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Montserrat\Montserrat-Black.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-BlackItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Bold.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-BoldItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-ExtraBold.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-ExtraBoldItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-ExtraLight.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-ExtraLightItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Italic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Light.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-LightItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Medium.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-MediumItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Regular.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-SemiBold.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-SemiBoldItalic.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-Thin.ttf" />
+    <Resource Include="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
