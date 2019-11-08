@@ -6,7 +6,6 @@ namespace Festispec.Models
 {
     public enum AnswerUnit
     {
-        Stars,
         People,
         Meters
     }
