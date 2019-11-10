@@ -31,7 +31,7 @@ namespace Festispec.DomainServices.Services
                 Role = requiredRole
             };
 
-            if (!account.Validate())
+            if (!account.Validate(password))
                 throw new InvalidDataException();
 
             _db.Accounts.Add(account);
