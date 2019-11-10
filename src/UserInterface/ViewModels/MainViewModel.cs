@@ -1,4 +1,5 @@
 ﻿using Festispec.DomainServices.Interfaces;
+using Festispec.UI.Views;
 using System.Windows;
 
 namespace Festispec.UI.ViewModels
@@ -11,6 +12,11 @@ namespace Festispec.UI.ViewModels
         public MainViewModel(IExampleService exampleService)
         {
             _exampleService = exampleService;
+        }
+
+        public void openQuestionairePage()
+        {
+            new QuestionairePage();
         }
     }
 }
