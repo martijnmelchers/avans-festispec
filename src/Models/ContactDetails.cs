@@ -1,6 +1,6 @@
 ﻿namespace Festispec.Models
 {
-    public class ContactDetails
+    public class ContactDetails : Entity
     {
         public int Id { get; set; }
 

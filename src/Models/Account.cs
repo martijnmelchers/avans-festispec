@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class Account
+    public class Account : Entity
     {
         public int Id { get; set; }
 
@@ -14,11 +14,9 @@ namespace Festispec.Models
 
         public string Password { get; set; }
 
-        public string ActivationCode { get; set; }
-
-        public DateTime IsActivated { get; set; }
-
         public virtual Employee Employee { get; set; }
+
+        public EmployeeRole EmployeeRole { get; set; }
 
         // Remove any sensitive information that can't be sent to the end user
         public Account ToSafeAccount()

@@ -6,7 +6,7 @@ using Festispec.Models;
 
 namespace Festispec.Models
 {
-    public class Certificate
+    public class Certificate : Entity
     {
         public int Id { get; set; }
 

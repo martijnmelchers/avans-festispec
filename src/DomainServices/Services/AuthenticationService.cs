@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.Models.EntityMapping;
 
 namespace Festispec.DomainServices.Services
 {
