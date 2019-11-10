@@ -35,7 +35,7 @@ namespace Festispec.DomainServices.Services
 
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");
-
+            
             return account.ToSafeAccount();
         }
 
