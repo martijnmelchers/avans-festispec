@@ -1,0 +1,46 @@
+﻿<Window x:Class="Festispec.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Festispec.UI"
+        mc:Ignorable="d" Background="#EFEFEF"
+        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="237*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="149*"/>
+            <ColumnDefinition Width="491*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="962,750,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="228" Grid.Row="1"/>
+        <Button Content="Zelfmoord" HorizontalAlignment="Left" Margin="962,750,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonRed}" Height="47" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="228" Grid.Row="1"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="549" VerticalAlignment="Top" Width="1246" Style="{DynamicResource ContentBox}" RadiusY="5" RadiusX="5" Margin="337,40,0,0" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <Button Content="Opslaan" HorizontalAlignment="Left" Margin="1007,478,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="46" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="183" Grid.Row="1"/>
+        <Button Content="Opslaan" HorizontalAlignment="Left" Margin="589,485,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen1}" Height="46" RenderTransformOrigin="0.521,0.426" Grid.Column="2" Width="180" Grid.Row="1"/>
+        <TextBox HorizontalAlignment="Left" Margin="401,277,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="426" Height="40" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" />
+        <TextBlock HorizontalAlignment="Left" Margin="401,90,0,0" Text="NIEUWE KLANT AANMAKEN" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="620" Grid.Column="1" Style="{DynamicResource Header}" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="4" Margin="405,138,0,0" VerticalAlignment="Top" Width="100" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A
+" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Label Content="Naam bedrijf" Grid.Column="1" HorizontalAlignment="Left" Margin="401,245,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="26" Width="142" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Label Content="Bedrijfsgegevens" Grid.Column="1" HorizontalAlignment="Left" Margin="401,181,0,0" VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" FontSize="24" Height="29" Width="212" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Margin="401,371,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" Height="40" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" />
+        <Label Content="Postcode" Grid.Column="1" HorizontalAlignment="Left" Margin="401,341,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="26" Width="142" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Margin="242,371,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="40" Grid.Column="2" Grid.Row="1" />
+        <Label Content="Huisnummer" Grid.Column="2" HorizontalAlignment="Left" Margin="242,341,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="26" Width="150" Grid.Row="1"/>
+        <ComboBox Grid.Column="2" HorizontalAlignment="Left" Margin="385,371,0,0" Grid.Row="1" VerticalAlignment="Top" Width="336" Height="40">
+            <ComboBoxItem>Voorbeeld 1</ComboBoxItem>
+            <ComboBoxItem>Voorbeeld 2</ComboBoxItem>
+            <ComboBoxItem>Voorbeeld 3</ComboBoxItem>
+        </ComboBox>
+        <PasswordBox Grid.Column="2" HorizontalAlignment="Left" Margin="423,258,0,0" Grid.Row="1" VerticalAlignment="Top" Width="286" Height="39"/>
+        <Expander Grid.Column="2" Header="Test123" HorizontalAlignment="Left" Height="159" Margin="799,297,0,0" Grid.Row="1" VerticalAlignment="Top" Width="300">
+            <Grid Background="#ffffff"/>
+        </Expander>
+        <CheckBox IsChecked="True" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="856,428,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

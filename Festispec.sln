@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "src\UserIn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "src\Models\Models.csproj", "{5EA1D112-426F-436D-B571-B10FEE6F48B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "src\Website\Website.csproj", "{84E69041-7B2D-4574-8EFF-F7D50606AC77}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{9D46213D-177B-4520-8754-303A773DD2A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainServices", "src\DomainServices\DomainServices.csproj", "{5B8C9FE1-B31B-4B9C-9F90-E8E66E2C73EC}"
@@ -27,10 +25,6 @@ Global
 		{5EA1D112-426F-436D-B571-B10FEE6F48B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EA1D112-426F-436D-B571-B10FEE6F48B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EA1D112-426F-436D-B571-B10FEE6F48B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84E69041-7B2D-4574-8EFF-F7D50606AC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84E69041-7B2D-4574-8EFF-F7D50606AC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84E69041-7B2D-4574-8EFF-F7D50606AC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84E69041-7B2D-4574-8EFF-F7D50606AC77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D46213D-177B-4520-8754-303A773DD2A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D46213D-177B-4520-8754-303A773DD2A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D46213D-177B-4520-8754-303A773DD2A4}.Release|Any CPU.ActiveCfg = Release|Any CPU

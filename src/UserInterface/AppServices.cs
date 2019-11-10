@@ -1,7 +1,7 @@
 ﻿using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Festispec.UI.ViewModel;
+using Festispec.UI.ViewModels;
 
 namespace Festispec.UI
 {
