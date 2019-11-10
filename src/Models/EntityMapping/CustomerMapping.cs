@@ -12,7 +12,7 @@ namespace Festispec.Models.EntityMapping
             HasRequired(c => c.Address).WithRequiredPrincipal();
             HasRequired(c => c.ContactDetails).WithRequiredPrincipal();
 
-            HasMany(c => c.Liaisons).WithRequired(l => l.Customer);
+            HasMany(c => c.ContactPersons).WithRequired(l => l.Customer);
             HasMany(c => c.Festivals).WithRequired(f => f.Customer);
         }
     }

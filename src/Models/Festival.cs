@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class Festival
+    public class Festival : Entity
     {
         public int Id { get; set; }
 
@@ -17,6 +17,8 @@ namespace Festispec.Models
         public virtual Address Address { get; set; }
 
         public virtual Customer Customer { get; set; }
+
+        public virtual Report Report { get; set; }
 
         public virtual ICollection<OpeningHours> OpeningHours { get; set; }
 

@@ -6,8 +6,6 @@ namespace Festispec.Models.EntityMapping
     {
         public AnswerMapping()
         {
-            Property(a => a.Contents).IsRequired().HasMaxLength(250);
-
             HasRequired(a => a.Inspector).WithMany();
             HasRequired(a => a.Question).WithRequiredPrincipal();
             HasRequired(a => a.Questionnaire).WithMany(q => q.Answers);

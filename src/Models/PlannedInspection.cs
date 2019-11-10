@@ -7,14 +7,8 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class PlannedInspection
+    public class PlannedInspection : PlannedEvent
     {
-        public int Id { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
-
         public int WorkedHours { get; set; }
 
         public DateTime WorkedHoursAccepted { get; set; }
@@ -26,7 +20,5 @@ namespace Festispec.Models
         public virtual Questionnaire Questionnaire { get; set; }
 
         public virtual Festival Festival { get; set; }
-
-        public virtual Employee Inspector { get; set; }
     }
 }
