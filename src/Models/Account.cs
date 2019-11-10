@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Festispec.Models.Interfaces;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -6,13 +8,16 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
+        [Required, MinLength(5), MaxLength(45)]
         public string Username { get; set; }
 
+        [Required, MaxLength(100)]
         public string Password { get; set; }
 
         public virtual Employee Employee { get; set; }
 
-        public EmployeeRole EmployeeRole { get; set; }
+        [Required]
+        public Role Role { get; set; }
 
         // Remove any sensitive information that can't be sent to the end user
         public Account ToSafeAccount()
