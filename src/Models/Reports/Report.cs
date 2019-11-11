@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 
-namespace Festispec.Models
+namespace Festispec.Models.Reports
 {
     public class Report : Entity
     {

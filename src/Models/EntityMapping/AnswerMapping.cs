@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using Festispec.Models.Answers;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Festispec.Models.EntityMapping
 {
