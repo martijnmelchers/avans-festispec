@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Festispec.Models.EntityMapping;
+using Festispec.DomainServices.Interfaces;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -7,6 +10,13 @@ namespace Festispec.UnitTests
 {
     public class QuestionnaireTests
     {
+        private readonly Mock<FestispecContext> _dbMock;
+        private readonly IQuestionnaireService _questionnaireService;
+        public QuestionnaireTests()
+        {
+            // Setup database mocks
+            _dbMock = new Mock<FestispecContext>();
+        }
         [Fact]
         public void AddingQuestionnaire()
         {

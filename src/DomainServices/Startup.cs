@@ -13,6 +13,7 @@ namespace Festispec.DomainServices
             // Register all your services here
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IQuestionnaireService, QuestionnaireService>();
             services.AddScoped<FestispecContext>();
 
             return services;
