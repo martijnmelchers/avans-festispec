@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Festispec.Models.Questions;
 using System.Collections.Generic;
 
-namespace Festispec.Models
+namespace Festispec.Models.Answers
 {
     public abstract class Answer : Entity
     {

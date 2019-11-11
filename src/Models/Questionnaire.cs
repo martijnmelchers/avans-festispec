@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Festispec.Models.Answers;
+using Festispec.Models.Questions;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
