@@ -6,7 +6,7 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        public string EmployeeName { get; set; }
+        public FullName Name { get; set; }
 
         public string Iban { get; set; }
 
