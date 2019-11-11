@@ -6,9 +6,7 @@ namespace Festispec.Models.EntityMapping
     {
         public AttachmentMapping()
         {
-            Property(a => a.FileName).IsRequired().HasMaxLength(45);
-            // 5 MB
-            Property(a => a.FileContents).IsRequired().HasMaxLength(5000000);
+            Property(a => a.FilePath).IsRequired();
 
             HasRequired(a => a.Answer).WithMany(a => a.Attachments);
         }

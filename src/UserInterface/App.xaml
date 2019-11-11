@@ -5,8 +5,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
              mc:Ignorable="d"
              xmlns:local="clr-namespace:Festispec.UI"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="Styling/Boxes.xaml"/>
+                <ResourceDictionary  Source="Styling/Button.xaml"/>
+                <ResourceDictionary  Source="Styling/Colors.xaml"/>
+                <ResourceDictionary  Source="Styling/Forms.xaml"/>
+                <ResourceDictionary  Source="Styling/Markup.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="Montserrat">pack://application:,,,/Assets/Montserrat/#Montserrat</FontFamily>
+        </ResourceDictionary>
+       
     </Application.Resources>
+
 </Application>
