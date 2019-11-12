@@ -1,7 +1,9 @@
 ﻿using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Festispec.UI.ViewModels;
+using Festispec.UI.Services;
+using Festispec.UI.Interfaces;
+using System;
 
 namespace Festispec.UI
 {
@@ -13,11 +15,26 @@ namespace Festispec.UI
 
             //  Register Viewmodels here
             services.AddTransient<MainViewModel>();
+            services.AddTransient<FirstTimeViewModel>();
+
+            // Services from UI project
+            services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
 
             // Services from DomainServices
-            services.AddServices();
+            services.AddDomainServices();
 
             ServiceProvider = services.BuildServiceProvider();
+        }
+
+        private static FrameNavigationService RegisterRoutes()
+        {
+            var navigationService = new FrameNavigationService();
+
+            // Register your routes here
+            navigationService.Configure("Homepage", new Uri("../Views/MainWindow.xaml", UriKind.Relative));
+            navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
+
+            return navigationService;
         }
 
         public IServiceProvider ServiceProvider { get; }

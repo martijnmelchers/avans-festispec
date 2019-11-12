@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Festispec.Models
+﻿namespace Festispec.Models.Interfaces
 {
     public interface IAnswer<out TAnswer>
     {

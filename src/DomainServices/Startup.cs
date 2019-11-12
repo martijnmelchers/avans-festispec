@@ -7,7 +7,7 @@ namespace Festispec.DomainServices
 {
     public static class IServiceCollectionExtension
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             // Register all your services here
             services.AddScoped<IExampleService, ExampleService>();

@@ -1,7 +1,10 @@
 ﻿using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using Festispec.Models.Reports;
+using System;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Festispec.Models.EntityMapping
 {
