@@ -58,13 +58,5 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
-        public async Task EditQuestion(Questionnaire questionnaire, Question question)
-        {
-            if (_db.Answers.Count(a => a.Question.Id == question.Id) > 0)
-                throw new QuestionHasAnswersException();
-
-            /*var question = questionnaire.Questions.FirstOrDefault(q => q.Id == question.Id);*/
-
-        }
     }
 }
