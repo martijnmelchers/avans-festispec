@@ -24,5 +24,7 @@ namespace Festispec.Models
         public virtual OpeningHours OpeningHours { get; set; }
 
         public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
+
+        public virtual ICollection<Questionnaire> Questionnaires { get; set; }
     }
 }
