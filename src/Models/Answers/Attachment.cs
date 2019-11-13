@@ -1,4 +1,4 @@
-﻿namespace Festispec.Models
+﻿namespace Festispec.Models.Answers
 {
     public class Attachment : Entity
     {

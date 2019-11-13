@@ -1,4 +1,4 @@
-namespace Festispec.Models
+namespace Festispec.Models.Reports
 {
     public class ReportTextEntry : ReportEntry
     {
