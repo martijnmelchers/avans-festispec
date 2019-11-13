@@ -9,7 +9,7 @@ namespace Festispec.Models.EntityMapping
             Property(oh => oh.StartTime).IsRequired();
             Property(oh => oh.EndTime).IsRequired();
 
-            HasRequired(oh => oh.Festival).WithMany(f => f.OpeningHours);
+            HasRequired(oh => oh.Festival).WithRequiredDependent(f => f.OpeningHours);
         }
     }
 }

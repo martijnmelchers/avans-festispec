@@ -21,7 +21,7 @@ namespace Festispec.Models
 
         public virtual Report Report { get; set; }
 
-        public virtual ICollection<OpeningHours> OpeningHours { get; set; }
+        public virtual OpeningHours OpeningHours { get; set; }
 
         public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
     }
