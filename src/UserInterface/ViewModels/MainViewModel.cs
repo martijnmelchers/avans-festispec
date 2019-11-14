@@ -12,7 +12,6 @@ namespace Festispec.UI.ViewModels
         public MainViewModel(IExampleService exampleService)
         {
             _exampleService = exampleService;
-            new QuestionaireViewModel(new Models.Questionnaire());
         }
 
         public void openQuestionairePage()

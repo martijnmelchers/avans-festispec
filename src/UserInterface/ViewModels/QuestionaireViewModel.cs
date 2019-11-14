@@ -15,31 +15,47 @@ namespace Festispec.UI.ViewModels
 {
     class QuestionaireViewModel : ViewModelBase
     {
-        IQuestionnaireService questionnaireService;
-        ICommand AddQuestionCommand;
-        Questionnaire Questionnaire { get; set; }
-        ICollection<Question> Questions
+        IQuestionnaireService _questionnaireService;
+        public Questionnaire Questionnaire { get; set; }
+        public ICommand AddQuestionCommand { get; set; }
+        public ICommand DeleteQuestionCommand { get; set; }
+        public ICommand SaveQuestionaireCommand { get; set; }
+        private ObservableCollection<Question> _questions { get; set; }
+        public List<string> QuestionType { get; set; }
+
+        public ObservableCollection<Question> Questions
         {
             get
             {
-                return Questionnaire.Questions;
+                return _questions;
             }
         }
 
-        public QuestionaireViewModel(Questionnaire questionnaire)
+        public QuestionaireViewModel(IQuestionnaireService questionnaireService)
         {
-            questionnaireService = new QuestionnaireService(new FestispecContext());
-            if (questionnaire == null)
-                Questionnaire = new Questionnaire();
+            Questionnaire = new Questionnaire();
+            _questions = new ObservableCollection<Question>();
+            _questionnaireService = questionnaireService;
             
             AddQuestionCommand = new RelayCommand(AddQuestion);
+            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
+            SaveQuestionaireCommand = new RelayCommand(SaveQuestionnaire);
 
         }
 
         public void AddQuestion()
         {
+            Questions.Add(new StringQuestion());
+        }
 
-            questionnaireService.AddQuestion(Questionnaire, new StringQuestion());
+        public void DeleteQuestion(object item)
+        {
+            Questions.Remove(item as Question);
+        }
+
+        public void SaveQuestionnaire()
+        {
+            Questionnaire.Questions = Questions;
         }
     } 
 }

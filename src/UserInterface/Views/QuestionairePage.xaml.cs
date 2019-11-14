@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Festispec.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,9 +20,15 @@ namespace Festispec.UI.Views
     /// </summary>
     public partial class QuestionairePage : Page
     {
+        private readonly IServiceScope _scope;
         public QuestionairePage()
         {
             InitializeComponent();
+
+            _scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => _scope.Dispose();
+
+            DataContext = _scope.ServiceProvider.GetRequiredService<QuestionaireViewModel>();
         }
     }
 }

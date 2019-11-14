@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:Festispec.UI.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="QuestionairePage" Background="White"
-      >
+      Title="QuestionairePage" Background="White">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,10 +18,10 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Vragenlijst aanmaken" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+        <TextBlock Text="Kut programma" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel>
-                <ListView ItemsSource="{Binding Questions}" SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}">
+                <ListView ItemsSource="{Binding Questions}" SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}" Height="350">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Expander Header="Vraag">

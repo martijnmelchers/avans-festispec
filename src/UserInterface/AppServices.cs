@@ -13,6 +13,7 @@ namespace Festispec.UI
 
             //  Register Viewmodels here
             services.AddTransient<MainViewModel>();
+            services.AddTransient<QuestionaireViewModel>();
 
             // Services from DomainServices
             services.AddServices();
