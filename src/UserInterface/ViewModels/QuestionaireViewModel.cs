@@ -1,61 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GalaSoft.MvvmLight;
-using System.Windows.Input;
-using GalaSoft.MvvmLight.CommandWpf;
-using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
-using Festispec.Models.EntityMapping;
-using Festispec.Models;
+﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models.Questions;
+using Festispec.Models;
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using Festispec.Models.Factories;
 
 namespace Festispec.UI.ViewModels
 {
-    class QuestionaireViewModel : ViewModelBase
+    internal class QuestionaireViewModel : ViewModelBase
     {
-        IQuestionnaireService _questionnaireService;
+        private IQuestionnaireService _questionnaireService;
+        private QuestionFactory _questionFactory;
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand SaveQuestionaireCommand { get; set; }
         private ObservableCollection<Question> _questions { get; set; }
-        public List<string> QuestionType { get; set; }
+        private ObservableCollection<Question> _addedQuestions { get; set; }
+        private ObservableCollection<Question> _removedQuestions { get; set; }
+        public List<string> QuestionType { get => _questionFactory.QuestionTypes.ToList(); }
+        public ObservableCollection<Question> Questions { get => _questions; }
 
-        public ObservableCollection<Question> Questions
-        {
-            get
-            {
-                return _questions;
-            }
-        }
 
         public QuestionaireViewModel(IQuestionnaireService questionnaireService)
         {
             Questionnaire = new Questionnaire();
             _questions = new ObservableCollection<Question>();
+            _addedQuestions = new ObservableCollection<Question>();
+            _removedQuestions = new ObservableCollection<Question>();
             _questionnaireService = questionnaireService;
-            
+            _questionFactory = new QuestionFactory();
             AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionaireCommand = new RelayCommand(SaveQuestionnaire);
-
         }
 
         public void AddQuestion()
         {
-            Questions.Add(new StringQuestion());
+            _addedQuestions.Add(new StringQuestion());
+            _questions.Add(new StringQuestion());
         }
 
         public void DeleteQuestion(object item)
         {
+            _removedQuestions.Add(item as Question);
             Questions.Remove(item as Question);
         }
 
         public void SaveQuestionnaire()
         {
-            Questionnaire.Questions = Questions;
+            _addedQuestions.ToList().ForEach(e => _questionnaireService.AddQuestion(Questionnaire, e));
+            _removedQuestions.ToList().ForEach(e => _questionnaireService.RemoveQuestion(Questionnaire, e.Id));
         }
-    } 
+    }
 }
