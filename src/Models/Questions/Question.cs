@@ -10,7 +10,7 @@ namespace Festispec.Models.Questions
 
         public virtual QuestionCategory Category { get; set; }
 
-        public virtual ICollection<Questionnaire> Questionnaires { get; set; }
+        public virtual Questionnaire Questionnaire { get; set; }
 
         public abstract GraphType GraphType { get; }
     }
