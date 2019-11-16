@@ -13,13 +13,13 @@ using System.Collections.ObjectModel;
 
 namespace Festispec.UI.ViewModels
 {
-    class QuestionaireViewModel : ViewModelBase
+    class QuestionnaireViewModel : ViewModelBase
     {
         IQuestionnaireService _questionnaireService;
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
-        public ICommand SaveQuestionaireCommand { get; set; }
+        public ICommand SaveQuestionnaireCommand { get; set; }
         private ObservableCollection<Question> _questions { get; set; }
         public List<string> QuestionType { get; set; }
 
@@ -31,7 +31,7 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public QuestionaireViewModel(IQuestionnaireService questionnaireService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService)
         {
             Questionnaire = new Questionnaire();
             _questions = new ObservableCollection<Question>();
@@ -39,7 +39,7 @@ namespace Festispec.UI.ViewModels
             
             AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
-            SaveQuestionaireCommand = new RelayCommand(SaveQuestionnaire);
+            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
 
         }
 

@@ -23,7 +23,7 @@ namespace Festispec.UI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Content = new QuestionairePage();
+            this.Content = new QuestionnairePage();
         }
     }
 }

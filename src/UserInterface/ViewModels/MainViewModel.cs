@@ -14,9 +14,9 @@ namespace Festispec.UI.ViewModels
             _exampleService = exampleService;
         }
 
-        public void openQuestionairePage()
+        public void openQuestionnairePage()
         {
-            new QuestionairePage();
+            new QuestionnairePage();
         }
     }
 }

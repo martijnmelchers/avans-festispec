@@ -2,12 +2,12 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Views\QuestionairePage.xaml.cs">
+    <Compile Update="Views\QuestionnairePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\QuestionairePage.xaml">
+    <Page Update="Views\QuestionnairePage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
