@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Chevron.png" />
+    <None Remove="Assets\festispec logo.png" />
     <None Remove="Assets\Montserrat\Montserrat-Black.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-BlackItalic.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-Bold.ttf" />
@@ -34,9 +36,14 @@
     <None Remove="Assets\Montserrat\Montserrat-SemiBoldItalic.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-Thin.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
+    <None Remove="Assets\user.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Chevron.png" />
+    <Resource Include="Assets\festispec logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Montserrat\Montserrat-Black.ttf" />
     <Resource Include="Assets\Montserrat\Montserrat-BlackItalic.ttf" />
     <Resource Include="Assets\Montserrat\Montserrat-Bold.ttf" />
@@ -55,6 +62,7 @@
     <Resource Include="Assets\Montserrat\Montserrat-SemiBoldItalic.ttf" />
     <Resource Include="Assets\Montserrat\Montserrat-Thin.ttf" />
     <Resource Include="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
+    <Resource Include="Assets\user.png" />
   </ItemGroup>
 
   <ItemGroup>
