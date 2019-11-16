@@ -19,7 +19,8 @@ namespace Festispec.Models.Factories
                 ["Afbeeldingsvraag"] = new UploadPictureQuestion(),
                 ["Beoordelingsvraag"] = new RatingQuestion(),
                 ["Meerkeuzevraag"] = new MultipleChoiceQuestion(),
-                ["Numerieke vraag"] = new NumericQuestion()
+                ["Numerieke vraag"] = new NumericQuestion(),
+                ["Referentievraag"] = new ReferenceQuestion()
             };
         }
         public Question GetQuestionType(string type)
