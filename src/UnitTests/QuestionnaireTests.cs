@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using Festispec.DomainServices.Services;
+using Festispec.Models;
+using Festispec.UnitTests.Helpers;
 
 namespace Festispec.UnitTests
 {
@@ -16,11 +19,19 @@ namespace Festispec.UnitTests
         {
             // Setup database mocks
             _dbMock = new Mock<FestispecContext>();
+            _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
-        [Fact]
-        public void AddingQuestionnaire()
+        [Theory]
+        [InlineData("nigger")]
+        
+        public async void CanCreateQuestionnaire(string name)
         {
-            Assert.True(false);
+            var festival = ModelMocks.Festival();
+            var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival);
+
+            Assert.Equal(festival, questionnaire.Festival);
+
+
         }
         [Fact]
         public void RemovingQuestionnaire()

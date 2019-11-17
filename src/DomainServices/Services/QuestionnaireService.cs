@@ -25,12 +25,9 @@ namespace Festispec.DomainServices.Services
 
             return questionnaire;
         }
-        public async Task<Questionnaire> CreateQuestionnaire(Festival festival)
+        public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
-            var questionnaire = new Questionnaire()
-            {
-                Festival = festival
-            };
+            var questionnaire = new Questionnaire(name, festival);
 
             _db.Questionnaires.Add(questionnaire);
             await _db.SaveChangesAsync();

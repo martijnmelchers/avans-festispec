@@ -7,7 +7,16 @@ namespace Festispec.Models
 {
     public class Questionnaire : Entity
     {
+        public Questionnaire(string name, Festival festival)
+        {
+            Name = name;
+            Festival = festival;
+            Answers = new List<Answer>();
+            Questions = new List<Question>();
+        }
         public int Id { get; set; }
+
+        public string Name { get; set; }
 
         public DateTime IsComplete { get; set; }
 
