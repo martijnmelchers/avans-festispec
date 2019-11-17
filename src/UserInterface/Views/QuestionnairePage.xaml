@@ -5,6 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
       mc:Ignorable="d" 
+<<<<<<< HEAD:src/UserInterface/Views/QuestionairePage.xaml
+      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
+      xmlns:Controls="clr-namespace:Festispec.UI.Views">
+    <Grid Margin="50,124,50,50">
+=======
       d:DesignHeight="450" d:DesignWidth="800"
       Title="QuestionnairePage" Background="White">
 
@@ -14,10 +19,50 @@
             <RowDefinition Height="*"/>
             <RowDefinition  Height="50"/>
         </Grid.RowDefinitions>
+>>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/Views/QuestionnairePage.xaml
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+<<<<<<< HEAD:src/UserInterface/Views/QuestionairePage.xaml
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle Style="{DynamicResource ContentBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*"/>
+                <RowDefinition  Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Kut programma" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0">
+                <StackPanel>
+                    <ListView ItemsSource="{Binding Questions}" SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Header="Vraag" Width="630">
+                                    <StackPanel>
+                                        <Label Content="Vraag"/>
+                                        <TextBox Text="{Binding Question}"/>
+                                        <Label Content="Vraag type"/>
+                                        <ComboBox ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                                        <Button Content="Verwijderen" Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="230" Height="45" Margin="10"/>
+                                        <Controls:MultipleChoiceQuestion/>
+                                    </StackPanel>
+                                </Expander>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
+            <Button Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="0" Grid.Row="2" />
+            <Button Content="Save Command" Command="{Binding SaveQuestionaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
+        </Grid>
+=======
         <TextBlock Text="Kut programma" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel>
@@ -41,5 +86,6 @@
         </ScrollViewer>
         <Button Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="0" Grid.Row="2" Height="45" Width="150"/>
         <Button Content="Save Command" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" Height="45" Width="150"/>
+>>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/Views/QuestionnairePage.xaml
     </Grid>
 </Page>
