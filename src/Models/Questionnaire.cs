@@ -11,6 +11,8 @@ namespace Festispec.Models
 
         public DateTime IsComplete { get; set; }
 
+        public virtual Festival Festival { get; set; }
+
         public virtual PlannedInspection PlannedInspection { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
