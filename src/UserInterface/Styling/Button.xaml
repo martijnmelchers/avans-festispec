@@ -52,7 +52,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="ButtonGreen1" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
+    <Style x:Key="GrayButton" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource ButtonGray}"/>

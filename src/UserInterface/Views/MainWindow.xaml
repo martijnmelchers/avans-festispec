@@ -6,47 +6,33 @@
         xmlns:local="clr-namespace:Festispec.UI"
         mc:Ignorable="d" Background="#EFEFEF"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    
-    <Window.Resources>
-        <Style x:Key="HyperLinkLabel" TargetType="{x:Type Hyperlink}">
-            <Setter Property="Foreground" Value="#707070"/>
-            <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="FontWeight" Value="Bold" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
-
-
     <Grid>
+
         <Grid Height="69" VerticalAlignment="Top" Background="#FFFFFF">
-            <Image HorizontalAlignment="Left" Height="57" Margin="20,0,0,0" VerticalAlignment="Center" Width="235" Source="/Assets/festispec logo.png" Grid.Column="0"/>
+            <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" Grid.Column="0"/>
 
             <TextBlock HorizontalAlignment="Left" Margin="424,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Homepage" Style="{StaticResource HyperLinkLabel}">Home</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Homepage" Style="{StaticResource HeaderLink}">Home</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="568,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Klanten</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLink}">Klanten</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Festivals</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Inspecties</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Inspecties</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Inspecteurs</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Inspecteurs</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1342,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Medewerkers</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Medewerkers</Hyperlink>
             </TextBlock>
 
 
@@ -56,6 +42,6 @@
 
         </Grid>
 
-        <Frame x:Name="MainFrame" Margin="0,74,0,0" Navigated="MainFrame_Navigated"/>
+        <Frame x:Name="MainFrame" Margin="0,74,0,0"/>
     </Grid>
 </Window>

@@ -14,6 +14,10 @@ namespace Festispec.DomainServices
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<FestispecContext>();
 
+            // Register all your factories here
+            // Example: services.AddSingleton(new ExampleFactory());
+
+
             return services;
         }
     }
