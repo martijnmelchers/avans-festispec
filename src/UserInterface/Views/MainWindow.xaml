@@ -6,8 +6,56 @@
         xmlns:local="clr-namespace:Festispec.UI"
         mc:Ignorable="d" Background="#EFEFEF"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    
+    <Window.Resources>
+        <Style x:Key="HyperLinkLabel" TargetType="{x:Type Hyperlink}">
+            <Setter Property="Foreground" Value="#707070"/>
+            <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
     <Grid>
-        <Button  Command="{Binding NavigateCommand}" CommandParameter="FirstTime" Content="Opslaan" HorizontalAlignment="Left" Margin="47,18,0,0" VerticalAlignment="Top" Style="{DynamicResource ButtonGreen}" Height="46" RenderTransformOrigin="0.521,0.426" Width="183"/>
-        <Frame x:Name="MainFrame" Margin="0,74,0,0"/>
+        <Grid Height="69" VerticalAlignment="Top" Background="#FFFFFF">
+            <Image HorizontalAlignment="Left" Height="57" Margin="20,0,0,0" VerticalAlignment="Center" Width="235" Source="/Assets/festispec logo.png" Grid.Column="0"/>
+
+            <TextBlock HorizontalAlignment="Left" Margin="424,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Homepage" Style="{StaticResource HyperLinkLabel}">Home</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Margin="568,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Klanten</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Festivals</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Inspecties</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Inspecteurs</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Margin="1342,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HyperLinkLabel}">Medewerkers</Hyperlink>
+            </TextBlock>
+
+
+            <Button Height="37" Content="Hallo, Martijn" HorizontalAlignment="Left" Margin="1637,17,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="{DynamicResource Montserrat}" Foreground="#707070" Background="#FFFFFF" BorderThickness="0"/>
+            <Image HorizontalAlignment="Left" Height="25" Margin="1599,0,0,0" VerticalAlignment="Center" Width="22" Source="/Assets/user.png"/>
+            <Image HorizontalAlignment="Left" Height="19" Margin="1841,0,0,0" VerticalAlignment="Center" Width="31" Source="/Assets/Chevron.png"/>
+
+        </Grid>
+
+        <Frame x:Name="MainFrame" Margin="0,74,0,0" Navigated="MainFrame_Navigated"/>
     </Grid>
 </Window>
