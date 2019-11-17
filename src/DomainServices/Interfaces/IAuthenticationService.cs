@@ -8,8 +8,8 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<Account> Register(string username, string password);
-        Account Login(string username, string password);
+        Task<Account> Register(string username, string password, Role requiredRole);
+        Account Login(string username, string password, Role requiredRole);
         Task ChangePassword(string username, string password, string newPassword);
     }
 }

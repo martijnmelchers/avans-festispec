@@ -21,9 +21,5 @@ namespace Festispec.UI
             DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Content = new QuestionnairePage();
-        }
     }
 }
