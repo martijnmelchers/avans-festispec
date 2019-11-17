@@ -1,7 +1,10 @@
 ﻿using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using Festispec.Models.Reports;
+using System;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Festispec.Models.EntityMapping
 {
@@ -38,5 +41,30 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<ReportEntry> ReportEntries { get; set; }
+
+
+        public override int SaveChanges()
+        {
+            AddTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync()
+        {
+            AddTimestamps();
+            return await base.SaveChangesAsync();
+        }
+
+        private void AddTimestamps()
+        {
+            foreach (var entity in ChangeTracker.Entries().Where(x => x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified)))
+            {
+                if (entity.State == EntityState.Added)
+                    ((Entity)entity.Entity).CreatedAt = DateTime.UtcNow;
+
+                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
     }
 }

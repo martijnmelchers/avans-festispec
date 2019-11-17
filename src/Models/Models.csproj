@@ -9,4 +9,10 @@
     <PackageReference Include="EntityFramework" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Migrations\201911101458258_initial.resx">
+      <DependentUpon>201911101458258_initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

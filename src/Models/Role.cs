@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public enum EmployeeRole
+    public enum Role
     {
         Employee,
         Inspector
