@@ -29,21 +29,32 @@ namespace Festispec.UnitTests
 
         [Theory]
         [InlineData("PinkPop")]
+        [InlineData("Defqon")]
         public async void CanCreateQuestionnaire(string name)
         {
             var festival = ModelMocks.Festival;
             var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival);
 
             Assert.Equal(festival, questionnaire.Festival);
+            Assert.Equal(name, questionnaire.Name);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
+
         [Theory]
         [InlineData("PinkPop Middag")]
         [InlineData("PinkPop Ochtend")]
         public async void SameNameShouldThrowError(string name)
         {
             await Assert.ThrowsAsync<EntityExistsException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
+        }
+
+        [Theory]
+        [InlineData("aaa")]
+        [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")]
+        public async void InvalidDataShouldThrowError(string name)
+        {
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
         }
 
         [Fact]
