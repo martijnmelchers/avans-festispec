@@ -1,13 +1,13 @@
 ﻿using Festispec.DomainServices.Interfaces;
-using Festispec.Models.Questions;
 using Festispec.Models;
-using GalaSoft.MvvmLight.CommandWpf;
+using Festispec.Models.Factories;
+using Festispec.Models.Questions;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Festispec.Models.Factories;
 
 namespace Festispec.UI.ViewModels
 {
