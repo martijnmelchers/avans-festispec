@@ -8,6 +8,8 @@ using Xunit;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UnitTests.Helpers;
+using Festispec.Models.Exception;
+using System.Linq;
 
 namespace Festispec.UnitTests
 {
@@ -19,20 +21,31 @@ namespace Festispec.UnitTests
         {
             // Setup database mocks
             _dbMock = new Mock<FestispecContext>();
+
+            _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questionnaires).Object);
+
             _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
+
         [Theory]
-        [InlineData("nigger")]
-        
+        [InlineData("PinkPop")]
         public async void CanCreateQuestionnaire(string name)
         {
-            var festival = ModelMocks.Festival();
+            var festival = ModelMocks.Festival;
             var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival);
 
             Assert.Equal(festival, questionnaire.Festival);
 
-
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
+        [Theory]
+        [InlineData("PinkPop Middag")]
+        [InlineData("PinkPop Ochtend")]
+        public async void SameNameShouldThrowError(string name)
+        {
+            await Assert.ThrowsAsync<EntityExistsException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
+        }
+
         [Fact]
         public void RemovingQuestionnaire()
         {

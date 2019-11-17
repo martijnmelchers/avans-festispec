@@ -7,67 +7,66 @@ namespace Festispec.UnitTests.Helpers
 {
     public class ModelMocks
     {
-        public static Festival Festival()
+        public static Address Address = new Address()
         {
-            var festival = new Festival()
-            {
-                FestivalName = "PinkPop",
-                Description = "Placeholder for description",
-                Address = Address(),
-                OpeningHours = OpeningHours(),
-                Customer = Customer()
-            };
+            ZipCode = "1013 GM",
+            StreetName = "Amsterweg",
+            HouseNumber = 23,
+            City = "Utrecht",
+            Country = "Nederland"
+        };
 
-            return festival;
-        }
-
-        public static OpeningHours OpeningHours()
+        public static ContactDetails ContactDetails = new ContactDetails()
         {
-            var openingHours = new OpeningHours()
-            {
-                StartTime = new DateTime(2020, 3, 10, 20, 0, 0),
-                EndTime = new DateTime(2020, 3, 12, 1, 0, 0)
-            };
+            PhoneNumber = "31695734859",
+            EmailAddress = "psmulde@pinkpop.nl"
+        };
 
-            return openingHours;
-        }
-
-        public static Customer Customer()
+        public static OpeningHours OpeningHours = new OpeningHours()
         {
-            var customer = new Customer()
-            {
-                KvkNr = 12345678,
-                CustomerName = "PinkPop",
-                Address = Address(),
-                ContactDetails = ContactDetails()
-            };
+            StartTime = new DateTime(2020, 3, 10, 20, 0, 0),
+            EndTime = new DateTime(2020, 3, 12, 1, 0, 0)
+        };
 
-            return customer;
-        }
-
-        public static Address Address()
+        public static Customer Customer = new Customer()
         {
-            var address = new Address()
-            {
-                ZipCode = "1013 GM",
-                StreetName = "Amsterweg",
-                HouseNumber = 23,
-                City = "Utrecht",
-                Country = "Nederland"
-            };
+            KvkNr = 12345678,
+            CustomerName = "PinkPop",
+            Address = Address,
+            ContactDetails = ContactDetails
+        };
 
-            return address;
-        }
-
-        public static ContactDetails ContactDetails()
+        public static Festival Festival = new Festival()
         {
-            var contactDetails = new ContactDetails()
-            {
-                PhoneNumber = "31695734859",
-                EmailAddress = "psmulde@pinkpop.nl"
-            };
+            Id = 1,
+            FestivalName = "PinkPop",
+            Description = "Placeholder for description",
+            Address = Address,
+            OpeningHours = OpeningHours,
+            Customer = Customer
+        };
 
-            return contactDetails;
-        }
+        public static List<Account> Accounts = new List<Account>()
+        {
+            new Account()
+            {
+                Username = "JohnDoe",
+                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                Role = Role.Employee
+            },
+            new Account()
+            {
+                Username = "EricKuipers",
+                Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                Role = Role.Inspector
+            }
+        };
+
+        public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
+        {
+            new Questionnaire("PinkPop Ochtend", Festival),
+            new Questionnaire("PinkPop Middag", Festival)
+        };
+
     }
 }

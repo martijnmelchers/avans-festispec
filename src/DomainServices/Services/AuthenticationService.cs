@@ -22,7 +22,7 @@ namespace Festispec.DomainServices.Services
             var existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (existing != null)
-                throw new AccountExistsException();
+                throw new EntityExistsException();
 
             var account = new Account()
             {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Festispec.Models.Exception;
 using Festispec.Models;
+using System.Data.Entity;
 
 namespace Festispec.DomainServices.Services
 {
@@ -27,7 +28,15 @@ namespace Festispec.DomainServices.Services
         }
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
+            var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);
+
+            if (existing != null)
+                throw new EntityExistsException();
+
             var questionnaire = new Questionnaire(name, festival);
+
+            if (!questionnaire.Validate())
+                throw new InvalidDataException();
 
             _db.Questionnaires.Add(questionnaire);
             await _db.SaveChangesAsync();

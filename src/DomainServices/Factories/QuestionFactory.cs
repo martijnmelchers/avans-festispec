@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Festispec.DomainServices.Factories
+namespace Festispec.Models.Factories
 {
     public class QuestionFactory
     {

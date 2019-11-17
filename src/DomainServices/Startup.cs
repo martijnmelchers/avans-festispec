@@ -1,4 +1,5 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using Festispec.DomainServices.Factories;
+using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ namespace Festispec.DomainServices
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
-
+            services.AddSingleton(new QuestionFactory());
 
             return services;
         }

@@ -11,11 +11,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-<<<<<<< HEAD:src/UserInterface/ViewModels/QuestionaireViewModel.cs
-    internal class QuestionaireViewModel : ViewModelBase
-=======
     class QuestionnaireViewModel : ViewModelBase
->>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/ViewModels/QuestionnaireViewModel.cs
     {
         private IQuestionnaireService _questionnaireService;
         private QuestionFactory _questionFactory;
@@ -40,12 +36,7 @@ namespace Festispec.UI.ViewModels
             _questionFactory = new QuestionFactory();
             AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
-<<<<<<< HEAD:src/UserInterface/ViewModels/QuestionaireViewModel.cs
-            SaveQuestionaireCommand = new RelayCommand(SaveQuestionnaire);
-=======
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
-
->>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/ViewModels/QuestionnaireViewModel.cs
         }
 
         public void AddQuestion()
