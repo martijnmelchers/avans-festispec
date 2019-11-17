@@ -200,7 +200,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAKAAAAAAAAAAAAAAACCCAAAAAAAAACAAAAAEAAAEA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAACCCQAAAAAAAACAAAAAEAAAEA=</HashCode>
       <FileName>Employee.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -535,6 +535,21 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\UploadPictureQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.ReferenceQuestion">
+    <Position X="25" Y="7.25" Width="1.5" />
+    <InheritanceLine Type="Festispec.Models.Questions.Question" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="20.812" Y="6.367" />
+        <Point X="20.812" Y="7" />
+        <Point X="25.75" Y="7" />
+        <Point X="25.75" Y="7.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>ReferenceQuestion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="Festispec.Models.Interfaces.IAnswer&lt;TAnswer&gt;">

@@ -16,19 +16,19 @@ using System.Windows.Shapes;
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for QuestionairePage.xaml
+    /// Interaction logic for QuestionnairePage.xaml
     /// </summary>
-    public partial class QuestionairePage : Page
+    public partial class QuestionnairePage : Page
     {
         private readonly IServiceScope _scope;
-        public QuestionairePage()
+        public QuestionnairePage()
         {
             InitializeComponent();
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<QuestionaireViewModel>();
+            DataContext = _scope.ServiceProvider.GetRequiredService<QuestionnaireViewModel>();
         }
     }
 }

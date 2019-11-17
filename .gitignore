@@ -3,3 +3,9 @@
 bin/
 obj/
 packages/
+
+# macOS vomit
+.DS_Store
+
+# IntelliJ/Rider files
+.idea/

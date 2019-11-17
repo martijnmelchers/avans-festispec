@@ -11,14 +11,18 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
+<<<<<<< HEAD:src/UserInterface/ViewModels/QuestionaireViewModel.cs
     internal class QuestionaireViewModel : ViewModelBase
+=======
+    class QuestionnaireViewModel : ViewModelBase
+>>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/ViewModels/QuestionnaireViewModel.cs
     {
         private IQuestionnaireService _questionnaireService;
         private QuestionFactory _questionFactory;
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
-        public ICommand SaveQuestionaireCommand { get; set; }
+        public ICommand SaveQuestionnaireCommand { get; set; }
         private ObservableCollection<Question> _questions { get; set; }
         private ObservableCollection<Question> _addedQuestions { get; set; }
         private ObservableCollection<Question> _removedQuestions { get; set; }
@@ -26,7 +30,7 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
 
 
-        public QuestionaireViewModel(IQuestionnaireService questionnaireService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService)
         {
             Questionnaire = new Questionnaire();
             _questions = new ObservableCollection<Question>();
@@ -36,7 +40,12 @@ namespace Festispec.UI.ViewModels
             _questionFactory = new QuestionFactory();
             AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
+<<<<<<< HEAD:src/UserInterface/ViewModels/QuestionaireViewModel.cs
             SaveQuestionaireCommand = new RelayCommand(SaveQuestionnaire);
+=======
+            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
+
+>>>>>>> 71f03f821e34b057fc5121e41b9f8132976563d6:src/UserInterface/ViewModels/QuestionnaireViewModel.cs
         }
 
         public void AddQuestion()

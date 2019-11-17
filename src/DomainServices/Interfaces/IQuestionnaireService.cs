@@ -7,7 +7,7 @@ namespace Festispec.DomainServices.Interfaces
     public interface IQuestionnaireService
     {
         Questionnaire GetQuestionnaire(int questionnaireId);
-        Task<Questionnaire> CreateQuestionnaire(PlannedInspection plannedInspection);
+        Task<Questionnaire> CreateQuestionnaire(Festival festival);
         Task AddQuestion(Questionnaire questionnaire, Question question);
         Task RemoveQuestion(Questionnaire questionnaire, int questionId);
     }
