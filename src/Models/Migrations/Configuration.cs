@@ -22,14 +22,18 @@ namespace Festispec.Models.Migrations
             //  to avoid creating duplicate seed data.
 
             var employee = new Employee() {
+                Id = 1,
                 Iban = "NL01RABO1234567890",
                 Name = new FullName()
                 {
+                    Id = 1,
                     First = "Henk",
                     Last = "Janssen"
                 },
                 Account = new Account()
                 {
+                    Id = 1,
+
                     // Voorletter + Achternaam + geboortejaar
                     Username = "HJanssen80",
                     Password = "test123!",
@@ -37,6 +41,7 @@ namespace Festispec.Models.Migrations
                 },
                 Address = new Address()
                 {
+                    Id = 1,
                     City = "Utrecht",
                     Country = "Nederland",
                     HouseNumber = 59,
@@ -45,6 +50,7 @@ namespace Festispec.Models.Migrations
                 },
                 ContactDetails = new ContactDetails()
                 {
+                    Id = 1,
                     EmailAddress = "hjanssen80@gmail.com",
                     PhoneNumber = "+31623790426"
                 },
@@ -52,6 +58,7 @@ namespace Festispec.Models.Migrations
                 {
                     new Certificate
                     {
+                        Id = 1,
                         CertificateTitle = "Inspector Certificate",
                         CertificationDate = new DateTime(2018, 10, 11, 00, 00, 00),
                         ExpirationDate = new DateTime(2020, 10, 11, 00, 00, 00)
@@ -63,9 +70,11 @@ namespace Festispec.Models.Migrations
 
             var customer = new Customer()
             {
+                Id = 1,
                 CustomerName = "Q-DANCE",
                 KvkNr = 34212891,
                 Address = new Address {
+                    Id = 2,
                     StreetName = "Isolatorweg",
                     HouseNumber = 36,
                     ZipCode = "1014AS",
@@ -74,6 +83,7 @@ namespace Festispec.Models.Migrations
                 },
                 ContactDetails = new ContactDetails
                 {
+                    Id = 2,
                     EmailAddress = "info@q-dance.com",
                     PhoneNumber = "+31204877300"
                 }
@@ -85,12 +95,17 @@ namespace Festispec.Models.Migrations
             {
                 new ContactPerson()
                 {
-                    Name = new FullName {
+                    Id = 1,
+                    Name = new FullName
+                    {
+                        Id = 2,
                         First = "Niels",
                         Last = "Kijf"
                     },
                     ContactDetails = new ContactDetails
                     {
+                        Id = 3,
+
                         // fake news
                         EmailAddress = "nielskijf@q-dance.com"
                     },
@@ -99,6 +114,7 @@ namespace Festispec.Models.Migrations
                     {
                         new ContactPersonNote()
                         {
+                            Id = 1,
                             Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
                         }
                     }
@@ -109,10 +125,12 @@ namespace Festispec.Models.Migrations
 
             var festival = new Festival
             {
+                Id = 1,
                 FestivalName = "Q-BASE",
                 Description = "Nachtfestival over de grens",
                 Address = new Address
                 {
+                    Id = 3,
                     Country = "Duitsland",
                     StreetName = "Flughafen-Ring",
                     HouseNumber = 16,
@@ -121,6 +139,7 @@ namespace Festispec.Models.Migrations
                 },
                 OpeningHours = new OpeningHours
                 {
+                    Id = 1,
                     StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
                     EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
                 }
@@ -134,11 +153,13 @@ namespace Festispec.Models.Migrations
             context.Customers.AddOrUpdate(customer);
 
             var questionnaire = new Questionnaire {
+                Id = 1,
                 Festival = festival,
             };
 
             var plannedInspection = new PlannedInspection
             {
+                Id = 1,
                 Employee = employee,
                 Festival = festival,
                 EventTitle = "Inspection " + festival.FestivalName,
