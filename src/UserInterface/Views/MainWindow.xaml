@@ -12,7 +12,7 @@
             <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" Grid.Column="0"/>
 
             <TextBlock HorizontalAlignment="Left" Margin="424,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Homepage" Style="{StaticResource HeaderLink}">Home</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Questionnaire" Style="{StaticResource HeaderLink}">Home</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="568,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">

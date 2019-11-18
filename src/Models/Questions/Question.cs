@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Festispec.Models.Questions
 {
@@ -13,5 +14,6 @@ namespace Festispec.Models.Questions
         public virtual Questionnaire Questionnaire { get; set; }
 
         public abstract GraphType GraphType { get; }
+
     }
 }

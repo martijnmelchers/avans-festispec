@@ -4,6 +4,7 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using Festispec.UI.ViewModels.QuestionViewModels;
 
 namespace Festispec.UI
 {
@@ -17,6 +18,7 @@ namespace Festispec.UI
             services.AddTransient<MainViewModel>();
             services.AddTransient<FirstTimeViewModel>();
             services.AddTransient<QuestionnaireViewModel>();
+            services.AddTransient<MultipleChoiceQuestionViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -34,6 +36,7 @@ namespace Festispec.UI
             // Register your routes here
             navigationService.Configure("Homepage", new Uri("../Views/MainWindow.xaml", UriKind.Relative));
             navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
+            navigationService.Configure("Questionnaire", new Uri("../Views/QuestionnairePage.xaml", UriKind.Relative));
 
             return navigationService;
         }

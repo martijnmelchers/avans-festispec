@@ -1,5 +1,6 @@
 ﻿using Festispec.Models.Questions;
 using Festispec.UI.ViewModels;
+using Festispec.UI.ViewModels.QuestionViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,24 +14,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Festispec.Models.Questions;
 
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for QuestionnairePage.xaml
+    /// Interaction logic for MultipleChoiceQuestion.xaml
     /// </summary>
-    public partial class QuestionnairePage : Page
+    public partial class MultipleChoiceQuestionControl : UserControl
     {
         private readonly IServiceScope _scope;
-        public QuestionnairePage()
+        public MultipleChoiceQuestionControl()
         {
             InitializeComponent();
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<QuestionnaireViewModel>();
+            DataContext = _scope.ServiceProvider.GetRequiredService<MultipleChoiceQuestionViewModel>();
         }
+
     }
 }
