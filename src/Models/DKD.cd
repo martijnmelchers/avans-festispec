@@ -10,12 +10,12 @@
         <Point X="6.375" Y="8.75" />
         <Point X="6.375" Y="8.009" />
         <Point X="5.156" Y="8.009" />
-        <Point X="5.156" Y="7.605" />
-        <Point X="4.691" Y="7.605" Type="JumpStart" />
-        <Point X="4.525" Y="7.605" Type="JumpEnd" />
-        <Point X="4.145" Y="7.605" Type="JumpStart" />
-        <Point X="3.979" Y="7.605" Type="JumpEnd" />
-        <Point X="3" Y="7.605" />
+        <Point X="5.156" Y="8.053" />
+        <Point X="4.691" Y="8.053" Type="JumpStart" />
+        <Point X="4.525" Y="8.053" Type="JumpEnd" />
+        <Point X="4.145" Y="8.053" Type="JumpStart" />
+        <Point X="3.979" Y="8.053" Type="JumpEnd" />
+        <Point X="3" Y="8.053" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
@@ -23,8 +23,8 @@
         <Point X="6.188" Y="8.75" />
         <Point X="6.188" Y="8.37" />
         <Point X="4.608" Y="8.37" />
-        <Point X="4.608" Y="4.79" />
-        <Point X="3" Y="4.79" />
+        <Point X="4.608" Y="5.072" />
+        <Point X="3" Y="5.072" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -44,10 +44,10 @@
         <Point X="4.691" Y="6.699" Type="JumpStart" />
         <Point X="4.525" Y="6.699" Type="JumpEnd" />
         <Point X="4.25" Y="6.699" />
-        <Point X="4.25" Y="6.873" />
-        <Point X="4.145" Y="6.873" Type="JumpStart" />
-        <Point X="3.979" Y="6.873" Type="JumpEnd" />
-        <Point X="3" Y="6.873" />
+        <Point X="4.25" Y="7.144" />
+        <Point X="4.145" Y="7.144" Type="JumpStart" />
+        <Point X="3.979" Y="7.144" Type="JumpEnd" />
+        <Point X="3" Y="7.144" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Customer" Type="Festispec.Models.Customer">
@@ -69,8 +69,8 @@
     <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="4.062" Y="8.75" />
-        <Point X="4.062" Y="5.364" />
-        <Point X="3" Y="5.364" />
+        <Point X="4.062" Y="5.851" />
+        <Point X="3" Y="5.851" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="Customer" Type="Festispec.Models.Customer" FixedToPoint="true">
@@ -110,14 +110,14 @@
   <Class Name="Festispec.Models.ContactDetails">
     <Position X="1.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAECAAAAAAAAAAAABAAAQAAACAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>ContactDetails.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Festispec.Models.Address">
     <Position X="1.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAACIAAAAAAAAAEIAAAABACAAAAAAAAA=</HashCode>
+      <HashCode>AAECAAAAAAAAAACIAAACAAAACEIAAAABACAAAAAAAAA=</HashCode>
       <FileName>Address.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -133,20 +133,20 @@
       <Path>
         <Point X="5.75" Y="1.648" />
         <Point X="5.196" Y="1.648" />
-        <Point X="5.196" Y="6.097" />
-        <Point X="4.691" Y="6.097" Type="JumpStart" />
-        <Point X="4.525" Y="6.097" Type="JumpEnd" />
-        <Point X="4.145" Y="6.097" Type="JumpStart" />
-        <Point X="3.979" Y="6.097" Type="JumpEnd" />
-        <Point X="3" Y="6.097" />
+        <Point X="5.196" Y="6.181" />
+        <Point X="4.691" Y="6.181" Type="JumpStart" />
+        <Point X="4.525" Y="6.181" Type="JumpEnd" />
+        <Point X="4.145" Y="6.181" Type="JumpStart" />
+        <Point X="3.979" Y="6.181" Type="JumpEnd" />
+        <Point X="3" Y="6.181" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="5.75" Y="1.344" />
         <Point X="4.607" Y="1.344" />
-        <Point X="4.607" Y="4.216" />
-        <Point X="3" Y="4.216" />
+        <Point X="4.607" Y="4.293" />
+        <Point X="3" Y="4.293" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.081" Y="0.081" />
@@ -166,18 +166,19 @@
     <Position X="15.75" Y="5.75" Width="1.5" />
     <AssociationLine Name="PlannedInspection" Type="Festispec.Models.PlannedInspection" FixedFromPoint="true">
       <Path>
-        <Point X="15.75" Y="6.375" />
-        <Point X="13.5" Y="6.375" />
+        <Point X="15.75" Y="6.255" />
+        <Point X="13.5" Y="6.255" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.081" Y="0.068" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQACAAAAAAAAAAAAABACAAAAAAAAAAAEQAAAAAAAAAA=</HashCode>
+      <HashCode>AQACAAAAAAAAAAAAABACAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Questionnaire.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="Festival" />
       <Property Name="PlannedInspection" />
     </ShowAsAssociation>
   </Class>
@@ -187,8 +188,8 @@
       <Path>
         <Point X="13.5" Y="6.925" />
         <Point X="15" Y="6.925" />
-        <Point X="15" Y="6.812" />
-        <Point X="15.75" Y="6.812" />
+        <Point X="15" Y="6.608" />
+        <Point X="15.75" Y="6.608" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.086" Y="-0.259" />
@@ -323,26 +324,20 @@
   </Class>
   <Class Name="Festispec.Models.Answers.Answer">
     <Position X="15.75" Y="4" Width="1.5" />
-    <AssociationLine Name="Inspector" Type="Festispec.Models.Employee" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="PlannedInspection" Type="Festispec.Models.PlannedInspection" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15.75" Y="4.628" />
-        <Point X="12.148" Y="4.628" />
-        <Point X="12.148" Y="1" />
-        <Point X="11.25" Y="1" />
+        <Point X="15.75" Y="4.895" />
+        <Point X="13.375" Y="4.895" />
+        <Point X="13.375" Y="5.75" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="Questionnaire" Type="Festispec.Models.Questionnaire">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.238" Y="0.072" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAgAAAAAAEAABAAAAAAAAAAAAAEAAAAAAAAAAg=</HashCode>
+      <HashCode>AAACAAAAAAAAAAEAABAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Answers\Answer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Inspector" />
-      <Property Name="Questionnaire" />
+      <Property Name="Question" />
+      <Property Name="PlannedInspection" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Festispec.Models.Reports.ReportTextEntry">
@@ -395,7 +390,7 @@
   <Class Name="Festispec.Models.Questions.Question">
     <Position X="19.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAABACAg=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAABACAg=</HashCode>
       <FileName>Questions\Question.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

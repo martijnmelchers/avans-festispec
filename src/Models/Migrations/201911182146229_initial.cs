@@ -32,8 +32,8 @@
                         UpdatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Addresses", t => t.Id)
                 .ForeignKey("dbo.ContactDetails", t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Id)
                 .ForeignKey("dbo.FullNames", t => t.Id)
                 .Index(t => t.Id);
             
@@ -54,20 +54,19 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Certificates",
+                "dbo.Customers",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        CertificateTitle = c.String(nullable: false, maxLength: 45),
-                        CertificationDate = c.DateTime(nullable: false),
-                        ExpirationDate = c.DateTime(nullable: false),
+                        Id = c.Int(nullable: false),
+                        KvkNr = c.Int(nullable: false),
+                        CustomerName = c.String(nullable: false, maxLength: 20),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
-                        Employee_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
-                .Index(t => t.Employee_Id);
+                .ForeignKey("dbo.ContactDetails", t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.ContactDetails",
@@ -82,6 +81,23 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.ContactPersons",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Role = c.String(nullable: false, maxLength: 20),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        Customer_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Customers", t => t.Customer_Id, cascadeDelete: true)
+                .ForeignKey("dbo.FullNames", t => t.Id)
+                .ForeignKey("dbo.ContactDetails", t => t.Id)
+                .Index(t => t.Id)
+                .Index(t => t.Customer_Id);
+            
+            CreateTable(
                 "dbo.FullNames",
                 c => new
                     {
@@ -93,6 +109,51 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.ContactPersonNotes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Note = c.String(nullable: false, maxLength: 500),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        ContactPerson_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ContactPersons", t => t.ContactPerson_Id, cascadeDelete: true)
+                .Index(t => t.ContactPerson_Id);
+            
+            CreateTable(
+                "dbo.Festivals",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        FestivalName = c.String(nullable: false, maxLength: 45),
+                        Description = c.String(nullable: false, maxLength: 250),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        Customer_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Customers", t => t.Customer_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Addresses", t => t.Id)
+                .Index(t => t.Id)
+                .Index(t => t.Customer_Id);
+            
+            CreateTable(
+                "dbo.OpeningHours",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        StartTime = c.DateTime(nullable: false),
+                        EndTime = c.DateTime(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Festivals", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
                 "dbo.PlannedEvents",
                 c => new
                     {
@@ -102,18 +163,18 @@
                         EventTitle = c.String(nullable: false, maxLength: 45),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
-                        IsAvailable = c.Boolean(),
-                        Reason = c.String(maxLength: 250),
                         WorkedHours = c.Int(),
                         WorkedHoursAccepted = c.DateTime(),
                         CancellationReason = c.String(maxLength: 250),
                         IsCancelled = c.DateTime(),
+                        IsAvailable = c.Boolean(),
+                        Reason = c.String(maxLength: 250),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                         Festival_Id = c.Int(),
                         Employee_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Festivals", t => t.Festival_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Festivals", t => t.Festival_Id)
                 .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
                 .Index(t => t.Festival_Id)
                 .Index(t => t.Employee_Id);
@@ -130,17 +191,14 @@
                         AnswerContents = c.String(),
                         UploadedFilePath = c.String(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        Inspector_Id = c.Int(nullable: false),
                         PlannedInspection_Id = c.Int(nullable: false),
-                        Questionnaire_Id = c.Int(nullable: false),
+                        Question_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Employees", t => t.Inspector_Id, cascadeDelete: true)
-                .ForeignKey("dbo.PlannedEvents", t => t.PlannedInspection_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Questionnaires", t => t.Questionnaire_Id, cascadeDelete: true)
-                .Index(t => t.Inspector_Id)
+                .ForeignKey("dbo.PlannedEvents", t => t.PlannedInspection_Id)
+                .ForeignKey("dbo.Questions", t => t.Question_Id)
                 .Index(t => t.PlannedInspection_Id)
-                .Index(t => t.Questionnaire_Id);
+                .Index(t => t.Question_Id);
             
             CreateTable(
                 "dbo.Attachments",
@@ -160,7 +218,7 @@
                 "dbo.Questions",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Contents = c.String(nullable: false, maxLength: 250),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
@@ -180,8 +238,6 @@
                 .ForeignKey("dbo.QuestionCategories", t => t.Category_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Questionnaires", t => t.Questionnaire_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Questions", t => t.Question_Id)
-                .ForeignKey("dbo.Answers", t => t.Id)
-                .Index(t => t.Id)
                 .Index(t => t.Category_Id)
                 .Index(t => t.Questionnaire_Id)
                 .Index(t => t.Question_Id);
@@ -208,87 +264,10 @@
                         Festival_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Festivals", t => t.Festival_Id, cascadeDelete: true)
                 .ForeignKey("dbo.PlannedEvents", t => t.Id)
+                .ForeignKey("dbo.Festivals", t => t.Festival_Id, cascadeDelete: true)
                 .Index(t => t.Id)
                 .Index(t => t.Festival_Id);
-            
-            CreateTable(
-                "dbo.Festivals",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        FestivalName = c.String(nullable: false, maxLength: 45),
-                        Description = c.String(nullable: false, maxLength: 250),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                        Customer_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Addresses", t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.Customer_Id, cascadeDelete: true)
-                .Index(t => t.Id)
-                .Index(t => t.Customer_Id);
-            
-            CreateTable(
-                "dbo.Customers",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        KvkNr = c.Int(nullable: false),
-                        CustomerName = c.String(nullable: false, maxLength: 20),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Addresses", t => t.Id)
-                .ForeignKey("dbo.ContactDetails", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.ContactPersons",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        Role = c.String(nullable: false, maxLength: 20),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                        Customer_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ContactDetails", t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.Customer_Id, cascadeDelete: true)
-                .ForeignKey("dbo.FullNames", t => t.Id)
-                .Index(t => t.Id)
-                .Index(t => t.Customer_Id);
-            
-            CreateTable(
-                "dbo.ContactPersonNotes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Note = c.String(nullable: false, maxLength: 500),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                        ContactPerson_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ContactPersons", t => t.ContactPerson_Id, cascadeDelete: true)
-                .Index(t => t.ContactPerson_Id);
-            
-            CreateTable(
-                "dbo.OpeningHours",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        StartTime = c.DateTime(nullable: false),
-                        EndTime = c.DateTime(nullable: false),
-                        CreatedAt = c.DateTime(nullable: false),
-                        UpdatedAt = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Festivals", t => t.Id)
-                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.Reports",
@@ -325,80 +304,92 @@
                 .Index(t => t.Id)
                 .Index(t => t.Report_Id);
             
+            CreateTable(
+                "dbo.Certificates",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CertificateTitle = c.String(nullable: false, maxLength: 45),
+                        CertificationDate = c.DateTime(nullable: false),
+                        ExpirationDate = c.DateTime(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        Employee_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
+                .Index(t => t.Employee_Id);
+            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.Accounts", "Id", "dbo.Employees");
             DropForeignKey("dbo.PlannedEvents", "Employee_Id", "dbo.Employees");
-            DropForeignKey("dbo.Questionnaires", "Id", "dbo.PlannedEvents");
-            DropForeignKey("dbo.Answers", "Questionnaire_Id", "dbo.Questionnaires");
-            DropForeignKey("dbo.Questions", "Id", "dbo.Answers");
-            DropForeignKey("dbo.Questions", "Question_Id", "dbo.Questions");
-            DropForeignKey("dbo.Questions", "Questionnaire_Id", "dbo.Questionnaires");
+            DropForeignKey("dbo.Employees", "Id", "dbo.FullNames");
+            DropForeignKey("dbo.Certificates", "Employee_Id", "dbo.Employees");
+            DropForeignKey("dbo.Festivals", "Id", "dbo.Addresses");
+            DropForeignKey("dbo.Employees", "Id", "dbo.Addresses");
+            DropForeignKey("dbo.Customers", "Id", "dbo.Addresses");
+            DropForeignKey("dbo.Festivals", "Customer_Id", "dbo.Customers");
             DropForeignKey("dbo.Reports", "Id", "dbo.Festivals");
             DropForeignKey("dbo.ReportEntries", "Report_Id", "dbo.Reports");
             DropForeignKey("dbo.ReportEntries", "Id", "dbo.Questions");
             DropForeignKey("dbo.Questionnaires", "Festival_Id", "dbo.Festivals");
             DropForeignKey("dbo.PlannedEvents", "Festival_Id", "dbo.Festivals");
+            DropForeignKey("dbo.Questionnaires", "Id", "dbo.PlannedEvents");
+            DropForeignKey("dbo.Answers", "Question_Id", "dbo.Questions");
+            DropForeignKey("dbo.Questions", "Question_Id", "dbo.Questions");
+            DropForeignKey("dbo.Questions", "Questionnaire_Id", "dbo.Questionnaires");
+            DropForeignKey("dbo.Questions", "Category_Id", "dbo.QuestionCategories");
+            DropForeignKey("dbo.Answers", "PlannedInspection_Id", "dbo.PlannedEvents");
+            DropForeignKey("dbo.Attachments", "Answer_Id", "dbo.Answers");
             DropForeignKey("dbo.OpeningHours", "Id", "dbo.Festivals");
-            DropForeignKey("dbo.Festivals", "Customer_Id", "dbo.Customers");
+            DropForeignKey("dbo.Employees", "Id", "dbo.ContactDetails");
+            DropForeignKey("dbo.Customers", "Id", "dbo.ContactDetails");
+            DropForeignKey("dbo.ContactPersons", "Id", "dbo.ContactDetails");
             DropForeignKey("dbo.ContactPersonNotes", "ContactPerson_Id", "dbo.ContactPersons");
             DropForeignKey("dbo.ContactPersons", "Id", "dbo.FullNames");
             DropForeignKey("dbo.ContactPersons", "Customer_Id", "dbo.Customers");
-            DropForeignKey("dbo.ContactPersons", "Id", "dbo.ContactDetails");
-            DropForeignKey("dbo.Customers", "Id", "dbo.ContactDetails");
-            DropForeignKey("dbo.Customers", "Id", "dbo.Addresses");
-            DropForeignKey("dbo.Festivals", "Id", "dbo.Addresses");
-            DropForeignKey("dbo.Questions", "Category_Id", "dbo.QuestionCategories");
-            DropForeignKey("dbo.Answers", "PlannedInspection_Id", "dbo.PlannedEvents");
-            DropForeignKey("dbo.Answers", "Inspector_Id", "dbo.Employees");
-            DropForeignKey("dbo.Attachments", "Answer_Id", "dbo.Answers");
-            DropForeignKey("dbo.Employees", "Id", "dbo.FullNames");
-            DropForeignKey("dbo.Employees", "Id", "dbo.ContactDetails");
-            DropForeignKey("dbo.Certificates", "Employee_Id", "dbo.Employees");
-            DropForeignKey("dbo.Employees", "Id", "dbo.Addresses");
+            DropIndex("dbo.Certificates", new[] { "Employee_Id" });
             DropIndex("dbo.ReportEntries", new[] { "Report_Id" });
             DropIndex("dbo.ReportEntries", new[] { "Id" });
             DropIndex("dbo.Reports", new[] { "Id" });
-            DropIndex("dbo.OpeningHours", new[] { "Id" });
-            DropIndex("dbo.ContactPersonNotes", new[] { "ContactPerson_Id" });
-            DropIndex("dbo.ContactPersons", new[] { "Customer_Id" });
-            DropIndex("dbo.ContactPersons", new[] { "Id" });
-            DropIndex("dbo.Customers", new[] { "Id" });
-            DropIndex("dbo.Festivals", new[] { "Customer_Id" });
-            DropIndex("dbo.Festivals", new[] { "Id" });
             DropIndex("dbo.Questionnaires", new[] { "Festival_Id" });
             DropIndex("dbo.Questionnaires", new[] { "Id" });
             DropIndex("dbo.Questions", new[] { "Question_Id" });
             DropIndex("dbo.Questions", new[] { "Questionnaire_Id" });
             DropIndex("dbo.Questions", new[] { "Category_Id" });
-            DropIndex("dbo.Questions", new[] { "Id" });
             DropIndex("dbo.Attachments", new[] { "Answer_Id" });
-            DropIndex("dbo.Answers", new[] { "Questionnaire_Id" });
+            DropIndex("dbo.Answers", new[] { "Question_Id" });
             DropIndex("dbo.Answers", new[] { "PlannedInspection_Id" });
-            DropIndex("dbo.Answers", new[] { "Inspector_Id" });
             DropIndex("dbo.PlannedEvents", new[] { "Employee_Id" });
             DropIndex("dbo.PlannedEvents", new[] { "Festival_Id" });
-            DropIndex("dbo.Certificates", new[] { "Employee_Id" });
+            DropIndex("dbo.OpeningHours", new[] { "Id" });
+            DropIndex("dbo.Festivals", new[] { "Customer_Id" });
+            DropIndex("dbo.Festivals", new[] { "Id" });
+            DropIndex("dbo.ContactPersonNotes", new[] { "ContactPerson_Id" });
+            DropIndex("dbo.ContactPersons", new[] { "Customer_Id" });
+            DropIndex("dbo.ContactPersons", new[] { "Id" });
+            DropIndex("dbo.Customers", new[] { "Id" });
             DropIndex("dbo.Employees", new[] { "Id" });
             DropIndex("dbo.Accounts", new[] { "Id" });
+            DropTable("dbo.Certificates");
             DropTable("dbo.ReportEntries");
             DropTable("dbo.Reports");
-            DropTable("dbo.OpeningHours");
-            DropTable("dbo.ContactPersonNotes");
-            DropTable("dbo.ContactPersons");
-            DropTable("dbo.Customers");
-            DropTable("dbo.Festivals");
             DropTable("dbo.Questionnaires");
             DropTable("dbo.QuestionCategories");
             DropTable("dbo.Questions");
             DropTable("dbo.Attachments");
             DropTable("dbo.Answers");
             DropTable("dbo.PlannedEvents");
+            DropTable("dbo.OpeningHours");
+            DropTable("dbo.Festivals");
+            DropTable("dbo.ContactPersonNotes");
             DropTable("dbo.FullNames");
+            DropTable("dbo.ContactPersons");
             DropTable("dbo.ContactDetails");
-            DropTable("dbo.Certificates");
+            DropTable("dbo.Customers");
             DropTable("dbo.Addresses");
             DropTable("dbo.Employees");
             DropTable("dbo.Accounts");
