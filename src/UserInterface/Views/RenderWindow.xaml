@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="RenderWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Name="Charts"></StackPanel>
+        <ScrollViewer>
+            <StackPanel Name="Charts"></StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Migrations\201911101458258_initial.resx">
-      <DependentUpon>201911101458258_initial.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\201911181608500_initial.resx">
+      <DependentUpon>201911181608500_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

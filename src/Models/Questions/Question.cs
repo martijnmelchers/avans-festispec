@@ -13,7 +13,5 @@ namespace Festispec.Models.Questions
         public virtual Questionnaire Questionnaire { get; set; }
 
         public abstract GraphType GraphType { get; }
-
-
     }
 }

@@ -32,7 +32,6 @@ namespace Festispec.UI.Views
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             var service = _scope.ServiceProvider.GetService<IQuestionService>();
-
             var questionaire = service.GetQuestionaire(1);
             var questions = service.GetQuestions(questionaire);
 
@@ -40,12 +39,25 @@ namespace Festispec.UI.Views
             {
                 // Answers
                 var answers = service.GetAnswers(question);
-
                 var converter = new GraphSelectorFactory().GetConverter(question);
-
                 var chartValues = converter.TypeToChart(answers);
 
-                // Generate actual chart.
+
+
+                if(question.GraphType == Models.GraphType.Line)
+                {
+                    var lineControl = new LineChartControl(chartValues);
+                    lineControl.Height = 300;
+                    lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    Charts.Children.Add(lineControl);
+                }
+                else
+                {
+                    /* var lineControl = new ColumnChartControl(chartValues);
+                    lineControl.Height = 300;
+                    lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    Charts.Children.Add(lineControl); */
+                }
             }
         }
     }
