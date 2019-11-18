@@ -1,3 +1,4 @@
+using Festispec.UI.Views.Controls;
 using LiveCharts;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,14 @@ namespace Festispec.UI.Views
         {
             InitializeComponent();
 
-            var control1 = new UserControl1("Saus");
-
-            control1.Height = 300;
-            control1.Width = 300;
-            control1.PointLabel = chartPoint =>
-            string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
 
 
-            Charts.Children.Add(control1);
+
+            // Get questions/values
+            // Use factory to generate each chart from values.
+            // Add the chart to the current view.
+            // Generate images for each chart.
+            // Render pdf
         }
     }
 }

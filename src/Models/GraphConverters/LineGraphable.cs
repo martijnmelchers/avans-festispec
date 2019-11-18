@@ -1,4 +1,5 @@
-﻿using Festispec.Models.Interfaces;
+using Festispec.Models.Interfaces;
+using LiveCharts;
 using LiveCharts.Wpf.Charts.Base;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Festispec.Models.GraphConverters
 {
     public class LineGraphable : IGraphable
     {
-        public Chart TypeToChart()
+        public List<GraphableSeries> TypeToChart()
         {
             throw new NotImplementedException();
         }

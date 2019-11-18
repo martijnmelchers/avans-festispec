@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
 
-namespace Festispec.UI
+namespace Festispec.UI.Views.Controls
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml

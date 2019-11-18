@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Festispec.Models.Questions
 {
@@ -13,5 +13,12 @@ namespace Festispec.Models.Questions
         public virtual ICollection<Questionnaire> Questionnaires { get; set; }
 
         public abstract GraphType GraphType { get; }
+
+
+        public List<GraphableSeries> GetChartValues()
+        {
+            var converter = new GraphSelectorFactory().GetConverter(this);
+            return converter.TypeToChart();
+        }
     }
 }
