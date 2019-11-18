@@ -68,7 +68,7 @@ namespace Festispec.Models.Migrations
 
             context.Employees.AddOrUpdate(employee);
 
-            var customer = new Customer()
+            context.Customers.AddOrUpdate(new Customer()
             {
                 Id = 1,
                 CustomerName = "Q-DANCE",
@@ -87,41 +87,57 @@ namespace Festispec.Models.Migrations
                     EmailAddress = "info@q-dance.com",
                     PhoneNumber = "+31204877300"
                 }
-            };
+            });
 
-            context.Customers.AddOrUpdate(customer);
-
-            customer.ContactPersons = new List<ContactPerson>
+            var contactPerson = new ContactPerson()
             {
-                new ContactPerson()
+                Id = 1,
+                Customer = new Customer()
                 {
                     Id = 1,
-                    Name = new FullName
-                    {
+                    CustomerName = "Q-DANCE",
+                    KvkNr = 34212891,
+                    Address = new Address {
                         Id = 2,
-                        First = "Niels",
-                        Last = "Kijf"
+                        StreetName = "Isolatorweg",
+                        HouseNumber = 36,
+                        ZipCode = "1014AS",
+                        City = "Amsterdam",
+                        Country = "Nederland"
                     },
                     ContactDetails = new ContactDetails
                     {
-                        Id = 3,
-
-                        // fake news
-                        EmailAddress = "nielskijf@q-dance.com"
-                    },
-                    Role = "MA",
-                    Notes = new List<ContactPersonNote>
-                    {
-                        new ContactPersonNote()
-                        {
-                            Id = 1,
-                            Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
-                        }
+                        Id = 2,
+                        EmailAddress = "info@q-dance.com",
+                        PhoneNumber = "+31204877300"
                     }
-                }
+                },
+                Name = new FullName
+                {
+                    Id = 2,
+                    First = "Niels",
+                    Last = "Kijf"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    Id = 3,
+
+                    // fake news
+                    EmailAddress = "nielskijf@q-dance.com"
+                },
+                Role = "MA"
             };
 
-            context.Customers.AddOrUpdate(customer);
+            context.ContactPersons.AddOrUpdate(contactPerson);
+
+            var note = new ContactPersonNote()
+            {
+                Id = 1,
+                ContactPerson = contactPerson,
+                Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
+            };
+
+            context.ContactPersonNotes.AddOrUpdate(note);
 
             var festival = new Festival
             {
@@ -136,14 +152,21 @@ namespace Festispec.Models.Migrations
                     HouseNumber = 16,
                     City = "Weeze",
                     ZipCode = "NW47652"
-                },
-                OpeningHours = new OpeningHours
-                {
-                    Id = 1,
-                    StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
-                    EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
                 }
             };
+
+            context.Festivals.AddOrUpdate(festival);
+
+
+            var openingHours = new OpeningHours
+            {
+                Id = 1,
+                StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
+                EndTime = new DateTime(2020, 9, 6, 8, 0, 0),
+                Festival = festival
+            };
+
+            context.OpeningHours.AddOrUpdate(openingHours);
 
             customer.Festivals = new List<Festival>
             {
@@ -152,7 +175,8 @@ namespace Festispec.Models.Migrations
 
             context.Customers.AddOrUpdate(customer);
 
-            var questionnaire = new Questionnaire {
+            var questionnaire = new Questionnaire
+            {
                 Id = 1,
                 Festival = festival,
             };
