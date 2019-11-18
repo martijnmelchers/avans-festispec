@@ -1,4 +1,6 @@
-﻿namespace Festispec.Models.Migrations
+﻿using System.Collections.Generic;
+
+namespace Festispec.Models.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -36,7 +38,7 @@
                 Address = new Address()
                 {
                     City = "Utrecht",
-                    Country = "Netherlands",
+                    Country = "Nederland",
                     HouseNumber = 59,
                     StreetName = "Chopinstraat",
                     ZipCode = "3533EL"
@@ -45,10 +47,91 @@
                 {
                     EmailAddress = "hjanssen80@gmail.com",
                     PhoneNumber = "+31623790426"
+                },
+                Certificates = new List<Certificate>
+                {
+                    new Certificate
+                    {
+                        CertificateTitle = "Inspector Certificate",
+                        CertificationDate = new DateTime(2018, 10, 11, 00, 00, 00),
+                        ExpirationDate = new DateTime(2020, 10, 11, 00, 00, 00)
+                    }
                 }
             };
 
             context.Employees.AddOrUpdate(employee);
+
+            var customer = new Customer()
+            {
+                CustomerName = "Q-DANCE",
+                KvkNr = 34212891,
+                Address = new Address {
+                    StreetName = "Isolatorweg",
+                    HouseNumber = 36,
+                    ZipCode = "1014AS",
+                    City = "Amsterdam",
+                    Country = "Nederland"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    EmailAddress = "info@q-dance.com",
+                    PhoneNumber = "+31204877300"
+                }
+            };
+
+            context.Customers.AddOrUpdate(customer);
+
+            customer.ContactPersons = new List<ContactPerson>
+            {
+                new ContactPerson()
+                {
+                    Name = new FullName {
+                        First = "Niels",
+                        Last = "Kijf"
+                    },
+                    ContactDetails = new ContactDetails
+                    {
+                        // fake news
+                        EmailAddress = "nielskijf@q-dance.com"
+                    },
+                    Role = "MA",
+                    Notes = new List<ContactPersonNote>
+                    {
+                        new ContactPersonNote()
+                        {
+                            Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
+                        }
+                    }
+                }
+            };
+
+            context.Customers.AddOrUpdate(customer);
+
+            customer.Festivals = new List<Festival>
+            {
+                new Festival
+                {
+                    FestivalName = "Q-BASE",
+                    Description = "Nachtfestival over de grens",
+                    Address = new Address
+                    {
+                        Country = "Duitsland",
+                        StreetName = "Flughafen-Ring",
+                        HouseNumber = 16,
+                        City = "Weeze",
+                        ZipCode = "NW47652"
+                    },
+                    OpeningHours = new OpeningHours
+                    {
+                        StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
+                        EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
+                    }
+                }
+            };
+
+            context.Customers.AddOrUpdate(customer);
+
+            context.SaveChanges();
         }
     }
 }
