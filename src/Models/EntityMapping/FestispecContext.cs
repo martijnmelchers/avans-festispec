@@ -33,6 +33,7 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Festival> Festivals { get; set; }
+        public virtual DbSet<FullName> FullNames { get; set; }
         public virtual DbSet<OpeningHours> OpeningHours { get; set; }
         public virtual DbSet<PlannedEvent> PlannedEvents { get; set; }
         public virtual DbSet<PlannedInspection> PlannedInspections { get; set; }
