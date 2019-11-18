@@ -107,29 +107,47 @@ namespace Festispec.Models.Migrations
 
             context.Customers.AddOrUpdate(customer);
 
-            customer.Festivals = new List<Festival>
+            var festival = new Festival
             {
-                new Festival
+                FestivalName = "Q-BASE",
+                Description = "Nachtfestival over de grens",
+                Address = new Address
                 {
-                    FestivalName = "Q-BASE",
-                    Description = "Nachtfestival over de grens",
-                    Address = new Address
-                    {
-                        Country = "Duitsland",
-                        StreetName = "Flughafen-Ring",
-                        HouseNumber = 16,
-                        City = "Weeze",
-                        ZipCode = "NW47652"
-                    },
-                    OpeningHours = new OpeningHours
-                    {
-                        StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
-                        EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
-                    }
+                    Country = "Duitsland",
+                    StreetName = "Flughafen-Ring",
+                    HouseNumber = 16,
+                    City = "Weeze",
+                    ZipCode = "NW47652"
+                },
+                OpeningHours = new OpeningHours
+                {
+                    StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
+                    EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
                 }
             };
 
+            customer.Festivals = new List<Festival>
+            {
+                festival
+            };
+
             context.Customers.AddOrUpdate(customer);
+
+            var questionnaire = new Questionnaire {
+                Festival = festival,
+            };
+
+            var plannedInspection = new PlannedInspection
+            {
+                Employee = employee,
+                Festival = festival,
+                EventTitle = "Inspection " + festival.FestivalName,
+                StartTime = new DateTime(2020, 7, 28, 20, 00, 00),
+                EndTime = new DateTime(2020, 7, 29, 5, 00, 00),
+                Questionnaire = questionnaire
+            };
+
+            context.PlannedInspections.AddOrUpdate(plannedInspection);
 
             context.SaveChanges();
         }
