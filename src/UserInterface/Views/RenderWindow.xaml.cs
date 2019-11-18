@@ -1,5 +1,6 @@
 using Festispec.UI.Views.Controls;
 using LiveCharts;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Festispec.DomainServices.Interfaces;
 namespace Festispec.UI.Views
 {
     /// <summary>
@@ -19,11 +20,12 @@ namespace Festispec.UI.Views
     /// </summary>
     public partial class RenderWindow : Window
     {
+
+        private readonly IServiceScope _scope;
+
         public RenderWindow()
         {
             InitializeComponent();
-
-
 
 
             // Get questions/values
@@ -31,6 +33,14 @@ namespace Festispec.UI.Views
             // Add the chart to the current view.
             // Generate images for each chart.
             // Render pdf
+
+            _scope = AppServices.Instance.ServiceProvider.CreateScope();
+
+            var service = _scope.ServiceProvider.GetService<IQuestionService>();
+            var questions = service.GetQuestions();
+
+
+
         }
     }
 }

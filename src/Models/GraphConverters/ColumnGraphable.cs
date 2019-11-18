@@ -1,4 +1,5 @@
 using Festispec.Models.Interfaces;
+using Festispec.Models.Questions;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -10,6 +11,8 @@ namespace Festispec.Models.GraphConverters
 {
     public class ColumnGraphable : IGraphable
     {
+        public Question Question { get; set; }
+
         public List<GraphableSeries> TypeToChart()
         {
             var values = new ChartValues<ObservableValue> {
@@ -34,8 +37,6 @@ namespace Festispec.Models.GraphConverters
             };
 
             var graphvalues = new GraphableSeries { Title = "Epic", Values = values };
-
-
             var list = new List<GraphableSeries>() { graphvalues};
 
             return list;

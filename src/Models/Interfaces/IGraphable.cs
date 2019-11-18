@@ -8,6 +8,7 @@ namespace Festispec.Models.Interfaces
 {
     public interface IGraphable
     {
+        public Questions.Question Question { get; set; }
         public List<GraphableSeries> TypeToChart();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Festispec.Models;
@@ -24,20 +24,8 @@ namespace Festispec.Models.Questions
 
         public IGraphable GetConverter(Question question)
         {
-            var graphType = question.GraphType;
-
-            // Get answers where question = question.id.
-
-            // (Type answer)
-
-
-
-            // Check number of answers > 1
-
-            // Loop door answers en stop ze in een series / meerdere series.
-
-            // Creëer chart, return
-
+            var converter = _converters[question.GraphType];
+            converter.Question = question;
             return _converters[question.GraphType];
         }
     }

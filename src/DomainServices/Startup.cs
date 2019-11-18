@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
@@ -14,7 +14,7 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<FestispecContext>();
-
+            services.AddScoped<IQuestionService, QuestionService>();
             return services;
         }
     }
