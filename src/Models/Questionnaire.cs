@@ -9,7 +9,7 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        public DateTime IsComplete { get; set; }
+        public DateTime? IsComplete { get; set; }
 
         public virtual Festival Festival { get; set; }
 

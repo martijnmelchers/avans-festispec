@@ -6,6 +6,8 @@ namespace Festispec.Models.EntityMapping
     {
         public QuestionnaireMapping()
         {
+            Property(qn => qn.IsComplete).IsOptional();
+
             HasRequired(qn => qn.PlannedInspection).WithRequiredDependent(pi => pi.Questionnaire);
             HasRequired(qn => qn.Festival).WithMany(f => f.Questionnaires);
 

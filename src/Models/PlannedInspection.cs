@@ -12,11 +12,11 @@ namespace Festispec.Models
     {
         public int WorkedHours { get; set; }
 
-        public DateTime WorkedHoursAccepted { get; set; }
+        public DateTime? WorkedHoursAccepted { get; set; }
 
         public string CancellationReason { get; set; }
 
-        public DateTime IsCancelled { get; set; }
+        public DateTime? IsCancelled { get; set; }
 
         public virtual Questionnaire Questionnaire { get; set; }
 
