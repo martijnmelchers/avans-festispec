@@ -25,18 +25,20 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Accounts.Add(It.IsAny<Account>())).Returns((Account u) => u);
 
 
-            // Setup accounts
+            // Setup mock accounts
             var testAccounts = new List<Account>()
             {
                 new Account()
                 {
                     Username = "JohnDoe",
-                    Password = BCrypt.Net.BCrypt.HashPassword("Password123")
+                    Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                    Role = Role.Employee
                 },
                 new Account()
                 {
                     Username = "EricKuipers",
-                    Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord")
+                    Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                    Role = Role.Inspector
                 }
             };
 
@@ -47,54 +49,84 @@ namespace Festispec.UnitTests
             _authenticationService = new AuthenticationService(_dbMock.Object);
         }
 
+        #region Registration Tests
 
-        [Fact]
-        public async void CanRegister()
+        [Theory]
+        [InlineData("Username1", "Password1234", Role.Employee)]
+        [InlineData("Username2", "Password1234", Role.Inspector)]
+        public async void ValidRegisterDataReturnsSafeAccount(string username, string password, Role requiredRole)
         {
-            // Expected username & password
-            var expectedUsername = "JohnDoe";
-            var expectedPassword = "Password123";
-
             // Register user
-            var account = await _authenticationService.Register(expectedUsername, expectedPassword);
-
-            // Check if values have been properly assigned and password has been encryped
-            Assert.Equal(expectedUsername, account.Username);
-            Assert.Null(account.Password);
+            var account = await _authenticationService.Register(username, password, requiredRole);
 
             // Verify if the SaveChangesAsync has been called
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+
+            // Check if values have been properly assigned and password has been encryped
+            Assert.Equal(username, account.Username);
+            Assert.Equal(requiredRole, account.Role);
+            Assert.Null(account.Password);
         }
 
         [Theory]
-        [InlineData("JohnDoe", "Password123", true)]
-        [InlineData("JohnDoe", "Password1234", false)]
-        [InlineData("EricKuipers", "HeelLangWachtwoord", true)]
-        [InlineData("EricKuipers", "HeelLangWachtwoort", false)]
-        [InlineData("NotExistantUser", "NotExistantPassword", false)]
-        public void CanLogin(string username, string password, bool shouldBeAbleToLogin)
+        [InlineData("JohnDoe", "Password123", Role.Employee)]
+        [InlineData("EricKuipers", "HeelLangWachtwoord", Role.Inspector)]
+        public async void SameUsernameShouldThrowError(string username, string password, Role requiredRole)
         {
-            if (!shouldBeAbleToLogin)
-            {
-                // Should throw error if the password & username do not match or if the user does not exist
-                Assert.Throws<AuthenticationException>(() => _authenticationService.Login(username, password));
-            }
-            else
-            {
-                var account = _authenticationService.Login(username, password);
-
-                // Username should match & sensitive information should be removed
-                Assert.Equal(username, account.Username);
-                Assert.Null(account.Password);
-            }
+            await Assert.ThrowsAsync<AccountExistsException>(() => _authenticationService.Register(username, password, requiredRole));
         }
 
+        [Theory]
+        [InlineData("123", "123", Role.Employee)]
+        [InlineData("123", "123", Role.Inspector)]
+        public async void InvalidDataShouldThrowError(string username, string password, Role requiredRole)
+        {
+            await Assert.ThrowsAsync<InvalidDataException>(() => _authenticationService.Register(username, password, requiredRole));
+        }
+
+        #endregion
+
+        #region Login Tests
+        [Theory]
+        [InlineData("JohnDoe", "Password123", Role.Employee)]
+        [InlineData("EricKuipers", "HeelLangWachtwoord", Role.Inspector)]
+        public void ValidLoginInfoReturnsSafeAccount(string username, string password, Role requiredRole)
+        {
+            var account = _authenticationService.Login(username, password, requiredRole);
+
+            // Username should match & sensitive information should be removed
+            Assert.Equal(username, account.Username);
+            Assert.Equal(requiredRole, account.Role);
+            Assert.Null(account.Password);
+        }
+
+        [Theory]
+        [InlineData("JohnDoe", "Password1234", Role.Employee)]
+        [InlineData("EricKuipers", "HeelLangWachtwoort", Role.Inspector)]
+        [InlineData("NotExistantUser", "NotExistantPassword", Role.Employee)]
+        public void InvalidLoginInfoThrowsError(string username, string password, Role requiredRole)
+        {
+            Assert.Throws<AuthenticationException>(() => _authenticationService.Login(username, password, requiredRole));
+        }
+
+
+        [Theory]
+        [InlineData("JohnDoe", "Password123", Role.Inspector)]
+        [InlineData("EricKuipers", "HeelLangWachtwoord", Role.Employee)]
+        public void IncorrectRoleThrowsError(string username, string password, Role requiredRole)
+        {
+            Assert.Throws<NotAuthorizedException>(() => _authenticationService.Login(username, password, requiredRole));
+        }
+
+        #endregion
+
+        #region Password Change Tests
         [Theory]
         [InlineData("JohnDoe", "Password123", "Password1234", true)]
         [InlineData("JohnDoe", "Password1234", "Password1234", false)]
         public void CanChangePassword(string username, string password, string newPassword, bool shouldBeAbleToChangePassword)
         {
-            if(!shouldBeAbleToChangePassword)
+            if (!shouldBeAbleToChangePassword)
             {
                 // Should throw error if the password & username do not match or if the user does not exist
                 Assert.ThrowsAsync<AuthenticationException>(() => _authenticationService.ChangePassword(username, password, newPassword));
@@ -106,5 +138,7 @@ namespace Festispec.UnitTests
                 _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
             }
         }
+
+        #endregion
     }
 }

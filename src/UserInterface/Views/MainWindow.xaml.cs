@@ -19,5 +19,6 @@ namespace Festispec.UI
 
             DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
         }
+
     }
 }

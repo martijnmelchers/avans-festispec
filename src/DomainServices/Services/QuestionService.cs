@@ -27,7 +27,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Question> GetQuestions(Questionnaire questionnaire)
         {
-            return _db.Questions.Where(x => x.Questionnaires == questionnaire).ToList();
+            return _db.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
         }
 
         public Questionnaire GetQuestionaire(int id)
