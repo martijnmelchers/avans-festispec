@@ -9,7 +9,7 @@ namespace Festispec.Models.EntityMapping
             Property(f => f.FestivalName).IsRequired().HasMaxLength(45);
             Property(f => f.Description).IsRequired().HasMaxLength(250);
 
-            HasRequired(f => f.Address).WithRequiredPrincipal();
+            HasRequired(f => f.Address).WithRequiredDependent();
             HasOptional(f => f.Report).WithRequired(r => r.Festival);
             HasRequired(f => f.Customer).WithMany(c => c.Festivals);
             HasRequired(f => f.OpeningHours).WithRequiredPrincipal(oh => oh.Festival);

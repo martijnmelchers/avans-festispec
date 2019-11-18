@@ -65,6 +65,5 @@ namespace Festispec.Models.EntityMapping
                 ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
             }
         }
-
     }
 }
