@@ -12,9 +12,9 @@ namespace Festispec.Models.EntityMapping
             Property(e => e.Iban).IsRequired().HasMaxLength(30);
 
             HasRequired(e => e.Account).WithRequiredPrincipal(a => a.Employee);
-            HasRequired(e => e.Name).WithRequiredDependent();
-            HasRequired(e => e.Address).WithRequiredDependent();
-            HasRequired(e => e.ContactDetails).WithRequiredDependent();
+            HasRequired(e => e.Name).WithOptional(fn => fn.Employee);
+            HasRequired(e => e.Address).WithOptional(a => a.Employee);
+            HasRequired(e => e.ContactDetails).WithOptional(cd => cd.Employee);
 
             HasMany(e => e.PlannedEvents).WithRequired(pe => pe.Employee);
             HasMany(e => e.Certificates).WithRequired(c => c.Employee);

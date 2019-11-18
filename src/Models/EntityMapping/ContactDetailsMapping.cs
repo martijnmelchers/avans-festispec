@@ -13,6 +13,10 @@ namespace Festispec.Models.EntityMapping
         {
             Property(cd => cd.PhoneNumber).HasMaxLength(50);
             Property(cd => cd.EmailAddress).HasMaxLength(50);
+
+            HasOptional(cd => cd.Customer).WithRequired(c => c.ContactDetails);
+            HasOptional(cd => cd.ContactPerson).WithRequired(cp => cp.ContactDetails);
+            HasOptional(cd => cd.Employee).WithRequired(e => e.ContactDetails);
         }
     }
 }
