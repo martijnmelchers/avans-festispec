@@ -2,6 +2,12 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Views\Controls\ColumnChartControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Controls\LineChartControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Controls\PieChartControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -10,6 +16,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Controls\ColumnChartControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Controls\LineChartControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Controls\PieChartControl.xaml">
       <SubType>Designer</SubType>
     </Page>
