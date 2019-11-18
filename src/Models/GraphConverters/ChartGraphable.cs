@@ -6,6 +6,7 @@ using System.Text;
 using LiveCharts.Wpf;
 using LiveCharts;
 using Festispec.Models.Questions;
+using Festispec.Models.Answers;
 
 namespace Festispec.Models.GraphConverters
 {
@@ -13,7 +14,7 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart()
+        public List<GraphableSeries> TypeToChart(List<Answer> answers)
         {
             throw new NotImplementedException();
         }

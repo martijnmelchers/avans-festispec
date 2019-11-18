@@ -17,15 +17,5 @@ namespace Festispec.Models
 
         public virtual ICollection<Question> Questions { get; set; }
 
-        public void GenerateReport()
-        {
-            foreach(var question in Questions)
-            {
-                var converter = new GraphSelectorFactory().GetConverter(question);
-                var values = converter.TypeToChart();
-
-                                
-            }
-        }
     }
 }

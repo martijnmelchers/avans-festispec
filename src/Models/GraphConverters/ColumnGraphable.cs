@@ -1,3 +1,4 @@
+using Festispec.Models.Answers;
 using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
 using LiveCharts;
@@ -13,8 +14,11 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart()
+        public List<GraphableSeries> TypeToChart(List<Answer> answers)
         {
+
+
+
             var values = new ChartValues<ObservableValue> {
                         new ObservableValue(3),
                         new ObservableValue(5),

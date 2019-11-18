@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Festispec.DomainServices.Interfaces;
+using Festispec.Models.Questions;
+
 namespace Festispec.UI.Views
 {
     /// <summary>
@@ -28,19 +30,23 @@ namespace Festispec.UI.Views
             InitializeComponent();
 
 
-            // Get questions/values
-            // Use factory to generate each chart from values.
-            // Add the chart to the current view.
-            // Generate images for each chart.
-            // Render pdf
-
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
-
             var service = _scope.ServiceProvider.GetService<IQuestionService>();
-            var questions = service.GetQuestions();
 
+            var questionaire = service.GetQuestionaire(1);
+            var questions = service.GetQuestions(questionaire);
 
+            foreach(var question in questions)
+            {
+                // Answers
+                var answers = service.GetAnswers(question);
 
+                var converter = new GraphSelectorFactory().GetConverter(question);
+
+                var chartValues = converter.TypeToChart(answers);
+
+                // Generate actual chart.
+            }
         }
     }
 }
