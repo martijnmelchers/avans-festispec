@@ -10,6 +10,8 @@ namespace Festispec.Models.EntityMapping
 
             HasRequired(pi => pi.Questionnaire).WithRequiredPrincipal(q => q.PlannedInspection);
             HasRequired(pi => pi.Festival).WithMany(f => f.PlannedInspections);
+
+            HasMany(pi => pi.Answers).WithRequired(a => a.PlannedInspection);
         }
     }
 }
