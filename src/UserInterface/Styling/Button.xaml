@@ -97,6 +97,9 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 

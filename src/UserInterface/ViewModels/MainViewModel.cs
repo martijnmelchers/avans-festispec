@@ -16,7 +16,7 @@ namespace Festispec.UI.ViewModels
         {
             _navigationService = navigationService;
             Navigate("Homepage");
-            NavigateCommand = new RelayCommand<string>(Navigate, isOnSamePage);
+            NavigateCommand = new RelayCommand<string>(Navigate, IsOnSamePage);
 
             foreach(string page in _navigationService.Pages)
             {
@@ -31,7 +31,7 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo(page);
         }
 
-        public bool isOnSamePage(string page)
+        public bool IsOnSamePage(string page)
         {
             if (_navigationService.CurrentPageKey != null)
                 return !_navigationService.CurrentPageKey.Equals(page);
