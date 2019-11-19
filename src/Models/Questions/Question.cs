@@ -11,6 +11,9 @@ namespace Festispec.Models.Questions
             Contents = contents;
             Category = category;
             Questionnaire = questionnaire;
+        }public Question()
+        {
+            
         }
         public int Id { get; set; }
 

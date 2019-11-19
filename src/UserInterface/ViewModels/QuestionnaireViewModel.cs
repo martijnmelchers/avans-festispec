@@ -5,8 +5,10 @@ using Festispec.Models.Questions;
 using Festispec.UI.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,7 @@ namespace Festispec.UI.ViewModels
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
+        public ICommand OpenFileWindowCommand { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
         private ObservableCollection<Question> _addedQuestions { get; set; }
@@ -42,9 +45,9 @@ namespace Festispec.UI.ViewModels
             _questionnaireService = questionnaireService;
             _questionFactory = new QuestionFactory();
             AddQuestionCommand = new RelayCommand(AddQuestion);
-
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
+            OpenFileWindowCommand = new RelayCommand(OpenFileWindow);
 
         }
 
@@ -69,21 +72,11 @@ namespace Festispec.UI.ViewModels
         }
 
         
-        public UserControl GetContentControl()
+        public void OpenFileWindow()
         {
-            return new MultipleChoiceQuestionControl();
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.ShowDialog();
         }
-
-        public object IsMultipleChoice()
-        {
-            return Visibility.Hidden;
-        }
-
-        public void AddOption()
-        {
-            return;
-        }
-
 
     }
 }

@@ -25,7 +25,7 @@ namespace Festispec.UI.ViewModels.QuestionViewModels
         public void AddOption()
         {
 
-            return;
+            
         }
 
 

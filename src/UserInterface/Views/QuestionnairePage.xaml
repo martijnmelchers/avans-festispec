@@ -41,9 +41,20 @@
                                         <ContentControl Content="{Binding}">
                                             <ContentControl.Resources>
                                                 <DataTemplate DataType="{x:Type Models:MultipleChoiceQuestion}">
-                                                    <Controls:MultipleChoiceQuestionControl Demo="{Binding}" />
+                                                    <StackPanel>
+                                                        <TextBlock Text="Antwoorden"/>
+                                                        <Label Content="Antwoord1"/>
+                                                        <TextBox Text="{Binding Answer1}" />
+                                                        <Label Content="Antwoord 2"/>
+                                                        <TextBox Text="{Binding Answer2}" />
+                                                        <Label Content="Antwoord 3"/>
+                                                        <TextBox Text="{Binding Answer3}" />
+                                                        <Label Content="Antwoord 4"/>
+                                                        <TextBox Text="{Binding Answer4}" />
+                                                    </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:DrawQuestion}">
+                                                    <Button Content="Selecteer bestand" Command="OpenFileWindowCommand"/>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:NumericQuestion}" />
                                                 <DataTemplate DataType="{x:Type Models:RatingQuestion}" />

@@ -3,6 +3,7 @@
     public class StringQuestion : Question
     {
         public StringQuestion(string contents, QuestionCategory category, Questionnaire questionnaire) : base(contents, category, questionnaire) { }
+        public StringQuestion() : base() { }
 
         public const int CharacterLimit = 400;
 
