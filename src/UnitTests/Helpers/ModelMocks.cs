@@ -46,6 +46,8 @@ namespace Festispec.UnitTests.Helpers
             Customer = Customer
         };
 
+        public static Questionnaire Questionnaire = new Questionnaire("PinkPop Ochtend", Festival);
+
         public static List<Account> Accounts = new List<Account>()
         {
             new Account()
@@ -64,7 +66,7 @@ namespace Festispec.UnitTests.Helpers
 
         public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
-            new Questionnaire("PinkPop Ochtend", Festival),
+            Questionnaire,
             new Questionnaire("PinkPop Middag", Festival)
         };
 

@@ -1,11 +1,20 @@
-﻿namespace Festispec.Models.Questions
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Festispec.Models.Questions
 {
     public class NumericQuestion : Question
     {
-        public NumericQuestion(string contents, QuestionCategory category, Questionnaire questionnaire) : base(contents, category, questionnaire) { }
+        public NumericQuestion(string contents, QuestionCategory category, Questionnaire questionnaire, int minimum, int maximum) : base(contents, category, questionnaire) 
+        {
+            Minimum = minimum;
+            Maximum = maximum;
+        }
         public NumericQuestion() : base() { }
+
+        [Required]
         public int Minimum { get; set; }
 
+        [Required]
         public int Maximum { get; set; }
 
         // bijv. Meter, personen, etc.

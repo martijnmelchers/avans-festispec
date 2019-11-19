@@ -56,7 +56,11 @@ namespace Festispec.UnitTests
         {
             await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
         }
-
+        [Fact]
+        public void GetQuestionnaire()
+        {
+            Assert.True(false);
+        }
         [Fact]
         public void RemovingQuestionnaire()
         {
@@ -94,6 +98,11 @@ namespace Festispec.UnitTests
         }
         [Fact]
         public void RemovingQuestion()
+        {
+            Assert.True(false);
+        }
+        [Fact]
+        public void CopyQuestionnaire()
         {
             Assert.True(false);
         }
