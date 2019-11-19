@@ -7,10 +7,13 @@ namespace Festispec.Models.EntityMapping
     {
         public AnswerMapping()
         {
-            HasRequired(a => a.Inspector).WithMany();
-            HasRequired(a => a.Question).WithRequiredPrincipal();
-            HasRequired(a => a.Questionnaire).WithMany(q => q.Answers);
-            HasRequired(a => a.PlannedInspection).WithRequiredPrincipal();
+            HasRequired(a => a.Question)
+                .WithMany(q => q.Answers)
+                .WillCascadeOnDelete(false);
+
+            HasRequired(a => a.PlannedInspection)
+                .WithMany(pi => pi.Answers)
+                .WillCascadeOnDelete(false);
 
             HasMany(a => a.Attachments).WithRequired(a => a.Answer);
         }

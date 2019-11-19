@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Festispec.Models.Answers;
 
 namespace Festispec.Models.Questions
 {
@@ -11,6 +12,8 @@ namespace Festispec.Models.Questions
         public virtual QuestionCategory Category { get; set; }
 
         public virtual Questionnaire Questionnaire { get; set; }
+
+        public virtual ICollection<Answer> Answers { get; set; }
 
         public abstract GraphType GraphType { get; }
     }

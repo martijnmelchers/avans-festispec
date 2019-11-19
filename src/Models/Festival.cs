@@ -15,13 +15,13 @@ namespace Festispec.Models
 
         public string Description { get; set; }
         
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
         public virtual Customer Customer { get; set; }
 
         public virtual Report Report { get; set; }
 
-        public virtual OpeningHours OpeningHours { get; set; }
+        public OpeningHours OpeningHours { get; set; }
 
         public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
 

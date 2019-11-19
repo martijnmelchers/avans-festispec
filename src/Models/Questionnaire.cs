@@ -29,8 +29,6 @@ namespace Festispec.Models
 
         public virtual PlannedInspection PlannedInspection { get; set; }
 
-        public virtual ICollection<Answer> Answers { get; set; }
-
         public virtual ICollection<Question> Questions { get; set; }
     }
 }
