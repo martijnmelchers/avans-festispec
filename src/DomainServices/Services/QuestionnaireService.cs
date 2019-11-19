@@ -19,7 +19,7 @@ namespace Festispec.DomainServices.Services
         }
         public Questionnaire GetQuestionnaire(int questionnaireId)
         {
-            var questionnaire = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaireId);
+            var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
 
             if (questionnaire == null)
                 throw new QuestionnaireNotFoundException();
@@ -49,6 +49,9 @@ namespace Festispec.DomainServices.Services
         {
             var questionnaire = GetQuestionnaire(questionnaireId);
 
+            if (questionnaire.Questions.FirstOrDefault(q => q.Answers.Count > 0) != null)
+                throw new QuestionHasAnswersException();
+
             _db.Questionnaires.Remove(questionnaire);
 
             await _db.SaveChangesAsync();
@@ -68,8 +71,11 @@ namespace Festispec.DomainServices.Services
             if(question == null)
                 throw new QuestionNotFoundException();
 
-            if (_db.Answers.Count(a => a.Question.Id == questionId) > 0)
+            if (_db.Answers.Include(x => x.Question).Count(a => a.Question.Id == questionId) > 0)
                 throw new QuestionHasAnswersException();
+
+            if (_db.Questions.OfType<ReferenceQuestion>().Include(x => x.Question).Count(x => x.Question.Id == questionId) > 0)
+                throw new QuestionHasReferencesException();
 
             questionnaire.Questions.Remove(question);
 

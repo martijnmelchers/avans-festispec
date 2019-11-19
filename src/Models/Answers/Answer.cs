@@ -7,11 +7,7 @@ namespace Festispec.Models.Answers
     {
         public int Id { get; set; }
 
-        public virtual Employee Inspector { get; set; }
-
         public virtual Question Question { get; set; }
-
-        public virtual Questionnaire Questionnaire { get; set; }
 
         public virtual PlannedInspection PlannedInspection { get; set; }
 

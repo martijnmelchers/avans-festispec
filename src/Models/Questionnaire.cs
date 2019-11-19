@@ -12,7 +12,6 @@ namespace Festispec.Models
         {
             Name = name;
             Festival = festival;
-            Answers = new List<Answer>();
             Questions = new List<Question>();
         }
         public Questionnaire() { }
@@ -28,8 +27,6 @@ namespace Festispec.Models
         public virtual Festival Festival { get; set; }
 
         public virtual PlannedInspection PlannedInspection { get; set; }
-
-        public virtual ICollection<Answer> Answers { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }

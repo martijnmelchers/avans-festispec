@@ -10,6 +10,7 @@ using Festispec.Models;
 using Festispec.UnitTests.Helpers;
 using Festispec.Models.Exception;
 using System.Linq;
+using Festispec.Models.Questions;
 
 namespace Festispec.UnitTests
 {
@@ -85,52 +86,98 @@ namespace Festispec.UnitTests
             await _questionnaireService.RemoveQuestionnaire(id);
 
             Assert.Throws<QuestionnaireNotFoundException>(() => _questionnaireService.GetQuestionnaire(id));
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
         public void AddingStringQuestion()
         {
-            Assert.True(false);
+            var questionnaire = ModelMocks.Questionnaire2;
+            var question = ModelMocks.StringQuestion;
+
+            _questionnaireService.AddQuestion(questionnaire, question);
+
+            Assert.NotNull(questionnaire.Questions.FirstOrDefault(q => q.Id == question.Id));
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
         public void AddingMultipleChoiceQuestion()
         {
-            Assert.True(false);
+            var questionnaire = ModelMocks.Questionnaire2;
+            var expectedQuestion = ModelMocks.MultipleChoiceQuestion;
+
+            _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+
+            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == expectedQuestion.Id);
+
+            if (!(question is MultipleChoiceQuestion))
+                throw new WrongQuestionTypeException();
+
+            Assert.NotNull(question);
+
+            Assert.Equal(expectedQuestion.Answer1, ((MultipleChoiceQuestion)question).Answer1);
+            Assert.Equal(expectedQuestion.Answer2, ((MultipleChoiceQuestion)question).Answer2);
+            Assert.Equal(expectedQuestion.Answer3, ((MultipleChoiceQuestion)question).Answer3);
+            Assert.Equal(expectedQuestion.Answer4, ((MultipleChoiceQuestion)question).Answer4);
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
-        public void AddingDrawQuestion()
+        public void AddingNumericQuestion()
         {
-            Assert.True(false);
+            var questionnaire = ModelMocks.Questionnaire2;
+            var expectedQuestion = ModelMocks.NumericQuestion;
+
+            _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+
+            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == expectedQuestion.Id);
+
+            if (!(question is NumericQuestion))
+                throw new WrongQuestionTypeException();
+
+            Assert.NotNull(question);
+
+            Assert.Equal(expectedQuestion.Minimum, ((NumericQuestion)question).Minimum);
+            Assert.Equal(expectedQuestion.Maximum, ((NumericQuestion)question).Maximum);
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
-        public void AddingNumberQuestion()
+        public void UploadPictureQuestion()
         {
-            Assert.True(false);
+            var questionnaire = ModelMocks.Questionnaire2;
+            var question = ModelMocks.UploadPictureQuestion;
+
+            _questionnaireService.AddQuestion(questionnaire, question);
+
+            Assert.NotNull(questionnaire.Questions.FirstOrDefault(q => q.Id == question.Id));
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
-        [Fact]
-        public void AddingBooleanQuestion()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void RemovingQuestion(int questionId)
         {
-            Assert.True(false);
-        }
+            var questionnaire = ModelMocks.Questionnaire1;
 
-        [Fact]
-        public void AddingImageQuestion()
-        {
-            Assert.True(false);
-        }
-
-        [Fact]
-        public void RemovingQuestion()
-        {
+            _questionnaireService.RemoveQuestion(questionnaire, questionId);
             Assert.True(false);
         }
 
         [Fact]
         public void CopyQuestionnaire()
+        {
+            Assert.True(false);
+        }
+        [Fact]
+        public void AddingDrawQuestion()
         {
             Assert.True(false);
         }

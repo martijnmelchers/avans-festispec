@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Festispec.Models.Answers;
 using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models.Questions
@@ -10,10 +11,9 @@ namespace Festispec.Models.Questions
         {
             Contents = contents;
             Questionnaire = questionnaire;
-        }public Question()
-        {
-            
         }
+        public Question() { }
+
         public int Id { get; set; }
 
         [Required, MinLength(5), MaxLength(250)]
@@ -24,6 +24,8 @@ namespace Festispec.Models.Questions
 
         [Required]
         public virtual Questionnaire Questionnaire { get; set; }
+
+        public virtual ICollection<Answer> Answers { get; set; }
 
         public abstract GraphType GraphType { get; }
 

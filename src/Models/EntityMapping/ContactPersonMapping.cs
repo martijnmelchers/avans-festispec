@@ -14,8 +14,6 @@ namespace Festispec.Models.EntityMapping
         {
             Property(l => l.Role).IsRequired().HasMaxLength(20);
 
-            HasRequired(l => l.ContactDetails).WithRequiredPrincipal();
-            HasRequired(l => l.Name).WithRequiredPrincipal();
             HasRequired(l => l.Customer).WithMany(c => c.ContactPersons);
 
             HasMany(l => l.Notes).WithRequired(n => n.ContactPerson);
