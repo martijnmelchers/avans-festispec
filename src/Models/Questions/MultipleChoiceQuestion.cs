@@ -7,7 +7,7 @@ namespace Festispec.Models.Questions
 {
     public class MultipleChoiceQuestion : Question
     {
-        public MultipleChoiceQuestion(string contents, QuestionCategory category, Questionnaire questionnaire, string answer1) : base(contents, category, questionnaire) 
+        public MultipleChoiceQuestion(string contents, Questionnaire questionnaire, string answer1) : base(contents, questionnaire) 
         {
             Answer1 = answer1;
         }

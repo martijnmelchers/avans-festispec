@@ -11,7 +11,6 @@ namespace Festispec.Models.EntityMapping
 
             Property(q => q.Contents).IsRequired().HasMaxLength(250);
 
-            HasRequired(q => q.Category).WithMany(qc => qc.Questions);
             HasRequired(q => q.Questionnaire).WithMany(q => q.Questions);
         }
     }

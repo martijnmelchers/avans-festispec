@@ -4,7 +4,7 @@ namespace Festispec.Models.Questions
 {
     public class RatingQuestion : Question
     {
-        public RatingQuestion(string contents, QuestionCategory category, Questionnaire questionnaire, string lowRatingDescription, string highRatingDescription) : base(contents, category, questionnaire) 
+        public RatingQuestion(string contents, Questionnaire questionnaire, string lowRatingDescription, string highRatingDescription) : base(contents, questionnaire) 
         {
             LowRatingDescription = lowRatingDescription;
             HighRatingDescription = highRatingDescription;

@@ -1,4 +1,5 @@
 ﻿using Festispec.Models;
+using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,7 +47,17 @@ namespace Festispec.UnitTests.Helpers
             Customer = Customer
         };
 
-        public static Questionnaire Questionnaire = new Questionnaire("PinkPop Ochtend", Festival);
+        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
+        {
+            Id = 1
+        };
+
+        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
+        {
+            Id = 2
+        };
+
+        public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1, "De sfeer is grimmig");
 
         public static List<Account> Accounts = new List<Account>()
         {
@@ -66,9 +77,8 @@ namespace Festispec.UnitTests.Helpers
 
         public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
-            Questionnaire,
-            new Questionnaire("PinkPop Middag", Festival)
+            Questionnaire1,
+            Questionnaire2
         };
-
     }
 }

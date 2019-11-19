@@ -6,10 +6,9 @@ namespace Festispec.Models.Questions
 {
     public abstract class Question : Entity
     {
-        public Question(string contents, QuestionCategory category, Questionnaire questionnaire)
+        public Question(string contents, Questionnaire questionnaire)
         {
             Contents = contents;
-            Category = category;
             Questionnaire = questionnaire;
         }public Question()
         {

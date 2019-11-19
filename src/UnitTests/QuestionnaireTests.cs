@@ -56,51 +56,79 @@ namespace Festispec.UnitTests
         {
             await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
         }
-        [Fact]
-        public void GetQuestionnaire()
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetQuestionnaire(int id)
         {
-            Assert.True(false);
+            var expectedQuestionnaire = ModelMocks.Questionnaires[id - 1];
+            var questionnaire = _questionnaireService.GetQuestionnaire(id);
+
+            Assert.Equal(expectedQuestionnaire, questionnaire);
         }
-        [Fact]
-        public void RemovingQuestionnaire()
+
+        [Theory]
+        [InlineData(100)]
+        public void WrongIdShouldThrowError(int id)
         {
-            Assert.True(false);
+            Assert.Throws<QuestionnaireNotFoundException>(() => _questionnaireService.GetQuestionnaire(id)); 
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async void RemovingQuestionnaire(int id)
+        {
+            var expectedRemovedQuestionnaire = _questionnaireService.GetQuestionnaire(id);
+
+            await _questionnaireService.RemoveQuestionnaire(id);
+
+            Assert.Throws<QuestionnaireNotFoundException>(() => _questionnaireService.GetQuestionnaire(id));
+        }
+
         [Fact]
         public void AddingStringQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void AddingMultipleChoiceQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void AddingDrawQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void AddingNumberQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void AddingBooleanQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void AddingImageQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void RemovingQuestion()
         {
             Assert.True(false);
         }
+
         [Fact]
         public void CopyQuestionnaire()
         {

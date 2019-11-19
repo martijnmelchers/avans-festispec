@@ -4,7 +4,7 @@ namespace Festispec.Models.Questions
 {
     public class NumericQuestion : Question
     {
-        public NumericQuestion(string contents, QuestionCategory category, Questionnaire questionnaire, int minimum, int maximum) : base(contents, category, questionnaire) 
+        public NumericQuestion(string contents, Questionnaire questionnaire, int minimum, int maximum) : base(contents, questionnaire) 
         {
             Minimum = minimum;
             Maximum = maximum;
