@@ -76,9 +76,15 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public Task CopyQuestionnaire(int questionnaireId)
+        public async Task CopyQuestionnaire(int questionnaireId)
         {
-            throw new System.NotImplementedException();
+            Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
+
+            var newQuestionnaire = await CreateQuestionnaire(oldQuestionnaire.Name + " Copy", oldQuestionnaire.Festival);
+
+            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire, new ReferenceQuestion(e.Contents, e.Category, newQuestionnaire) { Question = e }));
+
+            await _db.SaveChangesAsync();
         }
     }
 }

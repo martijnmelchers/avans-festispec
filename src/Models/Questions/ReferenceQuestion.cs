@@ -12,9 +12,13 @@ namespace Festispec.Models.Questions
             Question = question;
         }
         public ReferenceQuestion() : base() { }
+<<<<<<< HEAD
 
         [Required]
-        public Questions.Question Question { get; set; }
+        public Question Question { get; set; }
+=======
+        public Question Question { get; set; }
+>>>>>>> 1d51df4b56e0aacc44fc5c1e8436e99fe115f0cd
 
         public override GraphType GraphType => Question.GraphType;
     }

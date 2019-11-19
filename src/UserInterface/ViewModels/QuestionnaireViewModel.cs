@@ -54,7 +54,7 @@ namespace Festispec.UI.ViewModels
         public void AddQuestion()
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
-            tempQuestion.Contents = "test";
+            tempQuestion.Contents = "";
             _addedQuestions.Add(tempQuestion);
             _questions.Add(tempQuestion);
         }
