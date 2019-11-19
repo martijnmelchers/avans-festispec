@@ -1,7 +1,7 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Views;
 using System.Windows;
 
@@ -15,7 +15,8 @@ namespace Festispec.UI.ViewModels
         public MainViewModel(IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;
-            NavigateCommand = new RelayCommand<string>(Navigate);
+            Navigate("Homepage");
+            NavigateCommand = new RelayCommand<string>(Navigate, isOnSamePage);
 
             foreach(string page in _navigationService.Pages)
             {
@@ -28,6 +29,13 @@ namespace Festispec.UI.ViewModels
         {
             MessageBox.Show(page);
             _navigationService.NavigateTo(page);
+        }
+
+        public bool isOnSamePage(string page)
+        {
+            if (_navigationService.CurrentPageKey != null)
+                return _navigationService.CurrentPageKey.Equals(page);
+            return false;
         }
     }
 }
