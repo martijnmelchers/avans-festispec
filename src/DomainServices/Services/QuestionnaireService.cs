@@ -82,7 +82,7 @@ namespace Festispec.DomainServices.Services
 
             var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
 
-            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire, new ReferenceQuestion(e.Contents, e.Category, newQuestionnaire) { Question = e }));
+            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire, new ReferenceQuestion(e.Contents, e.Category, newQuestionnaire) { Question = e }) );
 
             await _db.SaveChangesAsync();
         }
