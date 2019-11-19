@@ -39,14 +39,25 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.Questionnaires.Add(questionnaire);
+
             await _db.SaveChangesAsync();
 
             return questionnaire;
+        }
+
+        public async Task RemoveQuestionnaire(int questionnaireId)
+        {
+            var questionnaire = GetQuestionnaire(questionnaireId);
+
+            _db.Questionnaires.Remove(questionnaire);
+
+            await _db.SaveChangesAsync();
         }
         
         public async Task AddQuestion(Questionnaire questionnaire, Question question)
         {
             questionnaire.Questions.Add(question);
+
             await _db.SaveChangesAsync();
         }
 
@@ -63,6 +74,11 @@ namespace Festispec.DomainServices.Services
             questionnaire.Questions.Remove(question);
 
             await _db.SaveChangesAsync();
+        }
+
+        public Task CopyQuestionnaire(int questionnaireId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
