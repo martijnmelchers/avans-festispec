@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Festispec.Models.EntityMapping
 {
-    internal class AddressMapping : EntityTypeConfiguration<Address>
+    internal class AddressMapping : ComplexTypeConfiguration<Address>
     {
         public AddressMapping()
         {
@@ -17,10 +17,6 @@ namespace Festispec.Models.EntityMapping
 
             Property(a => a.Suffix).IsOptional().HasMaxLength(10);
             Property(a => a.HouseNumber).IsOptional();
-
-            HasOptional(a => a.Customer).WithRequired(c => c.Address);
-            HasOptional(a => a.Employee).WithRequired(e => e.Address);
-            HasOptional(a => a.Festival).WithRequired(f => f.Address);
         }
     }
 }

@@ -6,10 +6,8 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class Address : Entity
+    public class Address
     {
-        public int Id { get; set; }
-
         public string ZipCode { get; set; }
 
         public string StreetName { get; set; }
@@ -21,11 +19,5 @@ namespace Festispec.Models
         public string City { get; set; }
 
         public string Country { get; set; }
-
-        public virtual Customer Customer { get; set; }
-
-        public virtual Employee Employee { get; set; }
-
-        public virtual Festival Festival { get; set; }
     }
 }
