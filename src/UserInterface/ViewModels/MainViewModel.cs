@@ -34,7 +34,7 @@ namespace Festispec.UI.ViewModels
         public bool isOnSamePage(string page)
         {
             if (_navigationService.CurrentPageKey != null)
-                return _navigationService.CurrentPageKey.Equals(page);
+                return !_navigationService.CurrentPageKey.Equals(page);
             return false;
         }
     }
