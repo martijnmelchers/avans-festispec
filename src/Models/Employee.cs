@@ -7,7 +7,7 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        public FullName Name { get; set; }
+        public virtual FullName Name { get; set; }
 
         [Required, MaxLength(30)]
         public string Iban { get; set; }
