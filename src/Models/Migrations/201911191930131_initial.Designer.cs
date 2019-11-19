@@ -13,7 +13,7 @@ namespace Festispec.Models.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201911182146229_initial"; }
+            get { return "201911191930131_initial"; }
         }
         
         string IMigrationMetadata.Source

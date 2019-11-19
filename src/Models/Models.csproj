@@ -6,12 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
     <PackageReference Include="EntityFramework" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Migrations\201911182146229_initial.resx">
-      <DependentUpon>201911182146229_initial.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\201911191930131_initial.resx">
+      <DependentUpon>201911191930131_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 
