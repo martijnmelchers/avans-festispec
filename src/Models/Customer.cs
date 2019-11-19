@@ -10,9 +10,9 @@ namespace Festispec.Models
 
         public string CustomerName { get; set; }
 
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
-        public virtual ContactDetails ContactDetails { get; set; }
+        public ContactDetails ContactDetails { get; set; }
 
         public virtual ICollection<ContactPerson> ContactPersons { get; set; }
 

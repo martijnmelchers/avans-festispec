@@ -10,7 +10,7 @@ namespace Festispec.Models
 
         public FullName Name { get; set; }
 
-        public virtual ContactDetails ContactDetails { get; set; }
+        public ContactDetails ContactDetails { get; set; }
 
         public virtual Customer Customer { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -8,13 +9,14 @@ namespace Festispec.Models
 
         public FullName Name { get; set; }
 
+        [Required, MaxLength(30)]
         public string Iban { get; set; }
 
         public virtual Account Account { get; set; }
 
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
-        public virtual ContactDetails ContactDetails { get; set; }
+        public ContactDetails ContactDetails { get; set; }
 
         public virtual ICollection<PlannedEvent> PlannedEvents { get; set; }
 
