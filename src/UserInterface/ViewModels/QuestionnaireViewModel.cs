@@ -44,7 +44,7 @@ namespace Festispec.UI.ViewModels
             _removedQuestions = new ObservableCollection<Question>();
             _questionnaireService = questionnaireService;
             _questionFactory = new QuestionFactory();
-            AddQuestionCommand = new RelayCommand(AddQuestion);
+            AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
             OpenFileWindowCommand = new RelayCommand(OpenFileWindow);
@@ -54,9 +54,14 @@ namespace Festispec.UI.ViewModels
         public void AddQuestion()
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
-            tempQuestion.Contents = "";
             _addedQuestions.Add(tempQuestion);
             _questions.Add(tempQuestion);
+        }
+
+        public bool CanAddQuestion()
+        {
+            return Selecteditem != null;
+
         }
 
         public void DeleteQuestion(object item)

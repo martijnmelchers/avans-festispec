@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
       xmlns:Controls="clr-namespace:Festispec.UI.Views">
-    <Grid Margin="50,124,50,50">
+    <Grid Margin="50">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -18,17 +18,17 @@
         <Rectangle Style="{DynamicResource ContentBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
+                <RowDefinition Height="60" />
                 <RowDefinition Height="*"/>
-                <RowDefinition  Height="50"/>
+                <RowDefinition  Height="60"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition  Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"/>
-            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0">
+            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="5"/>
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0"  Margin="5">
                 <StackPanel>
                     <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
                         <ListView.ItemTemplate>
@@ -93,9 +93,9 @@
                     </ListView>
                 </StackPanel>
             </ScrollViewer>
-            <ComboBox ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" />
-            <Button Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
-            <Button Content="Save Command" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
+            <ComboBox Margin="10" ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" />
+            <Button  Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
+            <Button  Margin="10" Content="Save Command" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
         </Grid>
     </Grid>
 </Page>

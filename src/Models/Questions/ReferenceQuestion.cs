@@ -16,6 +16,7 @@ namespace Festispec.Models.Questions
         [Required]
         public Question Question { get; set; }
 
+
         public override GraphType GraphType => Question.GraphType;
     }
 }
