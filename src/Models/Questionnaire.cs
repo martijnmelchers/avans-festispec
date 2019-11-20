@@ -12,7 +12,6 @@ namespace Festispec.Models
         {
             Name = name;
             Festival = festival;
-            Answers = new List<Answer>();
             Questions = new List<Question>();
         }
         public Questionnaire() { }

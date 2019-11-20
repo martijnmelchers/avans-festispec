@@ -10,11 +10,11 @@ using Festispec.Models.Answers;
 
 namespace Festispec.Models.GraphConverters
 {
-    public class ChartGraphable : IGraphable
+    public class PieChartGraphable : IGraphable
     {
-        public Question Question { get; set; }
+        public MultipleChoiceQuestion Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(List<Answer> answers)
+        public List<GraphableSeries> ToChart<TQuestion>(TQuestion question) where TQuestion : Question
         {
             throw new NotImplementedException();
         }

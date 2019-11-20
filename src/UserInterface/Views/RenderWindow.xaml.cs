@@ -1,19 +1,10 @@
 using Festispec.UI.Views.Controls;
-using LiveCharts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Festispec.DomainServices.Interfaces;
-using Festispec.Models.Questions;
+using System.Linq;
+using Festispec.Models;
+using Festispec.DomainServices.Factories;
 
 namespace Festispec.UI.Views
 {
@@ -35,12 +26,12 @@ namespace Festispec.UI.Views
             var questionaire = service.GetQuestionaire(1);
             var questions = service.GetQuestions(questionaire);
 
-            foreach(var question in questions)
+            foreach(var question in questions.Where(q => q.GraphType != GraphType.None))
             {
                 // Answers
                 var answers = service.GetAnswers(question);
-                var converter = new GraphSelectorFactory().GetConverter(question);
-                var chartValues = converter.TypeToChart(answers);
+                var converter = new GraphableFactory().GetConverter(question.GraphType);
+                var chartValues = converter.ToChart(question);
 
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Festispec.Models.Interfaces;
+using System.Collections.Generic;
 
 namespace Festispec.Models.Questions
 {

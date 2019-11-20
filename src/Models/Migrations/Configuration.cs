@@ -138,8 +138,7 @@ namespace Festispec.Models.Migrations
                 PicturePath = "/drawings/map_defqon.png",
                 Questionnaire = questionnaire,
                 Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
-                IsMultiline = false,
-                Answers = new List<Answer>
+                Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {
@@ -161,7 +160,7 @@ namespace Festispec.Models.Migrations
                     "Nee"
                 },
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<MultipleChoiceAnswer>
                 {
                     new MultipleChoiceAnswer
                     {
@@ -180,7 +179,7 @@ namespace Festispec.Models.Migrations
                 Minimum = 0,
                 Maximum = 99,
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -199,7 +198,7 @@ namespace Festispec.Models.Migrations
                 HighRatingDescription = "Er is veel beveiliging",
                 LowRatingDescription = "Er is amper beveiliging",
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -217,7 +216,7 @@ namespace Festispec.Models.Migrations
                 Contents = "Geef een korte samenvatting van het vluchtplan.",
                 IsMultiline = true,
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<StringAnswer>
                 {
                     new StringAnswer
                     {
@@ -234,7 +233,7 @@ namespace Festispec.Models.Migrations
                 Category = questionCategory,
                 Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {

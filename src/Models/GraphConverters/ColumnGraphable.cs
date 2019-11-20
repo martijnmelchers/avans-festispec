@@ -12,13 +12,8 @@ namespace Festispec.Models.GraphConverters
 {
     public class ColumnGraphable : IGraphable
     {
-        public Question Question { get; set; }
-
-        public List<GraphableSeries> TypeToChart(List<Answer> answers)
+        public List<GraphableSeries> ToChart<TQuestion>(TQuestion question) where TQuestion : Question
         {
-
-
-
             var values = new ChartValues<ObservableValue> {
                         new ObservableValue(3),
                         new ObservableValue(5),

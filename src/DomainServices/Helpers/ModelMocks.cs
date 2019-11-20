@@ -71,69 +71,64 @@ namespace Festispec.DomainServices.Helpers
             new Questionnaire("PinkPop Middag", Festival){Id = 2}
         };
 
-
-
         public static List<Question> Questions = new List<Question>()
         {
             new NumericQuestion(){
                 Category = new QuestionCategory(){ Id = 1, CategoryName = "Kanker" },
                 Questionnaire = Questionnaires[0],
-                Contents = "Wat is de sfeer?"
+                Contents = "Wat is de sfeer?",
+                Answers = NumericAnswers
             },
 
             new NumericQuestion(){
                 Category = new QuestionCategory(){ Id = 2, CategoryName = "Kanker" },
                 Questionnaire = Questionnaires[0],
-                Contents = "Cijfer toilet?"
+                Contents = "Cijfer toilet?",
+                Answers = NumericAnswers
             },
 
             new RatingQuestion(){
                 Category = new QuestionCategory(){ Id = 3, CategoryName = "Kanker" },
                 Questionnaire = Questionnaires[0],
                 Contents = "Hoeveel sterren toilet?",
+                Answers = NumericAnswers
 
             },
         };
 
-        public static List<Answer> Answers = new List<Answer>()
+
+        public static List<NumericAnswer> NumericAnswers = new List<NumericAnswer>()
         {
             new NumericAnswer(){
                 Id = 1,
-                Question = Questions[0],
                 IntAnswer = 6
             },
 
             new NumericAnswer(){
                 Id = 2,
-                Question = Questions[0],
                 IntAnswer = 6
 
             },
 
             new NumericAnswer(){
                 Id = 3,
-                Question = Questions[0],
                 IntAnswer = 3
             },
 
             new NumericAnswer(){
                 Id = 4,
-                Question = Questions[1],
                 IntAnswer = 1,
             },
             new NumericAnswer(){
                 Id = 5,
-                Question = Questions[1],
                 IntAnswer = 1,
             },
             new NumericAnswer(){
                 Id = 6,
-                Question = Questions[1],
                 IntAnswer = 8,
             },
             new NumericAnswer(){
                 Id = 7,
-                Question = Questions[1],
                 IntAnswer = 8,
             }
         };
