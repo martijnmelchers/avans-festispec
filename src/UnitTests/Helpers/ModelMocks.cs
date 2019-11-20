@@ -57,31 +57,31 @@ namespace Festispec.UnitTests.Helpers
             Id = 2
         };
 
+        public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
+
+        public static NumericQuestion NumericQuestion = new NumericQuestion("Hoeveel zitplaatsen zijn er bij de foodtrucks", Questionnaire1, 0, 1000);
+
+        public static UploadPictureQuestion UploadPictureQuestion = new UploadPictureQuestion("Maak een foto van de toiletten", Questionnaire1);
+
+        public static StringQuestion StringQuestion = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire1);
+
         public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1, "De sfeer is grimmig")
         {
             Answer2 = "Het publiek is rustig",
             Answer3 = "Het publiek is dronken / aangeschoten",
-            Answer4 = "Het is chaos"
+            Answer4 = "Het is chaos",
         };
 
-        public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk")
+        public static List<Question> Questions = new List<Question>()
         {
-            Id = 1
-        };
-
-        public static NumericQuestion NumericQuestion = new NumericQuestion("Hoeveel zitplaatsen zijn er bij de foodtrucks", Questionnaire1, 0, 1000)
-        {
-            Id = 2
-        };
-
-        public static UploadPictureQuestion UploadPictureQuestion = new UploadPictureQuestion("Maak een foto van de toiletten", Questionnaire1)
-        {
-            Id = 3
-        };
-
-        public static StringQuestion StringQuestion = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire1)
-        {
-            Id = 4
+            new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire1)
+            {
+                Id = 1
+            },
+            new StringQuestion("Beschrijf de sfeer in de rij", Questionnaire1)
+            {
+                Id = 2
+            }
         };
 
         public static List<Account> Accounts = new List<Account>()
