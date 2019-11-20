@@ -1,4 +1,5 @@
 ﻿using Festispec.Models;
+using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
@@ -47,16 +48,6 @@ namespace Festispec.UnitTests.Helpers
             Customer = Customer
         };
 
-        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
-        {
-            Id = 1
-        };
-
-        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
-        {
-            Id = 2
-        };
-
         public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
 
         public static NumericQuestion NumericQuestion = new NumericQuestion("Hoeveel zitplaatsen zijn er bij de foodtrucks", Questionnaire1, 0, 1000);
@@ -72,15 +63,49 @@ namespace Festispec.UnitTests.Helpers
             Answer4 = "Het is chaos",
         };
 
-        public static List<Question> Questions = new List<Question>()
+        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
         {
-            new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire1)
-            {
-                Id = 1
-            },
-            new StringQuestion("Beschrijf de sfeer in de rij", Questionnaire1)
+            Id = 1,
+        };
+
+        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
+        {
+            Id = 2
+        };
+
+        public static StringQuestion ReferencedQuestion = new StringQuestion("test1", Questionnaire3)
+        {
+            Id = 1
+        };
+
+        private static List<Question> QuestionsWithReference = new List<Question>()
+        {
+            ReferencedQuestion,
+            new ReferenceQuestion("test2", Questionnaire3, ReferencedQuestion)
             {
                 Id = 2
+            }
+        };
+
+        public static Questionnaire Questionnaire3 = new Questionnaire("PinkPop MaandagAvond", Festival)
+        {
+            Id = 3,
+            Questions = QuestionsWithReference
+        };
+
+        public static Questionnaire Questionnaire4 = new Questionnaire("PinkPop DinsdagOchtend", Festival)
+        {
+            Id = 4,
+            Questions = new List<Question>()
+            {
+                new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire4)
+                {
+                    Id = 1
+                },
+                new StringQuestion("Beschrijf de sfeer in de rij", Questionnaire4)
+                {
+                    Id = 2
+                }
             }
         };
 
@@ -103,7 +128,9 @@ namespace Festispec.UnitTests.Helpers
         public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
             Questionnaire1,
-            Questionnaire2
+            Questionnaire2,
+            Questionnaire3,
+            Questionnaire4
         };
     }
 }
