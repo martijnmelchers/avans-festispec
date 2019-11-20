@@ -2,7 +2,7 @@
 
 namespace Festispec.Models.EntityMapping
 {
-    public class FullNameMapping : EntityTypeConfiguration<FullName>
+    public class FullNameMapping : ComplexTypeConfiguration<FullName>
     {
         public FullNameMapping()
         {

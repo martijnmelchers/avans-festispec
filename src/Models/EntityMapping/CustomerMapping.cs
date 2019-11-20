@@ -9,9 +9,6 @@ namespace Festispec.Models.EntityMapping
             Property(p => p.KvkNr).IsRequired();
             Property(p => p.CustomerName).IsRequired().HasMaxLength(20);
 
-            HasRequired(c => c.Address).WithRequiredPrincipal();
-            HasRequired(c => c.ContactDetails).WithRequiredPrincipal();
-
             HasMany(c => c.ContactPersons).WithRequired(l => l.Customer);
             HasMany(c => c.Festivals).WithRequired(f => f.Customer);
         }

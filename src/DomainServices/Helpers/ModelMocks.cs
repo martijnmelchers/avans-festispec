@@ -3,7 +3,6 @@ using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Festispec.DomainServices.Helpers
 {
@@ -67,8 +66,8 @@ namespace Festispec.DomainServices.Helpers
 
         public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
-            new Questionnaire("PinkPop Ochtend", Festival){Id= 1 },
-            new Questionnaire("PinkPop Middag", Festival){Id = 2}
+            new Questionnaire(){ Festival=Festival, Id= 1 },
+            new Questionnaire(){Festival=Festival, Id = 2}
         };
 
 

@@ -6,10 +6,8 @@ using System.Text;
 
 namespace Festispec.Models
 {
-    public class Address : Entity
+    public class Address
     {
-        public int Id { get; set; }
-
         public string ZipCode { get; set; }
 
         public string StreetName { get; set; }

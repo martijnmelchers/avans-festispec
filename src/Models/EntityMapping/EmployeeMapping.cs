@@ -12,9 +12,6 @@ namespace Festispec.Models.EntityMapping
             Property(e => e.Iban).IsRequired().HasMaxLength(30);
 
             HasRequired(e => e.Account).WithRequiredPrincipal(a => a.Employee);
-            HasRequired(e => e.Name).WithRequiredPrincipal();
-            HasRequired(e => e.Address).WithRequiredPrincipal();
-            HasRequired(e => e.ContactDetails).WithRequiredPrincipal();
 
             HasMany(e => e.PlannedEvents).WithRequired(pe => pe.Employee);
             HasMany(e => e.Certificates).WithRequired(c => c.Employee);

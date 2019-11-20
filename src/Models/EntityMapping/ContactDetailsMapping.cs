@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.Models.EntityMapping
 {
-    class ContactDetailsMapping : EntityTypeConfiguration<ContactDetails>
+    class ContactDetailsMapping : ComplexTypeConfiguration<ContactDetails>
     {
         public ContactDetailsMapping()
         {
