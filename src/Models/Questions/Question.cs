@@ -11,6 +11,7 @@ namespace Festispec.Models.Questions
         {
             Contents = contents;
             Questionnaire = questionnaire;
+            Answers = new List<Answer>();
         }
         public Question() { }
 
@@ -18,7 +19,7 @@ namespace Festispec.Models.Questions
 
         [Required, MinLength(5), MaxLength(250)]
         public string Contents { get; set; }
-        
+
         public virtual QuestionCategory Category { get; set; }
 
         public virtual Questionnaire Questionnaire { get; set; }

@@ -70,35 +70,37 @@ namespace Festispec.DomainServices.Services
         
         public async Task<Question> AddQuestion(Questionnaire questionnaire, Question question)
         {
+            var questionnaireFromDb = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaire.Id);
+
             if (!question.Validate())
                 throw new InvalidDataException();
 
-            questionnaire.Questions.Add(question);
+            questionnaireFromDb.Questions.Add(question);
 
             await _db.SaveChangesAsync();
 
             return question;
         }
 
-        public async Task RemoveQuestion(Questionnaire questionnaire, int questionId)
+        public async Task<bool> RemoveQuestion(int questionId)
         {
-            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId);
+            var question = await _db.Questions.Include(x => x.Answers).FirstOrDefaultAsync(q => q.Id == questionId);
 
-            if(question == null)
+            if (question == null)
                 throw new EntityNotFoundException();
 
-            if (_db.Answers.Include(x => x.Question).Count(a => a.Question.Id == questionId) > 0)
+            if (question.Answers.Count() > 0)
                 throw new QuestionHasAnswersException();
 
-            if (_db.Questions.OfType<ReferenceQuestion>().Include(x => x.Question).Count(x => x.Question.Id == questionId) > 0)
+            if (await _db.Questions.OfType<ReferenceQuestion>().Include(x => x.Question).CountAsync(x => x.Question.Id == questionId) > 0)
                 throw new QuestionHasReferencesException();
 
-            questionnaire.Questions.Remove(question);
+            _db.Questions.Remove(question);
 
-            await _db.SaveChangesAsync();
+            return await _db.SaveChangesAsync() == 1;
         }
 
-        public async Task CopyQuestionnaire(int questionnaireId)
+        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
         {
             Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
 
@@ -107,6 +109,8 @@ namespace Festispec.DomainServices.Services
             oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
 
             await _db.SaveChangesAsync();
+
+            return newQuestionnaire;
         }
     }
 }

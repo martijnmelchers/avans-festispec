@@ -3,6 +3,7 @@ using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Festispec.UnitTests.Helpers
@@ -124,6 +125,8 @@ namespace Festispec.UnitTests.Helpers
                 Role = Role.Inspector
             }
         };
+
+        public static List<Question> Questions = Questionnaire4.Questions.ToList();
 
         public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
