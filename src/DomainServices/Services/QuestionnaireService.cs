@@ -22,7 +22,7 @@ namespace Festispec.DomainServices.Services
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
 
             if (questionnaire == null)
-                throw new QuestionnaireNotFoundException();
+                throw new EntityNotFoundException();
 
             return questionnaire;
         }
@@ -56,12 +56,26 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
-        
-        public async Task AddQuestion(Questionnaire questionnaire, Question question)
+
+        public Question GetQuestion(int questionId)
         {
-            questionnaire.Questions.Add(question);
+            var question = _db.Questions.FirstOrDefault(q => q.Id == questionId);
+
+            if (question == null)
+                throw new EntityNotFoundException();
+
+            return question;
+        }
+        
+        public async Task<Question> AddQuestion(Questionnaire questionnaire, Question question)
+        {
+            question.Questionnaire = questionnaire;
+
+            _db.Questions.Add(question);
 
             await _db.SaveChangesAsync();
+
+            return question;
         }
 
         public async Task RemoveQuestion(Questionnaire questionnaire, int questionId)
@@ -69,7 +83,7 @@ namespace Festispec.DomainServices.Services
             var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId);
 
             if(question == null)
-                throw new QuestionNotFoundException();
+                throw new EntityNotFoundException();
 
             if (_db.Answers.Include(x => x.Question).Count(a => a.Question.Id == questionId) > 0)
                 throw new QuestionHasAnswersException();

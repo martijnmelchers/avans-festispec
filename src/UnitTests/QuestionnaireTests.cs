@@ -25,6 +25,8 @@ namespace Festispec.UnitTests
 
             _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questionnaires).Object);
 
+            _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questions).Object);
+
             _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
 
@@ -73,7 +75,7 @@ namespace Festispec.UnitTests
         [InlineData(100)]
         public void WrongIdShouldThrowError(int id)
         {
-            Assert.Throws<QuestionnaireNotFoundException>(() => _questionnaireService.GetQuestionnaire(id)); 
+            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionnaire(id)); 
         }
 
         [Theory]
@@ -85,38 +87,51 @@ namespace Festispec.UnitTests
 
             await _questionnaireService.RemoveQuestionnaire(id);
 
-            Assert.Throws<QuestionnaireNotFoundException>(() => _questionnaireService.GetQuestionnaire(id));
+            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionnaire(id));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+
+            //adding the questionnaire back into the mock for future tests
+            _dbMock.Object.Questionnaires.Add(expectedRemovedQuestionnaire);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetQuestion(int questionId)
+        {
+            var expectedQuestion = ModelMocks.Questions[questionId - 1];
+            var question = _questionnaireService.GetQuestion(questionId);
+
+            Assert.Equal(expectedQuestion, question);
         }
 
         [Fact]
-        public void AddingStringQuestion()
+        public async void AddingStringQuestion()
         {
             var questionnaire = ModelMocks.Questionnaire2;
-            var question = ModelMocks.StringQuestion;
+            var expectedQuestion = ModelMocks.StringQuestion;
 
-            _questionnaireService.AddQuestion(questionnaire, question);
+            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
-            Assert.NotNull(questionnaire.Questions.FirstOrDefault(q => q.Id == question.Id));
+            Assert.NotNull(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == question.Id));
+            Assert.Equal(expectedQuestion.Contents, question.Contents);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
-        public void AddingMultipleChoiceQuestion()
+        public async void AddingMultipleChoiceQuestion()
         {
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.MultipleChoiceQuestion;
 
-            _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
-
-            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == expectedQuestion.Id);
+            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is MultipleChoiceQuestion))
                 throw new WrongQuestionTypeException();
 
-            Assert.NotNull(question);
+            Assert.NotNull(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == question.Id));
 
             Assert.Equal(expectedQuestion.Answer1, ((MultipleChoiceQuestion)question).Answer1);
             Assert.Equal(expectedQuestion.Answer2, ((MultipleChoiceQuestion)question).Answer2);
@@ -127,19 +142,17 @@ namespace Festispec.UnitTests
         }
 
         [Fact]
-        public void AddingNumericQuestion()
+        public async void AddingNumericQuestion()
         {
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.NumericQuestion;
 
-            _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
-
-            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == expectedQuestion.Id);
+            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is NumericQuestion))
                 throw new WrongQuestionTypeException();
 
-            Assert.NotNull(question);
+            Assert.NotNull(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == question.Id));
 
             Assert.Equal(expectedQuestion.Minimum, ((NumericQuestion)question).Minimum);
             Assert.Equal(expectedQuestion.Maximum, ((NumericQuestion)question).Maximum);
@@ -148,14 +161,14 @@ namespace Festispec.UnitTests
         }
 
         [Fact]
-        public void UploadPictureQuestion()
+        public async void UploadPictureQuestion()
         {
             var questionnaire = ModelMocks.Questionnaire2;
-            var question = ModelMocks.UploadPictureQuestion;
+            var expectedQuestion = ModelMocks.UploadPictureQuestion;
 
-            _questionnaireService.AddQuestion(questionnaire, question);
+            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
-            Assert.NotNull(questionnaire.Questions.FirstOrDefault(q => q.Id == question.Id));
+            Assert.NotNull(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == question.Id));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
@@ -168,6 +181,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire1;
 
             _questionnaireService.RemoveQuestion(questionnaire, questionId);
+            //not done
             Assert.True(false);
         }
 
