@@ -2,6 +2,7 @@
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
+using Festispec.Models.Reports;
 
 namespace Festispec.Models.Migrations
 {
@@ -162,7 +163,15 @@ namespace Festispec.Models.Migrations
                     {
                         Id = 2,
                         MultipleChoiceAnswerKey = 0,
-                        PlannedInspection = plannedInspection
+                        PlannedInspection = plannedInspection,
+                        Attachments = new List<Attachment>
+                        {
+                            new Attachment
+                            {
+                                Id = 1,
+                                FilePath = "/attachments/1.png"
+                            }
+                        }
                     }
                 }
             };
@@ -268,6 +277,33 @@ namespace Festispec.Models.Migrations
                 referenceQuestion
             );
 
+            var report = new Report
+            {
+                Id = 1,
+                Festival = festival,
+                ReportEntries = new List<ReportEntry>
+                {
+                    new ReportTextEntry
+                    {
+                        Id = 1,
+                        Order = 1,
+                        Header = "Het vluchtplan",
+                        Question = stringQuestion,
+                        Text =
+                            "Het vluchtplan was uitgebreid en zit goed in elkaar, maar de inspecteurs hadden nog wel een aantal dingen op te merken."
+                    },
+                    new ReportGraphEntry
+                    {
+                        Id = 2,
+                        Order = 2,
+                        GraphType = GraphType.Pie,
+                        GraphXAxisType = GraphXAxisType.MultipleChoiceOption,
+                        Question = multipleChoiceQuestion
+                    }
+                }
+            };
+
+            context.Reports.AddOrUpdate(report);
 
             context.SaveChanges();
         }
