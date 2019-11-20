@@ -16,12 +16,15 @@ namespace Festispec.Models
         }
         public Questionnaire() { }
 
-        public int Id { get; set; }
 
         [Required, MinLength(5), MaxLength(45)]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
-        public DateTime IsComplete { get; set; }
+
+
+        public int Id { get; set; }
+
+        public DateTime? IsComplete { get; set; }
 
         [Required]
         public virtual Festival Festival { get; set; }

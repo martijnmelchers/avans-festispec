@@ -105,10 +105,12 @@ namespace Festispec.Models.Migrations
 
             context.Customers.AddOrUpdate(customer);
 
+
             var questionnaire = new Questionnaire
             {
                 Id = 1,
                 Festival = festival,
+                Name = "Test2"
             };
 
             var plannedInspection = new PlannedInspection
@@ -123,6 +125,7 @@ namespace Festispec.Models.Migrations
             };
 
             context.PlannedInspections.AddOrUpdate(plannedInspection);
+
 
             var questionCategory = new QuestionCategory
             {
@@ -157,6 +160,7 @@ namespace Festispec.Models.Migrations
                 Category = questionCategory,
                 Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                 Questionnaire = questionnaire,
+                Answer1 = "Antwoord optie 1",
                 Answers = new List<Answer>
                 {
                     new MultipleChoiceAnswer
