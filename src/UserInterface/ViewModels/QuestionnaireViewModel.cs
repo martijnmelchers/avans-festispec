@@ -48,7 +48,6 @@ namespace Festispec.UI.ViewModels
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
             OpenFileWindowCommand = new RelayCommand(OpenFileWindow);
-
         }
 
         public void AddQuestion()

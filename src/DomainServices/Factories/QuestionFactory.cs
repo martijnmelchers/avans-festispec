@@ -25,7 +25,24 @@ namespace Festispec.Models.Factories
         }
         public Question GetQuestionType(string type)
         {
-            return _questions[type];
+            switch (type)
+            {
+                case "Tekenvraag":
+                    return new DrawQuestion();
+                case "Open vraag":
+                    return new StringQuestion();
+                case "Afbeeldingsvraag":
+                    return new UploadPictureQuestion();
+                case "Beoordelingsvraag":
+                    return new RatingQuestion();
+                case "Meerkeuzevraag":
+                    return new MultipleChoiceQuestion();
+                case "Numerieke vraag":
+                    return new NumericQuestion();
+                case "Referentievraag":
+                    return new ReferenceQuestion();
+            }
+            return null;
         }
     }
 }
