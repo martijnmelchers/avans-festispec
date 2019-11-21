@@ -25,7 +25,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Accounts.Add(It.IsAny<Account>())).Returns((Account u) => u);
 
             // Mock accounts
-            _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Accounts).Object);
+            _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Accounts).Object);
 
             // Create AuthenticationService
             _authenticationService = new AuthenticationService(_dbMock.Object);

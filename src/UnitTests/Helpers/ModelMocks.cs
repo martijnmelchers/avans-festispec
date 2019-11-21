@@ -110,7 +110,7 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static List<Account> Accounts = new List<Account>()
+        public List<Account> Accounts = new List<Account>()
         {
             new Account()
             {
