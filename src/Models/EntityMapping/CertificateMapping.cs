@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Festispec.Models.EntityMapping
 {
-    class CertificateMapping : EntityTypeConfiguration<Certificate>
+    internal class CertificateMapping : EntityTypeConfiguration<Certificate>
     {
         public CertificateMapping()
         {
-            Property(c => c.CertificateTitle).IsRequired().HasMaxLength(45);
+            Property(c => c.CertificateTitle).IsRequired();
             Property(c => c.CertificationDate).IsRequired();
             Property(c => c.ExpirationDate).IsRequired();
 

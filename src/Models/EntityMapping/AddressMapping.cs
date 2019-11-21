@@ -7,15 +7,15 @@ namespace Festispec.Models.EntityMapping
     {
         public AddressMapping()
         {
+            Property(a => a.ZipCode).IsRequired();
+            Property(a => a.StreetName).IsRequired();
+            Property(a => a.City).IsRequired();
+            Property(a => a.Country).IsRequired();
+
+            Property(a => a.Suffix).IsOptional();
+
             // HouseNumber has explicitly not been required.
             // Festivals don't always have a specific house number.
-
-            Property(a => a.ZipCode).IsRequired().HasMaxLength(10);
-            Property(a => a.StreetName).IsRequired().HasMaxLength(50);
-            Property(a => a.City).IsRequired().HasMaxLength(50);
-            Property(a => a.Country).IsRequired().HasMaxLength(75);
-
-            Property(a => a.Suffix).IsOptional().HasMaxLength(10);
             Property(a => a.HouseNumber).IsOptional();
         }
     }

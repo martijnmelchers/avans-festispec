@@ -8,11 +8,11 @@ using Festispec.Models;
 
 namespace Festispec.Models.EntityMapping
 {
-    class ContactPersonMapping : EntityTypeConfiguration<ContactPerson>
+    internal class ContactPersonMapping : EntityTypeConfiguration<ContactPerson>
     {
         public ContactPersonMapping()
         {
-            Property(l => l.Role).IsRequired().HasMaxLength(20);
+            Property(l => l.Role).IsRequired();
 
             HasRequired(l => l.Customer).WithMany(c => c.ContactPersons);
 

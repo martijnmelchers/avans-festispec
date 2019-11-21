@@ -29,10 +29,7 @@ namespace Festispec.Models
 
         public bool Validate(string password)
         {
-            if (password.Length < 5)
-                return false;
-
-            return Validate();
+            return password.Length >= 5 && Validate();
         }
     }
 }

@@ -14,12 +14,15 @@ namespace Festispec.Models
 
         public DateTime? WorkedHoursAccepted { get; set; }
 
+        [MaxLength(250)]
         public string CancellationReason { get; set; }
 
         public DateTime? IsCancelled { get; set; }
 
+        [Required]
         public virtual Questionnaire Questionnaire { get; set; }
 
+        [Required]
         public virtual Festival Festival { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
