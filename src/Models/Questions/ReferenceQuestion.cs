@@ -1,8 +1,8 @@
-﻿namespace Festispec.Models
+﻿namespace Festispec.Models.Questions
 {
-    public class ReferenceQuestion : Questions.Question
+    public class ReferenceQuestion : Question
     {
-        public Questions.Question Question { get; set; }
+        public Question Question { get; set; }
 
         public override GraphType GraphType => Question.GraphType;
     }
