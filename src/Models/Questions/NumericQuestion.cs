@@ -14,7 +14,8 @@ namespace Festispec.Models.Questions
         public AnswerUnit Unit { get; set; }
 
         public override GraphType GraphType => GraphType.Line;
-        public virtual ICollection<NumericAnswer> Answers { get; set; }
+
+        public new virtual ICollection<NumericAnswer> Answers { get; set; }
 
     }
 }

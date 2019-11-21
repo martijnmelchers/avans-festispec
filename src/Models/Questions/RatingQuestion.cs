@@ -12,6 +12,6 @@ namespace Festispec.Models.Questions
 
         public override GraphType GraphType => GraphType.Column;
 
-        public virtual ICollection<NumericAnswer> Answers { get; set; }
+        public new virtual ICollection<NumericAnswer> Answers { get; set; }
     }
 }
