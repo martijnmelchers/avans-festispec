@@ -1,6 +1,6 @@
 ﻿namespace Festispec.Models.Questions
 {
-    public class DrawQuestion : StringQuestion
+    public class DrawQuestion : UploadPictureQuestion
     {
         public string PicturePath { get; set; }
     }
