@@ -1,6 +1,4 @@
-﻿using Festispec.Models.Interfaces;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -29,10 +27,7 @@ namespace Festispec.Models
 
         public bool Validate(string password)
         {
-            if (password.Length < 5)
-                return false;
-
-            return Validate();
+            return password.Length >= 5 && Validate();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Festispec.Models.Questions
 {
-    public class DrawQuestion : StringQuestion
+    public class DrawQuestion : UploadPictureQuestion
     {
         public DrawQuestion(string contents, Questionnaire questionnaire, string picturePath) : base(contents, questionnaire) 
         {

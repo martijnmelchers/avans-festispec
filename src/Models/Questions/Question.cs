@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Festispec.Models.Answers;
 using System.ComponentModel.DataAnnotations;
+using Festispec.Models.Answers;
+using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Questions
 {
-    public abstract class Question : Entity
+    public abstract class Question : Entity, IAnswerable<Answer>
     {
         public Question(string contents, Questionnaire questionnaire)
         {
@@ -20,8 +21,10 @@ namespace Festispec.Models.Questions
         [Required, MinLength(5), MaxLength(250)]
         public string Contents { get; set; }
 
+        [Required]
         public virtual QuestionCategory Category { get; set; }
 
+        [Required]
         public virtual Questionnaire Questionnaire { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }

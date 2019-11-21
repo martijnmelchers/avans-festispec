@@ -9,7 +9,7 @@ namespace Festispec.Models.EntityMapping
         {
             Ignore(q => q.GraphType);
 
-            Property(q => q.Contents).IsRequired().HasMaxLength(250);
+            Property(q => q.Contents).IsRequired();
 
             HasRequired(q => q.Questionnaire).WithMany(q => q.Questions);
 
