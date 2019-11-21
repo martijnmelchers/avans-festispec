@@ -57,11 +57,9 @@ namespace Festispec.UnitTests.Helpers
 
         public static StringQuestion StringQuestion = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire1);
 
-        public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1, "De sfeer is grimmig")
+        public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1)
         {
-            Answer2 = "Het publiek is rustig",
-            Answer3 = "Het publiek is dronken / aangeschoten",
-            Answer4 = "Het is chaos",
+           Options = "Option1,Option2,Option3,Option4"
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)

@@ -2,16 +2,12 @@
 using Festispec.Models;
 using Festispec.Models.Factories;
 using Festispec.Models.Questions;
-using Festispec.UI.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
@@ -25,6 +21,7 @@ namespace Festispec.UI.ViewModels
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
+        public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
         private ObservableCollection<Question> _addedQuestions { get; set; }
@@ -45,6 +42,7 @@ namespace Festispec.UI.ViewModels
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
             OpenFileWindowCommand = new RelayCommand(OpenFileWindow);
+            AddOptionToQuestion = new RelayCommand<Question>(AddOption);
         }
 
         public void AddQuestion()
@@ -67,6 +65,13 @@ namespace Festispec.UI.ViewModels
 
         public async void SaveQuestionnaire()
         {
+            var multipleChoiceQuestions = new List<MultipleChoiceQuestion>();
+            multipleChoiceQuestions.AddRange(_addedQuestions.OfType<MultipleChoiceQuestion>());
+            multipleChoiceQuestions.AddRange(_questions.OfType<MultipleChoiceQuestion>());
+
+            foreach(MultipleChoiceQuestion q in multipleChoiceQuestions)
+                q.Options = string.Join(",", q.OptionCollection);
+
             _addedQuestions.ToList().ForEach(async e => await _questionnaireService.AddQuestion(Questionnaire, e));
             _addedQuestions.Clear();
 
@@ -85,6 +90,13 @@ namespace Festispec.UI.ViewModels
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
+        }
+
+        public void AddOption(Question question)
+        {
+            var x = (MultipleChoiceQuestion)question;
+
+            x.OptionCollection.Add(new StringObject());
         }
 
     }

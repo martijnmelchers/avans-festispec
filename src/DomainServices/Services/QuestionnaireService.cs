@@ -6,7 +6,7 @@ using System.Linq;
 using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Festispec.DomainServices.Services
 {
@@ -24,6 +24,9 @@ namespace Festispec.DomainServices.Services
 
             if (questionnaire == null)
                 throw new EntityNotFoundException();
+
+            foreach (MultipleChoiceQuestion q in questionnaire.Questions.OfType<MultipleChoiceQuestion>())
+                q.OptionCollection = new ObservableCollection<StringObject>(q.Options.Split(",").Select(str => new StringObject(str)));
 
             return questionnaire;
         }
