@@ -31,18 +31,15 @@ namespace Festispec.UI.ViewModels
         private ObservableCollection<Question> _removedQuestions { get; set; }
         public List<string> QuestionType { get => _questionFactory.QuestionTypes.ToList(); }
         public ObservableCollection<Question> Questions { get => _questions; }
-        public string Selecteditem { 
-            get; 
-            set;
-        }
-        
+        public string Selecteditem { get; set; }
+
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService)
         {
-            Questionnaire = new Questionnaire();
-            _questions = new ObservableCollection<Question>();
+            _questionnaireService = questionnaireService;
+            Questionnaire = _questionnaireService.GetQuestionnaire(2);
+            _questions = new ObservableCollection<Question>(Questionnaire.Questions);
             _addedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
-            _questionnaireService = questionnaireService;
             _questionFactory = new QuestionFactory();
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
@@ -60,7 +57,6 @@ namespace Festispec.UI.ViewModels
         public bool CanAddQuestion()
         {
             return Selecteditem != null;
-
         }
 
         public void DeleteQuestion(object item)
@@ -69,13 +65,22 @@ namespace Festispec.UI.ViewModels
             Questions.Remove(item as Question);
         }
 
-        public void SaveQuestionnaire()
+        public async void SaveQuestionnaire()
         {
-            _addedQuestions.ToList().ForEach(e => _questionnaireService.AddQuestion(Questionnaire, e));
-            _removedQuestions.ToList().ForEach(e => _questionnaireService.RemoveQuestion(Questionnaire, e.Id));
+            _addedQuestions.ToList().ForEach(async e => await _questionnaireService.AddQuestion(Questionnaire, e));
+            /*_removedQuestions.ToList().ForEach(async e =>
+            {
+                if (await _questionnaireService.RemoveQuestion(e.Id))
+                    _removedQuestions.Remove(e);
+            });*/
+            foreach(Question q in _removedQuestions)
+            {
+                if (await _questionnaireService.RemoveQuestion(q.Id))
+                    _removedQuestions.Remove(q);
+            }
         }
 
-        
+
         public void OpenFileWindow()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();

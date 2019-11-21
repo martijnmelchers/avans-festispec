@@ -25,6 +25,8 @@ namespace Festispec.UnitTests
 
             _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questionnaires).Object);
 
+            _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questions).Object);
+
             _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
 
@@ -180,7 +182,7 @@ namespace Festispec.UnitTests
         {
             var questionnaire = ModelMocks.Questionnaire4;
 
-            _questionnaireService.RemoveQuestion(questionnaire, questionId);
+            _questionnaireService.RemoveQuestion(questionId);
 
             Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionFromQuestionnaire(questionnaire, questionId));
 
@@ -193,17 +195,29 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire3;
             var question = ModelMocks.ReferencedQuestion;
 
-            Assert.ThrowsAsync<QuestionHasReferencesException>(() => _questionnaireService.RemoveQuestion(questionnaire, question.Id)); 
+            Assert.ThrowsAsync<QuestionHasReferencesException>(() => _questionnaireService.RemoveQuestion(question.Id)); 
         }
 
-        [Fact]
-        public void CopyQuestionnaire()
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        public async void CopyQuestionnaire(int questionnaireId)
         {
-            Assert.True(false);
+            Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
+
+            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId);
+
+            Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
+
+            foreach(Question question in newQuestionnaire.Questions.ToList())
+            {
+                Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion)question).Question));
+            }
         }
         [Fact]
         public void AddingDrawQuestion()
         {
+            //is nog niet geimplementeerd
             Assert.True(false);
         }
     }
