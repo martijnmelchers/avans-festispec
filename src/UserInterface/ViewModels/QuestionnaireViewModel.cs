@@ -68,6 +68,7 @@ namespace Festispec.UI.ViewModels
         public async void SaveQuestionnaire()
         {
             _addedQuestions.ToList().ForEach(async e => await _questionnaireService.AddQuestion(Questionnaire, e));
+            _addedQuestions.Clear();
             /*_removedQuestions.ToList().ForEach(async e =>
             {
                 if (await _questionnaireService.RemoveQuestion(e.Id))
