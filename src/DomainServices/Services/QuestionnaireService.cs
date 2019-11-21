@@ -6,6 +6,7 @@ using System.Linq;
 using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -68,7 +69,7 @@ namespace Festispec.DomainServices.Services
             return question;
         }
         
-        public async Task<Question> AddQuestion(Questionnaire questionnaire, Question question)
+        public async Task<(bool, Question)> AddQuestion(Questionnaire questionnaire, Question question)
         {
             var questionnaireFromDb = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaire.Id);
 
@@ -77,14 +78,12 @@ namespace Festispec.DomainServices.Services
 
             questionnaireFromDb.Questions.Add(question);
 
-            await _db.SaveChangesAsync();
-
-            return question;
+            return (await _db.SaveChangesAsync() == 1, question);
         }
 
         public async Task<bool> RemoveQuestion(int questionId)
         {
-            var question = await _db.Questions.Include(x => x.Answers).FirstOrDefaultAsync(q => q.Id == questionId);
+            var question = _db.Questions.Include(x => x.Answers).FirstOrDefault(q => q.Id == questionId);
 
             if (question == null)
                 throw new EntityNotFoundException();
@@ -92,7 +91,7 @@ namespace Festispec.DomainServices.Services
             if (question.Answers.Count() > 0)
                 throw new QuestionHasAnswersException();
 
-            if (await _db.Questions.OfType<ReferenceQuestion>().Include(x => x.Question).CountAsync(x => x.Question.Id == questionId) > 0)
+            if (_db.Questions.OfType<ReferenceQuestion>().Include(x => x.Question).Count(x => x.Question.Id == questionId) > 0)
                 throw new QuestionHasReferencesException();
 
             _db.Questions.Remove(question);

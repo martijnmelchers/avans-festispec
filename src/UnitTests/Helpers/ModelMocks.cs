@@ -126,9 +126,9 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static List<Question> Questions = Questionnaire4.Questions.ToList();
+        public List<Question> Questions = Questionnaire4.Questions.ToList();
 
-        public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
+        public List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
             Questionnaire1,
             Questionnaire2,

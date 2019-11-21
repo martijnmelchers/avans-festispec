@@ -23,9 +23,9 @@ namespace Festispec.UnitTests
             // Setup database mocks
             _dbMock = new Mock<FestispecContext>();
 
-            _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questionnaires).Object);
+            _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
 
-            _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(ModelMocks.Questions).Object);
+            _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questions).Object);
 
             _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
@@ -42,6 +42,12 @@ namespace Festispec.UnitTests
             Assert.Equal(name, questionnaire.Name);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async void WithoutFestivalShouldThrowError()
+        {
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire("test", null));
         }
 
         [Theory]
@@ -114,7 +120,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.StringQuestion;
 
-            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
             Assert.Equal(expectedQuestion.Contents, question.Contents);
@@ -128,7 +134,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.MultipleChoiceQuestion;
 
-            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is MultipleChoiceQuestion))
                 throw new WrongQuestionTypeException();
@@ -149,7 +155,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.NumericQuestion;
 
-            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is NumericQuestion))
                 throw new WrongQuestionTypeException();
@@ -168,7 +174,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.UploadPictureQuestion;
 
-            var question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
 
@@ -178,13 +184,11 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void RemovingQuestion(int questionId)
+        public async void RemovingQuestion(int questionId)
         {
-            var questionnaire = ModelMocks.Questionnaire4;
+            await _questionnaireService.RemoveQuestion(questionId);
 
-            _questionnaireService.RemoveQuestion(questionId);
-
-            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionFromQuestionnaire(questionnaire, questionId));
+            Assert.Null(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == questionId));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
@@ -217,7 +221,7 @@ namespace Festispec.UnitTests
         [Fact]
         public void AddingDrawQuestion()
         {
-            //is nog niet geimplementeerd
+            //not yet implemented
             Assert.True(false);
         }
     }

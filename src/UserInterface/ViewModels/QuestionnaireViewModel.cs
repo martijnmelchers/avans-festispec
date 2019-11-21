@@ -69,12 +69,11 @@ namespace Festispec.UI.ViewModels
         {
             _addedQuestions.ToList().ForEach(async e => await _questionnaireService.AddQuestion(Questionnaire, e));
             _addedQuestions.Clear();
-            /*_removedQuestions.ToList().ForEach(async e =>
-            {
-                if (await _questionnaireService.RemoveQuestion(e.Id))
-                    _removedQuestions.Remove(e);
-            });*/
-            foreach(Question q in _removedQuestions)
+
+            //Als je dit in de loop zet is geeft bool success aan of hij gelukt is 
+            //(bool success, Question question) = await _questionnaireService.AddQuestion(Questionnaire, e);
+
+            foreach (Question q in _removedQuestions)
             {
                 if (await _questionnaireService.RemoveQuestion(q.Id))
                     _removedQuestions.Remove(q);
