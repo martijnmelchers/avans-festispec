@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Festispec.Models.Exception
+﻿namespace Festispec.Models.Exception
 {
     public class AccountExistsException : System.Exception
     {

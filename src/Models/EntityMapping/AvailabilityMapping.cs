@@ -7,7 +7,6 @@ namespace Festispec.Models.EntityMapping
         public AvailabilityMapping()
         {
             Property(a => a.IsAvailable).IsRequired();
-            Property(a => a.Reason).HasMaxLength(250);
         }
     }
 }

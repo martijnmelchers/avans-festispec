@@ -1,7 +1,7 @@
-﻿using Festispec.Models.Answers;
-using Festispec.Models.Questions;
+﻿using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -11,8 +11,10 @@ namespace Festispec.Models
 
         public DateTime? IsComplete { get; set; }
 
+        [Required]
         public virtual Festival Festival { get; set; }
 
+        [Required]
         public virtual PlannedInspection PlannedInspection { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }

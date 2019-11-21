@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
@@ -6,17 +8,14 @@ using Festispec.Models.Reports;
 
 namespace Festispec.Models.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<Festispec.Models.EntityMapping.FestispecContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<FestispecContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Festispec.Models.EntityMapping.FestispecContext context)
+        protected override void Seed(FestispecContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -25,7 +24,7 @@ namespace Festispec.Models.Migrations
 
             var employee = CreateEmployee(context);
 
-            var customer = new Customer()
+            var customer = new Customer
             {
                 Id = 1,
                 CustomerName = "Q-DANCE",
@@ -47,7 +46,7 @@ namespace Festispec.Models.Migrations
 
             context.Customers.AddOrUpdate(customer);
 
-            var contactPerson = new ContactPerson()
+            var contactPerson = new ContactPerson
             {
                 Id = 1,
                 Customer = customer,
@@ -66,7 +65,7 @@ namespace Festispec.Models.Migrations
 
             context.ContactPersons.AddOrUpdate(contactPerson);
 
-            var note = new ContactPersonNote()
+            var note = new ContactPersonNote
             {
                 Id = 1,
                 ContactPerson = contactPerson,
@@ -108,7 +107,7 @@ namespace Festispec.Models.Migrations
             var questionnaire = new Questionnaire
             {
                 Id = 1,
-                Festival = festival,
+                Festival = festival
             };
 
             var plannedInspection = new PlannedInspection
@@ -139,8 +138,7 @@ namespace Festispec.Models.Migrations
                 PicturePath = "/drawings/map_defqon.png",
                 Questionnaire = questionnaire,
                 Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
-                IsMultiline = false,
-                Answers = new List<Answer>
+                Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {
@@ -162,7 +160,7 @@ namespace Festispec.Models.Migrations
                     "Nee"
                 },
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<MultipleChoiceAnswer>
                 {
                     new MultipleChoiceAnswer
                     {
@@ -189,7 +187,7 @@ namespace Festispec.Models.Migrations
                 Minimum = 0,
                 Maximum = 99,
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -208,7 +206,7 @@ namespace Festispec.Models.Migrations
                 HighRatingDescription = "Er is veel beveiliging",
                 LowRatingDescription = "Er is amper beveiliging",
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -226,7 +224,7 @@ namespace Festispec.Models.Migrations
                 Contents = "Geef een korte samenvatting van het vluchtplan.",
                 IsMultiline = true,
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<StringAnswer>
                 {
                     new StringAnswer
                     {
@@ -243,7 +241,7 @@ namespace Festispec.Models.Migrations
                 Category = questionCategory,
                 Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
                 Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {
@@ -315,16 +313,16 @@ namespace Festispec.Models.Migrations
 
         private static Employee CreateEmployee(FestispecContext context)
         {
-            var employee = new Employee()
+            var employee = new Employee
             {
                 Id = 1,
                 Iban = "NL01RABO1234567890",
-                Name = new FullName()
+                Name = new FullName
                 {
                     First = "Henk",
                     Last = "Janssen"
                 },
-                Account = new Account()
+                Account = new Account
                 {
                     Id = 1,
 
@@ -333,7 +331,7 @@ namespace Festispec.Models.Migrations
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
                     Role = Role.Inspector
                 },
-                Address = new Address()
+                Address = new Address
                 {
                     City = "Utrecht",
                     Country = "Nederland",
@@ -341,7 +339,7 @@ namespace Festispec.Models.Migrations
                     StreetName = "Chopinstraat",
                     ZipCode = "3533EL"
                 },
-                ContactDetails = new ContactDetails()
+                ContactDetails = new ContactDetails
                 {
                     EmailAddress = "hjanssen80@gmail.com",
                     PhoneNumber = "+31623790426"

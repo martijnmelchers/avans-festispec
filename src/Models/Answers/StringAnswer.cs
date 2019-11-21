@@ -1,10 +1,6 @@
-﻿using Festispec.Models.Answers;
-using Festispec.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Festispec.Models.Interfaces;
 
-namespace Festispec.Models
+namespace Festispec.Models.Answers
 {
     public class StringAnswer : Answer, IAnswer<string>
     {

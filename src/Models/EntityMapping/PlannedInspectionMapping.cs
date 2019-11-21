@@ -6,7 +6,7 @@ namespace Festispec.Models.EntityMapping
     {
         public PlannedInspectionMapping()
         {
-            Property(pi => pi.CancellationReason).IsOptional().HasMaxLength(250);
+            Property(pi => pi.CancellationReason).IsOptional();
             Property(pi => pi.IsCancelled).IsOptional();
             Property(pi => pi.WorkedHoursAccepted).IsOptional();
             Property(pi => pi.WorkedHours).IsOptional();
