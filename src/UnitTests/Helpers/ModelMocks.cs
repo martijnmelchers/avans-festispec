@@ -3,6 +3,7 @@ using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,16 @@ namespace Festispec.UnitTests.Helpers
             Customer = Customer
         };
 
+        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
+        {
+            Id = 1,
+        };
+
+        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
+        {
+            Id = 2
+        };
+
         public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
 
         public static NumericQuestion NumericQuestion = new NumericQuestion("Hoeveel zitplaatsen zijn er bij de foodtrucks", Questionnaire1, 0, 1000);
@@ -59,17 +70,11 @@ namespace Festispec.UnitTests.Helpers
 
         public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1)
         {
-           Options = "Option1,Option2,Option3,Option4"
-        };
-
-        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
-        {
-            Id = 1,
-        };
-
-        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
-        {
-            Id = 2
+           Options = "Option1,Option2,Option3,Option4",
+           OptionCollection = new ObservableCollection<StringObject>()
+           {
+              new StringObject("Option1")
+           }
         };
 
         public static StringQuestion ReferencedQuestion = new StringQuestion("test1", Questionnaire3)

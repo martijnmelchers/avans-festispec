@@ -26,7 +26,7 @@ namespace Festispec.Models.Migrations
 
 
 
-           //  context.SaveChanges();
+            //  context.SaveChanges();
 
             try
             {
@@ -164,16 +164,9 @@ namespace Festispec.Models.Migrations
                     Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                     Options = "Ja,Nee",
-                    OptionCollection = new List<StringObject> 
+                    OptionCollection = new ObservableCollection<StringObject>()
                     {
-                        new StringObject
-                        {
-                            Value="Ja"
-                        },
-                        new StringObject
-                        {
-                            Value="Nee"
-                        }
+                        new StringObject("Option1")
                     },
                     Questionnaire = questionnaire,
                     Answers = new List<MultipleChoiceAnswer>

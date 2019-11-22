@@ -25,6 +25,6 @@ namespace Festispec.Models.Questions
         public string Options { get; set; }
 
         [NotMapped, Required, ListElements(1)]
-        public ICollection<StringObject> OptionCollection { get; set; }
+        public ObservableCollection<StringObject> OptionCollection { get; set; }
     }
 }

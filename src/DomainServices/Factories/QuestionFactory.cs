@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Festispec.Models.Factories
+namespace Festispec.DomainServices.Factories
 {
     public class QuestionFactory
     {
@@ -11,7 +11,7 @@ namespace Festispec.Models.Factories
 
         public QuestionFactory()
         {
-            QuestionTypes = new List<String>()
+            QuestionTypes = new List<string>()
             {
                 "Tekenvraag",
                 "Open vraag",

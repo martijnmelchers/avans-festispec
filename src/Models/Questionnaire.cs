@@ -19,8 +19,6 @@ namespace Festispec.Models
         [Required, MinLength(5), MaxLength(45)]
         public virtual string Name { get; set; }
 
-
-
         public int Id { get; set; }
 
         public DateTime? IsComplete { get; set; }
@@ -28,7 +26,6 @@ namespace Festispec.Models
         [Required]
         public virtual Festival Festival { get; set; }
 
-        [Required]
         public virtual PlannedInspection PlannedInspection { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
