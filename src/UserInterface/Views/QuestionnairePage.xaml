@@ -5,9 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:Models="clr-namespace:Festispec.Models.Questions;assembly=Models"
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:Converters="clr-namespace:Festispec.UI.Converters"
       mc:Ignorable="d" 
-      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
-      xmlns:Controls="clr-namespace:Festispec.UI.Views">
+      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
+    <Page.Resources>
+        <Converters:HasAnswerConverter x:Key="HasAnswerConverter"/>
+    </Page.Resources>
     <Grid Margin="50">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -30,13 +33,13 @@
             <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="5"/>
             <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0"  Margin="5">
                 <StackPanel>
-                    <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+                    <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Name="Question">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Expander Header="Vraag" Width="630">
                                     <StackPanel>
                                         <Label Content="Vraag"/>
-                                        <TextBox Text="{Binding Contents}"/>
+                                        <TextBox Text="{Binding Contents}"  IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                         <ContentControl Content="{Binding}">
                                             <ContentControl.Resources>
                                                 <DataTemplate DataType="{x:Type Models:MultipleChoiceQuestion}">
@@ -45,11 +48,11 @@
                                                         <ListView ItemsSource="{Binding OptionCollection}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                    <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
-                                                        <Button Style="{DynamicResource ButtonGreen}" Content="Add option" Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}"/>
+                                                        <Button Style="{DynamicResource ButtonGreen}" Content="Add option" Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" />
                                                         <!--<Label Content="Antwoord1"/>
                                                         <TextBox Text="{Binding Answer1}" />
                                                         <Label Content="Antwoord 2"/>
@@ -66,9 +69,9 @@
                                                 <DataTemplate DataType="{x:Type Models:NumericQuestion}" >
                                                     <StackPanel>
                                                         <Label Content="Minimale waarde"/>
-                                                        <TextBox Text="{Binding Minimum}" />
+                                                        <TextBox Text="{Binding Minimum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                                                         <Label Content="Maximale waarde"/>
-                                                        <TextBox Text="{Binding Maximum}" />
+                                                        <TextBox Text="{Binding Maximum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                     </StackPanel>
                                                     
 
@@ -76,9 +79,9 @@
                                                 <DataTemplate DataType="{x:Type Models:RatingQuestion}" >
                                                     <StackPanel>
                                                         <Label Content="Laag omschrijving"/>
-                                                        <TextBox Text="{Binding LowRatingDescription}"/>
+                                                        <TextBox Text="{Binding LowRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                         <Label Content="Hoog omschrijving"/>
-                                                        <TextBox Text="{Binding HighRatingDescription}"/>
+                                                        <TextBox Text="{Binding HighRatingDescription}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:ReferenceQuestion}">

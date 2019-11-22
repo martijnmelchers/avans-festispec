@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using Festispec.Models.Answers;
@@ -163,6 +164,17 @@ namespace Festispec.Models.Migrations
                     Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                     Options = "Ja,Nee",
+                    OptionCollection = new List<StringObject> 
+                    {
+                        new StringObject
+                        {
+                            Value="Ja"
+                        },
+                        new StringObject
+                        {
+                            Value="Nee"
+                        }
+                    },
                     Questionnaire = questionnaire,
                     Answers = new List<MultipleChoiceAnswer>
                 {
