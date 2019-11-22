@@ -20,7 +20,7 @@ namespace Festispec.DomainServices.Services
         }
         public Questionnaire GetQuestionnaire(int questionnaireId)
         {
-            var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
+            var questionnaire = _db.Questionnaires.Include(x => x.Questions).Include(x => x.Questions.Select(q => q.Answers)).FirstOrDefault(q => q.Id == questionnaireId);
 
             if (questionnaire == null)
                 throw new EntityNotFoundException();

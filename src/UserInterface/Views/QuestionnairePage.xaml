@@ -64,7 +64,7 @@
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:DrawQuestion}">
-                                                    <Button Content="Selecteer bestand" Command="{Binding DataContext.OpenFileWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                                                    <Button Content="Selecteer bestand" Command="{Binding DataContext.OpenFileWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  CommandParameter="{Binding}"/>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:NumericQuestion}" >
                                                     <StackPanel>
@@ -81,15 +81,15 @@
                                                         <Label Content="Laag omschrijving"/>
                                                         <TextBox Text="{Binding LowRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                         <Label Content="Hoog omschrijving"/>
-                                                        <TextBox Text="{Binding HighRatingDescription}" />
+                                                        <TextBox Text="{Binding HighRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:ReferenceQuestion}">
                                                     <StackPanel>
                                                         <Label Content="Vragenlijst"/>
-                                                        <ComboBox />
+                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                                                         <Label Content="Vraag"/>
-                                                        <ComboBox />
+                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:StringQuestion}" />

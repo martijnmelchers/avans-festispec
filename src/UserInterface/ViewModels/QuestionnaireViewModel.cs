@@ -41,7 +41,7 @@ namespace Festispec.UI.ViewModels
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
-            OpenFileWindowCommand = new RelayCommand(OpenFileWindow);
+            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow,HasAnswers);
             AddOptionToQuestion = new RelayCommand<Question>(AddOption);
         }
 
@@ -85,8 +85,12 @@ namespace Festispec.UI.ViewModels
             }
         }
 
+        public bool HasAnswers(Question question)
+        {
+            return question.Answers.Count == 0;
+        }
 
-        public void OpenFileWindow()
+        public void OpenFileWindow(Question question)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();

@@ -14,7 +14,7 @@ namespace Festispec.Models.Questions
             Questionnaire = questionnaire;
             Answers = new List<Answer>();
         }
-        public Question() { Answers = new List<Answer>(); }
+        public Question() { }
 
         public int Id { get; set; }
 
