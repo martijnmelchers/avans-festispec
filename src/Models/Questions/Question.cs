@@ -24,7 +24,6 @@ namespace Festispec.Models.Questions
         [Required, MinLength(5), MaxLength(250)]
         public string Contents { get; set; }
 
-        [Required]
         public virtual QuestionCategory Category { get; set; }
 
         [Required]

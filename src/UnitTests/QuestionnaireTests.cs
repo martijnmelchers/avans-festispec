@@ -141,12 +141,16 @@ namespace Festispec.UnitTests
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
 
-            //Assert.Equal(expectedQuestion.Answer1, ((MultipleChoiceQuestion)question).Answer1);
-            //Assert.Equal(expectedQuestion.Answer2, ((MultipleChoiceQuestion)question).Answer2);
-            //Assert.Equal(expectedQuestion.Answer3, ((MultipleChoiceQuestion)question).Answer3);
-            //Assert.Equal(expectedQuestion.Answer4, ((MultipleChoiceQuestion)question).Answer4);
-
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async void NoOptionsShouldThrowError()
+        {
+            var questionnaire = ModelMocks.Questionnaire2;
+            MultipleChoiceQuestion question = new MultipleChoiceQuestion("test", questionnaire);
+
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.AddQuestion(questionnaire, question));
         }
 
         [Fact]

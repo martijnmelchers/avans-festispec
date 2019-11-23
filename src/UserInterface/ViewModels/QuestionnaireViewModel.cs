@@ -1,6 +1,6 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using Festispec.DomainServices.Factories;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
-using Festispec.Models.Factories;
 using Festispec.Models.Questions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
