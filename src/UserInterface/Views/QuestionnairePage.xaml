@@ -36,7 +36,7 @@
                     <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Name="Question">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Expander Header="Vraag" Width="630">
+                                <Expander Header="Vraag" Width="630" IsEnabled="True">
                                     <StackPanel>
                                         <Label Content="Vraag"/>
                                         <TextBox Text="{Binding Contents}"  IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
