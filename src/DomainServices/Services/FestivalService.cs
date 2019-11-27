@@ -2,11 +2,9 @@
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Festispec.DomainServices.Services
 {
@@ -35,12 +33,20 @@ namespace Festispec.DomainServices.Services
 
         public Festival GetFestival(int festivalId)
         {
-            var festival = _db.Festivals.FirstOrDefault(f => f.Id == festivalId);
+            var festival = _db.Festivals
+                .Include(f => f.Questionnaires)
+                .Include(f => f.PlannedInspections)
+                .FirstOrDefault(f => f.Id == festivalId);
 
             if (festival == null)
                 throw new EntityNotFoundException();
 
             return festival;
+        }
+
+        public async Task SaveChanges()
+        {
+            await _db.SaveChangesAsync();
         }
 
         public async Task RemoveQuestionnaire(int festivalId)

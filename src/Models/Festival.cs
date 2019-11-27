@@ -13,6 +13,8 @@ namespace Festispec.Models
             Customer = customer;
         }
 
+        public Festival() { }
+
         public int Id { get; set; }
 
         [Required, MaxLength(45)]

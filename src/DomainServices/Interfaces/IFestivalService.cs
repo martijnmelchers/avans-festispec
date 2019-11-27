@@ -10,6 +10,7 @@ namespace Festispec.DomainServices.Interfaces
     {
         Task<Festival> CreateFestival(string festivalName, string description, Customer customer);
         Festival GetFestival(int festivalId);
+        Task SaveChanges();
         Task RemoveQuestionnaire(int festivalId);
     }
 }
