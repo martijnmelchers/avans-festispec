@@ -26,7 +26,7 @@ namespace Festispec.DomainServices.Services
                 throw new EntityNotFoundException();
 
             foreach (MultipleChoiceQuestion q in questionnaire.Questions.OfType<MultipleChoiceQuestion>())
-                q.OptionCollection = new ObservableCollection<StringObject>(q.Options.Split(",").Select(str => new StringObject(str)));
+                q.StringToObjects();
 
             return questionnaire;
         }
@@ -72,7 +72,7 @@ namespace Festispec.DomainServices.Services
             return question;
         }
         
-        public async Task<(bool, Question)> AddQuestion(Questionnaire questionnaire, Question question)
+        public async Task<Question> AddQuestion(Questionnaire questionnaire, Question question)
         {
             var questionnaireFromDb = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaire.Id);
 
@@ -81,7 +81,10 @@ namespace Festispec.DomainServices.Services
 
             questionnaireFromDb.Questions.Add(question);
 
-            return (await _db.SaveChangesAsync() == 1, question);
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
+
+            return question;
         }
 
         public async Task<bool> RemoveQuestion(int questionId)
@@ -99,7 +102,7 @@ namespace Festispec.DomainServices.Services
 
             _db.Questions.Remove(question);
 
-            return await _db.SaveChangesAsync() == 1;
+            return await _db.SaveChangesAsync() > 1;
         }
 
         public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)

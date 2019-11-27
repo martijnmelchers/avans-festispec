@@ -3,14 +3,15 @@ using Festispec.Models.Attributes;
 using Festispec.Models.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Festispec.Models.Questions
 {
     public class MultipleChoiceQuestion : Question, IAnswerable<MultipleChoiceAnswer>
     {
+        private static readonly string STRING_SEPERATOR = "~";
         public MultipleChoiceQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire) 
         {
         }
@@ -26,5 +27,17 @@ namespace Festispec.Models.Questions
 
         [NotMapped, Required, ListElements(1)]
         public ObservableCollection<StringObject> OptionCollection { get; set; }
+
+        public void ObjectsToString()
+        {
+            Options = string.Join(STRING_SEPERATOR, OptionCollection);
+        }
+
+        public void StringToObjects()
+        {
+            OptionCollection = new ObservableCollection<StringObject>(Options.Split(STRING_SEPERATOR).Select(str => new StringObject(str)));
+        }
+
+
     }
 }

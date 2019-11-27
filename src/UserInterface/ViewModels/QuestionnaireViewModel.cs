@@ -5,9 +5,11 @@ using Festispec.Models.Questions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
@@ -69,19 +71,32 @@ namespace Festispec.UI.ViewModels
             multipleChoiceQuestions.AddRange(_addedQuestions.OfType<MultipleChoiceQuestion>());
             multipleChoiceQuestions.AddRange(_questions.OfType<MultipleChoiceQuestion>());
 
-            foreach(MultipleChoiceQuestion q in multipleChoiceQuestions)
-                q.Options = string.Join(",", q.OptionCollection);
+            foreach (MultipleChoiceQuestion q in multipleChoiceQuestions)
+                q.ObjectsToString();
 
-            _addedQuestions.ToList().ForEach(async e => await _questionnaireService.AddQuestion(Questionnaire, e));
-            _addedQuestions.Clear();
+            foreach(Question q in _addedQuestions)
+            {
+                try
+                {
+                    await _questionnaireService.AddQuestion(Questionnaire, q);
+                    _removedQuestions.Remove(q);
 
-            //Als je dit in de loop zet is geeft bool success aan of hij gelukt is 
-            //(bool success, Question question) = await _questionnaireService.AddQuestion(Questionnaire, e);
+                } catch  (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
 
             foreach (Question q in _removedQuestions)
             {
-                if (await _questionnaireService.RemoveQuestion(q.Id))
+                try {
+                    await _questionnaireService.RemoveQuestion(q.Id);
                     _removedQuestions.Remove(q);
+
+                } catch(Exception e)
+                {
+                    MessageBox.Show($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
