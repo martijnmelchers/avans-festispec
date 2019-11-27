@@ -8,7 +8,6 @@ using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
-
 namespace Festispec.DomainServices.Services
 {
     class QuestionService: IQuestionService

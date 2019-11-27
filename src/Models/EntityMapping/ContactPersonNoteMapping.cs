@@ -8,7 +8,7 @@ namespace Festispec.Models.EntityMapping
         {
             HasRequired(ln => ln.ContactPerson).WithMany(l => l.Notes);
 
-            Property(ln => ln.Note).IsRequired().HasMaxLength(500);
+            Property(ln => ln.Note).IsRequired();
         }
     }
 }

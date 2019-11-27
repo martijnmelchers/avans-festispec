@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models.Reports
 {
@@ -8,6 +9,7 @@ namespace Festispec.Models.Reports
         
         public virtual ICollection<ReportEntry> ReportEntries { get; set; }
 
+        [Required]
         public virtual Festival Festival { get; set; }
     }
 }

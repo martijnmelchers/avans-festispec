@@ -10,7 +10,6 @@
       <PackageReference Include="EntityFramework" Version="6.3.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Migrations\201911181608500_initial.resx">
       <DependentUpon>201911181608500_initial.cs</DependentUpon>

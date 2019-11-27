@@ -9,9 +9,13 @@ namespace Festispec.Models
 
         public FullName Name { get; set; }
 
+        // https://en.wikipedia.org/wiki/International_Bank_Account_Number#Basic_Bank_Account_Number
+        // "Each country can have a different national routing/account numbering system,
+        // up to a maximum of 30 alphanumeric characters."
         [Required, MaxLength(30)]
         public string Iban { get; set; }
 
+        [Required]
         public virtual Account Account { get; set; }
 
         public Address Address { get; set; }
