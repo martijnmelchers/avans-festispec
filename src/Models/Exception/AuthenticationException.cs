@@ -1,16 +1,16 @@
 ﻿namespace Festispec.Models.Exception
 {
-    public class EntityNotFoundException : System.Exception
+    public class AuthenticationException : System.Exception
     {
-        public EntityNotFoundException(string message) : base(message)
+        public AuthenticationException(string message) : base(message)
         {
         }
 
-        public EntityNotFoundException(string message, System.Exception innerException) : base(message, innerException)
+        public AuthenticationException(string message, System.Exception innerException) : base(message, innerException)
         {
         }
 
-        public EntityNotFoundException()
+        public AuthenticationException()
         {
         }
     }
