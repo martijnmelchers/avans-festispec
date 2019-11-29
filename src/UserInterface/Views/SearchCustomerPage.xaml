@@ -45,6 +45,7 @@ d:DesignHeight="1080" d:DesignWidth="1920" Background="#EFEFEF"
             <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Margin="55,0,0,0"/>
             <TextBox Grid.Column="2" Grid.Row="5" Margin="55,0,0,0"/>
             <Button Content="Zoeken" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Right"/>
+            <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Height="50" Width="185" Grid.Column="2" Grid.Row="9"/>
         </Grid>
     </Grid>
 </Page>
