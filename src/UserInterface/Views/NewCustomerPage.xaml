@@ -42,7 +42,7 @@
             <TextBox Grid.Column="2" Grid.Row="3" Margin="55,0,0,0"/>
             <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Margin="55,0,0,0"/>
             <TextBox Grid.Column="2" Grid.Row="5" Margin="55,0,0,0"/>
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" Margin="55,0,0,0"/>
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" Margin="55,0,0,0"/>
             <TextBox Grid.Column="2" Grid.Row="7" Margin="55,0,0,0"/>
             <Button Content="Opslaan" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Right"/>
 
