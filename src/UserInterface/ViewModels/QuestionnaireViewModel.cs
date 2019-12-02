@@ -59,10 +59,16 @@ namespace Festispec.UI.ViewModels
             return Selecteditem != null;
         }
 
-        public void DeleteQuestion(object item)
+        public void DeleteQuestion(Question item)
         {
-            _removedQuestions.Add(item as Question);
-            Questions.Remove(item as Question);
+            //_removedQuestions.Add(item as Question);
+            //Questions.Remove(item as Question);
+
+            if (_addedQuestions.Contains(item))
+                _addedQuestions.Remove(item);
+            else
+                _removedQuestions.Add(item);
+            Questions.Remove(item);
         }
 
         public async void SaveQuestionnaire()

@@ -26,7 +26,7 @@ namespace Festispec.Models.Questions
 
         public virtual QuestionCategory Category { get; set; }
 
-        [Required]
+       
         public virtual Questionnaire Questionnaire { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
