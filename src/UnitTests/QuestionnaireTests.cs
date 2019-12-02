@@ -27,6 +27,8 @@ namespace Festispec.UnitTests
 
             _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questions).Object);
 
+            _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
+
             _questionnaireService = new QuestionnaireService(_dbMock.Object);
         }
 
