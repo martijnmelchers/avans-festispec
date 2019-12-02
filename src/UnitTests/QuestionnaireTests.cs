@@ -120,7 +120,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.StringQuestion;
 
-            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
             Assert.Equal(expectedQuestion.Contents, question.Contents);
@@ -134,7 +134,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.MultipleChoiceQuestion;
 
-            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is MultipleChoiceQuestion))
                 throw new WrongQuestionTypeException();
@@ -159,7 +159,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.NumericQuestion;
 
-            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             if (!(question is NumericQuestion))
                 throw new WrongQuestionTypeException();
@@ -178,7 +178,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.UploadPictureQuestion;
 
-            (bool success, Question question) = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
 
