@@ -4,13 +4,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 
 namespace Festispec.DomainServices.Services
 {
-    class CustomerService
+    public class CustomerService : ICustomerService
     {
         private readonly FestispecContext _db;
 

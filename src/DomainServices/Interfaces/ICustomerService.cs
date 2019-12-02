@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Festispec.Models;
 
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Interfaces
 {
     internal interface ICustomerService
     {
