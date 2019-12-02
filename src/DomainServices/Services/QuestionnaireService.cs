@@ -30,6 +30,14 @@ namespace Festispec.DomainServices.Services
 
             return questionnaire;
         }
+
+        public int GetAnswerCount(int questionId)
+        {
+            var questionnaire = _db.Questions.FirstOrDefault(e => e.Id == questionId).Answers.Count;
+
+            return questionnaire;
+        }
+
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
             var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);
