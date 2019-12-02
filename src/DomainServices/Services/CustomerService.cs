@@ -76,5 +76,10 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
+
+        public async Task SaveChanges()
+        {
+            await _db.SaveChangesAsync();
+        }
     }
 }
