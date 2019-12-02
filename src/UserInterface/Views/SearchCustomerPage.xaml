@@ -30,10 +30,10 @@ d:DesignHeight="1080" d:DesignWidth="1920" Background="#EFEFEF"
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Klant zoeken" Style="{DynamicResource Header}"/>
-            <Label Content="Zoekcriteria" VerticalAlignment="Center" Grid.Row="1"/>
-            <Label Content="Voornaam Klant" VerticalAlignment="Center" Grid.Row="2"/>
-            <TextBox Grid.Row="3" Margin="0,0,55,0"/>
-            <Label Content="Achternaam Klant" VerticalAlignment="Center" Grid.Row="4"/>
+            <Label Content="Zoekcriteria" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            <Label Content="Voornaam Klant" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,0,55,0"/>
+            <Label Content="Achternaam Klant" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
             <TextBox Grid.Row="5" Margin="0,0,55,0"/>
             <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"/>
             <TextBox Width="330" HorizontalAlignment="Left" Grid.Row="7"/>

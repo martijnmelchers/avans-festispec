@@ -27,26 +27,25 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Nieuwe klant aanmaken" Style="{DynamicResource Header}" Grid.Row="0"/>
-            <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1"/>
-            <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2"/>
-            <TextBox Grid.Row="3" Margin="0,0,55,0"/>
-            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="4"/>
-            <TextBox Width="330" HorizontalAlignment="Left" Grid.Row="5"/>
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="4" Margin="360,0,0,0"/>
-            <TextBox Width="160" HorizontalAlignment="Left" Grid.Row="5" Margin="360, 0, 0, 0"/>
-            <Label Content="KVK Nummer" VerticalAlignment="Center" Grid.Row="6"/>
-            <TextBox Width="520" HorizontalAlignment="Left" Grid.Row="7"/>
+            <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,0,55,0"/>
+            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" />
+            <TextBox Width="330" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" />
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="360,0,0,0"/>
+            <TextBox Width="160" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" Margin="360, 0, 0, 0"/>
+            <Label Content="KVK Nummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" />
+            <TextBox Width="520" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
 
-            <Label Content="Klantgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" Margin="55,0,0,0"/>
-            <Label Content="Volledige naam" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" Margin="55,0,0,0"/>
-            <TextBox Grid.Column="2" Grid.Row="3" Margin="55,0,0,0"/>
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Margin="55,0,0,0"/>
-            <TextBox Grid.Column="2" Grid.Row="5" Margin="55,0,0,0"/>
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" Margin="55,0,0,0"/>
-            <TextBox Grid.Column="2" Grid.Row="7" Margin="55,0,0,0"/>
-            <Button Content="Opslaan" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Right"/>
-
-
+            <Label Content="Klantgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0"/>
+            <Label Content="Volledige naam" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Margin="55,0,0,0"/>
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"/>
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Margin="55,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="7" Margin="55,0,0,0"/>
+            <Button Content="Opslaan" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Right"/>
+            
         </Grid>
     </Grid>
 </Page>
