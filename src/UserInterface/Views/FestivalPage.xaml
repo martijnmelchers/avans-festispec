@@ -1,0 +1,15 @@
+﻿<Page x:Class="Festispec.UI.Views.FestivalPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Festispec.UI.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="1011" d:DesignWidth="1920"
+      Title="FestivalPage">
+
+    <Grid>
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="81,54,1224,45" />
+        <TextBlock Text="{Binding FestivalHeader}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Height="66" Margin="120,120,0,0" VerticalAlignment="Top" Width="465"/>
+    </Grid>
+</Page>

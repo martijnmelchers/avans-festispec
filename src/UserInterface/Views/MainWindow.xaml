@@ -20,7 +20,7 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
+                <Hyperlink CommandParameter="FestivalInfo"  Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">

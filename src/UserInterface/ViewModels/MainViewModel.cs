@@ -16,12 +16,6 @@ namespace Festispec.UI.ViewModels
         {
             _navigationService = navigationService;
             NavigateCommand = new RelayCommand<string>(Navigate);
-
-            foreach(string page in _navigationService.Pages)
-            {
-                MessageBox.Show(page);
-
-            }
         }
 
         public void Navigate(string page)
