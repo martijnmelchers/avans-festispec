@@ -16,7 +16,23 @@ namespace Festispec.Models.GraphConverters
 
         public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
         {
+
             throw new NotImplementedException();
+            List<GraphableSeries> series = new List<GraphableSeries>();
+
+            GraphableSeries serie = new GraphableSeries();
+            serie.Title = Question.Contents;
+
+            ChartValues<int> values = new ChartValues<int>();
+            foreach (var answer in answers)
+            {
+                var numAnswer = (NumericAnswer)answer;
+                values.Add(numAnswer.IntAnswer);
+            }
+
+            serie.Values = values;
+            series.Add(serie);
+            return series;
         }
     }
 }

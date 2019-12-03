@@ -1,35 +1,30 @@
-﻿using Festispec.UI.ViewModels;
+using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using Festispec.UI.ViewModels;
 
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for RapportPreviewWindow.xaml
+    /// Interaction logic for RapportenPreviewPage.xaml
     /// </summary>
-    public partial class RapportPreviewWindow : Page
+    public partial class RapportenPreviewPage : Page
     {
+
         private readonly IServiceScope _scope;
-        public RapportPreviewWindow()
+
+        public RapportenPreviewPage()
         {
             InitializeComponent();
+
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
             DataContext = _scope.ServiceProvider.GetRequiredService<RapportPreviewViewModel>();
         }
-
     }
 }

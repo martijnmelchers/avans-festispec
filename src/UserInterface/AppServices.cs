@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
@@ -34,7 +34,7 @@ namespace Festispec.UI
             // Register your routes here
             navigationService.Configure("Homepage", new Uri("../Views/MainWindow.xaml", UriKind.Relative));
             navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
-            navigationService.Configure("RapportPreview", new Uri("../Views/RapportPreviewWindow.xaml", UriKind.Relative));
+            navigationService.Configure("RapportPreview", new Uri("../Views/RapportPreviewPage.xaml", UriKind.Relative));
 
             return navigationService;
         }
