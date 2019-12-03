@@ -4,8 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
-      Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
+      Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
+      d:DataContext="{d:DesignInstance Type=viewModels:CustomerViewModel}">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="620"/>
@@ -31,14 +33,22 @@
 
             <TextBlock Text="Klanten" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"/>
             <Label Content="Alle klanten" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-            <ListView  Grid.Row="2" Grid.RowSpan="8" Grid.Column="0">
+            <ListView ItemsSource="{Binding CustomerList}"  Grid.Row="2" Grid.RowSpan="8" Grid.Column="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding CustomerName}" VerticalAlignment="Center" />
 
+
+                            <Button Content="Verwijder" Command="{Binding RemoveCustomerCommand, RelativeSource={RelativeSource AncestorType=viewModels:CustomerViewModel}}" Style="{DynamicResource ButtonRed}" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            <Button Content="Wijzig" Command="{Binding EditCustomerCommand, RelativeSource={RelativeSource AncestorType=viewModels:CustomerViewModel}}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Center" Margin="40,0,0,0"/>
+                        </StackPanel>
+                        </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
             <Button Content="Nieuw" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" Margin="40,0,0,0"/>
-            <Button Content="Verwijder" Style="{DynamicResource ButtonRed}" Height="50" Width="185" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-            <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-            <Button Content="Wijzig" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Center" Margin="40,0,0,0"/>
             <Popup  Placement="Center"/>
         </Grid>
     </Grid>
