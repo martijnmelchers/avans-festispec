@@ -7,6 +7,9 @@
     </Compile>
     <Compile Update="Views\FirstTimePage.xaml.cs">
       <SubType>Code</SubType>
+    </Page>
+    <Compile Update="Views\QuestionnairePage.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SearchCustomerPage.xaml.cs">
       <SubType>Code</SubType>
@@ -17,6 +20,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FirstTimePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\QuestionnairePage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SearchCustomerPage.xaml">
