@@ -9,9 +9,26 @@
       Title="FestivalPage">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,100" />
-        <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Height="66" Margin="180,120,0,0" VerticalAlignment="Top" Width="465"/>
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,179,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A
-        "/>
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
+        
+        <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,180,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+
+        <Label Content="Locatie" Margin="180,200"/>
+        <Label Content="{Binding FestivalLocation}" HorizontalAlignment="Left" Margin="180,230" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
+
+        <Label Content="Festivaldata" Margin="180,270"/>
+        <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" Margin="180,300" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
+
+        <Label Content="Festivaltijden" Margin="180,340"/>
+        <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" Margin="180,370" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
+
+        <Label Content="Beschrijving" Margin="180,410"/>
+        <Label HorizontalAlignment="Left" Margin="180,440,0,0" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}" Width="465">
+            <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
+        </Label>
+
+        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="510,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}"/>
+
     </Grid>
 </Page>

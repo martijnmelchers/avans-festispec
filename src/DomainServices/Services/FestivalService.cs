@@ -17,10 +17,8 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public async Task<Festival> CreateFestival(string festivalName, string description, Customer customer)
+        public async Task<Festival> CreateFestival(Festival festival)
         {
-            var festival = new Festival(festivalName, description, customer);
-
             if (!festival.Validate())
                 throw new InvalidDataException();
 
@@ -49,13 +47,13 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task RemoveQuestionnaire(int festivalId)
+        public async Task RemoveFestival(int festivalId)
         {
             var festival = GetFestival(festivalId);
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
-
+            
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();

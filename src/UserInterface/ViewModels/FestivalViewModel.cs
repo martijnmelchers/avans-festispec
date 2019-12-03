@@ -1,8 +1,9 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
@@ -10,11 +11,28 @@ namespace Festispec.UI.ViewModels
     {
         private IFestivalService _festivalService;
         public Festival Festival { get; set; }
-        /*public string FestivalHeader { get => "Informatie " + _festival.FestivalName;}*/
+        public string FestivalLocation => Festival.Address.StreetName + ", " + Festival.Address.City;
+        public string FestivalData => Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
+        public string FestivalTimes => Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
+        public ICommand RemoveFestivalCommand { get; set; }
         public FestivalViewModel(IFestivalService festivalService)
         {
             _festivalService = festivalService;
+            //change once festivallist is done
             Festival = _festivalService.GetFestival(1);
+            RemoveFestivalCommand = new RelayCommand(RemoveFestival);
+        }
+
+        public async void RemoveFestival()
+        {
+            try
+            {
+                await _festivalService.RemoveFestival(Festival.Id);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"An error occured while removing festival with the id: {Festival.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+            }  
         }
     }
 }

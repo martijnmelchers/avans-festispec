@@ -17,6 +17,7 @@ namespace Festispec.UI
             services.AddTransient<MainViewModel>();
             services.AddTransient<FirstTimeViewModel>();
             services.AddTransient<FestivalViewModel>();
+            services.AddTransient<CreateFestivalViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -35,6 +36,7 @@ namespace Festispec.UI
             navigationService.Configure("Homepage", new Uri("../Views/MainWindow.xaml", UriKind.Relative));
             navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
             navigationService.Configure("FestivalInfo", new Uri("../Views/FestivalPage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateFestival", new Uri("../Views/CreateFestivalPage.xaml", UriKind.Relative));
 
             return navigationService;
         }

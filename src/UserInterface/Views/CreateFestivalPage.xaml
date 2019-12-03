@@ -1,0 +1,46 @@
+﻿<Page x:Class="Festispec.UI.Views.CreateFestivalPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Festispec.UI.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="1011" d:DesignWidth="1920"
+      Title="CreateFestivalPage">
+
+    <Grid>
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="250,100,250,100" />
+
+        <TextBlock Text="NIEUW FESTIVAL AANMAKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,150,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,203,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+
+        <Label Content="Naam" Margin="300,250,0,0"/>
+        <TextBox Text="{Binding Festival.FestivalName, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="300,280,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
+
+        <Label Content="Beschrijving" Margin="300,350,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="300,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="200"/>
+
+        <Label Content="Postcode" Margin="300,600,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="300,630,0,0" VerticalAlignment="Top" Width="200" Height="50"/>
+        <Label Content="Woonplaats" Margin="520,600,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="520,630,0,0" VerticalAlignment="Top" Width="280" Height="50"/>
+
+        <Label Content="Straat" Margin="300,700,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="300,730,0,0" VerticalAlignment="Top" Width="320" Height="50"/>
+        <Label Content="Huisnummer" Margin="640,700,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="640,730,0,0" VerticalAlignment="Top" Width="160" Height="50"/>
+
+        <Label Content="Begindatum" Margin="920,250,0,0"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,280,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+
+        <Label Content="Einddatum" Margin="920,350,0,0"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,380,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+
+        <Label Content="Begintijd" Margin="920,450,0,0"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,480,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <Label Content="Eindtijd" Margin="1280,450,0,0"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,480,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
+
+        <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,150" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Command="{Binding CreateFestivalCommand}"/>
+    </Grid>
+</Page>
