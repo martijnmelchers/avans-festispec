@@ -11,8 +11,6 @@ namespace Festispec.UI.Converters
 {
     class HasAnswerConverter : IValueConverter
     {
-        //private IQuestionnaireService _questionnaireService = 
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var question = value as Question;
