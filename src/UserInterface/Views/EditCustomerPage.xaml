@@ -3,9 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:local="clr-namespace:Festispec.UI.Views" 
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="1080" d:DesignWidth="1920" Background="#EFEFEF" Title="EditCustomerPage">
+      d:DesignHeight="1080" d:DesignWidth="1920" Background="#EFEFEF" Title="EditCustomerPage"
+      d:DataContext="{d:DesignInstance Type=viewModels:CustomerViewModel}">
 
 
     <Grid>
@@ -68,7 +70,7 @@
             <TextBox Text="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"/>
 
             <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}" Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Right"/>
-            <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Height="50" Width="250" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Right" />
+            <Button Content="Annuleren" Command="{Binding ReturnToCustomerListCommand}" Style="{DynamicResource ButtonRed}" Height="50" Width="250" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Right" />
         </Grid>
     </Grid>
 </Page>
