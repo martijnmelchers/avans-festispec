@@ -33,13 +33,7 @@ namespace Festispec.Models.Questions
 
         public abstract GraphType GraphType { get; }
 
-        public int AnswerCount
-        {
-            get
-            {
-                return Answers.Count;
-            }
-        }
+        public int AnswerCount => Answers.Count;
 
     }
 }
