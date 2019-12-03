@@ -31,13 +31,17 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
 
             return null;
-
         }
 
-        public async Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire)
+        public async Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
+            DateTime endTime, string eventTitle, Employee employee)
         {
             var plannedInspection = new PlannedInspection(festival);
             plannedInspection.Questionnaire = questionnaire;
+            plannedInspection.StartTime = startTime;
+            plannedInspection.EndTime = endTime;
+            plannedInspection.EventTitle = eventTitle;
+            plannedInspection.Employee = employee;
 
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
@@ -49,6 +53,10 @@ namespace Festispec.DomainServices.Services
             return null;
         }
 
+        public async Task SaveChanges()
+        {
+            await _db.SaveChangesAsync();
+        }
 
         public PlannedInspection GetPlannedInspection(int plannedInspectionId)
         {
