@@ -2,6 +2,7 @@
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,13 +52,13 @@ namespace Festispec.DomainServices.Services
 
         public PlannedInspection GetPlannedInspection(int plannedInspectionId)
         {
-            var plannedInspection = _db.PlannedInspections.FirstOrDefault(e => e.Id == plannedInspectionId);
+
+            var plannedInspection = _db.PlannedInspections.FirstOrDefault(e => e.Id == plannedInspectionId && e.IsCancelled == null);
 
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
 
             return plannedInspection;
-
         }
 
         public async Task RemoveInspection(int PlannedInspectionId)
@@ -68,7 +69,8 @@ namespace Festispec.DomainServices.Services
             if (plannedInspection.Answers.Count > 0)
                 throw new QuestionHasAnswersException();
 
-            _db.PlannedInspections.Remove(plannedInspection);
+            //_db.PlannedInspections.Remove(plannedInspection);
+            plannedInspection.IsCancelled = DateTime.Now;
 
             await _db.SaveChangesAsync();
         }

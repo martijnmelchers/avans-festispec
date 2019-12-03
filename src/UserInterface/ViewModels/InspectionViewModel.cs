@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using Festispec.DomainServices.Interfaces;
+using System.Windows;
 
 namespace Festispec.UI.ViewModels
 {
@@ -19,13 +20,6 @@ namespace Festispec.UI.ViewModels
         ICommand CheckBoxCommand { get; set; }
         ICommand SaveCommand { get; set; }
         private IInspectionService _inspectionService;
-
-        //public PlannedInspection plannedInspection { get; set; }
-
-        //public List<Employee> Employees
-        //{
-        //    get { return new InspectionService(new Models.EntityMapping.FestispecContext()).GetEmployees(); }
-        //}
 
         private bool Filter(object item)
         {
@@ -67,6 +61,8 @@ namespace Festispec.UI.ViewModels
             SaveCommand = new RelayCommand(Save);
             Employees = (CollectionView)CollectionViewSource.GetDefaultView(new InspectionService(new Models.EntityMapping.FestispecContext()).GetEmployees());
             Employees.Filter = new Predicate<object>(Filter);
+            EmployeesToAdd = new ObservableCollection<Employee>(); 
+            EmployeesToRemove = new ObservableCollection<Employee>();
             Festival = new Festival()
             {
                 FestivalName = "test naam",
@@ -156,8 +152,8 @@ namespace Festispec.UI.ViewModels
                 }
             }
         }
-        ObservableCollection<Employee> EmployeesToAdd { get; set; }
-        ObservableCollection<Employee> EmployeesToRemove { get; set; }
+        public ObservableCollection<Employee> EmployeesToAdd { get; set; }
+        public ObservableCollection<Employee> EmployeesToRemove { get; set; }
         public void CheckBox(Employee employee)
         {
             if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
@@ -185,9 +181,37 @@ namespace Festispec.UI.ViewModels
                 _questionnaire = value;
             }
         }
-        public void Save()
+        public async void Save()
         {
-            EmployeesToAdd.ToList().ForEach(e => _inspectionService.CreatePlannedInspection(Festival, Questionnaire));
+            //EmployeesToAdd.ToList().ForEach(e => _inspectionService.CreatePlannedInspection(Festival, Questionnaire));
+
+            foreach (Employee q in EmployeesToAdd)
+            {
+                try
+                {
+                    await _inspectionService.CreatePlannedInspection(Festival);
+                    EmployeesToAdd.Remove(q);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            foreach (Employee q in EmployeesToRemove)
+            {
+                try
+                {
+                    await _inspectionService.RemoveInspection(0);
+                    EmployeesToRemove.Remove(q);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
         }
 
     }
