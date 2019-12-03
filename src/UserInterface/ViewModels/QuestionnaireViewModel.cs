@@ -102,6 +102,8 @@ namespace Festispec.UI.ViewModels
                     MessageBox.Show($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+
+            await _questionnaireService.SaveChangesAsync();
         }
 
         public bool HasAnswers(Question question)

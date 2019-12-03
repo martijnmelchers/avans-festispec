@@ -33,6 +33,16 @@ namespace Festispec.DomainServices.Services
             return questionnaire;
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _db.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return _db.SaveChanges();
+        }
+
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
             var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);

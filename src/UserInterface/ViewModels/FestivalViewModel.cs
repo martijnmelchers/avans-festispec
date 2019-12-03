@@ -1,26 +1,40 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    class FestivalViewModel
+    public class FestivalViewModel : ViewModelBase, IAsyncActivateable<int>
     {
-        private IFestivalService _festivalService;
-        public Festival Festival { get; set; }
-        public string FestivalLocation => Festival.Address.StreetName + ", " + Festival.Address.City;
-        public string FestivalData => Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
-        public string FestivalTimes => Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
+        private readonly IFestivalService _festivalService;
+        private Festival _festival;
+        public Festival Festival { 
+            get { return _festival; }
+            set { _festival = value; RaisePropertyChanged(nameof(Festival)); }
+        }
+
+        public List<Questionnaire> Questionnaires { get => new List<Questionnaire>() { new Questionnaire("Nigga", null) };  }
+        //public string FestivalLocation => Festival.Address.StreetName + ", " + Festival.Address.City;
+        //public string FestivalData => Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
+        //public string FestivalTimes => Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
         public ICommand RemoveFestivalCommand { get; set; }
         public FestivalViewModel(IFestivalService festivalService)
         {
             _festivalService = festivalService;
             //change once festivallist is done
-            Festival = _festivalService.GetFestival(1);
             RemoveFestivalCommand = new RelayCommand(RemoveFestival);
+        }
+
+        public async Task Initialize(int id)
+        {
+            Festival = await _festivalService.GetFestival(1);
         }
 
         public async void RemoveFestival()

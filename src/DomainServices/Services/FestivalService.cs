@@ -29,12 +29,12 @@ namespace Festispec.DomainServices.Services
             return festival;
         }
 
-        public Festival GetFestival(int festivalId)
+        public async Task<Festival> GetFestival(int festivalId)
         {
-            var festival = _db.Festivals
+            var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)
                 .Include(f => f.PlannedInspections)
-                .FirstOrDefault(f => f.Id == festivalId);
+                .FirstOrDefaultAsync(f => f.Id == festivalId);
 
             if (festival == null)
                 throw new EntityNotFoundException();
@@ -49,7 +49,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveFestival(int festivalId)
         {
-            var festival = GetFestival(festivalId);
+            var festival = await GetFestival(festivalId);
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
