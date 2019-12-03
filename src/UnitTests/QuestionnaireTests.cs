@@ -111,7 +111,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire3;
             var expectedQuestion = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId);
 
-            var question = _questionnaireService.GetQuestionFromQuestionnaire(questionnaire, questionId);
+            var question = _questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, questionId);
 
             Assert.Equal(expectedQuestion, question);
         }
@@ -122,9 +122,9 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.StringQuestion;
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
-            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
+            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
             Assert.Equal(expectedQuestion.Contents, question.Contents);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
@@ -136,12 +136,12 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.MultipleChoiceQuestion;
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             if (!(question is MultipleChoiceQuestion))
                 throw new WrongQuestionTypeException();
 
-            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
+            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
@@ -152,7 +152,7 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             MultipleChoiceQuestion question = new MultipleChoiceQuestion("test", questionnaire);
 
-            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.AddQuestion(questionnaire, question));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.AddQuestion(questionnaire.Id, question));
         }
 
         [Fact]
@@ -161,12 +161,12 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.NumericQuestion;
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             if (!(question is NumericQuestion))
                 throw new WrongQuestionTypeException();
 
-            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
+            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
             Assert.Equal(expectedQuestion.Minimum, ((NumericQuestion)question).Minimum);
             Assert.Equal(expectedQuestion.Maximum, ((NumericQuestion)question).Maximum);
@@ -180,9 +180,9 @@ namespace Festispec.UnitTests
             var questionnaire = ModelMocks.Questionnaire2;
             var expectedQuestion = ModelMocks.UploadPictureQuestion;
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire, expectedQuestion);
+            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
-            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire, question.Id));
+            Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }

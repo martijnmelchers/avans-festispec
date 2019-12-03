@@ -45,7 +45,8 @@ namespace Festispec.DomainServices.Services
 
             _db.Questionnaires.Add(questionnaire);
 
-            await _db.SaveChangesAsync();
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
 
             return questionnaire;
         }
@@ -59,12 +60,13 @@ namespace Festispec.DomainServices.Services
 
             _db.Questionnaires.Remove(questionnaire);
 
-            await _db.SaveChangesAsync();
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
         }
 
-        public Question GetQuestionFromQuestionnaire(Questionnaire questionnaire, int questionId)
+        public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
-            var questionnaireFromDb = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaire.Id);
+            var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
             var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId) ;
 
             if (question == null)
@@ -73,14 +75,14 @@ namespace Festispec.DomainServices.Services
             return question;
         }
         
-        public async Task<Question> AddQuestion(Questionnaire questionnaire, Question question)
+        public async Task<Question> AddQuestion(int questionnaireId, Question question)
         {
-            var questionnaireFromDb = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaire.Id);
+            var questionnaire = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaireId);
 
             if (!question.Validate())
                 throw new InvalidDataException();
 
-            questionnaireFromDb.Questions.Add(question);
+            questionnaire.Questions.Add(question);
 
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
@@ -112,9 +114,10 @@ namespace Festispec.DomainServices.Services
 
             var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
 
-            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
+            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
 
-            await _db.SaveChangesAsync();
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
 
             return newQuestionnaire;
         }

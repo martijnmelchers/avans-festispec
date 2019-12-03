@@ -8,8 +8,8 @@ namespace Festispec.DomainServices.Interfaces
     {
         Questionnaire GetQuestionnaire(int questionnaireId);
         Task<Questionnaire> CreateQuestionnaire(string name, Festival festival);
-        Task<Question> AddQuestion(Questionnaire questionnaire, Question question);
-        Question GetQuestionFromQuestionnaire(Questionnaire questionnaire, int questionId);
+        Task<Question> AddQuestion(int questionnaireId, Question question);
+        Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId);
         Task<bool> RemoveQuestion(int questionId);
         Task RemoveQuestionnaire(int questionnaireId);
         Task<Questionnaire> CopyQuestionnaire(int questionnaireId);
