@@ -12,8 +12,8 @@ namespace Festispec.UI.ViewModels
         private IFestivalService _festivalService;
         public Festival Festival { get; set; }
         public string FestivalLocation => Festival.Address.StreetName + ", " + Festival.Address.City;
-        public string FestivalData => Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
-        public string FestivalTimes => Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
+        public string FestivalData => Festival.OpeningHours.StartDate.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndDate.ToString("dd/MM/yyyy");
+        public string FestivalTimes => Festival.OpeningHours.StartTime.ToString(@"hh\:mm") + " - " + Festival.OpeningHours.EndTime.ToString(@"hh\:mm");
         public ICommand RemoveFestivalCommand { get; set; }
         public FestivalViewModel(IFestivalService festivalService)
         {

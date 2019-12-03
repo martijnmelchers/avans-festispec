@@ -9,38 +9,43 @@
       Title="CreateFestivalPage">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="250,100,250,100" />
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="250,50,250,50" />
 
-        <TextBlock Text="NIEUW FESTIVAL AANMAKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,150,0,0" VerticalAlignment="Top"/>
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,203,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+        <TextBlock Text="NIEUW FESTIVAL AANMAKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
-        <Label Content="Naam" Margin="300,250,0,0"/>
-        <TextBox Text="{Binding Festival.FestivalName, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="300,280,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
+        <Label Content="Naam" Margin="300,180,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.FestivalName, Mode=OneWayToSource}"  HorizontalAlignment="Left" Margin="300,210,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
 
-        <Label Content="Beschrijving" Margin="300,350,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="300,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="200"/>
+        <Label Content="Beschrijving" Margin="300,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Description, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="200"/>
 
-        <Label Content="Postcode" Margin="300,600,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="300,630,0,0" VerticalAlignment="Top" Width="200" Height="50"/>
-        <Label Content="Woonplaats" Margin="520,600,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="520,630,0,0" VerticalAlignment="Top" Width="280" Height="50"/>
+        <Label Content="Postcode" Margin="300,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Address.ZipCode, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,560,0,0" VerticalAlignment="Top" Width="180" Height="50"/>
+        <Label Content="Huisnummer" Margin="500,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Address.HouseNumber, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="500,560,0,0" VerticalAlignment="Top" Width="150" Height="50"/>
+        <Label Content="Toevoeging" Margin="670,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Address.Suffix, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="670,560,0,0" VerticalAlignment="Top" Width="130" Height="50"/>
 
-        <Label Content="Straat" Margin="300,700,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="300,730,0,0" VerticalAlignment="Top" Width="320" Height="50"/>
-        <Label Content="Huisnummer" Margin="640,700,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="640,730,0,0" VerticalAlignment="Top" Width="160" Height="50"/>
+        <Label Content="Straat" Margin="300,630,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Address.StreetName, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,660,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
+        <Label Content="Woonplaats" Margin="560,630,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.Address.City, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="560,660,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
 
-        <Label Content="Begindatum" Margin="920,250,0,0"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,280,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+        <Label Content="Land" Margin="300,730,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding CountryOptions}" HorizontalAlignment="Left" Margin="300,760,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
 
-        <Label Content="Einddatum" Margin="920,350,0,0"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,380,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+        <Label Content="Begindatum" Margin="920,180,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.OpeningHours.StartDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,210,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
 
-        <Label Content="Begintijd" Margin="920,450,0,0"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,480,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
-        <Label Content="Eindtijd" Margin="1280,450,0,0"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,480,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <Label Content="Einddatum" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.OpeningHours.EndDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
 
-        <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,150" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Command="{Binding CreateFestivalCommand}"/>
+        <Label Content="Begintijd" Margin="920,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.OpeningHours.StartTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <Label Content="Eindtijd" Margin="1280,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Festival.OpeningHours.EndTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
+
+        <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,100" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Command="{Binding CreateFestivalCommand}"/>
     </Grid>
 </Page>

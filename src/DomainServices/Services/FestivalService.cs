@@ -19,7 +19,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> CreateFestival(Festival festival)
         {
-            if (!festival.Validate())
+            if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
 
             _db.Festivals.Add(festival);
@@ -57,6 +57,11 @@ namespace Festispec.DomainServices.Services
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();
+        }
+        //deze is alleen om te testen
+        public Customer GetCustomer(int customerId)
+        {
+            return _db.Customers.FirstOrDefault(c => c.Id == customerId);
         }
     }
 }

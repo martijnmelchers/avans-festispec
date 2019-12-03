@@ -12,5 +12,7 @@ namespace Festispec.DomainServices.Interfaces
         Festival GetFestival(int festivalId);
         Task SaveChanges();
         Task RemoveFestival(int festivalId);
+        //deze is alleen om te testen
+        Customer GetCustomer(int customerId);
     }
 }
