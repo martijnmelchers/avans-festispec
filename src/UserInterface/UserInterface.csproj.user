@@ -5,6 +5,9 @@
     <Compile Update="Views\CustomerScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\EditCustomerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\NewCustomerPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -20,6 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\CustomerScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\EditCustomerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\NewCustomerPage.xaml">
