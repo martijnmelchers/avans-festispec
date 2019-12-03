@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
@@ -169,7 +169,7 @@ namespace Festispec.Models.Migrations
                         new StringObject("Option1")
                     },
                     Questionnaire = questionnaire,
-                    Answers = new List<MultipleChoiceAnswer>
+                   /* Answers = new List<MultipleChoiceAnswer>
                 {
                     new MultipleChoiceAnswer
                     {
@@ -185,7 +185,7 @@ namespace Festispec.Models.Migrations
                             }
                         }
                     }
-                }
+                }*/
                 };
 
                 var numericQuestion = new NumericQuestion
@@ -196,15 +196,7 @@ namespace Festispec.Models.Migrations
                     Minimum = 0,
                     Maximum = 99,
                     Questionnaire = questionnaire,
-                    Answers = new List<NumericAnswer>
-                {
-                    new NumericAnswer
-                    {
-                        Id = 3,
-                        IntAnswer = 10,
-                        PlannedInspection = plannedInspection
-                    }
-                }
+
                 };
 
                 var ratingQuestion = new RatingQuestion
@@ -215,15 +207,6 @@ namespace Festispec.Models.Migrations
                     HighRatingDescription = "Er is veel beveiliging",
                     LowRatingDescription = "Er is amper beveiliging",
                     Questionnaire = questionnaire,
-                    Answers = new List<NumericAnswer>
-                {
-                    new NumericAnswer
-                    {
-                        Id = 4,
-                        IntAnswer = 3,
-                        PlannedInspection = plannedInspection
-                    }
-                }
                 };
 
                 var stringQuestion = new StringQuestion

@@ -7,31 +7,55 @@ using LiveCharts.Wpf;
 using LiveCharts;
 using Festispec.Models.Questions;
 using Festispec.Models.Answers;
+using System.Linq;
 
 namespace Festispec.Models.GraphConverters
 {
     public class ChartGraphable : IGraphable
     {
+
+
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
+        public List<GraphableSeries> TypeToChart()
         {
 
-            List<GraphableSeries> series = new List<GraphableSeries>();
+            var multipleChoiceAnswers = Question.Answers ;
 
-            GraphableSeries serie = new GraphableSeries();
-            serie.Title = Question.Contents;
+            List<GraphableSeries> chartSeries = new List<GraphableSeries>();
 
-            ChartValues<int> values = new ChartValues<int>();
-            foreach (var answer in answers)
-            {
-                var numAnswer = (NumericAnswer)answer;
-                values.Add(numAnswer.IntAnswer);
+
+
+
+            if(multipleChoiceAnswers == null) {
+                return chartSeries;
             }
 
-            serie.Values = values;
-            series.Add(serie);
-            return series;
+
+            MultipleChoiceQuestion quest = (MultipleChoiceQuestion)Question;
+
+            for(var i = 0; i < quest.OptionCollection.Count; i++)
+            {
+                var option = quest.OptionCollection[i];
+
+                var serie = new GraphableSeries();
+                serie.Title = option.Value;
+
+                // Hoevaak hebben we de index answered.
+
+                var count = quest.Answers.Count(x => {
+
+                    var answerMC = (MultipleChoiceAnswer)x;
+                    return answerMC.MultipleChoiceAnswerKey == i;
+                });
+
+                serie.Values = new ChartValues<int> { count };
+                chartSeries.Add(serie);
+            }
+            
+       
+
+            return chartSeries;
         }
     }
 }

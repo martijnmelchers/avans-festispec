@@ -30,7 +30,7 @@ namespace Festispec.DomainServices.Services
         public Questionnaire GetQuestionaire(int id)
         {
             //   return ModelMocks.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
-            return _db.Questionnaires.FirstOrDefault(x => x.Id == id);
+            return _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(x => x.Id == id);
         }
 
         public Festival GetFestival(int festivalId)

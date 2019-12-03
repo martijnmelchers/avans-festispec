@@ -5,6 +5,7 @@ using LiveCharts;
 using LiveCharts.Wpf.Charts.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Festispec.Models.GraphConverters
@@ -13,22 +14,32 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
+        public List<GraphableSeries> TypeToChart()
         {
             List<GraphableSeries> series = new List<GraphableSeries>();
+            var plannedInspections = Question.Answers.Select(x => x.PlannedInspection);
 
-            GraphableSeries serie = new GraphableSeries();
-            serie.Title = Question.Contents;
 
-            ChartValues<int> values = new ChartValues<int>();
-            foreach(var answer in answers)
+
+            foreach(var plannedInspection in plannedInspections)
             {
-                var numAnswer = (NumericAnswer)answer;
-                values.Add(numAnswer.IntAnswer);
+                var answers = Question.Answers.Where(x => x.PlannedInspection == plannedInspection);
+
+
+                GraphableSeries serie = new GraphableSeries();
+                serie.Title = Question.Contents;
+
+
+                var chartValues = new ChartValues<int>();
+                foreach (var answer in answers)
+                {
+                    NumericAnswer numAnswer = (NumericAnswer)answer;
+                    chartValues.Add(numAnswer.IntAnswer);
+                }
+                serie.Values = chartValues;
+                series.Add(serie);
             }
 
-            serie.Values = values;
-            series.Add(serie);
             return series;
         }
     }

@@ -9,8 +9,10 @@
       Title="RapportenPreviewPage">
 
     <Grid>
-        <ScrollViewer>
-            <StackPanel Name="Charts"></StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Charts}"/>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

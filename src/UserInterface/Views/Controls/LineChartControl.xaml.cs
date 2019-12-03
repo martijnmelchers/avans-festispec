@@ -1,4 +1,4 @@
-﻿using Festispec.Models;
+using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
@@ -35,8 +35,6 @@ namespace Festispec.UI.Views.Controls
 
             };
 
-            Labels = new[] { "Gay", "Boi", "Fuk", "Yuu"};
-            YFormatter = value => value.ToString("C");
 
             foreach (var GraphableSeries in values)
                 {

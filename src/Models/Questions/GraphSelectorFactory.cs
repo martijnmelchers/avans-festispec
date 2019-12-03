@@ -19,13 +19,18 @@ namespace Festispec.Models.Questions
             _converters[GraphType.Pie] = new ChartGraphable();
             _converters[GraphType.Line] = new LineGraphable();
             _converters[GraphType.Column] = new ColumnGraphable();
-            _converters[GraphType.None] = new ChartGraphable();
+            _converters[GraphType.None] = null;
         }
 
 
         public IGraphable GetConverter(Question question)
         {
             var converter = _converters[question.GraphType];
+
+            if (converter == null)
+                return null;
+
+
             converter.Question = question;
             return _converters[question.GraphType];
         }

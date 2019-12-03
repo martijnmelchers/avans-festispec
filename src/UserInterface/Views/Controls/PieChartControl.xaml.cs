@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+using Festispec.Models;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,31 @@ namespace Festispec.UI.Views.Controls
     /// </summary>
     public partial class PieChartControl : UserControl
     {
-        public PieChartControl()
+
+        public SeriesCollection SeriesCollection { get; set; }
+
+        public PieChartControl(List<GraphableSeries> values)
         {
             InitializeComponent();
-            PointLabel = chartPoint =>
-                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+
+            SeriesCollection = new SeriesCollection
+            {
+
+            };
+
+
+            foreach (var GraphableSeries in values)
+            {
+                SeriesCollection.Add(
+                 new PieSeries
+                 {
+                     Title = GraphableSeries.Title,
+                     Values = GraphableSeries.Values,
+                     DataLabels = true
+                 }); 
+            }
+
+
 
             DataContext = this;
         }

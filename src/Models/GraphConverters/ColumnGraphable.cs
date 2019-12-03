@@ -6,6 +6,7 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Festispec.Models.GraphConverters
@@ -14,36 +15,31 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
+        public List<GraphableSeries> TypeToChart()
         {
+            List<GraphableSeries> series = new List<GraphableSeries>();
+            var plannedInspections = Question.Answers.Select(x => x.PlannedInspection);
+
+            foreach (var plannedInspection in plannedInspections)
+            {
+                var answers = Question.Answers.Where(x => x.PlannedInspection == plannedInspection);
 
 
+                GraphableSeries serie = new GraphableSeries();
+                serie.Title = Question.Contents;
 
-            var values = new ChartValues<ObservableValue> {
-                        new ObservableValue(3),
-                        new ObservableValue(5),
-                        new ObservableValue(6),
-                        new ObservableValue(7),
-                        new ObservableValue(3),
-                        new ObservableValue(4),
-                        new ObservableValue(2),
-                        new ObservableValue(5),
-                        new ObservableValue(8),
-                        new ObservableValue(3),
-                        new ObservableValue(5),
-                        new ObservableValue(6),
-                        new ObservableValue(7),
-                        new ObservableValue(3),
-                        new ObservableValue(4),
-                        new ObservableValue(2),
-                        new ObservableValue(5),
-                        new ObservableValue(8)
-            };
 
-            var graphvalues = new GraphableSeries { Title = "Epic", Values = values };
-            var list = new List<GraphableSeries>() { graphvalues};
+                var chartValues = new ChartValues<int>();
+                foreach (var answer in answers)
+                {
+                    NumericAnswer numAnswer = (NumericAnswer)answer;
+                    chartValues.Add(numAnswer.IntAnswer);
+                }
+                serie.Values = chartValues;
+                series.Add(serie);
+            }
 
-            return list;
+            return series;
         }
     }
 }
