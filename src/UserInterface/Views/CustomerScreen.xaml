@@ -42,8 +42,8 @@
                             <Label Content="{Binding CustomerName}" VerticalAlignment="Center" />
 
                             <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-                            <Button Content="Wijzig" Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-                            <Button Content="Verwijder" Command="{Binding DataContext.RemoveCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}" Style="{DynamicResource ButtonRed}" Click="OpenDeleteCheckPopUp" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            <Button Content="Wijzig" Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            <Button Content="Verwijder" Command="{Binding DataContext.StoreRemovalIdCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Id}" Style="{DynamicResource ButtonRed}" Click="OpenDeleteCheckPopUp" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -53,9 +53,9 @@
 
             <Popup x:Name="DeleteWarning" Placement="Center">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd." HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Button Content="Doorgaan" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                    <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd."/>
+                    <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185"/>
+                    <Button Content="Annuleren" Command="{Binding ClearRemovalIdCommand}" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185"/>
                 </StackPanel>
             </Popup>
         </Grid>
