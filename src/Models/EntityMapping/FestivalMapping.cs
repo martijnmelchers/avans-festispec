@@ -12,8 +12,8 @@ namespace Festispec.Models.EntityMapping
             HasOptional(f => f.Report).WithRequired(r => r.Festival);
             HasRequired(f => f.Customer).WithMany(c => c.Festivals);
 
-            HasMany(f => f.PlannedInspections).WithRequired(pi => pi.Festival);
             HasMany(f => f.Questionnaires).WithRequired(q => q.Festival);
+            HasMany(f => f.PlannedInspections).WithRequired(pi => pi.Festival);
         }
     }
 }

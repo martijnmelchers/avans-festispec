@@ -1,8 +1,7 @@
-﻿using Festispec.DomainServices.Interfaces;
-using Festispec.UI.Interfaces;
+﻿using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Views;
+using Festispec.UI.Views;
 using System.Windows;
 
 namespace Festispec.UI.ViewModels
@@ -17,16 +16,10 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             NavigateCommand = new RelayCommand<string>(Navigate);
 
-            foreach(string page in _navigationService.Pages)
-            {
-                MessageBox.Show(page);
-
-            }
         }
 
         public void Navigate(string page)
         {
-            MessageBox.Show(page);
             _navigationService.NavigateTo(page);
         }
     }

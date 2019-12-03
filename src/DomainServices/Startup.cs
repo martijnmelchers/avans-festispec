@@ -1,3 +1,4 @@
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
@@ -12,12 +13,15 @@ namespace Festispec.DomainServices
             // Register all your services here
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IQuestionnaireService, QuestionnaireService>();
+
+            services.AddScoped<IQuestionService, QuestionService>();
+
             services.AddScoped<FestispecContext>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
-
-            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddSingleton(new QuestionFactory());
 
             return services;
         }

@@ -1,8 +1,10 @@
-using Festispec.Models;
+﻿using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Festispec.UnitTests.Helpers
@@ -48,7 +50,70 @@ namespace Festispec.UnitTests.Helpers
             Customer = Customer
         };
 
-        public static List<Account> Accounts = new List<Account>()
+        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
+        {
+            Id = 1,
+        };
+
+        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", Festival)
+        {
+            Id = 2
+        };
+
+        public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
+
+        public static NumericQuestion NumericQuestion = new NumericQuestion("Hoeveel zitplaatsen zijn er bij de foodtrucks", Questionnaire1, 0, 1000);
+
+        public static UploadPictureQuestion UploadPictureQuestion = new UploadPictureQuestion("Maak een foto van de toiletten", Questionnaire1);
+
+        public static StringQuestion StringQuestion = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire1);
+
+        public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1)
+        {
+           Options = "Option1,Option2,Option3,Option4",
+           OptionCollection = new ObservableCollection<StringObject>()
+           {
+              new StringObject("Option1")
+           }
+        };
+
+        public static StringQuestion ReferencedQuestion = new StringQuestion("test1", Questionnaire3)
+        {
+            Id = 1
+        };
+
+        private static List<Question> QuestionsWithReference = new List<Question>()
+        {
+            ReferencedQuestion,
+            new ReferenceQuestion("test2", Questionnaire3, ReferencedQuestion)
+            {
+                Id = 2
+            }
+        };
+
+        public static Questionnaire Questionnaire3 = new Questionnaire("PinkPop MaandagAvond", Festival)
+        {
+            Id = 3,
+            Questions = QuestionsWithReference
+        };
+
+        public static Questionnaire Questionnaire4 = new Questionnaire("PinkPop DinsdagOchtend", Festival)
+        {
+            Id = 4,
+            Questions = new List<Question>()
+            {
+                new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire4)
+                {
+                    Id = 1
+                },
+                new StringQuestion("Beschrijf de sfeer in de rij", Questionnaire4)
+                {
+                    Id = 2
+                }
+            }
+        };
+
+        public List<Account> Accounts = new List<Account>()
         {
             new Account()
             {
@@ -64,74 +129,14 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static List<Questionnaire> Questionnaires = new List<Questionnaire>()
+        public List<Question> Questions = Questionnaire4.Questions.ToList();
+
+        public List<Questionnaire> Questionnaires = new List<Questionnaire>()
         {
-            new Questionnaire(){Festival=Festival,Id= 1 },
-            new Questionnaire(){Festival=Festival, Id = 2}
-        };
-
-
-        public static List<Question> Questions = new List<Question>()
-        {
-            new StringQuestion(){
-                Category = new QuestionCategory(){ Id = 1, CategoryName = "Kanker" },
-                Questionnaire = Questionnaires[0],
-                Contents = "Wat is de sfeer?"
-            },
-
-            new NumericQuestion(){
-                Category = new QuestionCategory(){ Id = 2, CategoryName = "Kanker" },
-                Questionnaire = Questionnaires[0],
-                Contents = "Cijfer toilet?"
-            },
-
-            new RatingQuestion(){
-                Category = new QuestionCategory(){ Id = 3, CategoryName = "Kanker" },
-                Questionnaire = Questionnaires[0],
-                Contents = "Hoeveel sterren toilet?"
-            },
-        };
-
-        public static List<Answer> Answers = new List<Answer>()
-        {
-            new StringAnswer(){
-                Id = 1,
-                Question = Questions[0],
-                AnswerContents = "Episch"
-            },
-
-            new StringAnswer(){
-                Id = 2,
-                Question = Questions[0],
-                AnswerContents = "Episch"
-            },
-
-            new StringAnswer(){
-                Id = 3,
-                Question = Questions[0],
-                AnswerContents = "Niet zo episch"
-            },
-
-            new NumericAnswer(){
-                Id = 4,
-                Question = Questions[1],
-                IntAnswer = 1,
-            },
-            new NumericAnswer(){
-                Id = 5,
-                Question = Questions[1],
-                IntAnswer = 1,
-            },
-            new NumericAnswer(){
-                Id = 6,
-                Question = Questions[1],
-                IntAnswer = 8,
-            },
-            new NumericAnswer(){
-                Id = 7,
-                Question = Questions[1],
-                IntAnswer = 8,
-            }
+            Questionnaire1,
+            Questionnaire2,
+            Questionnaire3,
+            Questionnaire4
         };
     }
 }

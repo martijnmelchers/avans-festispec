@@ -19,7 +19,6 @@ namespace Festispec.UI.ViewModels
         public RapportPreviewViewModel(IQuestionService questionService)
         {
             this.questionService = questionService;
-            questionService.GetFestival(1);
             var questionaire = this.questionService.GetQuestionaire(2);
             var questions = questionaire.Questions;
 
