@@ -7,6 +7,16 @@ namespace Festispec.Models
 {
     public class PlannedInspection : PlannedEvent
     {
+
+        public PlannedInspection()
+        {
+
+        }
+
+        public PlannedInspection(Festival festival)
+        {
+            Festival = festival;
+        }
         public int WorkedHours { get; set; }
 
         public DateTime? WorkedHoursAccepted { get; set; }

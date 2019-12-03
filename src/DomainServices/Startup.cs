@@ -13,6 +13,7 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<FestispecContext>();
+            services.AddScoped<IInspectionService, InspectionService>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());

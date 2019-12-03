@@ -9,9 +9,7 @@
       Title="InspectionPage">
 
     <Grid Margin="50">
-        <Rectangle Style="{DynamicResource ContentBox}" Width="800
-                   
-                   " />
+        <Rectangle Style="{DynamicResource ContentBox}" Width="800" />
         <Grid Width="700">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
@@ -29,68 +27,47 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="DefconInspectie inplannen" Style="{StaticResource Header}" Grid.ColumnSpan="2" Grid.Row="0"/>
-            <TextBlock Text="Biddingshuizen, Flevoland" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Text="{Binding Festival.FestivalName}" Style="{StaticResource Header}" Grid.ColumnSpan="2" Grid.Row="0"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                <TextBlock Text="{Binding Festival.Address.StreetName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding Festival.Address.City}" />
+            </StackPanel>
             <TextBlock Text="28 juni 2020 - 30 juni 2020" Grid.Column="1" Grid.Row="1"/>
             <Label Content="Selecteer een datum" Grid.Column="0" Grid.Row="2"/>
-            <ComboBox Grid.Row="3" Grid.Column="0" />
+            <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}" />
             <Label Content="Vragenlijst" Grid.Column="1" Grid.Row="2"/>
-            <ComboBox Grid.Row="3" Grid.Column="1" />
+            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Festival.Questionnaires}" SelectedValue="{Binding Questionnaire}" />
             <Label Content="Begin tijd" Grid.Column="0" Grid.Row="4"/>
-            <TextBox Text="18:00" Grid.Row="5" Grid.Column="0"/>
+            <TextBox Text="{Binding  StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Grid.Row="5" Grid.Column="0"/>
             <Label Content="Eindtijd" Grid.Column="1" Grid.Row="4"/>
-            <TextBox Text="23:00" Grid.Row="5" Grid.Column="1"/>
+            <TextBox Text="{Binding  EndTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Grid.Row="5" Grid.Column="1"/>
             <Label Content="Beschikbare inspecteurs" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"/>
-            <TextBox Text="Zoek op naam" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"/>
             <ScrollViewer Grid.Row="8" Grid.Column=" 0" Grid.ColumnSpan="2">
-                <ListView >
-                    <ListViewItem HorizontalAlignment="Stretch">
-                        <Grid Width="675">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Yuri Rijsterborgh" Grid.Column="0"/>
-                            <Label Content="Lelystad(5km)" Grid.Column="1"/>
-                            <CheckBox  Grid.Column="2" />
-                        </Grid>
-                    </ListViewItem><ListViewItem HorizontalAlignment="Stretch">
-                        <Grid Width="675">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Yuri Rijsterborgh" Grid.Column="0"/>
-                            <Label Content="Lelystad(5km)" Grid.Column="1"/>
-                            <CheckBox  Grid.Column="2" />
-                        </Grid>
-                    </ListViewItem><ListViewItem HorizontalAlignment="Stretch">
-                        <Grid Width="675">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="30"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Yuri Rijsterborgh" Grid.Column="0"/>
-                            <Label Content="Lelystad(5km)" Grid.Column="1"/>
-                            <CheckBox  Grid.Column="2" />
-                        </Grid>
-                    </ListViewItem>
+                <ListView ItemsSource="{Binding Employees}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="675">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Label Content="{Binding Name}" Grid.Column="0"/>
+                                <Label Content="{Binding Address.City}" Grid.Column="1"/>
+                                <CheckBox  Grid.Column="2" Command="{Binding CheckBoxCommand}" CommandParameter="{Binding}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </ScrollViewer>
             <Button Content="Terug" Style="{StaticResource ButtonBase}" Grid.Column="0" Grid.Row="9" />
-            <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Grid.Column="1" Grid.Row="9" />
+            <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Grid.Column="1" Grid.Row="9" Command="{Binding SaveCommand}" />
         </Grid>
     </Grid>
 </Page>

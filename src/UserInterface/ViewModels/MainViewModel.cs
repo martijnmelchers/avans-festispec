@@ -19,14 +19,14 @@ namespace Festispec.UI.ViewModels
 
             foreach(string page in _navigationService.Pages)
             {
-                MessageBox.Show(page);
+                //MessageBox.Show(page);
 
             }
         }
 
         public void Navigate(string page)
         {
-            MessageBox.Show(page);
+            //MessageBox.Show(page);
             _navigationService.NavigateTo(page);
         }
     }
