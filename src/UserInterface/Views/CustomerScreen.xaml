@@ -40,7 +40,7 @@
                             <Label Content="{Binding CustomerName}" VerticalAlignment="Center" />
 
 
-                            <Button Content="Verwijder" Command="{Binding RemoveCustomerCommand, RelativeSource={RelativeSource AncestorType=viewModels:CustomerViewModel}}" Style="{DynamicResource ButtonRed}" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            <Button Content="Verwijder" Command="{Binding RemoveCustomerCommand, RelativeSource={RelativeSource AncestorType=viewModels:CustomerViewModel}}" Style="{DynamicResource ButtonRed}" Click="OpenDeleteCheckPopUp" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
                             <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
                             <Button Content="Wijzig" Command="{Binding EditCustomerCommand, RelativeSource={RelativeSource AncestorType=viewModels:CustomerViewModel}}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Center" Margin="40,0,0,0"/>
                         </StackPanel>
@@ -49,7 +49,14 @@
             </ListView>
 
             <Button Content="Nieuw" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" Margin="40,0,0,0"/>
-            <Popup  Placement="Center"/>
+
+            <Popup x:Name="DeleteWarning"  Placement="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd."/>
+                    <Button Content="Doorgaan" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185"/>
+                    <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185"/>
+                </StackPanel>
+            </Popup>
         </Grid>
     </Grid>
 </Page>
