@@ -13,13 +13,12 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(List<Answer> answers)
+        public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
         {
             List<GraphableSeries> series = new List<GraphableSeries>();
 
             GraphableSeries serie = new GraphableSeries();
-            serie.Title = answers[0].Question.Contents;
-
+            serie.Title = Question.Contents;
 
             ChartValues<int> values = new ChartValues<int>();
             foreach(var answer in answers)

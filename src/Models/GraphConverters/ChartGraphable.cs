@@ -14,7 +14,7 @@ namespace Festispec.Models.GraphConverters
     {
         public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart(List<Answer> answers)
+        public List<GraphableSeries> TypeToChart(ICollection<Answer> answers)
         {
             throw new NotImplementedException();
         }

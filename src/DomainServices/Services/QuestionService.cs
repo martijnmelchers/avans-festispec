@@ -21,24 +21,16 @@ namespace Festispec.DomainServices.Services
         }
 
         public List<Answer> GetAnswers(Question question)
-        {
-            //return ModelMocks.Answers.Where(x => x.Question == question).ToList();
-           
+        { 
             List<Answer> questionAnswers = new List<Answer>();
             var answers = _db.Answers;
             return answers.Where(x => x.Question == question).ToList();
         }
 
-        public List<Question> GetQuestions(Questionnaire questionnaire)
-        {
-            //return ModelMocks.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
-            return _db.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
-        }
-
         public Questionnaire GetQuestionaire(int id)
         {
-            //return ModelMocks.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
-            return _db.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
+            //   return ModelMocks.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
+            return _db.Questionnaires.FirstOrDefault(x => x.Id == id);
         }
 
         public Festival GetFestival(int festivalId)

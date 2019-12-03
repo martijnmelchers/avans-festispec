@@ -32,16 +32,15 @@ namespace Festispec.UI.Views
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             var service = _scope.ServiceProvider.GetService<IQuestionService>();
-            var questionaire = service.GetQuestionaire(1);
-            var questions = service.GetQuestions(questionaire);
+            var questionaire = service.GetQuestionaire(2);
+            var questions = questionaire.Questions;
 
             foreach(var question in questions)
             {
                 // Answers
-                var answers = service.GetAnswers(question);
+                var answers = question.Answers;
                 var converter = new GraphSelectorFactory().GetConverter(question);
                 var chartValues = converter.TypeToChart(answers);
-
 
 
                 if(question.GraphType == Models.GraphType.Line)
