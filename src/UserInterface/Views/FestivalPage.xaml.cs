@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,10 +26,25 @@ namespace Festispec.UI.Views
         {
             InitializeComponent();
 
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
             DataContext = _scope.ServiceProvider.GetRequiredService<FestivalViewModel>();
+            watch.Stop();
+            MessageBox.Show($"Time for page init: {watch.ElapsedMilliseconds}");
+        }
+
+        async void OnLoad(object sender, RoutedEventArgs e)
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            var x = (FestivalViewModel)DataContext;
+            await Task.Run(() => x.Initialize(1));
+            watch.Stop();
+
+            MessageBox.Show($"Time for initialization: {watch.ElapsedMilliseconds}");
         }
     }
 }

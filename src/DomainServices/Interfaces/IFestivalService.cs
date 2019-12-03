@@ -9,7 +9,7 @@ namespace Festispec.DomainServices.Interfaces
     public interface IFestivalService
     {
         Task<Festival> CreateFestival(Festival festival);
-        Festival GetFestival(int festivalId);
+        Task<Festival> GetFestival(int festivalId);
         Task SaveChanges();
         Task RemoveFestival(int festivalId);
         //deze is alleen om te testen
