@@ -39,6 +39,11 @@ namespace Festispec.DomainServices.Services
                 ContactDetails = contactDetails
             };
 
+            return await CreateCustomer(customer);
+        }
+        
+        public async Task<Customer> CreateCustomer(Customer customer)
+        {
             if (!customer.Validate())
                 throw new InvalidDataException();
 

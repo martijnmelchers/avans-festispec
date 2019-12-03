@@ -7,6 +7,15 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
+        public Customer()
+        {
+            Address = new Address
+            {
+                Country = "Nederland"
+            };
+            ContactDetails = new ContactDetails();
+        }
+
         [Required]
         public int KvkNr { get; set; }
 
