@@ -53,14 +53,6 @@
                                                             </ListView.ItemTemplate>
                                                         </ListView>
                                                         <Button Style="{DynamicResource ButtonGreen}" Content="Add option" Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" />
-                                                        <!--<Label Content="Antwoord1"/>
-                                                        <TextBox Text="{Binding Answer1}" />
-                                                        <Label Content="Antwoord 2"/>
-                                                        <TextBox Text="{Binding Answer2}" />
-                                                        <Label Content="Antwoord 3"/>
-                                                        <TextBox Text="{Binding Answer3}" />
-                                                        <Label Content="Antwoord 4"/>
-                                                        <TextBox Text="{Binding Answer4}" />-->
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:DrawQuestion}">
