@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
@@ -22,123 +24,130 @@ namespace Festispec.Models.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
-            var employee = CreateEmployee(context);
 
-            var customer = new Customer
+
+            //  context.SaveChanges();
+
+            try
             {
-                Id = 1,
-                CustomerName = "Q-DANCE",
-                KvkNr = 34212891,
-                Address = new Address
+                var employee = CreateEmployee(context);
+
+                var customer = new Customer
                 {
-                    StreetName = "Isolatorweg",
-                    HouseNumber = 36,
-                    ZipCode = "1014AS",
-                    City = "Amsterdam",
-                    Country = "Nederland"
-                },
-                ContactDetails = new ContactDetails
+                    Id = 1,
+                    CustomerName = "Q-DANCE",
+                    KvkNr = 34212891,
+                    Address = new Address
+                    {
+                        StreetName = "Isolatorweg",
+                        HouseNumber = 36,
+                        ZipCode = "1014AS",
+                        City = "Amsterdam",
+                        Country = "Nederland"
+                    },
+                    ContactDetails = new ContactDetails
+                    {
+                        EmailAddress = "info@q-dance.com",
+                        PhoneNumber = "+31204877300"
+                    }
+                };
+
+                context.Customers.AddOrUpdate(customer);
+
+                var contactPerson = new ContactPerson
                 {
-                    EmailAddress = "info@q-dance.com",
-                    PhoneNumber = "+31204877300"
-                }
-            };
+                    Id = 1,
+                    Customer = customer,
+                    Name = new FullName
+                    {
+                        First = "Niels",
+                        Last = "Kijf"
+                    },
+                    ContactDetails = new ContactDetails
+                    {
+                        // fake news
+                        EmailAddress = "nielskijf@q-dance.com"
+                    },
+                    Role = "MA"
+                };
 
-            context.Customers.AddOrUpdate(customer);
+                context.ContactPersons.AddOrUpdate(contactPerson);
 
-            var contactPerson = new ContactPerson
-            {
-                Id = 1,
-                Customer = customer,
-                Name = new FullName
+                var note = new ContactPersonNote
                 {
-                    First = "Niels",
-                    Last = "Kijf"
-                },
-                ContactDetails = new ContactDetails
+                    Id = 1,
+                    ContactPerson = contactPerson,
+                    Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
+                };
+
+                context.ContactPersonNotes.AddOrUpdate(note);
+
+                var festival = new Festival
                 {
-                    // fake news
-                    EmailAddress = "nielskijf@q-dance.com"
-                },
-                Role = "MA"
-            };
+                    Id = 1,
+                    FestivalName = "Q-BASE",
+                    Customer = customer,
+                    Description = "Nachtfestival over de grens",
+                    Address = new Address
+                    {
+                        Country = "Duitsland",
+                        StreetName = "Flughafen-Ring",
+                        HouseNumber = 16,
+                        City = "Weeze",
+                        ZipCode = "NW47652"
+                    },
+                    OpeningHours = new OpeningHours
+                    {
+                        StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
+                        EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
+                    }
+                };
 
-            context.ContactPersons.AddOrUpdate(contactPerson);
+                context.Festivals.AddOrUpdate(festival);
 
-            var note = new ContactPersonNote
-            {
-                Id = 1,
-                ContactPerson = contactPerson,
-                Note = "Contact opgenomen met Niels over een inspectie. Voorstel volgt."
-            };
-
-            context.ContactPersonNotes.AddOrUpdate(note);
-
-            var festival = new Festival
-            {
-                Id = 1,
-                FestivalName = "Q-BASE",
-                Customer = customer,
-                Description = "Nachtfestival over de grens",
-                Address = new Address
-                {
-                    Country = "Duitsland",
-                    StreetName = "Flughafen-Ring",
-                    HouseNumber = 16,
-                    City = "Weeze",
-                    ZipCode = "NW47652"
-                },
-                OpeningHours = new OpeningHours
-                {
-                    StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
-                    EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
-                }
-            };
-
-            context.Festivals.AddOrUpdate(festival);
-
-            customer.Festivals = new List<Festival>
+                customer.Festivals = new List<Festival>
             {
                 festival
             };
 
-            context.Customers.AddOrUpdate(customer);
+                context.Customers.AddOrUpdate(customer);
 
-            var questionnaire = new Questionnaire
-            {
-                Id = 1,
-                Festival = festival
-            };
+                var questionnaire = new Questionnaire
+                {
+                    Id = 1,
+                    Name = "Tester",
+                    Festival = festival
+                };
 
-            var plannedInspection = new PlannedInspection
-            {
-                Id = 2,
-                Employee = employee,
-                Festival = festival,
-                EventTitle = "Inspection " + festival.FestivalName,
-                StartTime = new DateTime(2020, 7, 28, 20, 00, 00),
-                EndTime = new DateTime(2020, 7, 29, 5, 00, 00),
-                Questionnaire = questionnaire
-            };
+                var plannedInspection = new PlannedInspection
+                {
+                    Id = 2,
+                    Employee = employee,
+                    Festival = festival,
+                    EventTitle = "Inspection " + festival.FestivalName,
+                    StartTime = new DateTime(2020, 7, 28, 20, 00, 00),
+                    EndTime = new DateTime(2020, 7, 29, 5, 00, 00),
+                    Questionnaire = questionnaire
+                };
 
-            context.PlannedInspections.AddOrUpdate(plannedInspection);
+                context.PlannedInspections.AddOrUpdate(plannedInspection);
 
-            var questionCategory = new QuestionCategory
-            {
-                Id = 1,
-                CategoryName = "Vragen over veiligheid"
-            };
+                var questionCategory = new QuestionCategory
+                {
+                    Id = 1,
+                    CategoryName = "Vragen over veiligheid"
+                };
 
-            context.QuestionCategories.AddOrUpdate(questionCategory);
+                context.QuestionCategories.AddOrUpdate(questionCategory);
 
-            var drawQuestion = new DrawQuestion
-            {
-                Id = 1,
-                Category = questionCategory,
-                PicturePath = "/drawings/map_defqon.png",
-                Questionnaire = questionnaire,
-                Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
-                Answers = new List<FileAnswer>
+                var drawQuestion = new DrawQuestion
+                {
+                    Id = 1,
+                    Category = questionCategory,
+                    PicturePath = "/drawings/map_defqon.png",
+                    Questionnaire = questionnaire,
+                    Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
+                    Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {
@@ -147,20 +156,20 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            var multipleChoiceQuestion = new MultipleChoiceQuestion
-            {
-                Id = 2,
-                Category = questionCategory,
-                Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
-                Options = new List<string>
+                var multipleChoiceQuestion = new MultipleChoiceQuestion
                 {
-                    "Ja",
-                    "Nee"
-                },
-                Questionnaire = questionnaire,
-                Answers = new List<MultipleChoiceAnswer>
+                    Id = 2,
+                    Category = questionCategory,
+                    Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
+                    Options = "Ja,Nee",
+                    OptionCollection = new ObservableCollection<StringObject>()
+                    {
+                        new StringObject("Option1")
+                    },
+                    Questionnaire = questionnaire,
+                    Answers = new List<MultipleChoiceAnswer>
                 {
                     new MultipleChoiceAnswer
                     {
@@ -177,17 +186,17 @@ namespace Festispec.Models.Migrations
                         }
                     }
                 }
-            };
+                };
 
-            var numericQuestion = new NumericQuestion
-            {
-                Id = 3,
-                Category = questionCategory,
-                Contents = "Hoeveel EHBO-posten zijn er aanwezig?",
-                Minimum = 0,
-                Maximum = 99,
-                Questionnaire = questionnaire,
-                Answers = new List<NumericAnswer>
+                var numericQuestion = new NumericQuestion
+                {
+                    Id = 3,
+                    Category = questionCategory,
+                    Contents = "Hoeveel EHBO-posten zijn er aanwezig?",
+                    Minimum = 0,
+                    Maximum = 99,
+                    Questionnaire = questionnaire,
+                    Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -196,17 +205,17 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            var ratingQuestion = new RatingQuestion
-            {
-                Id = 4,
-                Category = questionCategory,
-                Contents = "Op een schaal van 1 tot 5, is de beveiliging voldoende aanwezig op het terrein?",
-                HighRatingDescription = "Er is veel beveiliging",
-                LowRatingDescription = "Er is amper beveiliging",
-                Questionnaire = questionnaire,
-                Answers = new List<NumericAnswer>
+                var ratingQuestion = new RatingQuestion
+                {
+                    Id = 4,
+                    Category = questionCategory,
+                    Contents = "Op een schaal van 1 tot 5, is de beveiliging voldoende aanwezig op het terrein?",
+                    HighRatingDescription = "Er is veel beveiliging",
+                    LowRatingDescription = "Er is amper beveiliging",
+                    Questionnaire = questionnaire,
+                    Answers = new List<NumericAnswer>
                 {
                     new NumericAnswer
                     {
@@ -215,16 +224,16 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            var stringQuestion = new StringQuestion
-            {
-                Id = 5,
-                Category = questionCategory,
-                Contents = "Geef een korte samenvatting van het vluchtplan.",
-                IsMultiline = true,
-                Questionnaire = questionnaire,
-                Answers = new List<StringAnswer>
+                var stringQuestion = new StringQuestion
+                {
+                    Id = 5,
+                    Category = questionCategory,
+                    Contents = "Geef een korte samenvatting van het vluchtplan.",
+                    IsMultiline = true,
+                    Questionnaire = questionnaire,
+                    Answers = new List<StringAnswer>
                 {
                     new StringAnswer
                     {
@@ -233,15 +242,15 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            var pictureQuestion = new UploadPictureQuestion
-            {
-                Id = 6,
-                Category = questionCategory,
-                Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
-                Questionnaire = questionnaire,
-                Answers = new List<FileAnswer>
+                var pictureQuestion = new UploadPictureQuestion
+                {
+                    Id = 6,
+                    Category = questionCategory,
+                    Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
+                    Questionnaire = questionnaire,
+                    Answers = new List<FileAnswer>
                 {
                     new FileAnswer
                     {
@@ -250,16 +259,16 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            var referenceQuestion = new ReferenceQuestion
-            {
-                Id = 7,
-                Category = questionCategory,
-                Question = pictureQuestion,
-                Contents = pictureQuestion.Contents,
-                Questionnaire = questionnaire,
-                Answers = new List<Answer>
+                var referenceQuestion = new ReferenceQuestion
+                {
+                    Id = 7,
+                    Category = questionCategory,
+                    Question = pictureQuestion,
+                    Contents = pictureQuestion.Contents,
+                    Questionnaire = questionnaire,
+                    Answers = new List<Answer>
                 {
                     new FileAnswer
                     {
@@ -268,23 +277,23 @@ namespace Festispec.Models.Migrations
                         PlannedInspection = plannedInspection
                     }
                 }
-            };
+                };
 
-            context.Questions.AddOrUpdate(
-                drawQuestion,
-                multipleChoiceQuestion,
-                numericQuestion,
-                ratingQuestion,
-                stringQuestion,
-                pictureQuestion,
-                referenceQuestion
-            );
+                context.Questions.AddOrUpdate(
+                    drawQuestion,
+                    multipleChoiceQuestion,
+                    numericQuestion,
+                    ratingQuestion,
+                    stringQuestion,
+                    pictureQuestion,
+                    referenceQuestion
+                );
 
-            var report = new Report
-            {
-                Id = 1,
-                Festival = festival,
-                ReportEntries = new List<ReportEntry>
+                var report = new Report
+                {
+                    Id = 1,
+                    Festival = festival,
+                    ReportEntries = new List<ReportEntry>
                 {
                     new ReportTextEntry
                     {
@@ -304,11 +313,26 @@ namespace Festispec.Models.Migrations
                         Question = multipleChoiceQuestion
                     }
                 }
-            };
+                };
 
-            context.Reports.AddOrUpdate(report);
+                context.Reports.AddOrUpdate(report);
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
 
         private static Employee CreateEmployee(FestispecContext context)
@@ -372,5 +396,7 @@ namespace Festispec.Models.Migrations
 
             return employee;
         }
+
+
     }
 }
