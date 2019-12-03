@@ -61,9 +61,6 @@ namespace Festispec.UI.ViewModels
 
         public void DeleteQuestion(Question item)
         {
-            //_removedQuestions.Add(item as Question);
-            //Questions.Remove(item as Question);
-
             if (_addedQuestions.Contains(item))
                 _addedQuestions.Remove(item);
             else
