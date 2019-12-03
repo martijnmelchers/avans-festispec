@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Festispec.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views
 {
@@ -21,6 +23,11 @@ namespace Festispec.UI.Views
         public CustomerScreen()
         {
             InitializeComponent();
+
+            IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => scope.Dispose();
+
+            DataContext = scope.ServiceProvider.GetRequiredService<CustomerViewModel>();
         }
 
         private void OpenDeleteCheckPopUp(object sender, RoutedEventArgs e)
