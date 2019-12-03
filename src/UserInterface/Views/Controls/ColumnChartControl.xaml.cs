@@ -1,4 +1,7 @@
-﻿using System;
+using Festispec.Models;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,9 +21,29 @@ namespace Festispec.UI.Views.Controls
     /// </summary>
     public partial class ColumnChartControl : UserControl
     {
-        public ColumnChartControl()
+
+        public SeriesCollection SeriesCollection { get; set; }
+
+        public ColumnChartControl(List<GraphableSeries> values)
         {
             InitializeComponent();
+
+            SeriesCollection = new SeriesCollection
+            {
+
+            };
+
+
+            foreach (var GraphableSeries in values)
+            {
+                SeriesCollection.Add(
+                 new ColumnSeries
+                 {
+                     Title = GraphableSeries.Title,
+                     Values = GraphableSeries.Values
+                 });
+            }
+            DataContext = this;
         }
     }
 }

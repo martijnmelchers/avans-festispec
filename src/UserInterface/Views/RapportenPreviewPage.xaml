@@ -11,14 +11,16 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"  Margin="110,104,110,104">
             <StackPanel>
-                <ItemsControl ItemsSource="{Binding Charts}"/>
                 <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat=INFORMATIE \{0\}}" Style="{DynamicResource Header}" Width="198"/>
+
+
                 <!--hier door de antwoorden loopen teksblok eronder knallen-->
                 <TextBox Height="150" Width="700" Margin="10" />
+                <ItemsControl ItemsSource="{Binding Charts}"/>
 
             </StackPanel>
         </ScrollViewer>
-        <Button Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}"  Height="45" Width="199" Margin="861,926,860,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}"  Height="45" Width="199" Margin="861,926,860,0" VerticalAlignment="Top"/>
         <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Width="198"/>
     </Grid>
 </Page>

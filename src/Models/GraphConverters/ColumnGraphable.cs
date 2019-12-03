@@ -19,23 +19,17 @@ namespace Festispec.Models.GraphConverters
         {
             List<GraphableSeries> series = new List<GraphableSeries>();
             var plannedInspections = Question.Answers.Select(x => x.PlannedInspection);
-
+            
             foreach (var plannedInspection in plannedInspections)
             {
-                var answers = Question.Answers.Where(x => x.PlannedInspection == plannedInspection);
-
-
                 GraphableSeries serie = new GraphableSeries();
-                serie.Title = Question.Contents;
+                serie.Values = new ChartValues<int>();
+                serie.Title = plannedInspection.EventTitle;
 
+                var answer = Question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
 
-                var chartValues = new ChartValues<int>();
-                foreach (var answer in answers)
-                {
-                    NumericAnswer numAnswer = (NumericAnswer)answer;
-                    chartValues.Add(numAnswer.IntAnswer);
-                }
-                serie.Values = chartValues;
+                var numAnswer = (NumericAnswer)answer;
+                serie.Values.Add(numAnswer.IntAnswer);
                 series.Add(serie);
             }
 
