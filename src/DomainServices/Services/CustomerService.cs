@@ -22,11 +22,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Customer> GetAllCustomers()
         {
-            return _db.Customers
-                .Include(c => c.ContactPersons)
-                .Include(c => c.ContactPersons.Select(cp => cp.Notes))
-                .Include(c => c.Festivals)
-                .ToList();
+            return _db.Customers.ToList();
         }
 
         public async Task<Customer> CreateCustomer(string name, int kvkNr, Address address, ContactDetails contactDetails)
