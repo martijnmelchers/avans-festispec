@@ -12,5 +12,7 @@ namespace Festispec.DomainServices.Interfaces
         List<Answer> GetAnswers(Models.Questions.Question answer);
         List<Models.Questions.Question> GetQuestions(Questionnaire questionnaire);
         Questionnaire GetQuestionaire(int id);
+
+        Festival GetFestival(int id);
     }
 }

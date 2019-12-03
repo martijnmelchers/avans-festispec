@@ -8,6 +8,7 @@ using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
+using System.Data.Entity;
 namespace Festispec.DomainServices.Services
 {
     class QuestionService: IQuestionService
@@ -21,7 +22,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Answer> GetAnswers(Question question)
         {
-            return ModelMocks.Answers.Where(x => x.Question == question).ToList();
+            //return ModelMocks.Answers.Where(x => x.Question == question).ToList();
            
             List<Answer> questionAnswers = new List<Answer>();
             var answers = _db.Answers;
@@ -30,14 +31,24 @@ namespace Festispec.DomainServices.Services
 
         public List<Question> GetQuestions(Questionnaire questionnaire)
         {
-            return ModelMocks.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
+            //return ModelMocks.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
             return _db.Questions.Where(x => x.Questionnaire == questionnaire).ToList();
         }
 
         public Questionnaire GetQuestionaire(int id)
         {
-            return ModelMocks.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
+            //return ModelMocks.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
             return _db.Questionnaires.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public Festival GetFestival(int festivalId)
+        {
+            var festival = _db.Festivals.Include(f => f.Questionnaires).FirstOrDefault(f => f.Id == festivalId);
+            if( festival != null)
+            {
+                return festival;
+            }
+            return null;
         }
     }
 }

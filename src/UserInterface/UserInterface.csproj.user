@@ -5,9 +5,15 @@
     <Compile Update="Views\FirstTimePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\RapportPreviewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\FirstTimePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RapportPreviewWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
