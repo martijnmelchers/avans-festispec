@@ -4,7 +4,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    internal interface ICustomerService
+    public interface ICustomerService
     {
         List<Customer> GetAllCustomers();
         Task<Customer> CreateCustomer(string name, int kvkNr, Address address, ContactDetails contactDetails);
