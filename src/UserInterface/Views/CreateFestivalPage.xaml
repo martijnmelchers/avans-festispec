@@ -23,9 +23,9 @@
         <Label Content="Postcode" Margin="300,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Text="{Binding Festival.Address.ZipCode, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,560,0,0" VerticalAlignment="Top" Width="180" Height="50"/>
         <Label Content="Huisnummer" Margin="500,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Address.HouseNumber, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="500,560,0,0" VerticalAlignment="Top" Width="150" Height="50"/>
+        <TextBox Text="{Binding HouseNumber, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="500,560,0,0" VerticalAlignment="Top" Width="150" Height="50"/>
         <Label Content="Toevoeging" Margin="670,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Address.Suffix, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="670,560,0,0" VerticalAlignment="Top" Width="130" Height="50"/>
+        <TextBox Text="{Binding Suffix, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="670,560,0,0" VerticalAlignment="Top" Width="130" Height="50"/>
 
         <Label Content="Straat" Margin="300,630,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Text="{Binding Festival.Address.StreetName, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,660,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
@@ -36,15 +36,15 @@
         <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding CountryOptions}" HorizontalAlignment="Left" Margin="300,760,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
 
         <Label Content="Begindatum" Margin="920,180,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.OpeningHours.StartDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,210,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+        <TextBox Text="{Binding StartDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,210,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
 
         <Label Content="Einddatum" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.OpeningHours.EndDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
+        <TextBox Text="{Binding EndDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="700"/>
 
         <Label Content="Begintijd" Margin="920,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.OpeningHours.StartTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <TextBox Text="{Binding StartTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
         <Label Content="Eindtijd" Margin="1280,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.OpeningHours.EndTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <TextBox Text="{Binding EndTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,410,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
 
         <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,100" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Command="{Binding CreateFestivalCommand}"/>
     </Grid>
