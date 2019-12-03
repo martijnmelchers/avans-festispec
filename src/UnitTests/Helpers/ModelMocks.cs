@@ -138,5 +138,10 @@ namespace Festispec.UnitTests.Helpers
             Questionnaire3,
             Questionnaire4
         };
+        
+        public List<Customer> Customers = new List<Customer>
+        {
+            Customer
+        };
     }
 }
