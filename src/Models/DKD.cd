@@ -69,8 +69,6 @@
     <AssociationLine Name="Customer" Type="Festispec.Models.Customer" FixedToPoint="true">
       <Path>
         <Point X="4.75" Y="9.875" />
-        <Point X="5.542" Y="9.875" Type="JumpStart" />
-        <Point X="5.708" Y="9.875" Type="JumpEnd" />
         <Point X="6" Y="9.875" />
       </Path>
     </AssociationLine>
@@ -91,8 +89,6 @@
     <AssociationLine Name="ContactPerson" Type="Festispec.Models.ContactPerson" FixedToPoint="true">
       <Path>
         <Point X="2" Y="9.875" />
-        <Point X="2.792" Y="9.875" Type="JumpStart" />
-        <Point X="2.958" Y="9.875" Type="JumpEnd" />
         <Point X="3.25" Y="9.875" />
       </Path>
     </AssociationLine>
@@ -333,8 +329,6 @@
         <Point X="14.75" Y="11.732" />
         <Point X="15.125" Y="11.732" />
         <Point X="15.125" Y="9.965" />
-        <Point X="15.417" Y="9.965" Type="JumpStart" />
-        <Point X="15.583" Y="9.965" Type="JumpEnd" />
         <Point X="17.5" Y="9.965" />
       </Path>
     </AssociationLine>
@@ -357,10 +351,9 @@
   <Class Name="Festispec.Models.Questions.StringQuestion">
     <Position X="22.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAQAAAAAgAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAACAQAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\StringQuestion.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.Questions.MultipleChoiceQuestion">
     <Position X="22.25" Y="5.5" Width="2" />
@@ -368,7 +361,6 @@
       <HashCode>wCEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\MultipleChoiceQuestion.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.Questions.Question">
     <Position X="19.75" Y="4.75" Width="1.5" />
@@ -379,7 +371,6 @@
     <ShowAsAssociation>
       <Property Name="GraphType" />
     </ShowAsAssociation>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.Questions.QuestionCategory">
     <Position X="19.75" Y="2.75" Width="1.5" />
@@ -401,13 +392,12 @@
   <Class Name="Festispec.Models.Questions.NumericQuestion">
     <Position X="22.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAACAAAAAAAAAIAQAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>gAAAAACAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\NumericQuestion.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Unit" />
     </ShowAsAssociation>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.Answers.NumericAnswer">
     <Position X="12.5" Y="0.75" Width="1.5" />
@@ -435,18 +425,16 @@
   <Class Name="Festispec.Models.Questions.RatingQuestion">
     <Position X="22.25" Y="1.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQBAAAAAAAAQAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQBAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\RatingQuestion.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.Questions.UploadPictureQuestion" Collapsed="true">
     <Position X="22.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Questions\UploadPictureQuestion.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Festispec.Models.ReferenceQuestion">
     <Position X="25" Y="7.25" Width="1.5" />
@@ -454,14 +442,6 @@
       <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>ReferenceQuestion.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Festispec.Models.Entity" Collapsed="true">
-    <Position X="26.75" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAACACAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Entity.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Interface Name="Festispec.Models.Interfaces.IAnswer&lt;TAnswer&gt;">
     <Position X="13.25" Y="3.25" Width="1.75" />

@@ -17,10 +17,11 @@ namespace Festispec.UI.ViewModels
     class InspectionViewModel : ViewModelBase
     {
         public Festival Festival { get; set; }
-        ICommand CheckBoxCommand { get; set; }
-        ICommand SaveCommand { get; set; }
+        public ICommand CheckBoxCommand { get; set; }
+        public ICommand AddEmployee { get; set; }
+        public ICommand SaveCommand { get; set; }
         private IInspectionService _inspectionService;
-
+        private DateTime _originalStartTime { get; set; }
         private bool Filter(object item)
         {
             if (String.IsNullOrEmpty(Search))
@@ -29,6 +30,7 @@ namespace Festispec.UI.ViewModels
                 return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
         }
         private ICollectionView _employees { get; set; }
+        private List<PlannedInspection> _plannedInspections { get; set; }
         public ICollectionView Employees
         {
             get
@@ -59,10 +61,13 @@ namespace Festispec.UI.ViewModels
             _inspectionService = inspectionService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
+            AddEmployee = new RelayCommand(Save);
             Employees = (CollectionView)CollectionViewSource.GetDefaultView(new InspectionService(new Models.EntityMapping.FestispecContext()).GetEmployees());
+            _plannedInspections = new List<PlannedInspection>();
             Employees.Filter = new Predicate<object>(Filter);
             EmployeesToAdd = new ObservableCollection<Employee>(); 
             EmployeesToRemove = new ObservableCollection<Employee>();
+            _originalStartTime = _startTime;
             Festival = new Festival()
             {
                 FestivalName = "test naam",
@@ -78,10 +83,12 @@ namespace Festispec.UI.ViewModels
                 },
                 Questionnaires = new List<Questionnaire>()
                 {
-                    new Questionnaire(){ },
-                    new Questionnaire(){ },
-                    new Questionnaire(){ }
-                }
+                    new Questionnaire() { },
+                    new Questionnaire() { },
+                    new Questionnaire() { }
+                },
+                PlannedInspections = new List<PlannedInspection>()
+                
             };
         }
 
@@ -164,7 +171,7 @@ namespace Festispec.UI.ViewModels
             {
                 EmployeesToAdd.Remove(employee);
             }
-            else if(Festival.PlannedInspections.Any(e=>e.Employee == employee))
+            else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
             {
                 EmployeesToRemove.Add(employee);
             }
@@ -183,7 +190,13 @@ namespace Festispec.UI.ViewModels
         }
         public async void Save()
         {
-            //EmployeesToAdd.ToList().ForEach(e => _inspectionService.CreatePlannedInspection(Festival, Questionnaire));
+
+            foreach(PlannedInspection p in _plannedInspections)
+            {
+                p.StartTime = _startTime;
+                p.EndTime = _endTime;
+                p.Questionnaire = Questionnaire;
+            }
 
             foreach (Employee q in EmployeesToAdd)
             {
