@@ -129,6 +129,7 @@
                         Contents = c.String(nullable: false, maxLength: 250),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
+                        Options = c.String(),
                         Minimum = c.Int(),
                         Maximum = c.Int(),
                         Unit = c.Int(),
@@ -137,12 +138,12 @@
                         IsMultiline = c.Boolean(),
                         PicturePath = c.String(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        Category_Id = c.Int(nullable: false),
+                        Category_Id = c.Int(),
                         Questionnaire_Id = c.Int(nullable: false),
                         Question_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.QuestionCategories", t => t.Category_Id, cascadeDelete: true)
+                .ForeignKey("dbo.QuestionCategories", t => t.Category_Id)
                 .ForeignKey("dbo.Questionnaires", t => t.Questionnaire_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Questions", t => t.Question_Id)
                 .Index(t => t.Category_Id)
@@ -165,6 +166,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 45),
                         IsComplete = c.DateTime(),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
