@@ -7,7 +7,7 @@
     </Compile>
     <Compile Update="Views\FirstTimePage.xaml.cs">
       <SubType>Code</SubType>
-    </Page>
+    </Compile>
     <Compile Update="Views\QuestionnairePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
