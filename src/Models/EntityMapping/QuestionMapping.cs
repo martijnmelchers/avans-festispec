@@ -11,7 +11,6 @@ namespace Festispec.Models.EntityMapping
 
             Property(q => q.Contents).IsRequired();
 
-            HasRequired(q => q.Category).WithMany(qc => qc.Questions);
             HasRequired(q => q.Questionnaire).WithMany(q => q.Questions);
 
             HasMany(q => q.Answers).WithRequired(a => a.Question);

@@ -64,11 +64,11 @@
                                 </Grid.RowDefinitions>
                                 <Label Content="{Binding Name}" Grid.Column="0"/>
                                 <Label Content="{Binding Address.City}" Grid.Column="1"/>
-                                <CheckBox Grid.Column="2" Command="{Binding CheckBoxCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}}">
-                                   <CheckBox.IsChecked>
+                                <CheckBox Grid.Column="2" Command="{Binding DataContext.CheckBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}">
+                                    <CheckBox.IsChecked>
                                         <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay">
                                             <Binding Path="DataContext.EmployeesToAdd" RelativeSource="{RelativeSource AncestorType=Page}" />
-                                            <Binding Path="." />
+                                            <Binding Path="."/>
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>

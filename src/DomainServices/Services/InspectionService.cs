@@ -80,10 +80,8 @@ namespace Festispec.DomainServices.Services
         public List<Employee> GetEmployees()
         {
             var employees = _db.Employees.ToList();
-
             if (employees == null)
                 throw new EntityNotFoundException();
-
             return employees;
 
         }

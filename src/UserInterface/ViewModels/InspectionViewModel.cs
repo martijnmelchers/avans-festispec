@@ -17,8 +17,9 @@ namespace Festispec.UI.ViewModels
     class InspectionViewModel : ViewModelBase
     {
         public Festival Festival { get; set; }
-        ICommand CheckBoxCommand { get; set; }
-        ICommand SaveCommand { get; set; }
+        public ICommand CheckBoxCommand { get; set; }
+        public ICommand AddEmployee { get; set; }
+        public ICommand SaveCommand { get; set; }
         private IInspectionService _inspectionService;
 
         private bool Filter(object item)
@@ -59,6 +60,7 @@ namespace Festispec.UI.ViewModels
             _inspectionService = inspectionService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
+            AddEmployee = new RelayCommand(Save);
             Employees = (CollectionView)CollectionViewSource.GetDefaultView(new InspectionService(new Models.EntityMapping.FestispecContext()).GetEmployees());
             Employees.Filter = new Predicate<object>(Filter);
             EmployeesToAdd = new ObservableCollection<Employee>(); 
@@ -78,10 +80,12 @@ namespace Festispec.UI.ViewModels
                 },
                 Questionnaires = new List<Questionnaire>()
                 {
-                    new Questionnaire(){ },
-                    new Questionnaire(){ },
-                    new Questionnaire(){ }
-                }
+                    new Questionnaire() { },
+                    new Questionnaire() { },
+                    new Questionnaire() { }
+                },
+                PlannedInspections = new List<PlannedInspection>()
+                
             };
         }
 
@@ -164,7 +168,7 @@ namespace Festispec.UI.ViewModels
             {
                 EmployeesToAdd.Remove(employee);
             }
-            else if(Festival.PlannedInspections.Any(e=>e.Employee == employee))
+            else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
             {
                 EmployeesToRemove.Add(employee);
             }

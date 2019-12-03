@@ -12,9 +12,5 @@ namespace Festispec.UI.ViewModels
             _authenticationService = authenticationService;
         }
 
-        public void Nigga()
-        {
-
-        }
     }
 }

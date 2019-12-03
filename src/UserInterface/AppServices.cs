@@ -17,6 +17,7 @@ namespace Festispec.UI
             services.AddTransient<MainViewModel>();
             services.AddTransient<FirstTimeViewModel>();
             services.AddTransient<InspectionViewModel>();
+            services.AddTransient<QuestionnaireViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -34,6 +35,7 @@ namespace Festispec.UI
             // Register your routes here
             navigationService.Configure("Homepage", new Uri("../Views/InspectionPage.xaml", UriKind.Relative));
             navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
+            navigationService.Configure("Questionnaire", new Uri("../Views/QuestionnairePage.xaml", UriKind.Relative));
 
             return navigationService;
         }

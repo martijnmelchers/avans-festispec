@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Festispec.UI.Converters
 {
@@ -12,8 +13,8 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            ObservableCollection<Employee>  EmployeesToAdd = values[0] as ObservableCollection<Employee>;
-
+           
+            ObservableCollection<Employee> EmployeesToAdd = values[0] as ObservableCollection<Employee>;
             return EmployeesToAdd.Contains(values[1] as Employee);
         }
 
