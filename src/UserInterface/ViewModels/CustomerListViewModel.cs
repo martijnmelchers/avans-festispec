@@ -30,18 +30,18 @@ namespace Festispec.UI.ViewModels
             _customerService.GetAllCustomers().ForEach(c => CustomerList.Add(c));
 
             AddNewCustomerCommand = new RelayCommand(NavigateToAddNewCustomer);
-            EditCustomerCommand = new RelayCommand<Customer>(NavigateToEditCustomer);
-            RemoveCustomerCommand = new RelayCommand<Customer>(RemoveCustomer);
+            EditCustomerCommand = new RelayCommand<int>(NavigateToEditCustomer);
+            RemoveCustomerCommand = new RelayCommand<int>(RemoveCustomer);
         }
 
-        private void RemoveCustomer(Customer obj)
+        private void RemoveCustomer(int customerId)
         {
             
         }
 
-        private void NavigateToEditCustomer(Customer obj)
+        private void NavigateToEditCustomer(int customerId)
         {
-            _navigationService.NavigateTo("EditCustomer", obj.Id);
+            _navigationService.NavigateTo("EditCustomer", customerId);
         }
 
         private void NavigateToAddNewCustomer()

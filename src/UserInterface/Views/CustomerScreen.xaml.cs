@@ -27,7 +27,7 @@ namespace Festispec.UI.Views
             IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = scope.ServiceProvider.GetRequiredService<CustomerViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<CustomerListViewModel>();
         }
 
         private void OpenDeleteCheckPopUp(object sender, RoutedEventArgs e)
