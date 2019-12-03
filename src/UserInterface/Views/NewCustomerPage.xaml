@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
       mc:Ignorable="d" 
-      Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
+      Title="NewCustomerPage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="620"/>
@@ -22,10 +22,12 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <TextBlock Text="Nieuwe klant aanmaken" Style="{DynamicResource Header}" Grid.Row="0"/>
             <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
             <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
