@@ -51,11 +51,13 @@
 
             <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Right" Margin="40,0,0,0"/>
 
-            <Popup x:Name="DeleteWarning" Placement="Center">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd."/>
-                    <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185"/>
-                    <Button Content="Annuleren" Command="{Binding ClearRemovalIdCommand}" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185"/>
+            <Popup x:Name="DeleteWarning">
+                <StackPanel>
+                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd." HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Right"/>
+                        <Button Content="Annuleren" Command="{Binding ClearRemovalIdCommand}" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Left"/>
+                    </StackPanel>
                 </StackPanel>
             </Popup>
         </Grid>
