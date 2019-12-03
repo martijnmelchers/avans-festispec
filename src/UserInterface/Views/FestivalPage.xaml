@@ -9,7 +9,9 @@
       Title="FestivalPage">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="81,54,1224,45" />
-        <TextBlock Text="{Binding FestivalHeader}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Height="66" Margin="120,120,0,0" VerticalAlignment="Top" Width="465"/>
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,100" />
+        <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Height="66" Margin="180,120,0,0" VerticalAlignment="Top" Width="465"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,179,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A
+        "/>
     </Grid>
 </Page>

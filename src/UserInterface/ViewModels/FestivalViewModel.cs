@@ -9,12 +9,12 @@ namespace Festispec.UI.ViewModels
     class FestivalViewModel
     {
         private IFestivalService _festivalService;
-        private Festival _festival;
-        public string FestivalHeader { get => "Informatie " + _festival.FestivalName;}
+        public Festival Festival { get; set; }
+        /*public string FestivalHeader { get => "Informatie " + _festival.FestivalName;}*/
         public FestivalViewModel(IFestivalService festivalService)
         {
             _festivalService = festivalService;
-            _festival = _festivalService.GetFestival(1);
+            Festival = _festivalService.GetFestival(1);
         }
     }
 }

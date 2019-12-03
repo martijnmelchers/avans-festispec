@@ -4,6 +4,8 @@
     
     <Style x:Key="ContentBox" TargetType="Rectangle">
         <Setter Property="Fill" Value="White"/>
+        <Setter Property="RadiusX" Value="10"/>
+        <Setter Property="RadiusY" Value="10"/>
         <Setter Property="Stroke">
             <Setter.Value>
                 <SolidColorBrush Opacity="0" />
