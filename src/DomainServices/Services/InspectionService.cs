@@ -60,6 +60,26 @@ namespace Festispec.DomainServices.Services
 
             return plannedInspection;
         }
+        public PlannedInspection GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+        {
+
+            var plannedInspection = _db.PlannedInspections.FirstOrDefault(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
+
+            if (plannedInspection == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspection;
+        }
+        public List<PlannedInspection> GetPlannedInspections(Festival festival, DateTime StartTime)
+        {
+
+            var plannedInspections = _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToList();
+
+            if (plannedInspections == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspections;
+        }
 
         public async Task RemoveInspection(int PlannedInspectionId)
         {

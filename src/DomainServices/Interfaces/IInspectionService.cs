@@ -10,6 +10,8 @@ namespace Festispec.DomainServices.Interfaces
     {
         #region planned Event
         PlannedInspection GetPlannedInspection(int plannedInspectionId);
+        PlannedInspection GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime);
+        PlannedInspection GetPlannedInspections(Festival festival, DateTime StartTime);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire);
         Task RemoveInspection(int PlannedInspectionId);
