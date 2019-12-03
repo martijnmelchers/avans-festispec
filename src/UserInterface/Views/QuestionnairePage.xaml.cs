@@ -1,26 +1,24 @@
 ﻿using Festispec.UI.ViewModels;
-using Festispec.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
 using System.Windows.Controls;
-
-namespace Festispec.UI
+namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for QuestionnairePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class QuestionnairePage : Page
     {
         private readonly IServiceScope _scope;
-        public MainWindow()
+        public QuestionnairePage()
         {
             InitializeComponent();
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>(); 
-        }
+            DataContext = _scope.ServiceProvider.GetRequiredService<QuestionnaireViewModel>();
 
+
+        }
     }
 }
