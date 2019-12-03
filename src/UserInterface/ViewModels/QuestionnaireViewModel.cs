@@ -1,4 +1,5 @@
-﻿using Festispec.DomainServices.Factories;
+﻿using Festispec.DomainServices;
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
@@ -32,14 +33,14 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory)
         {
             _questionnaireService = questionnaireService;
             Questionnaire = _questionnaireService.GetQuestionnaire(2);
             _questions = new ObservableCollection<Question>(Questionnaire.Questions);
             _addedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
-            _questionFactory = new QuestionFactory();
+            _questionFactory = questionFactory;
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
@@ -61,9 +62,6 @@ namespace Festispec.UI.ViewModels
 
         public void DeleteQuestion(Question item)
         {
-            //_removedQuestions.Add(item as Question);
-            //Questions.Remove(item as Question);
-
             if (_addedQuestions.Contains(item))
                 _addedQuestions.Remove(item);
             else
@@ -119,9 +117,9 @@ namespace Festispec.UI.ViewModels
 
         public void AddOption(Question question)
         {
-            var x = (MultipleChoiceQuestion)question;
+            var option = (MultipleChoiceQuestion)question;
 
-            x.OptionCollection.Add(new StringObject());
+            option.OptionCollection.Add(new StringObject());
         }
 
     }

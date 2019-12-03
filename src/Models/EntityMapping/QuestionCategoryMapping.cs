@@ -8,7 +8,7 @@ namespace Festispec.Models.EntityMapping
         public QuestionCategoryMapping()
         {
             Property(qc => qc.CategoryName).IsRequired();
-
+            HasMany(qc => qc.Questions).WithOptional(q => q.Category);
         }
     }
 }
