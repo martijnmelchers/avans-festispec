@@ -26,7 +26,7 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData("PinkPop", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
         [InlineData("Q-DANCE", 34212891, "1014AS", "Isolatorweg", 36, "Amsterdam", "Nederland", "+31204877300", "info@q-dance.com")]
-        public async void CreateQuestionnaire(string name, int kvkNr, string zipCode, string street, int houseNumber, string city, string country, string phoneNumber, string emailAddress)
+        public async void CreateCustomer(string name, int kvkNr, string zipCode, string street, int houseNumber, string city, string country, string phoneNumber, string emailAddress)
         {
             var address = new Address
             {
@@ -50,7 +50,8 @@ namespace Festispec.UnitTests
         
         [Theory]
         [InlineData("PinkPopDitIsEenHeelLangeNaamDieBovenDe20KaraktersUitKomt", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
-        public async void CreateQuestionnaireInvalidData(string name, int kvkNr, string zipCode, string street,
+        [InlineData("PinkPop", 12345678, "1013 AAAAAAAAAAAAAAAAAAB", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
+        public async void CreateCustomerInvalidData(string name, int kvkNr, string zipCode, string street,
             int houseNumber, string city, string country, string phoneNumber, string emailAddress)
         {
             var address = new Address
