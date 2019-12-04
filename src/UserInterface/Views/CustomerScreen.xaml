@@ -41,8 +41,10 @@
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{Binding CustomerName}" VerticalAlignment="Center" />
 
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
                             <Button Content="Wijzig" Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
