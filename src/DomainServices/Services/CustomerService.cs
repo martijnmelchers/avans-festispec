@@ -40,7 +40,7 @@ namespace Festispec.DomainServices.Services
         
         public async Task<Customer> CreateCustomer(Customer customer)
         {
-            if (!customer.Validate())
+            if (!customer.Validate() || !customer.Address.Validate() || !customer.ContactDetails.Validate())
                 throw new InvalidDataException();
 
             _db.Customers.Add(customer);
