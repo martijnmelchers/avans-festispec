@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Festispec.UI.ViewModels;
@@ -26,6 +27,30 @@ namespace Festispec.UI.Views
         private void NumericTextBlockOnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = _numericOnlyRegex.IsMatch(e.Text);
+        }
+
+        private void OpenDeleteCheckPopUp(object sender, RoutedEventArgs e)
+        {
+            if (!DeleteWarning.IsOpen)
+            {
+                DeleteWarning.IsOpen = true;
+            }
+        }
+
+        private void StopDeleteCheckPopUp(object sender, RoutedEventArgs e)
+        {
+            if (DeleteWarning.IsOpen)
+            {
+                DeleteWarning.IsOpen = false;
+            }
+        }
+
+        private void ContinueDeleteCheckPopUp(object sender, RoutedEventArgs e)
+        {
+            if (DeleteWarning.IsOpen)
+            {
+                DeleteWarning.IsOpen = false;
+            }
         }
     }
 }

@@ -11,10 +11,12 @@
 
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="800"/>
-        <Grid Width="1200" Height="750">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="950"/>
+        <Grid Width="1200" Height="900">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
@@ -60,6 +62,8 @@
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
             <TextBox Text="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"/>
 
+            <Button Content="Verwijder" Style="{DynamicResource ButtonRed}" IsEnabled="{Binding CanDeleteCustomer}" Click="OpenDeleteCheckPopUp" Height="50" Width="185"  HorizontalAlignment="Right" Grid.Column="0" Grid.Row="15"/>
+
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0"/>
 
@@ -69,8 +73,21 @@
             <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0"/>
             <TextBox Text="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"/>
 
-            <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}" Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Right"/>
-            <Button Content="Annuleren" Command="{Binding ReturnToCustomerListCommand}" Style="{DynamicResource ButtonRed}" Height="50" Width="250" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Right" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Right">
+                <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}" Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
+                <Button Content="Annuleren" Command="{Binding ReturnToCustomerListCommand}" Style="{DynamicResource ButtonRed}" Height="50" Width="250"/>
+
+            </StackPanel>
+
+            <Popup x:Name="DeleteWarning">
+                <StackPanel>
+                    <Label Content="Als u op doorgaan drukt wordt deze klant definitief verwijderd." HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Right"/>
+                        <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+            </Popup>
         </Grid>
     </Grid>
 </Page>

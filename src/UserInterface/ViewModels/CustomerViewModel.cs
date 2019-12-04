@@ -14,10 +14,13 @@ namespace Festispec.UI.ViewModels
         private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
 
+        public Customer Customer { get; }
+
         public ICommand SaveCommand { get; }
+        public ICommand RemoveCustomerCommand { get; set; }
         public ICommand ReturnToCustomerListCommand { get; }
 
-        public Customer Customer { get; }
+        public bool CanDeleteCustomer { get; }
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
@@ -27,16 +30,20 @@ namespace Festispec.UI.ViewModels
             if (_navigationService.Parameter is int customerId)
             {
                 Customer = _customerService.GetCustomer(customerId);
+                CanDeleteCustomer = false;//Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
             }
             else
             {
                 Customer = new Customer();
+                CanDeleteCustomer = false;
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
             ReturnToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
+            RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
         }
+
 
         private void NavigateToCustomerList()
         {
@@ -67,6 +74,15 @@ namespace Festispec.UI.ViewModels
             {
                 MessageBox.Show($"An error occured while editing a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void RemoveCustomer()
+        {
+            if (!CanDeleteCustomer)
+                throw new InvalidOperationException("Cannot remove this customer");
+
+            _customerService.RemoveCustomer(Customer.Id);
+            NavigateToCustomerList();
         }
     }
 }

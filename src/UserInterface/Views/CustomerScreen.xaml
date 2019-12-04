@@ -43,23 +43,12 @@
 
                             <Button Content="Notitie" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
                             <Button Content="Wijzig" Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-                            <Button Content="Verwijder" Command="{Binding DataContext.StoreRemovalIdCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Id}" Style="{DynamicResource ButtonRed}" Click="OpenDeleteCheckPopUp" Height="50" Width="185"  HorizontalAlignment="Right" Margin="0,0,0,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
             <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Right" Margin="40,0,0,0"/>
-
-            <Popup x:Name="DeleteWarning">
-                <StackPanel>
-                    <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd." HorizontalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Right"/>
-                        <Button Content="Annuleren" Command="{Binding ClearRemovalIdCommand}" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp" Height="50" Width="185" HorizontalAlignment="Left"/>
-                    </StackPanel>
-                </StackPanel>
-            </Popup>
         </Grid>
     </Grid>
 </Page>
