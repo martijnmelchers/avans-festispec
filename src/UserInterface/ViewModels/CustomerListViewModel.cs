@@ -13,7 +13,6 @@ namespace Festispec.UI.ViewModels
 {
     class CustomerListViewModel
     {
-        private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
 
         public ObservableCollection<Customer> CustomerList { get; }
@@ -23,11 +22,10 @@ namespace Festispec.UI.ViewModels
 
         public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
-            _customerService = customerService;
             _navigationService = navigationService;
 
             CustomerList = new ObservableCollection<Customer>();
-            _customerService.GetAllCustomers().ForEach(c => CustomerList.Add(c));
+            customerService.GetAllCustomers().ForEach(c => CustomerList.Add(c));
 
             AddNewCustomerCommand = new RelayCommand(NavigateToAddNewCustomer);
             EditCustomerCommand = new RelayCommand<int>(NavigateToEditCustomer);
