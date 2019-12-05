@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
@@ -15,14 +18,43 @@ namespace Festispec.UnitTests
         private readonly ICustomerService _customerService;
         public CustomerServiceTests()
         {
-            // Setup database mocks
             _dbMock = new Mock<FestispecContext>();
-
             _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Customers).Object);
+            _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().ContactPersons).Object);
 
             _customerService = new CustomerService(_dbMock.Object);
         }
+
+        [Theory]
+        [InlineData(1)]
+        public void GetCustomer(int customerId)
+        {
+            Customer expected = _dbMock.Object.Customers.FirstOrDefault(c => c.Id == customerId);
+            Assert.Equal(expected, _customerService.GetCustomer(customerId));
+        }
         
+        [Theory]
+        [InlineData(9999)]
+        public void GetNonexistentCustomer(int customerId)
+        {
+            Assert.Throws<EntityNotFoundException>(() => _customerService.GetCustomer(customerId));
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async void GetCustomerAsync(int customerId)
+        {
+            Customer expected = _dbMock.Object.Customers.FirstOrDefault(c => c.Id == customerId);
+            Assert.Equal(expected, await _customerService.GetCustomerAsync(customerId));
+        }
+        
+        [Theory]
+        [InlineData(9999)]
+        public async void GetNonexistentCustomerAsync(int customerId)
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
+        }
+
         [Theory]
         [InlineData("PinkPop", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
         [InlineData("Q-DANCE", 34212891, "1014AS", "Isolatorweg", 36, "Amsterdam", "Nederland", "+31204877300", "info@q-dance.com")]
@@ -38,7 +70,7 @@ namespace Festispec.UnitTests
                 EmailAddress = emailAddress, PhoneNumber = phoneNumber
             };
             
-            var customer = await _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails);
+            Customer customer = await _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails);
 
             Assert.Equal(name, customer.CustomerName);
             Assert.Equal(customer.KvkNr, kvkNr);
@@ -65,6 +97,29 @@ namespace Festispec.UnitTests
             };
             
             await Assert.ThrowsAsync<InvalidDataException>(() => _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        public async void RemoveCustomer(int customerId)
+        {
+            await _customerService.RemoveCustomerAsync(customerId);
+
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
+        }
+
+        [Theory]
+        [InlineData(99999)]
+        public async void RemoveNonexistentCustomer(int customerId)
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.RemoveCustomerAsync(customerId));
+        }
+
+        [Theory]
+        [InlineData(2)]
+        public async void RemoveCustomerWithFestivals(int customerId)
+        {
+            await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
         }
     }
 }
