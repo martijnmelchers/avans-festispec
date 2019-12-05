@@ -54,7 +54,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                await _customerService.CreateCustomer(Customer);
+                await _customerService.CreateCustomerAsync(Customer);
                 NavigateToCustomerList();
             }
             catch (Exception e)
@@ -67,7 +67,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                await _customerService.SaveChanges();
+                await _customerService.SaveChangesAsync();
                 NavigateToCustomerList();
             }
             catch (Exception e)
@@ -76,12 +76,12 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        private void RemoveCustomer()
+        private async void RemoveCustomer()
         {
             if (!CanDeleteCustomer)
                 throw new InvalidOperationException("Cannot remove this customer");
 
-            _customerService.RemoveCustomer(Customer.Id);
+            await _customerService.RemoveCustomerAsync(Customer.Id);
             NavigateToCustomerList();
         }
     }

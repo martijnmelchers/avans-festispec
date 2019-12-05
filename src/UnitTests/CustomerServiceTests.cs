@@ -38,7 +38,7 @@ namespace Festispec.UnitTests
                 EmailAddress = emailAddress, PhoneNumber = phoneNumber
             };
             
-            var customer = await _customerService.CreateCustomer(name, kvkNr, address, contactDetails);
+            var customer = await _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails);
 
             Assert.Equal(name, customer.CustomerName);
             Assert.Equal(customer.KvkNr, kvkNr);
@@ -64,7 +64,7 @@ namespace Festispec.UnitTests
                 EmailAddress = emailAddress, PhoneNumber = phoneNumber
             };
             
-            await Assert.ThrowsAsync<InvalidDataException>(() => _customerService.CreateCustomer(name, kvkNr, address, contactDetails));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails));
         }
     }
 }

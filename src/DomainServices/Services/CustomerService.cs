@@ -25,7 +25,7 @@ namespace Festispec.DomainServices.Services
             return _db.Customers.ToList();
         }
 
-        public async Task<Customer> CreateCustomer(string name, int kvkNr, Address address, ContactDetails contactDetails)
+        public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails)
         {
             var customer = new Customer()
             {
@@ -35,39 +35,50 @@ namespace Festispec.DomainServices.Services
                 ContactDetails = contactDetails
             };
 
-            return await CreateCustomer(customer);
+            return await CreateCustomerAsync(customer);
         }
         
-        public async Task<Customer> CreateCustomer(Customer customer)
+        public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
             if (!customer.Validate() || !customer.Address.Validate() || !customer.ContactDetails.Validate())
                 throw new InvalidDataException();
 
             _db.Customers.Add(customer);
 
-            await _db.SaveChangesAsync();
+            await SaveChangesAsync();
 
             return customer;
         }
-
+        
         public Customer GetCustomer(int customerId)
         {
             Customer customer = _db.Customers
                 .Include(c => c.ContactPersons)
-                .Include(c => c.ContactPersons.Select(cp => cp.Notes))
                 .Include(c => c.Festivals)
                 .FirstOrDefault(c => c.Id == customerId);
 
             if (customer == null)
-                // TODO: Change to EntityNotFoundException.
-                throw new InvalidOperationException();
+                throw new EntityNotFoundException();
 
             return customer;
         }
 
-        public async Task RemoveCustomer(int customerId)
+        public async Task<Customer> GetCustomerAsync(int customerId)
         {
-            Customer customer = GetCustomer(customerId);
+            Customer customer = await _db.Customers
+                .Include(c => c.ContactPersons)
+                .Include(c => c.Festivals)
+                .FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer == null)
+                throw new EntityNotFoundException();
+
+            return customer;
+        }
+
+        public async Task<int> RemoveCustomerAsync(int customerId)
+        {
+            Customer customer = await GetCustomerAsync(customerId);
 
             if (customer.Festivals.Count > 0)
                 throw new CustomerHasFestivalsException();
@@ -75,12 +86,12 @@ namespace Festispec.DomainServices.Services
             _db.ContactPersons.RemoveRange(customer.ContactPersons);
             _db.Customers.Remove(customer);
 
-            await _db.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
-        public async Task SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            await _db.SaveChangesAsync();
+            return await _db.SaveChangesAsync();
         }
     }
 }
