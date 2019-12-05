@@ -30,7 +30,7 @@ namespace Festispec.UI.ViewModels
             if (_navigationService.Parameter is int customerId)
             {
                 Customer = _customerService.GetCustomer(customerId);
-                CanDeleteCustomer = false;//Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
+                CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
             }
             else
