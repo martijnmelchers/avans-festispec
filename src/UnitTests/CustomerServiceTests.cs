@@ -84,14 +84,17 @@ namespace Festispec.UnitTests
                 EmailAddress = emailAddress, PhoneNumber = phoneNumber
             };
             
-            Customer customer = await _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails);
+            Customer createdCustomer = await _customerService.CreateCustomerAsync(name, kvkNr, address, contactDetails);
 
-            Assert.Equal(name, customer.CustomerName);
-            Assert.Equal(customer.KvkNr, kvkNr);
-            Assert.Equal(customer.Address, address);
-            Assert.Equal(customer.ContactDetails, contactDetails);
+            Assert.Equal(name, createdCustomer.CustomerName);
+            Assert.Equal(createdCustomer.KvkNr, kvkNr);
+            Assert.Equal(createdCustomer.Address, address);
+            Assert.Equal(createdCustomer.ContactDetails, contactDetails);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+
+            Customer customer = await _customerService.GetCustomerAsync(createdCustomer.Id);
+            Assert.Equal(createdCustomer, customer);
         }
         
         [Theory]
