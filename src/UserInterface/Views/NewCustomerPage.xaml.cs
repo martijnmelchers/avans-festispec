@@ -11,7 +11,7 @@ namespace Festispec.UI.Views
     /// </summary>
     public partial class CustomerPage : Page
     {
-        private static Regex _numericOnlyRegex = new Regex("[^0-9]+");
+        private static readonly Regex _numericOnlyRegex = new Regex("[^0-9]+");
         
         public CustomerPage()
         {
