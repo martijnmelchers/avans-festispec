@@ -39,7 +39,8 @@ namespace Festispec.UnitTests
 
         [Theory]
         [InlineData(1)]
-        public void GetCustomer(int customerId)
+        [InlineData(2)]
+        public void GetCustomerReturnsCorrectCustomer(int customerId)
         {
             Customer expected = _dbMock.Object.Customers.FirstOrDefault(c => c.Id == customerId);
             Assert.Equal(expected, _customerService.GetCustomer(customerId));
@@ -47,14 +48,15 @@ namespace Festispec.UnitTests
         
         [Theory]
         [InlineData(9999)]
-        public void GetNonexistentCustomer(int customerId)
+        public void GetNonexistentCustomerThrowsException(int customerId)
         {
             Assert.Throws<EntityNotFoundException>(() => _customerService.GetCustomer(customerId));
         }
         
         [Theory]
         [InlineData(1)]
-        public async void GetCustomerAsync(int customerId)
+        [InlineData(2)]
+        public async void GetCustomerAsyncReturnsCorrectCustomer(int customerId)
         {
             Customer expected = _dbMock.Object.Customers.FirstOrDefault(c => c.Id == customerId);
             Assert.Equal(expected, await _customerService.GetCustomerAsync(customerId));
@@ -62,7 +64,7 @@ namespace Festispec.UnitTests
         
         [Theory]
         [InlineData(9999)]
-        public async void GetNonexistentCustomerAsync(int customerId)
+        public async void GetNonexistentCustomerAsyncThrowsException(int customerId)
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
         }
@@ -70,7 +72,7 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData("PinkPop", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
         [InlineData("Q-DANCE", 34212891, "1014AS", "Isolatorweg", 36, "Amsterdam", "Nederland", "+31204877300", "info@q-dance.com")]
-        public async void CreateCustomer(string name, int kvkNr, string zipCode, string street, int houseNumber, string city, string country, string phoneNumber, string emailAddress)
+        public async void CreateCustomerAddsCustomer(string name, int kvkNr, string zipCode, string street, int houseNumber, string city, string country, string phoneNumber, string emailAddress)
         {
             var address = new Address
             {
@@ -95,7 +97,7 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData("PinkPopDitIsEenHeelLangeNaamDieBovenDe20KaraktersUitKomt", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
         [InlineData("PinkPop", 12345678, "1013 AAAAAAAAAAAAAAAAAAB", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
-        public async void CreateCustomerInvalidData(string name, int kvkNr, string zipCode, string street,
+        public async void CreateCustomerWithInvalidDataThrowsException(string name, int kvkNr, string zipCode, string street,
             int houseNumber, string city, string country, string phoneNumber, string emailAddress)
         {
             var address = new Address
@@ -113,7 +115,7 @@ namespace Festispec.UnitTests
 
         [Theory]
         [InlineData(1)]
-        public async void RemoveCustomer(int customerId)
+        public async void RemoveCustomerRemovesCustomer(int customerId)
         {
             await _customerService.RemoveCustomerAsync(customerId);
 
@@ -122,14 +124,14 @@ namespace Festispec.UnitTests
 
         [Theory]
         [InlineData(99999)]
-        public async void RemoveNonexistentCustomer(int customerId)
+        public async void RemoveNonexistentCustomerThrowsException(int customerId)
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.RemoveCustomerAsync(customerId));
         }
 
         [Theory]
         [InlineData(2)]
-        public async void RemoveCustomerWithFestivals(int customerId)
+        public async void RemoveCustomerWithFestivalsThrowsException(int customerId)
         {
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
         }
