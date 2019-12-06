@@ -16,13 +16,25 @@ namespace Festispec.UnitTests
     {
         private readonly Mock<FestispecContext> _dbMock;
         private readonly ICustomerService _customerService;
+        private ModelMocks _modelMocks;
+
         public CustomerServiceTests()
         {
             _dbMock = new Mock<FestispecContext>();
-            _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Customers).Object);
-            _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().ContactPersons).Object);
+            _modelMocks = new ModelMocks();
+            _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
+            _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(_modelMocks.ContactPersons).Object);
 
             _customerService = new CustomerService(_dbMock.Object);
+        }
+
+        [Fact]
+        public void GetAllCustomersReturnsCustomerList()
+        {
+            List<Customer> expected = _modelMocks.Customers;
+            
+            List<Customer> actual = _customerService.GetAllCustomers();
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
