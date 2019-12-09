@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:val="clr-namespace:Festispec.UI.Validation"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="CreateFestivalPage">
@@ -40,9 +41,17 @@
         <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding CountryOptions}" SelectedIndex="0"  HorizontalAlignment="Left" Margin="300,800,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
 
         <Label Content="Begindatum" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding StartDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top" Height="50" Width="340"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top" Height="50" Width="340">
+            <TextBox.Text>
+                <Binding Path="StartDate" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <val:DateFormatValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label Content="Einddatum" Margin="1280,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Einddatum" Margin="1280,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Text="{Binding EndDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="340"/>
 
         <Label Content="Begintijd" Margin="920,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
