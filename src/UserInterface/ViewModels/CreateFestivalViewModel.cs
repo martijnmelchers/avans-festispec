@@ -14,12 +14,21 @@ namespace Festispec.UI.ViewModels
         private IFestivalService _festivalService;
         public Festival Festival { get; set; }
         public ICommand CreateFestivalCommand { get; set; }
-        public string HouseNumber { get; set; }
         public string Suffix { get; set; }
-        public List<string> CountryOptions { get; set; }
+        public List<string> CountryOptions
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    "Nederland",
+                    "België",
+                    "Duitsland"
+                };
+            }
+        }
         public CreateFestivalViewModel(IFestivalService festivalService)
         {
-            AddCountries();
             Festival = new Festival
             {
                 OpeningHours = new OpeningHours(),
@@ -32,37 +41,18 @@ namespace Festispec.UI.ViewModels
         }
         public async void CreateFestival()
         {
-            CheckValues();
+            if (!string.IsNullOrEmpty(Suffix))
+            {
+                Festival.Address.Suffix = Suffix;
+            }
             try
             {
                 await _festivalService.CreateFestival(Festival);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show($"An error occured while adding festival. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void CheckValues()
-        {
-            if (Int32.TryParse(HouseNumber, out int number))
-            {
-                Festival.Address.HouseNumber = number;
-            }
-            if (!Suffix.Equals(""))
-            {
-                Festival.Address.Suffix = Suffix;
-            }
-        }
-
-        private void AddCountries()
-        {
-            CountryOptions = new List<string>()
-            {
-                "Nederland",
-                "België",
-                "Duitsland"
-            };
         }
     }
 }
