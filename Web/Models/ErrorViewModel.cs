@@ -1,6 +1,6 @@
 using System;
 
-namespace Web.Models
+namespace Festispec.Web.Models
 {
     public class ErrorViewModel
     {

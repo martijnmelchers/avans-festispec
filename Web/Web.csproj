@@ -2,10 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Festispec.Web</RootNamespace>
   </PropertyGroup>
-
-
-  <ItemGroup>
-  </ItemGroup>
 
 </Project>

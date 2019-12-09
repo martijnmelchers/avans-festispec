@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Web.Models;
 
-namespace Web.Controllers
+namespace Festispec.Web.Controllers
 {
     public class HomeController : Controller
     {
