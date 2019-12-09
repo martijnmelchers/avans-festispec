@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class FullName
+    public class FullName : Validateable
     {
         [Required, MaxLength(40)]
         public string First { get; set; }
