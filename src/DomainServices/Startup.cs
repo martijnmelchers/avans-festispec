@@ -14,6 +14,7 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<FestispecContext>();
 
             // Register all your factories here
