@@ -2,7 +2,7 @@
 
 namespace Festispec.Models
 {
-    public class Address
+    public class Address : Validateable
     {
         [Required, MinLength(4), MaxLength(10)]
         public string ZipCode { get; set; }

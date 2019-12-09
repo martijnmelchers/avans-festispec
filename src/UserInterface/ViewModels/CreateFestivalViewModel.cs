@@ -14,10 +14,6 @@ namespace Festispec.UI.ViewModels
         private IFestivalService _festivalService;
         public Festival Festival { get; set; }
         public ICommand CreateFestivalCommand { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
         public string HouseNumber { get; set; }
         public string Suffix { get; set; }
         public List<string> CountryOptions { get; set; }
@@ -49,24 +45,6 @@ namespace Festispec.UI.ViewModels
 
         private void CheckValues()
         {
-            DateTime dateValue;
-            TimeSpan timeValue;
-            if (TimeSpan.TryParse(StartTime, out timeValue))
-            {
-                Festival.OpeningHours.StartTime = timeValue;
-            }
-            if(TimeSpan.TryParse(EndTime, out timeValue))
-            {
-                Festival.OpeningHours.EndTime = timeValue;
-            }
-            if(DateTime.TryParse(StartDate, out dateValue))
-            {
-                Festival.OpeningHours.StartDate = dateValue;
-            }
-            if(DateTime.TryParse(EndDate, out dateValue))
-            {
-                Festival.OpeningHours.EndDate = dateValue;
-            }
             if (Int32.TryParse(HouseNumber, out int number))
             {
                 Festival.Address.HouseNumber = number;

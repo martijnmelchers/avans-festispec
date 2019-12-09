@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
-    public class OpeningHours
+    public class OpeningHours : Validateable
     {
         [Required]
         public TimeSpan StartTime { get; set; }

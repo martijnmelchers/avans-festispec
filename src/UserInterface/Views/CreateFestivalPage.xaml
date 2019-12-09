@@ -20,44 +20,121 @@
         <Label Content="{Binding Festival.Customer.CustomerName}" HorizontalAlignment="Left" Margin="301,176,0,0" FontSize="15" VerticalAlignment="Top" Style="{DynamicResource MediumLabel}"/>
 
         <Label Content="Naam" Margin="300,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.FestivalName, Mode=OneWayToSource}"  HorizontalAlignment="Left" Margin="301,310,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
+        <TextBox HorizontalAlignment="Left" Margin="301,310,0,0" VerticalAlignment="Top" Width="500" Height="50">
+        <TextBox.Text>
+            <Binding Path="Festival.FestivalName" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                <Binding.ValidationRules>
+                    <val:FieldNotEmptyValidationRule/>
+                </Binding.ValidationRules>
+            </Binding>
+        </TextBox.Text>
+        </TextBox>
 
         <Label Content="Beschrijving" Margin="300,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Description, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="301,395,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="200"/>
+        <TextBox HorizontalAlignment="Left" Margin="301,395,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="200">
+        <TextBox.Text>
+            <Binding Path="Festival.Description" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                <Binding.ValidationRules>
+                    <val:FieldNotEmptyValidationRule/>
+                </Binding.ValidationRules>
+            </Binding>
+        </TextBox.Text>
+        </TextBox>
 
         <Label Content="Postcode" Margin="300,600,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Address.ZipCode, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,630,0,0" VerticalAlignment="Top" Width="180" Height="50"/>
+        <TextBox HorizontalAlignment="Left" Margin="300,630,0,0" VerticalAlignment="Top" Width="180" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.Address.ZipCode" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <Label Content="Huisnummer" Margin="500,600,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding HouseNumber, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="500,630,0,0" VerticalAlignment="Top" Width="150" Height="50"/>
+        <TextBox HorizontalAlignment="Left" Margin="500,630,0,0" VerticalAlignment="Top" Width="150" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.Address.HouseNumber" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                        <val:IsIntegerValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <Label Content="Toevoeging" Margin="670,600,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Text="{Binding Suffix, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="670,630,0,0" VerticalAlignment="Top" Width="130" Height="50"/>
 
         <Label Content="Straat" Margin="300,685,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Address.StreetName, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="300,715,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
+        <TextBox HorizontalAlignment="Left" Margin="300,715,0,0" VerticalAlignment="Top" Width="240" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.Address.StreetName" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <Label Content="Woonplaats" Margin="561,685,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Festival.Address.City, Mode=OneWayToSource}" HorizontalAlignment="Left" Margin="561,715,0,0" VerticalAlignment="Top" Width="240" Height="50"/>
+        <TextBox HorizontalAlignment="Left" Margin="561,715,0,0" VerticalAlignment="Top" Width="240" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.Address.City" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="Land" Margin="300,770,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding CountryOptions}" SelectedIndex="0"  HorizontalAlignment="Left" Margin="300,800,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
 
-        <Label Content="Begindatum" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Begindatum (dd/mm/yyyy)" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top" Height="50" Width="340">
             <TextBox.Text>
-                <Binding Path="StartDate" UpdateSourceTrigger="PropertyChanged">
+                <Binding Path="Festival.OpeningHours.StartDate" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
                     <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
                         <val:DateFormatValidationRule/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
         </TextBox>
 
-            <Label Content="Einddatum" Margin="1280,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding EndDate, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="340"/>
+        <Label Content="Einddatum (dd/mm/yyyy)" Margin="1280,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top" Height="50" Width="340">
+            <TextBox.Text>
+                <Binding Path="Festival.OpeningHours.EndDate" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                        <val:DateFormatValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label Content="Begintijd" Margin="920,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding StartTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,395,660,0" VerticalAlignment="Top" Width="340" Height="50"/>
-        <Label Content="Eindtijd" Margin="1280,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding EndTime, Mode=OneWayToSource}" HorizontalAlignment="Right" Margin="0,395,300,0" VerticalAlignment="Top" Width="340" Height="50"/>
+        <Label Content="Begintijd (hh:mm)" Margin="920,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,395,660,0" VerticalAlignment="Top" Width="340" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.OpeningHours.StartTime" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                        <val:TimeFormatValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Label Content="Eindtijd (hh:mm)" Margin="1280,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,395,300,0" VerticalAlignment="Top" Width="340" Height="50">
+            <TextBox.Text>
+                <Binding Path="Festival.OpeningHours.EndTime" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <val:FieldNotEmptyValidationRule/>
+                        <val:TimeFormatValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,100" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Command="{Binding CreateFestivalCommand}"/>
     </Grid>
