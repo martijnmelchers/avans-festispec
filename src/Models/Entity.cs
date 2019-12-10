@@ -12,7 +12,7 @@ namespace Festispec.Models
 
         public bool Validate()
         {
-            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);     
         }
     }
 }

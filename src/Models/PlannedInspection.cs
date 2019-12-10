@@ -10,12 +10,13 @@ namespace Festispec.Models
 
         public PlannedInspection()
         {
-
+            Answers = new List<Answer>();
         }
 
         public PlannedInspection(Festival festival)
         {
             Festival = festival;
+            Answers = new List<Answer>();
         }
         public int WorkedHours { get; set; }
 

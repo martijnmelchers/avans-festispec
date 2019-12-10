@@ -4,6 +4,8 @@ using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +29,6 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.PlannedInspections.Add(plannedInspection);
-
             await _db.SaveChangesAsync();
 
             return null;
@@ -36,17 +37,30 @@ namespace Festispec.DomainServices.Services
         public async Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
             DateTime endTime, string eventTitle, Employee employee)
         {
-            var plannedInspection = new PlannedInspection(festival);
-            plannedInspection.Questionnaire = questionnaire;
-            plannedInspection.StartTime = startTime;
-            plannedInspection.EndTime = endTime;
-            plannedInspection.EventTitle = eventTitle;
-            plannedInspection.Employee = employee;
 
-            if (!plannedInspection.Validate())
+            var existing = _db.PlannedInspections.FirstOrDefault(x => x.Questionnaire.Id == questionnaire.Id && x.Festival.Id == festival.Id && x.Employee.Id == employee.Id && x.StartTime.Equals(startTime));
+
+            if (existing != null)
+                throw new EntityExistsException();
+
+            var plannedInspection = new PlannedInspection(festival) {
+                Questionnaire =  _db.Questionnaires.FirstOrDefault(e=> e.Id == questionnaire.Id),
+                StartTime = startTime,
+                EndTime = endTime,
+                EventTitle = eventTitle,
+                Employee = employee
+            };
+
+            var test = _db.ChangeTracker.Entries().ToList();
+
+            test.ForEach(e => Debug.Print($"Object type : {e.Entity.GetType()}, State: {e.State}"));
+
+            if (!plannedInspection.Validate()) 
                 throw new InvalidDataException();
 
+            //_db.PlannedInspections.Add(plannedInspection);
             _db.PlannedInspections.Add(plannedInspection);
+            //festival.PlannedInspections.Add(plannedInspection);
 
             await _db.SaveChangesAsync();
 
@@ -113,6 +127,14 @@ namespace Festispec.DomainServices.Services
             return employees;
 
         }
+        #warning temp till festival beheren is made
+        public Festival GetFestival()
+        {
+            var employees = _db.Festivals.FirstOrDefault(e=> e.Id == 1);
+            if (employees == null)
+                throw new EntityNotFoundException();
+            return employees;
 
+        }
     }
 }

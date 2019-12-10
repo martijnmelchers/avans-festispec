@@ -1,20 +1,18 @@
-﻿using Festispec.DomainServices.Services;
+﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
-using Festispec.DomainServices.Interfaces;
-using System.Windows;
 
 namespace Festispec.UI.ViewModels
 {
-    class InspectionViewModel : ViewModelBase
+    internal class InspectionViewModel : ViewModelBase
     {
         public Festival Festival { get; set; }
         public ICommand CheckBoxCommand { get; set; }
@@ -22,6 +20,7 @@ namespace Festispec.UI.ViewModels
         public ICommand SaveCommand { get; set; }
         private IInspectionService _inspectionService;
         private DateTime _originalStartTime { get; set; }
+
         private bool Filter(object item)
         {
             if (String.IsNullOrEmpty(Search))
@@ -29,8 +28,10 @@ namespace Festispec.UI.ViewModels
             else
                 return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
         }
+
         private ICollectionView _employees { get; set; }
         private List<PlannedInspection> _plannedInspections { get; set; }
+
         public ICollectionView Employees
         {
             get
@@ -42,7 +43,9 @@ namespace Festispec.UI.ViewModels
                 _employees = value;
             }
         }
+
         private string _search { get; set; }
+
         public string Search
         {
             get
@@ -56,40 +59,20 @@ namespace Festispec.UI.ViewModels
                 Employees.Filter += Filter;
             }
         }
+
         public InspectionViewModel(IInspectionService inspectionService)
         {
             _inspectionService = inspectionService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             AddEmployee = new RelayCommand(Save);
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(new InspectionService(new Models.EntityMapping.FestispecContext()).GetEmployees());
+            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
             _plannedInspections = new List<PlannedInspection>();
             Employees.Filter = new Predicate<object>(Filter);
-            EmployeesToAdd = new ObservableCollection<Employee>(); 
+            EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
-            _originalStartTime = _startTime;
-            Festival = new Festival()
-            {
-                FestivalName = "test naam",
-                Address = new Address()
-                {
-                    StreetName = "Straat naam",
-                    City = "Biddingshuizen"
-                },
-                OpeningHours = new OpeningHours()
-                {
-                    StartTime = new DateTime(2019, 1, 1),
-                    EndTime = new DateTime(2019, 1, 3)
-                },
-                Questionnaires = new List<Questionnaire>()
-                {
-                    new Questionnaire() { },
-                    new Questionnaire() { },
-                    new Questionnaire() { }
-                },
-                PlannedInspections = new List<PlannedInspection>()
-                
-            };
+            _originalStartTime = _startTime; 
+            Festival = _inspectionService.GetFestival();
         }
 
         public List<DateTime> GetDateOptions
@@ -105,6 +88,7 @@ namespace Festispec.UI.ViewModels
                 return dateOptions;
             }
         }
+
         public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
@@ -112,6 +96,7 @@ namespace Festispec.UI.ViewModels
         }
 
         private DateTime _startTime { get; set; }
+
         public string StartTime
         {
             get
@@ -126,16 +111,15 @@ namespace Festispec.UI.ViewModels
                     DateTime outvar;
                     bool isvalid = DateTime.TryParse(dateString, out outvar);
                     _startTime = outvar;
-
                 }
                 catch (Exception)
                 {
-
-
                 }
             }
         }
+
         private DateTime _endTime { get; set; }
+
         public string EndTime
         {
             get
@@ -150,17 +134,16 @@ namespace Festispec.UI.ViewModels
                     DateTime outvar;
                     bool isvalid = DateTime.TryParse(dateString, out outvar);
                     _endTime = outvar;
-
                 }
                 catch (Exception)
                 {
-
-
                 }
             }
         }
+
         public ObservableCollection<Employee> EmployeesToAdd { get; set; }
         public ObservableCollection<Employee> EmployeesToRemove { get; set; }
+
         public void CheckBox(Employee employee)
         {
             if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
@@ -176,8 +159,10 @@ namespace Festispec.UI.ViewModels
                 EmployeesToRemove.Add(employee);
             }
         }
-        private  Questionnaire _questionnaire { get; set; }
-        public  Questionnaire Questionnaire
+
+        private Questionnaire _questionnaire { get; set; }
+
+        public Questionnaire Questionnaire
         {
             get
             {
@@ -188,44 +173,40 @@ namespace Festispec.UI.ViewModels
                 _questionnaire = value;
             }
         }
+
         public async void Save()
         {
-
-            foreach(PlannedInspection p in _plannedInspections)
+            foreach (PlannedInspection p in _plannedInspections)
             {
                 p.StartTime = _startTime;
                 p.EndTime = _endTime;
-                p.Questionnaire = Questionnaire;
+                //p.Questionnaire = Questionnaire;
             }
 
             foreach (Employee q in EmployeesToAdd)
             {
-                try
-                {
-                    await _inspectionService.CreatePlannedInspection(Festival);
-                    EmployeesToAdd.Remove(q);
-
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                //try
+                //{
+                    await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
+                    //EmployeesToAdd.Remove(q);
+                //}
+                //catch (Exception e)
+                //{
+                //    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
             }
-            foreach (Employee q in EmployeesToRemove)
-            {
-                try
-                {
-                    await _inspectionService.RemoveInspection(0);
-                    EmployeesToRemove.Remove(q);
-
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-
+            //foreach (Employee q in EmployeesToRemove)
+            //{
+            //    try
+            //    {
+            //        await _inspectionService.RemoveInspection(0);
+            //        EmployeesToRemove.Remove(q);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
+            //}
         }
-
     }
 }

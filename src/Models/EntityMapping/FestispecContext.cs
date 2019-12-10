@@ -46,11 +46,11 @@ namespace Festispec.Models.EntityMapping
             return base.SaveChanges();
         }
 
-        public override async Task<int> SaveChangesAsync()
-        {
-            AddTimestamps();
-            return await base.SaveChangesAsync();
-        }
+        //public override async Task<int> SaveChangesAsync()
+        //{
+        //    AddTimestamps();
+        //    return await base.SaveChangesAsync();
+        //}
 
         private void AddTimestamps()
         {
@@ -59,7 +59,7 @@ namespace Festispec.Models.EntityMapping
                 if (entity.State == EntityState.Added)
                     ((Entity)entity.Entity).CreatedAt = DateTime.UtcNow;
 
-                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
+                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow; 
             }
         }
     }
