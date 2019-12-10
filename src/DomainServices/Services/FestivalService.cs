@@ -19,7 +19,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> CreateFestival(Festival festival)
         {
-            if (!festival.Validate())
+            if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
 
             _db.Festivals.Add(festival);
@@ -29,7 +29,7 @@ namespace Festispec.DomainServices.Services
             return festival;
         }
 
-        public async Task<Festival> GetFestival(int festivalId)
+        public async Task<Festival> GetFestivalAsync(int festivalId)
         {
             var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)
@@ -42,14 +42,29 @@ namespace Festispec.DomainServices.Services
             return festival;
         }
 
-        public async Task SaveChanges()
+        public Festival GetFestival(int festivalId)
         {
+            var festival = _db.Festivals
+                .Include(f => f.Questionnaires)
+                .Include(f => f.PlannedInspections)
+                .FirstOrDefault(f => f.Id == festivalId);
+
+            if (festival == null)
+                throw new EntityNotFoundException();
+
+            return festival;
+        }
+
+        public async Task SaveChangesToFestival(Festival festival)
+        {
+            if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
+                throw new InvalidDataException();
             await _db.SaveChangesAsync();
         }
 
         public async Task RemoveFestival(int festivalId)
         {
-            var festival = await GetFestival(festivalId);
+            var festival = await GetFestivalAsync(festivalId);
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
@@ -57,6 +72,11 @@ namespace Festispec.DomainServices.Services
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();
+        }
+        //deze is alleen om te testen
+        public Customer GetCustomer(int customerId)
+        {
+            return _db.Customers.FirstOrDefault(c => c.Id == customerId);
         }
     }
 }

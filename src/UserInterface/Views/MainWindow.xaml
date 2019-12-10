@@ -16,11 +16,11 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="568,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLink}">Klanten</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="CustomerList" Style="{StaticResource ActiveLink}">Klanten</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink CommandParameter="FestivalInfo"  Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
+                <Hyperlink CommandParameter="UpdateFestival"  Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">

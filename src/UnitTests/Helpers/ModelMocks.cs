@@ -28,26 +28,45 @@ namespace Festispec.UnitTests.Helpers
 
         public static OpeningHours OpeningHours = new OpeningHours()
         {
-            StartTime = new DateTime(2020, 3, 10, 20, 0, 0),
-            EndTime = new DateTime(2020, 3, 12, 1, 0, 0)
+            StartDate = new DateTime(2020, 3, 10),
+            EndDate = new DateTime(2020, 3, 12),
+            StartTime = new TimeSpan(10, 0, 0),
+            EndTime = new TimeSpan(1, 0, 0)
         };
 
-        public static Customer Customer = new Customer()
+        public static Customer Customer1 = new Customer()
         {
+            Id = 1,
             KvkNr = 12345678,
             CustomerName = "PinkPop",
             Address = Address,
-            ContactDetails = ContactDetails
+            ContactDetails = ContactDetails,
+            Festivals = new List<Festival>(),
+            ContactPersons = new List<ContactPerson>()
         };
 
-        public static Festival Festival = new Festival()
+        public static Festival Festival = new Festival
         {
             Id = 1,
             FestivalName = "PinkPop",
             Description = "Placeholder for description",
             Address = Address,
             OpeningHours = OpeningHours,
-            Customer = Customer
+            Customer = Customer1
+        };
+        
+        public static Customer Customer2 = new Customer()
+        {
+            Id = 2,
+            KvkNr = 12345678,
+            CustomerName = "PinkPop2",
+            Address = Address,
+            ContactDetails = ContactDetails,
+            Festivals = new List<Festival>
+            {
+                Festival
+            },
+            ContactPersons = new List<ContactPerson>()
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", Festival)
@@ -138,5 +157,13 @@ namespace Festispec.UnitTests.Helpers
             Questionnaire3,
             Questionnaire4
         };
+        
+        public List<Customer> Customers = new List<Customer>
+        {
+            Customer1,
+            Customer2
+        };
+        
+        public List<ContactPerson> ContactPersons = new List<ContactPerson>();
     }
 }

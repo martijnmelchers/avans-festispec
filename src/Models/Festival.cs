@@ -23,6 +23,7 @@ namespace Festispec.Models
         [Required, MaxLength(250)]
         public string Description { get; set; }
         
+        [Required]
         public Address Address { get; set; }
 
         [Required]
@@ -30,6 +31,7 @@ namespace Festispec.Models
 
         public virtual Report Report { get; set; }
 
+        [Required]
         public OpeningHours OpeningHours { get; set; }
 
         public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
