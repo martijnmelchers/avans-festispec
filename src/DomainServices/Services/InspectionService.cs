@@ -4,6 +4,7 @@ using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,15 +34,22 @@ namespace Festispec.DomainServices.Services
             return null;
         }
 
-        public async Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
-            DateTime endTime, string eventTitle, Employee employee)
+        public async Task<PlannedInspection> CreatePlannedInspection(
+            Festival festival, 
+            Questionnaire questionnaire, 
+            DateTime startTime,
+            DateTime endTime, 
+            string eventTitle, 
+            Employee employee)
         {
-            var plannedInspection = new PlannedInspection(festival);
-            plannedInspection.Questionnaire = questionnaire;
-            plannedInspection.StartTime = startTime;
-            plannedInspection.EndTime = endTime;
-            plannedInspection.EventTitle = eventTitle;
-            plannedInspection.Employee = employee;
+            var plannedInspection = new PlannedInspection(festival)
+            {
+                Questionnaire = questionnaire,
+                StartTime = startTime,
+                EndTime = endTime,
+                EventTitle = eventTitle,
+                Employee = employee
+            };
 
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
@@ -58,30 +66,30 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public PlannedInspection GetPlannedInspection(int plannedInspectionId)
+        public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
 
-            var plannedInspection = _db.PlannedInspections.FirstOrDefault(e => e.Id == plannedInspectionId && e.IsCancelled == null);
+            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Id == plannedInspectionId && e.IsCancelled == null);
 
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
 
             return plannedInspection;
         }
-        public PlannedInspection GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
         {
 
-            var plannedInspection = _db.PlannedInspections.FirstOrDefault(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
+            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
 
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
 
             return plannedInspection;
         }
-        public List<PlannedInspection> GetPlannedInspections(Festival festival, DateTime StartTime)
+        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
         {
 
-            var plannedInspections = _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToList();
+            var plannedInspections = await _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
 
             if (plannedInspections == null)
                 throw new EntityNotFoundException();
@@ -91,7 +99,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveInspection(int PlannedInspectionId)
         {
-            var plannedInspection = GetPlannedInspection(PlannedInspectionId);
+            var plannedInspection = await GetPlannedInspection(PlannedInspectionId);
 
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
