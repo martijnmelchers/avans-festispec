@@ -53,7 +53,17 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
+            <Button Content="NIEUWE VRAGENLIJST" Click="OpenCreateNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Left" Margin="1466,866,0,0" VerticalAlignment="Top" Height="41" Width="289"/>
         </Grid>
+        <Popup x:Name="DeleteWarning"  Placement="Center">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd."/>
+                <Button Content="Doorgaan" Style="{DynamicResource ButtonGreen}" Height="50" Width="185"/>
+                <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Height="50" Width="185"/>
+            </StackPanel>
+        </Popup>
     </Grid>
+
+
 
 </Page>

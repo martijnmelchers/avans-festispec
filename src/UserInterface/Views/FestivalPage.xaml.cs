@@ -46,5 +46,13 @@ namespace Festispec.UI.Views
 
             MessageBox.Show($"Time for initialization: {watch.ElapsedMilliseconds}");
         }
+
+        private void OpenCreateNewQuestionnairePopUp(object sender, RoutedEventArgs e)
+        {
+            if (!DeleteWarning.IsOpen)
+            {
+                DeleteWarning.IsOpen = true;
+            }
+        }
     }
 }
