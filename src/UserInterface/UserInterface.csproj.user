@@ -25,6 +25,9 @@
     <Compile Update="Views\SearchCustomerPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UpdateFestivalPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\CustomerScreen.xaml">
@@ -43,6 +46,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SearchCustomerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\UpdateFestivalPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

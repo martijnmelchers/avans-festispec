@@ -11,7 +11,7 @@ namespace Festispec.UI.Validation
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
             var s = value as string;
-            var match = Regex.Match(s, @"^\d{2}/\d{2}/\d{4}$");
+            var match = Regex.Match(s, @"^\d{2}-\d{2}-\d{4}$");
             if (!match.Success)
                 return new ValidationResult(false, "Field must be in MM/DD/YYYY format");
             DateTime date;

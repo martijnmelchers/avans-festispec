@@ -36,7 +36,7 @@ namespace Festispec.UI.ViewModels
 
         public async Task Initialize(int id)
         {
-            Festival = await _festivalService.GetFestival(1);
+            Festival = await _festivalService.GetFestivalAsync(1);
             FestivalLocation = Festival.Address.StreetName + ", " + Festival.Address.City;
             FestivalData = Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
             FestivalTimes = Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
