@@ -33,7 +33,7 @@ namespace Festispec.UI.ViewModels
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
-            Festival = _festivalService.GetFestival(((Festival)_navigationService.Parameter).Id);
+            Festival = _festivalService.GetFestival((int)_navigationService.Parameter);
             UpdateFestivalCommand = new RelayCommand(UpdateFestival);
         }
         public async void UpdateFestival()
@@ -53,6 +53,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.SaveChangesToFestival(Festival);
+                _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (Exception e)
             {

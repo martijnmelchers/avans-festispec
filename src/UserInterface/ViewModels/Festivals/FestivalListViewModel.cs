@@ -57,12 +57,12 @@ namespace Festispec.UI.ViewModels
 
         private void OpenFestival(Festival festival)
         {
-            _navigationService.NavigateTo("FestivalInfo", festival);
+            _navigationService.NavigateTo("FestivalInfo", festival.Id);
         }
 
         public void EditFestival(Festival festival)
         {
-            _navigationService.NavigateTo("UpdateFestival", festival);
+            _navigationService.NavigateTo("UpdateFestival", festival.Id);
         }
     }
 }

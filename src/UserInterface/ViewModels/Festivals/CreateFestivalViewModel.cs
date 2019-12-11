@@ -51,7 +51,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.CreateFestival(Festival);
-                _navigationService.NavigateTo("FestivalInfo", Festival);
+                _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (Exception e)
             {

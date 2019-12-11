@@ -35,8 +35,7 @@ namespace Festispec.UI.ViewModels
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
-            //change once festivallist is done
-            Initialize(((Festival)_navigationService.Parameter).Id);
+            Initialize((int)_navigationService.Parameter);
             RemoveFestivalCommand = new RelayCommand(RemoveFestival);
             EditFestivalCommand = new RelayCommand(EditFestival);
         }
@@ -51,7 +50,7 @@ namespace Festispec.UI.ViewModels
 
         public void EditFestival()
         {
-            _navigationService.NavigateTo("UpdateFestival", Festival);
+            _navigationService.NavigateTo("UpdateFestival", Festival.Id);
         }
 
         public async void RemoveFestival()
