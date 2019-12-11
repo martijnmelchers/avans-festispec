@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model IEnumerable<Festispec.Models.PlannedInspection>
+
+<h1>Inspecties</h1>
+
+@foreach (var item in Model)
+{
+    <p>@item.EventTitle</p>
+    <div class="Inspection-row container card">
+        <div class="row">
+        <h2 class="col-8">@item.EventTitle</h2>
+        <span class="col-2">@item.StartTime.ToShortDateString() @item.StartTime.ToShortTimeString() - @item.EndTime.ToShortDateString() @item.EndTime.ToShortTimeString()</span>
+        <a href="@Url.Action("Details", @item.Id)" class="col-2 btn btn-primary">Open vragenlijst</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,66 @@
+﻿@model Festispec.Models.Questions.Question
+
+@{ 
+    Festispec.Models.Questions.Question question;
+    if (Model is Festispec.Models.Questions.ReferenceQuestion)
+    {
+        question = (Model as Festispec.Models.Questions.ReferenceQuestion).Question;
+
+        question.Id = Model.Id;
+
+    }
+    else
+    {
+        question = Model;
+    }
+}
+
+    <div class="card container">
+
+        <h3>@question.Contents</h3>
+        @if (question is Festispec.Models.Questions.MultipleChoiceQuestion)
+        {
+
+            (question as Festispec.Models.Questions.MultipleChoiceQuestion).StringToObjects();
+
+
+            @foreach (var option in (question as Festispec.Models.Questions.MultipleChoiceQuestion).OptionCollection)
+            {
+                <div class="form-group">@option <input type="radio" name="@question.Id" /> </div>
+            }
+
+
+        }
+        @if (question is Festispec.Models.Questions.StringQuestion)
+        {
+            <textarea class="form-control"></textarea>
+        }
+        @if (question is Festispec.Models.Questions.NumericQuestion)
+        {
+            <input type="number" max="@((question as Festispec.Models.Questions.NumericQuestion).Maximum)" min="@((question as Festispec.Models.Questions.NumericQuestion).Minimum)" />
+        }
+        @if (question is Festispec.Models.Questions.RatingQuestion)
+        {
+         <div class="row">
+            <span>@((question as Festispec.Models.Questions.RatingQuestion).LowRatingDescription)</span>
+            <div class="rating">
+                @for (int i = 0; i < 6; i++)
+                {
+                <label>
+                    <input type="radio" name="stars" value="@i" />
+                    @for (int y = 0; y < i; y++)
+                    {
+                        <span class="icon">★</span>
+                    }
+                </label>
+                }
+            </div>
+        <span>@((question as Festispec.Models.Questions.RatingQuestion).HighRatingDescription)</span>
+        </div>
+        }
+        @if (question is Festispec.Models.Questions.UploadPictureQuestion)
+        {
+            <input type="file" class="btn"/>
+        }
+
+    </div>

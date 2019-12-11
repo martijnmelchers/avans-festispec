@@ -1,5 +1,6 @@
 ﻿using Festispec.Models;
 using Festispec.Models.Questions;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
@@ -13,5 +14,9 @@ namespace Festispec.DomainServices.Interfaces
         Task<bool> RemoveQuestion(int questionId);
         Task RemoveQuestionnaire(int questionnaireId);
         Task<Questionnaire> CopyQuestionnaire(int questionnaireId);
+
+        //TODO: remove
+        List<PlannedInspection> GetPlannedInspections();
+        PlannedInspection GetPlannedInspections(int id);
     }
 }

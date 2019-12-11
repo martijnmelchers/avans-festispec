@@ -7,6 +7,7 @@ using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -120,6 +121,18 @@ namespace Festispec.DomainServices.Services
                 throw new NoRowsChangedException();
 
             return newQuestionnaire;
+        }
+
+        public List<PlannedInspection> GetPlannedInspections()
+        {
+            return _db.PlannedInspections.ToList();
+        }public PlannedInspection GetPlannedInspections(int id)
+        {
+            var test = _db.PlannedInspections.FirstOrDefault(e => e.Id == id);
+
+            if (test == null)
+                throw new EntityNotFoundException();
+            return test;
         }
     }
 }

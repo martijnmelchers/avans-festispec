@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Details";
+}
+@model Festispec.Models.PlannedInspection
+
+<h1>Inspecties</h1>
+<h2>@Model.EventTitle</h2>
+
+@foreach (var question in Model.Questionnaire.Questions)
+{
+<div>
+    @Html.Partial("_Question", question)
+</div>
+
+}
