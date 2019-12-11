@@ -18,6 +18,7 @@
   <ItemGroup>
     <None Remove="Assets\Chevron.png" />
     <None Remove="Assets\festispec logo.png" />
+    <None Remove="Assets\Magnifying_glass_icon.png" />
     <None Remove="Assets\Montserrat\Montserrat-Black.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-BlackItalic.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-Bold.ttf" />
@@ -37,6 +38,12 @@
     <None Remove="Assets\Montserrat\Montserrat-Thin.ttf" />
     <None Remove="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
     <None Remove="Assets\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Magnifying_glass_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

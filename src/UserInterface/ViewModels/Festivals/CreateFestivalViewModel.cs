@@ -1,5 +1,6 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,8 @@ namespace Festispec.UI.ViewModels
                 };
             }
         }
-        public CreateFestivalViewModel(IFestivalService festivalService)
+        private IFrameNavigationService _navigationService;
+        public CreateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
         {
             Festival = new Festival
             {
@@ -35,7 +37,8 @@ namespace Festispec.UI.ViewModels
                 Address = new Address()
             };
             _festivalService = festivalService;
-            //deze regel is om te testen, later weghalen
+            _navigationService = navigationService;
+            //deze regel is om te testen, later moet dit via navigationcommand parameter. 
             Festival.Customer = _festivalService.GetCustomer(1);
             CreateFestivalCommand = new RelayCommand(CreateFestival);
         }
@@ -48,6 +51,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.CreateFestival(Festival);
+                _navigationService.NavigateTo("FestivalInfo", Festival);
             }
             catch (Exception e)
             {
