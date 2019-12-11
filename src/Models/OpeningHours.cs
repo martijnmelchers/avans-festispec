@@ -16,10 +16,5 @@ namespace Festispec.Models
 
         [Required]
         public DateTime EndDate { get; set; }
-
-        public bool Validate()
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
-        }
     }
 }

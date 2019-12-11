@@ -7,54 +7,48 @@
     <ActiveDebugProfile>UserInterface</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Views\CustomerScreen.xaml.cs">
+    <Compile Update="Views\Customer\CustomerScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\EditCustomerPage.xaml.cs">
+    <Compile Update="Views\Customer\EditCustomerPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\FestivalListPage.xaml.cs">
+    <Compile Update="Views\Festival\FestivalListPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\NewCustomerPage.xaml.cs">
+    <Compile Update="Views\Customer\NewCustomerPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\FirstTimePage.xaml.cs">
+    <Compile Update="Views\Questionnaire\QuestionnairePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\QuestionnairePage.xaml.cs">
+    <Compile Update="Views\Customer\SearchCustomerPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\SearchCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\UpdateFestivalPage.xaml.cs">
+    <Compile Update="Views\Festival\UpdateFestivalPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\CustomerScreen.xaml">
+    <Page Update="Views\Customer\CustomerScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\EditCustomerPage.xaml">
+    <Page Update="Views\Customer\EditCustomerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\FestivalListPage.xaml">
+    <Page Update="Views\Festival\FestivalListPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\NewCustomerPage.xaml">
+    <Page Update="Views\Customer\NewCustomerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\FirstTimePage.xaml">
+    <Page Update="Views\Questionnaire\QuestionnairePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\QuestionnairePage.xaml">
+    <Page Update="Views\Customer\SearchCustomerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\SearchCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\UpdateFestivalPage.xaml">
+    <Page Update="Views\Festival\UpdateFestivalPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
