@@ -198,14 +198,19 @@ namespace Festispec.UnitTests.Helpers
 
             Employee = Employee,
 
-            Questionnaire = Questionnaire1,
+            Questionnaire = Questionnaire4,
 
             Festival = festivalThunderDome,
 
             Answers = new List<Answer>()
-                    {                       
-                        new StringAnswer()
-                    }
+            {
+                new StringAnswer()
+                {
+                    PlannedInspection = PlannedInspection2,
+
+                    Question = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire4)
+                }                      
+            }
         };
 
         public List<PlannedInspection> plannedInspections = new List<PlannedInspection>()

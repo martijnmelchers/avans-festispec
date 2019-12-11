@@ -37,9 +37,27 @@ namespace Festispec.UnitTests
 
         #region Creating Planned Inspections Tests
         [Fact]
-        public async void InvalidDataSchouldThrowError()
+        public async void InvalidDataShouldThrowError()
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _inspectionService.CreatePlannedInspection(ModelMocks.FestivalPinkPop, null, ModelMocks.PlannedInspection1.StartTime, ModelMocks.PlannedInspection1.EndTime, null, null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _inspectionService.CreatePlannedInspection(
+                ModelMocks.FestivalPinkPop,
+                ModelMocks.Questionnaire4,
+                new DateTime(2020, 3, 4, 13, 40, 0),
+                new DateTime(2020, 3, 4, 17, 0, 0),
+                null,
+                ModelMocks.Employee));
+        }
+
+        [Fact]
+        public async void CreatingExistingPlannedInspectionAgainShouldThrowError()
+        {
+            await Assert.ThrowsAsync<EntityExistsException>(() => _inspectionService.CreatePlannedInspection(
+                ModelMocks.FestivalPinkPop,
+                ModelMocks.Questionnaire4,
+                new DateTime(2020, 3, 4, 12, 30, 0),
+                new DateTime(2020, 3, 4, 17, 0, 0),
+                "Pinkpop",
+                ModelMocks.Employee));
         }
 
         #endregion
