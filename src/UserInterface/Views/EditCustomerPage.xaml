@@ -79,7 +79,7 @@
             <TextBox Text="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
                      Margin="55,0,0,0" />
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="15">
                 <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
                 <Button Content="Annuleren" Command="{Binding ReturnToCustomerListCommand}"
