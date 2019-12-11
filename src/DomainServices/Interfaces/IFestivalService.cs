@@ -11,6 +11,7 @@ namespace Festispec.DomainServices.Interfaces
         Task<Festival> CreateFestival(Festival festival);
         Task<Festival> GetFestivalAsync(int festivalId);
         Festival GetFestival(int festivalId);
+        ICollection<Festival> GetFestivals();
         Task SaveChangesToFestival(Festival festival);
         Task RemoveFestival(int festivalId);
         //deze is alleen om te testen

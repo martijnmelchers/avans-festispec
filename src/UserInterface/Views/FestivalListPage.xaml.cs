@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,20 +16,19 @@ using System.Windows.Shapes;
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for FestivalPage.xaml
+    /// Interaction logic for FestivalListPage.xaml
     /// </summary>
-    public partial class FestivalPage : Page
+    public partial class FestivalListPage : Page
     {
         private readonly IServiceScope _scope;
-        public FestivalPage()
+        public FestivalListPage()
         {
             InitializeComponent();
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<FestivalViewModel>();
-
+            DataContext = _scope.ServiceProvider.GetRequiredService<FestivalListViewModel>();
         }
     }
 }

@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -55,10 +56,16 @@ namespace Festispec.DomainServices.Services
             return festival;
         }
 
+        public ICollection<Festival> GetFestivals()
+        {
+            return _db.Festivals.ToList();
+        }
+
         public async Task SaveChangesToFestival(Festival festival)
         {
             if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
+
             await _db.SaveChangesAsync();
         }
 
@@ -73,6 +80,7 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
+
         //deze is alleen om te testen
         public Customer GetCustomer(int customerId)
         {

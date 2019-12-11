@@ -1,5 +1,6 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    public class FestivalViewModel : ViewModelBase, IAsyncActivateable<int>
+    public class FestivalViewModel : ViewModelBase
     {
         private readonly IFestivalService _festivalService;
         private Festival _festival;
@@ -26,20 +27,31 @@ namespace Festispec.UI.ViewModels
         public string FestivalData { get; set; }
         public string FestivalTimes { get; set; }
 
+        public ICommand EditFestivalCommand { get; set; }
         public ICommand RemoveFestivalCommand { get; set; }
-        public FestivalViewModel(IFestivalService festivalService)
+
+        private IFrameNavigationService _navigationService;
+        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
         {
             _festivalService = festivalService;
+            _navigationService = navigationService;
             //change once festivallist is done
+            Initialize(((Festival)_navigationService.Parameter).Id);
             RemoveFestivalCommand = new RelayCommand(RemoveFestival);
+            EditFestivalCommand = new RelayCommand(EditFestival);
         }
 
-        public async Task Initialize(int id)
+        public void Initialize(int id)
         {
-            Festival = await _festivalService.GetFestivalAsync(1);
+            Festival = _festivalService.GetFestival(id);
             FestivalLocation = Festival.Address.StreetName + ", " + Festival.Address.City;
-            FestivalData = Festival.OpeningHours.StartTime.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndTime.ToString("dd/MM/yyyy");
-            FestivalTimes = Festival.OpeningHours.StartTime.ToString("HH/mm") + " - " + Festival.OpeningHours.EndTime.ToString("HH/mm");
+            FestivalData = Festival.OpeningHours.StartDate.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndDate.ToString("dd/MM/yyyy");
+            FestivalTimes = Festival.OpeningHours.StartTime.ToString(@"hh\:mm") + " - " + Festival.OpeningHours.EndTime.ToString(@"hh\:mm");
+        }
+
+        public void EditFestival()
+        {
+            _navigationService.NavigateTo("UpdateFestival", Festival);
         }
 
         public async void RemoveFestival()
@@ -47,6 +59,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.RemoveFestival(Festival.Id);
+                _navigationService.NavigateTo("FestivalList");
             }
             catch (Exception e)
             {

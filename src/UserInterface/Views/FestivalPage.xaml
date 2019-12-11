@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:Festispec.UI.Views"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="FestivalPage"
-      Loaded="OnLoad">
+      Title="FestivalPage">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
@@ -54,6 +53,7 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
+        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
     </Grid>
 
 </Page>
