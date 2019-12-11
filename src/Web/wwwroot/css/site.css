@@ -138,3 +138,42 @@ body {
         color: #000;
         text-shadow: 0 0 5px #09f;
     }
+
+.Questions {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 20px #00000029;
+    border-radius: 15px;
+    opacity: 1;
+    padding: 10px;
+    margin: 1em;
+}
+
+    .Questions Question Question-title {
+        text-align: left;
+        font: Bold 27px/33px Montserrat;
+        letter-spacing: 0;
+        color: #707070;
+        opacity: 1;
+    }
+.Question-title::after {
+    content: "";
+    display: block;
+    margin-top: 9px;
+    width: 113px;
+    height: 0;
+    border-bottom: 4px solid #FF4A4A;
+    border-radius: 15px;
+}
+
+textarea {
+    background: #F7F6F6 0% 0% no-repeat padding-box;
+    border: 1px solid #CFCFCF;
+    border-radius: 8px;
+    opacity: 1;
+    height: 10em;
+    width: 100%;
+}
+
+.Question{
+    margin: 5em, 0, 5em, 0;
+}

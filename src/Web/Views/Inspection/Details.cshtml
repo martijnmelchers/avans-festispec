@@ -3,13 +3,11 @@
 }
 @model Festispec.Models.PlannedInspection
 
-<h1>Inspecties</h1>
 <h2>@Model.EventTitle</h2>
+<div class="Questions">
+    @foreach (var question in Model.Questionnaire.Questions)
+    {
 
-@foreach (var question in Model.Questionnaire.Questions)
-{
-<div>
-    @Html.Partial("_Question", question)
+        @Html.Partial("_Question", question)
+    }
 </div>
-
-}
