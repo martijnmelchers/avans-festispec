@@ -29,7 +29,8 @@ namespace Festispec.UI.ViewModels
             }
         }
         private IFrameNavigationService _navigationService;
-        public CreateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
+        private ICustomerService _customerService;
+        public CreateFestivalViewModel(IFrameNavigationService navigationService, ICustomerService customerService, IFestivalService festivalService)
         {
             Festival = new Festival
             {
@@ -37,9 +38,10 @@ namespace Festispec.UI.ViewModels
                 Address = new Address()
             };
             _festivalService = festivalService;
+            _customerService = customerService;
             _navigationService = navigationService;
             //deze regel is om te testen, later moet dit via navigationcommand parameter. 
-            Festival.Customer = _festivalService.GetCustomer(1);
+            Festival.Customer = _customerService.GetCustomer(1);
             CreateFestivalCommand = new RelayCommand(CreateFestival);
         }
         public async void CreateFestival()

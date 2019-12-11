@@ -14,7 +14,5 @@ namespace Festispec.DomainServices.Interfaces
         ICollection<Festival> GetFestivals();
         Task SaveChangesToFestival(Festival festival);
         Task RemoveFestival(int festivalId);
-        //deze is alleen om te testen
-        Customer GetCustomer(int customerId);
     }
 }

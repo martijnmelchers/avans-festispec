@@ -80,11 +80,5 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
-
-        //deze is alleen om te testen
-        public Customer GetCustomer(int customerId)
-        {
-            return _db.Customers.FirstOrDefault(c => c.Id == customerId);
-        }
     }
 }
