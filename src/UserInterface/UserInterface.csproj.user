@@ -6,49 +6,9 @@
   <PropertyGroup>
     <ActiveDebugProfile>UserInterface</ActiveDebugProfile>
   </PropertyGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Compile Update="Views\Customer\CustomerScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Customer\EditCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Festival\FestivalListPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Customer\NewCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Questionnaire\QuestionnairePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Customer\SearchCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Festival\UpdateFestivalPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Customer\CustomerScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Customer\EditCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Festival\FestivalListPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Customer\NewCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Questionnaire\QuestionnairePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Customer\SearchCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Festival\UpdateFestivalPage.xaml">
+    <Page Update="Styling\Icons.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

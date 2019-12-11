@@ -33,16 +33,20 @@
 
         <Grid>
             <Rectangle Style="{DynamicResource ContentBox}" Margin="1357,50,56,80" />
-
             <TextBlock Text="VRAGENLIJSTEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="1403,100,0,0" VerticalAlignment="Top"/>
             <Rectangle HorizontalAlignment="Left" Height="7" Margin="1403,145,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+
             <ListView Margin="1403,172,108,172" ItemsSource="{Binding Festival.Questionnaires}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Rectangle Style="{DynamicResource InnerContextBox}" Height="50" HorizontalAlignment="Stretch"/>
                             <Label Content="{Binding Name}" VerticalAlignment="Center" Padding="20,0,0,0"/>
-
+                            <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Right" Padding="0,0,20,0">
+                                <Hyperlink Command="{Binding DataContext.OpenQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
+                                    <Image Height="30" Source="{StaticResource EyeGreen}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -62,6 +66,7 @@
             </StackPanel>
         </Popup>
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+
     </Grid>
 
 

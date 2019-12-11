@@ -3,6 +3,7 @@ using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
@@ -10,15 +11,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    class QuestionnaireViewModel : ViewModelBase
+    class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
     {
-        private IQuestionnaireService _questionnaireService;
-        private QuestionFactory _questionFactory;
+        private readonly IQuestionnaireService _questionnaireService;
+        private readonly QuestionFactory _questionFactory;
+        private readonly IFrameNavigationService _navigationService;
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
@@ -33,14 +36,17 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService)
         {
             _questionnaireService = questionnaireService;
-            Questionnaire = _questionnaireService.GetQuestionnaire(2);
-            _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+            _navigationService = navigationService;
+            _questionFactory = questionFactory;
+
+            Initialize((int)_navigationService.Parameter);
+
             _addedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
-            _questionFactory = questionFactory;
+
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
@@ -52,7 +58,7 @@ namespace Festispec.UI.ViewModels
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
             _addedQuestions.Add(tempQuestion);
-            _questions.Add(tempQuestion);
+             _questions.Add(tempQuestion);
         }
 
         public bool CanAddQuestion()
@@ -124,5 +130,10 @@ namespace Festispec.UI.ViewModels
             option.OptionCollection.Add(new StringObject());
         }
 
+        public void Initialize(int input)
+        {
+            Questionnaire = _questionnaireService.GetQuestionnaire(input);
+            _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+        }
     }
 }

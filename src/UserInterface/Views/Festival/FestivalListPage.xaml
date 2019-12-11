@@ -13,8 +13,9 @@
         <TextBlock Text="FESTIVAL ZOEKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top"/>
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
-        <Image HorizontalAlignment="Left" Height="63" Margin="1089,100,0,0" VerticalAlignment="Top" Width="59" Source="/Assets/Magnifying_glass_icon.png"/>
         <TextBox FontSize="30" HorizontalAlignment="Left" Margin="1154,100,0,0" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" Height="64"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1563,110,0,0" VerticalAlignment="Top" Width="44" Source="{StaticResource SearchGreen}"/>
+
         <ListView ItemsSource="{Binding Festivals}" Margin="300,200,300,150" >
             <ListView.ItemTemplate>
                 <DataTemplate>

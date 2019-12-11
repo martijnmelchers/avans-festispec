@@ -64,4 +64,12 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="NoStyles" TargetType="Hyperlink">
+        <Setter Property="Foreground" Value="#707070"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="TextDecorations" Value="None" />
+    </Style>
+
 </ResourceDictionary>
