@@ -32,5 +32,13 @@ namespace Festispec.UI.Views
             DataContext = _scope.ServiceProvider.GetRequiredService<FestivalViewModel>();
 
         }
+
+        private void OpenCreateNewQuestionnairePopUp(object sender, RoutedEventArgs e)
+        {
+            if (!DeleteWarning.IsOpen)
+            {
+                DeleteWarning.IsOpen = true;
+            }
+        }
     }
 }
