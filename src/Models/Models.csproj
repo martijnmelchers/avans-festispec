@@ -23,6 +23,9 @@
     <EmbeddedResource Update="Migrations\201912031949076_OpeningHoursChanged.resx">
       <DependentUpon>201912031949076_OpeningHoursChanged.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912121600102_FixPlannedInspections.resx">
+      <DependentUpon>201912121600102_FixPlannedInspections.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

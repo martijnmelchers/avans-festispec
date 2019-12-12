@@ -44,7 +44,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
-            var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);
+            var existing = await _db.Questionnaires.Include(x => x.Festival).FirstOrDefaultAsync(x => x.Name == name && x.Festival.Id == festival.Id);
 
             if (existing != null)
                 throw new EntityExistsException();

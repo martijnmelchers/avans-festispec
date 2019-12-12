@@ -56,14 +56,33 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button Content="NIEUWE VRAGENLIJST" Click="OpenCreateNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Left" Margin="1466,866,0,0" VerticalAlignment="Top" Height="41" Width="289"/>
+            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
-        <Popup x:Name="DeleteWarning"  Placement="Center">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Als u op doorgaan drukt worden deze records definitief verwijderd."/>
-                <Button Content="Doorgaan" Style="{DynamicResource ButtonGreen}" Height="50" Width="185"/>
-                <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Height="50" Width="185"/>
-            </StackPanel>
+        <Popup x:Name="CreateQuestionnairePopUp"  Placement="Center" AllowsTransparency="True" Width="550">
+            <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
+                <StackPanel Orientation="Vertical" Background="White">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <TextBlock Text="NIEUWE VRAGENLIJST" Style="{DynamicResource Header}"/>
+                        <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <Label Content="Naam"/>
+                        <TextBox HorizontalAlignment="Left" Text="{Binding QuestionnaireName}" Width="475" Height="50"/>
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="ToggleNewQuestionnairePopUp" Height="50" Width="185" Grid.Column="0"/>
+                        <Button HorizontalAlignment="Right" Content="Aanmaken" Style="{DynamicResource ButtonGreen}" Click="ToggleNewQuestionnairePopUp" Command="{Binding CreateQuestionnaireCommand}" Height="50" Width="185" Grid.Column="2"/>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
         </Popup>
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 

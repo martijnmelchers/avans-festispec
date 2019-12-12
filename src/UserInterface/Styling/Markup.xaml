@@ -72,4 +72,39 @@
         <Setter Property="TextDecorations" Value="None" />
     </Style>
 
+
+    <Style x:Key="PopupContentStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+
+                    <Grid Width="Auto" Height="Auto" Background="Gray">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="2" CornerRadius="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="Gray"/>
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="White"/>
+                            </Border.Background>
+                        </Border>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Foreground="Blue" Content="Popup_Title"/>
+                        </StackPanel>
+
+                        <GroupBox Grid.Row="1" Header="Popup example content">
+                            <StackPanel>
+                                <ContentPresenter />
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

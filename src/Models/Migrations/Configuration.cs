@@ -118,12 +118,15 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Name = "Tester",
-                    Festival = festival
+                    Festival = festival,
                 };
+
+                context.Questionnaires.AddOrUpdate(questionnaire);
+
 
                 var plannedInspection = new PlannedInspection
                 {
-                    Id = 2,
+                    Id = 1,
                     Employee = employee,
                     Festival = festival,
                     EventTitle = "Inspection " + festival.FestivalName,
