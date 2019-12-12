@@ -21,10 +21,5 @@ namespace Festispec.Models
 
         [Required, MinLength(1), MaxLength(75)]
         public string Country { get; set; }
-
-        public bool Validate()
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
-        }
     }
 }

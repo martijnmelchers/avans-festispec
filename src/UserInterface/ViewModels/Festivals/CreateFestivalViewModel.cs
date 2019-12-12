@@ -47,9 +47,8 @@ namespace Festispec.UI.ViewModels
         public async void CreateFestival()
         {
             if (!string.IsNullOrEmpty(Suffix))
-            {
                 Festival.Address.Suffix = Suffix;
-            }
+
             try
             {
                 await _festivalService.CreateFestival(Festival);

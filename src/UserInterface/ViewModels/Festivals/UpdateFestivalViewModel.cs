@@ -52,7 +52,7 @@ namespace Festispec.UI.ViewModels
             
             try
             {
-                await _festivalService.SaveChangesToFestival(Festival);
+                await _festivalService.UpdateFestival(Festival);
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (Exception e)

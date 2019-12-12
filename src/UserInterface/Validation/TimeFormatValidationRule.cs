@@ -10,14 +10,14 @@ namespace Festispec.UI.Validation
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
-            var s = value as string;
-            if (string.IsNullOrEmpty(s))
+            var input = value as string;
+            if (string.IsNullOrEmpty(input))
                 return new ValidationResult(false, "Field cannot be blank");
-            var match = Regex.Match(s, @"^\d{2}:\d{2}$");
+            var match = Regex.Match(input, @"^\d{2}:\d{2}$");
             if (!match.Success)
                 return new ValidationResult(false, "Field must be in hh/mm format");
             TimeSpan time;
-            var canParse = TimeSpan.TryParse(s, out time);
+            var canParse = TimeSpan.TryParse(input, out time);
             if (!canParse)
                 return new ValidationResult(false, "Field must be a valid timespan value");
             return new ValidationResult(true, null);
