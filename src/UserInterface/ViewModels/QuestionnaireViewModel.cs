@@ -84,30 +84,32 @@ namespace Festispec.UI.ViewModels
             foreach (MultipleChoiceQuestion q in multipleChoiceQuestions)
                 q.ObjectsToString();
 
-            foreach(Question q in _addedQuestions)
+            foreach (Question q in _addedQuestions)
             {
                 try
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
 
-                } catch  (Exception e)
+                }
+                catch (Exception e)
                 {
                     MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            _addedQuestions.Clear();
 
             foreach (Question q in _removedQuestions)
             {
                 try {
                     await _questionnaireService.RemoveQuestion(q.Id);
 
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     MessageBox.Show($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
-            await _questionnaireService.SaveChangesAsync();
+            _removedQuestions.Clear();
         }
 
         public bool HasAnswers(Question question)
