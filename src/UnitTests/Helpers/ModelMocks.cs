@@ -50,14 +50,17 @@ namespace Festispec.UnitTests.Helpers
             Customer = CustomerPinkPop
         };
 
-        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", FestivalPinkPop)
-        {
+        public static Questionnaire Questionnaire1 = new Questionnaire {
             Id = 1,
+            Name = "PinkPop Ochtend",
+            Festival = FestivalPinkPop
         };
 
-        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", FestivalPinkPop)
+        public static Questionnaire Questionnaire2 = new Questionnaire
         {
-            Id = 2
+            Id = 2,
+            Name = "PinkPop Middag",
+            Festival = FestivalPinkPop
         };
 
         public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
@@ -91,15 +94,19 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static Questionnaire Questionnaire3 = new Questionnaire("PinkPop MaandagAvond", FestivalPinkPop)
+        public static Questionnaire Questionnaire3 = new Questionnaire
         {
             Id = 3,
+            Name = "PinkPop MaandagAvond",
+            Festival = FestivalPinkPop,
             Questions = QuestionsWithReference
         };
 
-        public static Questionnaire Questionnaire4 = new Questionnaire("PinkPop DinsdagOchtend", FestivalPinkPop)
+        public static Questionnaire Questionnaire4 = new Questionnaire
         {
             Id = 4,
+            Name = "PinkPop DinsdagOchtend",
+            Festival = FestivalPinkPop,
             Questions = new List<Question>()
             {
                 new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire4)

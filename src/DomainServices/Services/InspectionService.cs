@@ -23,7 +23,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> CreatePlannedInspection(Festival festival)
         {
-            var plannedInspection = new PlannedInspection(festival);
+            var plannedInspection = new PlannedInspection {Festival = festival};
 
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
@@ -48,8 +48,9 @@ namespace Festispec.DomainServices.Services
             if (existing != null)
                 throw new EntityExistsException();
 
-            var plannedInspection = new PlannedInspection(festival) {
-                Questionnaire =  _db.Questionnaires.FirstOrDefault(e=> e.Id == questionnaire.Id),
+            var plannedInspection = new PlannedInspection {
+                Festival = festival,
+                Questionnaire = questionnaire,
                 StartTime = startTime,
                 EndTime = endTime,
                 EventTitle = eventTitle,

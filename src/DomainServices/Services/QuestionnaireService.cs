@@ -38,7 +38,10 @@ namespace Festispec.DomainServices.Services
             if (existing != null)
                 throw new EntityExistsException();
 
-            var questionnaire = new Questionnaire(name, festival);
+            var questionnaire = new Questionnaire {
+                Name = name,
+                Festival = festival
+            };
 
             if (!questionnaire.Validate())
                 throw new InvalidDataException();
