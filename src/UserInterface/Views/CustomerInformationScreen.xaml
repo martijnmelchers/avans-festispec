@@ -10,7 +10,84 @@
       d:DataContext="{d:DesignInstance Type=viewModels:CustomerListViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="670" />
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="950" />
+        <Grid Width="1200" Height="900">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
+            <TextBlock Text="Klant gegevens overzicht" Style="{DynamicResource Header}" Grid.Row="0" />
+
+            <!-- Bedrijfsgegevens -->
+            <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+
+            <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <Label Content="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
+
+            <Label Content="KVK Nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
+            <Label Content="{Binding Customer.KvkNr}" Grid.Row="5"
+                     Grid.Column="0" Margin="0,0,55,0" />
+
+            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
+                   Grid.Column="0" />
+            <Label Content="{Binding Customer.Address.ZipCode}" Width="360" HorizontalAlignment="Left" Grid.Row="7"
+                     Grid.Column="0" />
+
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="390,0,0,0" />
+            <Label Content="{Binding Customer.Address.HouseNumber}" Width="155" HorizontalAlignment="Left"
+                     Grid.Row="7" Grid.Column="0" Margin="390, 0, 0, 0" />
+
+            <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
+            <Label Content="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
+
+            <Label Content="Stad" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
+            <Label Content="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
+
+            <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
+            <Label Content="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
+
+            <!-- Contactgegevens -->
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
+
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
+            <Label Content="{Binding Customer.ContactDetails.EmailAddress}" Grid.Column="1" Grid.Row="3"
+                     Margin="55,0,0,0" />
+
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
+            <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
+                     Margin="55,0,0,0" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="1" Grid.Row="14">
+                <Button Content="Festival toevoegen" Command="{Binding}"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250"
+                        Margin="50,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="15">
+                <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
+                <Button Content="Terug" Command="{Binding ReturnToCustomerListCommand}"
+                        Style="{DynamicResource ButtonRed}" Height="50" Width="250" HorizontalAlignment="Right" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
