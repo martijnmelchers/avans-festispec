@@ -54,7 +54,7 @@ namespace Festispec.UI.ViewModels
 
         private void NavigateBack()
         {
-            _navigationService.NavigateTo("CustomerList");e
+            _navigationService.NavigateTo("CustomerList");
         }
 
         private async void AddCustomer()
