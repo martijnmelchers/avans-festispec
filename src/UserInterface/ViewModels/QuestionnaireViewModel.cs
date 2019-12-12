@@ -89,7 +89,6 @@ namespace Festispec.UI.ViewModels
                 try
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
-                    _addedQuestions.Remove(q);
 
                 } catch  (Exception e)
                 {
@@ -101,7 +100,6 @@ namespace Festispec.UI.ViewModels
             {
                 try {
                     await _questionnaireService.RemoveQuestion(q.Id);
-                    _removedQuestions.Remove(q);
 
                 } catch(Exception e)
                 {
