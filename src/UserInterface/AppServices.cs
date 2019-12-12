@@ -40,6 +40,7 @@ namespace Festispec.UI
             navigationService.Configure("CustomerList", new Uri("../Views/CustomerScreen.xaml", UriKind.Relative));
             navigationService.Configure("NewCustomer", new Uri("../Views/NewCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("EditCustomer", new Uri("../Views/EditCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("ViewCustomer", new Uri("../Views/CustomerInformationScreen.xaml", UriKind.Relative));
 
             return navigationService;
         }

@@ -7,7 +7,7 @@
       xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
       Title="CustomerInformationScreen" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
-      d:DataContext="{d:DesignInstance Type=viewModels:CustomerListViewModel}">
+      d:DataContext="{d:DesignInstance Type=viewModels:CustomerViewModel}">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="950" />
@@ -49,12 +49,18 @@
 
             <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
-            <Label Content="{Binding Customer.Address.ZipCode}" Width="360" HorizontalAlignment="Left" Grid.Row="7"
-                     Grid.Column="0" />
+            <Label Content="{Binding Customer.Address.ZipCode}" Width="220" 
+                     HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="390,0,0,0" />
-            <Label Content="{Binding Customer.Address.HouseNumber}" Width="155" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="390, 0, 0, 0" />
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
+            <Label Content="{Binding Customer.Address.HouseNumber}"
+                     Width="150" HorizontalAlignment="Left"
+                     Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
+
+            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
+            <Label Content="{Binding Customer.Address.Suffix}"
+                     Width="115" HorizontalAlignment="Left"
+                     Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
             <Label Content="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
@@ -85,7 +91,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="15">
                 <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
-                <Button Content="Terug" Command="{Binding ReturnToCustomerListCommand}"
+                <Button Content="Terug" Command="{Binding CancelCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" HorizontalAlignment="Right" />
             </StackPanel>
         </Grid>

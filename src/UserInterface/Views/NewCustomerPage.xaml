@@ -45,13 +45,18 @@
 
             <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.ZipCode}" Width="360" HorizontalAlignment="Left" Grid.Row="7"
-                     Grid.Column="0" />
+            <TextBox Text="{Binding Customer.Address.ZipCode}" Width="220" 
+                     HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="390,0,0,0" />
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
             <TextBox Text="{Binding Customer.Address.HouseNumber}"
-                     PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="155" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="390, 0, 0, 0" />
+                     PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="150" HorizontalAlignment="Left"
+                     Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
+
+            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
+            <TextBox Text="{Binding Customer.Address.Suffix}"
+                     Width="115" HorizontalAlignment="Left"
+                     Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
             <TextBox Text="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />

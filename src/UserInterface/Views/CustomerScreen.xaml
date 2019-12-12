@@ -36,7 +36,7 @@
             <Label Content="Alle klanten" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
             <Label Content="Klant zoeken" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
             <TextBox FontSize="30" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="600" Height="50" Grid.Row="1" Grid.Column="1"/>
-            <Image HorizontalAlignment="right" Height="44" Width="44" Source="{StaticResource SearchGreen}" Grid.Row="1" Grid.Column="1"/>
+            <!-- <Image HorizontalAlignment="right" Height="44" Width="44" Source="{StaticResource SearchGreen}" Grid.Row="1" Grid.Column="1"/> -->
             <ListView ItemsSource="{Binding CustomerList}" Grid.Row="2" Grid.RowSpan="8" Grid.Column="0"
                       Grid.ColumnSpan="2">
                 <ListView.ItemContainerStyle>
@@ -50,11 +50,17 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="185" />
+                                <ColumnDefinition Width="185" />
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" Content="{Binding CustomerName}" VerticalAlignment="Center" />
 
-                            <Button Grid.Column="1" Content="Wijzig"
+                            <Button Grid.Column="1" Content="Weergeven"
+                                    Command="{Binding DataContext.ViewCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                    CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}"
+                                    Height="50" Width="185" Margin="0,5,0,5" />
+
+                            <Button Grid.Column="2" Content="Wijzig"
                                     Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                     CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}"
                                     Height="50" Width="185" Margin="0,5,0,5" />

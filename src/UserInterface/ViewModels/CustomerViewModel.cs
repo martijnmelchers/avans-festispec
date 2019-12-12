@@ -1,7 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -16,15 +15,13 @@ namespace Festispec.UI.ViewModels
         private readonly IFrameNavigationService _navigationService;
 
         public Customer Customer { get; }
-        public CollectionView Customers { get; }
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCustomerCommand { get; set; }
-        public ICommand ReturnToCustomerListCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand EditCustomerCommand { get; }
 
         public bool CanDeleteCustomer { get; }
-
-        
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
@@ -44,14 +41,20 @@ namespace Festispec.UI.ViewModels
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
-            ReturnToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
+            CancelCommand = new RelayCommand(NavigateBack);
             RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
+            EditCustomerCommand = new RelayCommand(NavigateToEditCustomer);
+        }
+
+        private void NavigateToEditCustomer()
+        {
+            _navigationService.NavigateTo("EditCustomer", Customer.Id);
         }
 
 
-        private void NavigateToCustomerList()
+        private void NavigateBack()
         {
-            _navigationService.NavigateTo("CustomerList");
+            _navigationService.NavigateTo("CustomerList");e
         }
 
         private async void AddCustomer()
@@ -59,7 +62,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
-                NavigateToCustomerList();
+                NavigateBack();
             }
             catch (Exception e)
             {
@@ -72,7 +75,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _customerService.SaveChangesAsync();
-                NavigateToCustomerList();
+                NavigateBack();
             }
             catch (Exception e)
             {
@@ -86,7 +89,7 @@ namespace Festispec.UI.ViewModels
                 throw new InvalidOperationException("Cannot remove this customer");
 
             await _customerService.RemoveCustomerAsync(Customer.Id);
-            NavigateToCustomerList();
+            NavigateBack();
         }
     }
 }

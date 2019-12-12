@@ -20,6 +20,7 @@ namespace Festispec.UI.ViewModels
 
         public ICommand AddNewCustomerCommand { get; }
         public ICommand EditCustomerCommand { get; }
+        public ICommand ViewCustomerCommand { get; }
 
         private bool Filter(object item) => string.IsNullOrEmpty(Search) || ((Customer)item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
 
@@ -35,15 +36,23 @@ namespace Festispec.UI.ViewModels
             }
         }
 
+        
+
         public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;
 
             AddNewCustomerCommand = new RelayCommand(NavigateToAddNewCustomer);
             EditCustomerCommand = new RelayCommand<int>(NavigateToEditCustomer);
+            ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
 
             CustomerList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
             CustomerList.Filter = Filter;
+        }
+
+        private void NavigateToViewCustomer(int customerId)
+        {
+            _navigationService.NavigateTo("ViewCustomer", customerId);
         }
 
         private void NavigateToEditCustomer(int customerId)
