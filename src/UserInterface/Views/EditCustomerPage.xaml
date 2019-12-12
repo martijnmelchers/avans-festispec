@@ -86,19 +86,35 @@
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" HorizontalAlignment="Right" />
             </StackPanel>
 
-            <Popup x:Name="DeleteWarning">
-                <StackPanel>
-                    <Label Content="Als u op doorgaan klikt wordt deze klant definitief verwijderd."
-                           HorizontalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Doorgaan" Command="{Binding RemoveCustomerCommand}"
-                                Style="{DynamicResource ButtonGreen}" Click="ContinueDeleteCheckPopUp" Height="50"
-                                Width="185" HorizontalAlignment="Right" />
-                        <Button Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp"
-                                Height="50" Width="185" HorizontalAlignment="Left" />
+            <Popup x:Name="DeleteWarning"  Placement="Center" AllowsTransparency="True" Width="550">
+                <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
+                    <StackPanel Orientation="Vertical" Background="White">
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                            <TextBlock Text="Als u op doorgaan klikt wordt deze klant definitief verwijderd." Style="{DynamicResource Header}"/>
+                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                            <Label Content="Naam"/>
+                            <TextBox HorizontalAlignment="Left" Name="QuestionnaireName" Width="475" Height="50"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button HorizontalAlignment="Right" Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Click="ContinueDeleteCheckPopUp"
+                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0"/>
+                            <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp"
+                                    Height="50" Width="185" Grid.Column="1"/>
+                        </Grid>
+
                     </StackPanel>
-                </StackPanel>
+                </Border>
             </Popup>
+
         </Grid>
     </Grid>
 </Page>
