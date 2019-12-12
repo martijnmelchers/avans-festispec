@@ -75,7 +75,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _customerService.SaveChangesAsync();
-                NavigateBack();
+                _navigationService.NavigateTo("ViewCustomer", Customer.Id);
             }
             catch (Exception e)
             {
