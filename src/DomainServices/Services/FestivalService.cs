@@ -61,7 +61,7 @@ namespace Festispec.DomainServices.Services
             return _db.Festivals.ToList();
         }
 
-        public async Task SaveChangesToFestival(Festival festival)
+        public async Task UpdateFestival(Festival festival)
         {
             if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
