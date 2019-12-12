@@ -34,10 +34,13 @@ namespace Festispec.UnitTests.Helpers
 
         public static Customer CustomerPinkPop = new Customer()
         {
+            Id = 1,
             KvkNr = 12345678,
             CustomerName = "PinkPop",
             Address = Address,
-            ContactDetails = ContactDetails
+            ContactDetails = ContactDetails,
+            Festivals = new List<Festival>(),
+            ContactPersons = new List<ContactPerson>()
         };
 
         public static Festival FestivalPinkPop = new Festival()
@@ -48,6 +51,20 @@ namespace Festispec.UnitTests.Helpers
             Address = Address,
             OpeningHours = OpeningHours,
             Customer = CustomerPinkPop
+        };
+        
+        public static Customer Customer2 = new Customer()
+        {
+            Id = 2,
+            KvkNr = 12345678,
+            CustomerName = "PinkPop2",
+            Address = Address,
+            ContactDetails = ContactDetails,
+            Festivals = new List<Festival>
+            {
+                FestivalPinkPop
+            },
+            ContactPersons = new List<ContactPerson>()
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire {
@@ -225,5 +242,13 @@ namespace Festispec.UnitTests.Helpers
             PlannedInspection1,
             PlannedInspection2
         };
+        
+        public List<Customer> Customers = new List<Customer>
+        {
+            CustomerPinkPop,
+            Customer2
+        };
+        
+        public List<ContactPerson> ContactPersons = new List<ContactPerson>();
     }
 }
