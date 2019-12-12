@@ -40,45 +40,45 @@
             <!-- Bedrijfsgegevens -->
             <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
 
-            <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <Label Content="Naam bedrijf" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
             <Label Content="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
 
             <Label Content="KvK-nummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
             <Label Content="{Binding Customer.KvkNr}" Grid.Row="5"
                      Grid.Column="0" Margin="0,0,55,0" />
 
-            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
+            <Label Content="Postcode" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
             <Label Content="{Binding Customer.Address.ZipCode}" Width="220" 
                      HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
+            <Label Content="Huisnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
             <Label Content="{Binding Customer.Address.HouseNumber}"
                      Width="150" HorizontalAlignment="Left"
                      Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
 
-            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
+            <Label Content="Toevoeging" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
             <Label Content="{Binding Customer.Address.Suffix}"
                      Width="115" HorizontalAlignment="Left"
                      Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
 
-            <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
+            <Label Content="Straatnaam" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
             <Label Content="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
 
-            <Label Content="Stad" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
+            <Label Content="Stad" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
             <Label Content="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
 
-            <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
+            <Label Content="Land" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
             <Label Content="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
 
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
+            <Label Content="Email adres" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
             <Label Content="{Binding Customer.ContactDetails.EmailAddress}" Grid.Column="1" Grid.Row="3"
                      Margin="55,0,0,0" />
 
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
+            <Label Content="Telefoonnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
             <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
                      Margin="55,0,0,0" />
 
