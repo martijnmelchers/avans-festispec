@@ -70,7 +70,7 @@
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
             <TextBox Text="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
 
-            <Button Content="Verwijder" Style="{DynamicResource ButtonRed}" IsEnabled="{Binding CanDeleteCustomer}"
+            <Button Content="Verwijder" HorizontalAlignment="Left" Style="{DynamicResource ButtonRed}" IsEnabled="{Binding CanDeleteCustomer}"
                     Click="OpenDeleteCheckPopUp" Height="50" Width="185" Grid.Column="0" Grid.Row="15" />
 
             <!-- Contactgegevens -->

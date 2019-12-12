@@ -82,10 +82,10 @@
             <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
                      Margin="55,0,0,0" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="1" Grid.Row="14">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="15">
+                <!-- TODO: Binding opzetten voor festival toevoegen -->
                 <Button Content="Festival toevoegen" Command="{Binding}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250"
-                        Margin="50,0,0,0"/>
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="15">
