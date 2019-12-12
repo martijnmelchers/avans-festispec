@@ -34,7 +34,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Klant gegevens wijzigen" Style="{DynamicResource Header}" Grid.Row="0" />
+            <TextBlock Text="Klantgegevens wijzigen" Style="{DynamicResource Header}" Grid.Row="0" />
 
             <!-- Bedrijfsgegevens -->
             <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
@@ -42,7 +42,7 @@
             <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
             <TextBox Text="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
 
-            <Label Content="KVK Nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
+            <Label Content="KvK-nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
             <TextBox Text="{Binding Customer.KvkNr}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
                      Grid.Column="0" Margin="0,0,55,0" />
 
