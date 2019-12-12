@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -15,12 +16,15 @@ namespace Festispec.UI.ViewModels
         private readonly IFrameNavigationService _navigationService;
 
         public Customer Customer { get; }
+        public CollectionView Customers { get; }
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCustomerCommand { get; set; }
         public ICommand ReturnToCustomerListCommand { get; }
 
         public bool CanDeleteCustomer { get; }
+
+        
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {

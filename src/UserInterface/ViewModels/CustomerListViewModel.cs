@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -11,24 +12,38 @@ using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels
 {
-    class CustomerListViewModel
+    public class CustomerListViewModel
     {
         private readonly IFrameNavigationService _navigationService;
 
-        public ObservableCollection<Customer> CustomerList { get; }
+        public CollectionView CustomerList { get; }
 
         public ICommand AddNewCustomerCommand { get; }
         public ICommand EditCustomerCommand { get; }
+
+        private bool Filter(object item) => string.IsNullOrEmpty(Search) || ((Customer)item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+
+        private string _search;
+
+        public string Search
+        {
+            get => _search;
+            set
+            {
+                _search = value;
+                CustomerList.Filter += Filter;
+            }
+        }
 
         public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;
 
-            CustomerList = new ObservableCollection<Customer>();
-            customerService.GetAllCustomers().ForEach(c => CustomerList.Add(c));
-
             AddNewCustomerCommand = new RelayCommand(NavigateToAddNewCustomer);
             EditCustomerCommand = new RelayCommand<int>(NavigateToEditCustomer);
+
+            CustomerList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
+            CustomerList.Filter = Filter;
         }
 
         private void NavigateToEditCustomer(int customerId)
