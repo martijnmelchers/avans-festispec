@@ -24,7 +24,7 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="RapportPreview" Style="{StaticResource HeaderLink}">Inspecties</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Questionnaire" Style="{StaticResource HeaderLink}">Inspecties</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
