@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
 using System.Data.Entity;
+using System.Threading.Tasks;
+
 namespace Festispec.DomainServices.Services
 {
     class QuestionService: IQuestionService
@@ -20,26 +21,15 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public List<Answer> GetAnswers(Question question)
+        public async Task<List<Answer>> GetAnswers(Question question)
         { 
             List<Answer> questionAnswers = new List<Answer>();
-            var answers = _db.Answers;
-            return answers.Where(x => x.Question == question).ToList();
+            return await _db.Answers.Where(x => x.Question == question).ToListAsync();
         }
 
-        public Questionnaire GetQuestionaire(int id)
+        public async Task<Questionnaire> GetQuestionaire(int id)
         {
-            return _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(x => x.Id == id);
-        }
-
-        public Festival GetFestival(int festivalId)
-        {
-            var festival = _db.Festivals.Include(f => f.Questionnaires).FirstOrDefault(f => f.Id == festivalId);
-            if( festival != null)
-            {
-                return festival;
-            }
-            return null;
+            return await _db.Questionnaires.Include(x => x.Questions).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

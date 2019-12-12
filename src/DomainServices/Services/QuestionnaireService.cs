@@ -77,9 +77,9 @@ namespace Festispec.DomainServices.Services
         }
 
 
-        public List<Question> GetQuestionsFromQuestionnaire(int questionnaireId)
+        public async Task<List<Question>> GetQuestionsFromQuestionnaire(int questionnaireId)
         {
-            var questions = _db.Questions.Include(x => x.Answers).Where(q => q.Questionnaire.Id == questionnaireId).ToList();
+            var questions = await _db.Questions.Include(x => x.Answers).Where(q => q.Questionnaire.Id == questionnaireId).ToListAsync();
 
             if (questions == null)
                 throw new EntityNotFoundException();

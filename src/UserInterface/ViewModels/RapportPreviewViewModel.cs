@@ -38,11 +38,11 @@ namespace Festispec.UI.ViewModels
         }
 
 
-        private void GenerateReport(int questionaireId)
+        private async void GenerateReport(int questionaireId)
         {
 
             var questionaire = _questionnaireService.GetQuestionnaire(questionaireId);
-            var questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
+            var questions = await _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<Control>();
 
 
