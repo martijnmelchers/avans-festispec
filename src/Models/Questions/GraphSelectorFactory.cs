@@ -23,16 +23,9 @@ namespace Festispec.Models.Questions
         }
 
 
-        public IGraphable GetConverter(Question question)
+        public IGraphable GetConverter(GraphType graphType)
         {
-            var converter = _converters[question.GraphType];
-
-            if (converter == null)
-                return null;
-
-
-            converter.Question = question;
-            return _converters[question.GraphType];
+            return _converters[graphType];
         }
     }
 }

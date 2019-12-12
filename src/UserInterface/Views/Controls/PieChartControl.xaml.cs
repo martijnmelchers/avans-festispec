@@ -28,10 +28,7 @@ namespace Festispec.UI.Views.Controls
         {
             InitializeComponent();
 
-            SeriesCollection = new SeriesCollection
-            {
-
-            };
+            SeriesCollection = new SeriesCollection();
 
 
             foreach (var GraphableSeries in values)

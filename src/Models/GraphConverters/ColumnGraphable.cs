@@ -13,12 +13,10 @@ namespace Festispec.Models.GraphConverters
 {
     public class ColumnGraphable : IGraphable
     {
-        public Question Question { get; set; }
-
-        public List<GraphableSeries> TypeToChart()
+        public List<GraphableSeries> TypeToChart(Question question)
         {
             List<GraphableSeries> series = new List<GraphableSeries>();
-            var plannedInspections = Question.Answers.Select(x => x.PlannedInspection);
+            var plannedInspections = question.Answers.Select(x => x.PlannedInspection);
             
             foreach (var plannedInspection in plannedInspections)
             {
@@ -26,7 +24,7 @@ namespace Festispec.Models.GraphConverters
                 serie.Values = new ChartValues<int>();
                 serie.Title = plannedInspection.EventTitle;
 
-                var answer = Question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
+                var answer = question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
 
                 var numAnswer = (NumericAnswer)answer;
                 serie.Values.Add(numAnswer.IntAnswer);

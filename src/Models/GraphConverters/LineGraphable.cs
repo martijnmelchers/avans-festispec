@@ -12,22 +12,21 @@ namespace Festispec.Models.GraphConverters
 {
     public class LineGraphable : IGraphable
     {
-        public Question Question { get; set; }
 
-        public List<GraphableSeries> TypeToChart()
+        public List<GraphableSeries> TypeToChart(Question question)
         {
             List<GraphableSeries> series = new List<GraphableSeries>();
-            var plannedInspections = Question.Answers.Select(x => x.PlannedInspection);
+            var plannedInspections = question.Answers.Select(x => x.PlannedInspection);
 
 
 
             foreach(var plannedInspection in plannedInspections)
             {
-                var answers = Question.Answers.Where(x => x.PlannedInspection == plannedInspection);
+                var answers = question.Answers.Where(x => x.PlannedInspection == plannedInspection);
 
 
                 GraphableSeries serie = new GraphableSeries();
-                serie.Title = Question.Contents;
+                serie.Title = question.Contents;
 
 
                 var chartValues = new ChartValues<int>();

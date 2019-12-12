@@ -27,11 +27,9 @@ namespace Festispec.UI.Views.Controls
         public ColumnChartControl(List<GraphableSeries> values)
         {
             InitializeComponent();
+            
 
-            SeriesCollection = new SeriesCollection
-            {
-
-            };
+            SeriesCollection = new SeriesCollection();
 
 
             foreach (var GraphableSeries in values)

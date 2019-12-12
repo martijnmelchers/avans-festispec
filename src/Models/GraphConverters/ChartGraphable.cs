@@ -14,25 +14,19 @@ namespace Festispec.Models.GraphConverters
     public class ChartGraphable : IGraphable
     {
 
-
-        public Question Question { get; set; }
-
-        public List<GraphableSeries> TypeToChart()
+        public List<GraphableSeries> TypeToChart(Question question)
         {
 
-            var multipleChoiceAnswers = Question.Answers ;
+            var multipleChoiceAnswers = question.Answers ;
 
             List<GraphableSeries> chartSeries = new List<GraphableSeries>();
 
 
-
-
-            if(multipleChoiceAnswers == null) {
+            if(multipleChoiceAnswers == null)
                 return chartSeries;
-            }
 
 
-            MultipleChoiceQuestion quest = (MultipleChoiceQuestion)Question;
+            MultipleChoiceQuestion quest = (MultipleChoiceQuestion)question;
 
             for(var i = 0; i < quest.OptionCollection.Count; i++)
             {
@@ -53,7 +47,6 @@ namespace Festispec.Models.GraphConverters
                 chartSeries.Add(serie);
             }
             
-       
 
             return chartSeries;
         }

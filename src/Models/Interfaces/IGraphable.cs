@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Festispec.Models.Answers;
+using Festispec.Models.Questions;
+
 namespace Festispec.Models.Interfaces
 {
     public interface IGraphable
     {
-        public Questions.Question Question { get; set; }
-        public List<GraphableSeries> TypeToChart();
+        public List<GraphableSeries> TypeToChart(Question question);
     }
 }
