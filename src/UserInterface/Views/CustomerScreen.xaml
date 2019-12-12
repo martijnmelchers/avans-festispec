@@ -35,7 +35,7 @@
             <TextBlock Text="Klanten" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
             <Label Content="Alle klanten" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
             <Label Content="Klant zoeken" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
-            <TextBox FontSize="30" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="600" Height="50" Grid.Row="1" Grid.Column="1"/>
+            <TextBox FontSize="24" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="600" Height="50" Grid.Row="1" Grid.Column="1"/>
             <!-- TODO regel 40 uncommenten na merg FestivalBeherenCRUD wegens icoontjes die daarin staan. -->
             <!-- <Image HorizontalAlignment="right" Height="44" Width="44" Source="{StaticResource SearchGreen}" Grid.Row="1" Grid.Column="1"/> -->
             <ListView ItemsSource="{Binding CustomerList}" Grid.Row="2" Grid.RowSpan="8" Grid.Column="0"
