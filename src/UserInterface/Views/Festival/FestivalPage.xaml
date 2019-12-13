@@ -19,16 +19,20 @@
         <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,180,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
-        <Label Content="Locatie" Margin="180,200" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image Source="{StaticResource LocationGreen}" HorizontalAlignment="Left" Height="24" Margin="180,200,0,0" VerticalAlignment="Top" Width="20"/>
+        <Label Content="Locatie" Margin="210,200" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label Content="{Binding FestivalLocation}" HorizontalAlignment="Left" Margin="180,230" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
 
-        <Label Content="Festivaldata" Margin="180,270" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image Source="{StaticResource CalendarGreen}" HorizontalAlignment="Left" Height="24" Margin="180,270,0,0" VerticalAlignment="Top" Width="20"/>
+        <Label Content="Festivaldata" Margin="210,270" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" Margin="180,300" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
 
-        <Label Content="Festivaltijden" Margin="180,340" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image Source="{StaticResource ClockGreen}" HorizontalAlignment="Left" Height="24" Margin="180,340,0,0" VerticalAlignment="Top" Width="20"/>
+        <Label Content="Festivaltijden" Margin="210,340" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" Margin="180,370" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}"/>
 
-        <Label Content="Beschrijving" Margin="180,410" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image Source="{StaticResource EditGreen}" HorizontalAlignment="Left" Height="24" Margin="180,410,0,0" VerticalAlignment="Top" Width="20"/>
+        <Label Content="Beschrijving" Margin="210,410" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label HorizontalAlignment="Left" Margin="180,440,0,0" VerticalAlignment="Top" FontSize="18" Style="{DynamicResource MediumLabel}" Width="465">
             <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
         </Label>
@@ -76,10 +80,10 @@
             </ListView>
             <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
-       
+
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
-        
+
         <!-- POP UPS -->
         <Popup x:Name="CreateQuestionnairePopUp"  Placement="Center" AllowsTransparency="True" Width="550">
             <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
@@ -133,7 +137,6 @@
                 </StackPanel>
             </Border>
         </Popup>
-
     </Grid>
 
 
