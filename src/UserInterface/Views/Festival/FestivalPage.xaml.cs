@@ -37,5 +37,10 @@ namespace Festispec.UI.Views
         {
             CreateQuestionnairePopUp.IsOpen = !CreateQuestionnairePopUp.IsOpen;
         }
+
+        private void ToggleDeleteQuestionnairePopUp(object sender, RoutedEventArgs e)
+        {
+            DeleteQuestionnairePopUp.IsOpen = !DeleteQuestionnairePopUp.IsOpen;
+        }
     }
 }

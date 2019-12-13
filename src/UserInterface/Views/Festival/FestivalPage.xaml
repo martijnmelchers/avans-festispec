@@ -4,10 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:Converters="clr-namespace:Festispec.UI.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalPage">
-
+    <Page.Resources>
+        <Converters:HasQuestionsConverter x:Key="HasQuestionsConverter"/>
+        <Converters:TextTrimmerConverter x:Key="TextTrimmerConverter"/>
+    </Page.Resources>
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
         <Rectangle Style="{DynamicResource ContentBox}" Margin="795,50,618,80" />
@@ -40,12 +44,26 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Rectangle Style="{DynamicResource InnerContextBox}" Height="50" HorizontalAlignment="Stretch"/>
-                            <Label Content="{Binding Name}" VerticalAlignment="Center" Padding="20,0,0,0"/>
-                            <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Right" Padding="0,0,20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" Height="50" HorizontalAlignment="Stretch" Grid.ColumnSpan="4"/>
+                            <Label Content="{Binding Name, Converter={StaticResource TextTrimmerConverter}, ConverterParameter=20}" VerticalAlignment="Center" Padding="20,0,0,0" Grid.Column="0"/>
+                            <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
                                 <Hyperlink Command="{Binding DataContext.OpenQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource EyeGreen}" />
                                 </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}}" Grid.Column="3"  Padding="0,0,20,0"  VerticalAlignment="Center">
+                                <Hyperlink Click="ToggleDeleteQuestionnairePopUp" Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
+                                    <Image Height="25" Source="{StaticResource TrashcanRed}" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}, ConverterParameter=true}" Grid.Column="3"  Padding="0,0,20,0"  VerticalAlignment="Center">
+                               <Image Height="25" Source="{StaticResource TrashcanGray}" />
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
@@ -58,6 +76,11 @@
             </ListView>
             <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
+       
+        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+
+        
+        <!-- POP UPS -->
         <Popup x:Name="CreateQuestionnairePopUp"  Placement="Center" AllowsTransparency="True" Width="550">
             <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
                 <StackPanel Orientation="Vertical" Background="White">
@@ -84,7 +107,32 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+
+        <Popup x:Name="DeleteQuestionnairePopUp"  Placement="Center" AllowsTransparency="True" Width="550">
+            <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
+                <StackPanel Orientation="Vertical" Background="White">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <TextBlock Text="WEET JE HET ZEKER?" Style="{DynamicResource Header}"/>
+                        <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <TextBlock Style="{DynamicResource DefaultText}" Text="Weet je zeker dat je deze vragenlijst wilt verwijderen? Deze actie kan niet teruggedraaid worden." TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonGreen}" Click="ToggleDeleteQuestionnairePopUp" Height="50" Width="185" Grid.Column="0"/>
+                        <Button HorizontalAlignment="Right" Content="Verwijderen" Style="{DynamicResource ButtonRed}" Click="ToggleDeleteQuestionnairePopUp" Command="{Binding ConfirmDeleteQuestionnaireCommand}" Height="50" Width="185" Grid.Column="2"/>
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+        </Popup>
 
     </Grid>
 

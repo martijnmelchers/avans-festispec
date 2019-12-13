@@ -34,6 +34,7 @@ namespace Festispec.DomainServices.Services
         {
             var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)
+                .Include(f => f.Questionnaires.Select(q => q.Questions.Select(qe => qe.Answers)))
                 .Include(f => f.PlannedInspections)
                 .FirstOrDefaultAsync(f => f.Id == festivalId);
 
