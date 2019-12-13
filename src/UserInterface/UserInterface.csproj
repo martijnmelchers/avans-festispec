@@ -38,7 +38,7 @@
     <None Remove="Assets\Montserrat\Montserrat-ThinItalic.ttf" />
     <None Remove="Assets\user.png" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <Resource Include="Assets\Chevron.png" />
     <Resource Include="Assets\festispec logo.png">

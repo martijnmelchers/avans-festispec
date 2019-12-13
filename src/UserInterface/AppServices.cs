@@ -15,10 +15,22 @@ namespace Festispec.UI
 
             //  Register Viewmodels here
             services.AddTransient<MainViewModel>();
-            services.AddTransient<FirstTimeViewModel>();
+
+            #region Festival ViewModels
+            services.AddTransient<FestivalViewModel>();
+            services.AddTransient<CreateFestivalViewModel>();
+            services.AddTransient<UpdateFestivalViewModel>();
+            services.AddTransient<FestivalListViewModel>();
+            #endregion
+
+            #region Questionnaire ViewModels
             services.AddTransient<QuestionnaireViewModel>();
+            #endregion
+
+            #region Customer ViewModels
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
+            #endregion
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -34,13 +46,24 @@ namespace Festispec.UI
             var navigationService = new FrameNavigationService();
 
             // Register your routes here
-            navigationService.Configure("Homepage", new Uri("../Views/MainWindow.xaml", UriKind.Relative));
-            navigationService.Configure("FirstTime", new Uri("../Views/FirstTimePage.xaml", UriKind.Relative));
-            navigationService.Configure("Questionnaire", new Uri("../Views/QuestionnairePage.xaml", UriKind.Relative));
-            navigationService.Configure("CustomerList", new Uri("../Views/CustomerScreen.xaml", UriKind.Relative));
-            navigationService.Configure("NewCustomer", new Uri("../Views/NewCustomerPage.xaml", UriKind.Relative));
-            navigationService.Configure("EditCustomer", new Uri("../Views/EditCustomerPage.xaml", UriKind.Relative));
 
+            #region Festival Routes
+            navigationService.Configure("FestivalInfo", new Uri("../Views/Festival/FestivalPage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateFestival", new Uri("../Views/Festival/CreateFestivalPage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateFestival", new Uri("../Views/Festival/UpdateFestivalPage.xaml", UriKind.Relative));
+            navigationService.Configure("FestivalList", new Uri("../Views/Festival/FestivalListPage.xaml", UriKind.Relative));
+            #endregion
+
+            #region Questionnaire Routes
+            navigationService.Configure("Questionnaire", new Uri("../Views/Questionnaire/QuestionnairePage.xaml", UriKind.Relative));
+            #endregion
+
+            #region Customer Routes
+            navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerScreen.xaml", UriKind.Relative));
+            navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
+            #endregion
+    
             return navigationService;
         }
 

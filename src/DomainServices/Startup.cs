@@ -3,6 +3,7 @@ using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace Festispec.DomainServices
 {
@@ -14,6 +15,7 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
+            services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<FestispecContext>();
 
