@@ -10,6 +10,7 @@ namespace Festispec.Models
         [Required, MinLength(1), MaxLength(50)]
         public string StreetName { get; set; }
 
+        [Range(0, int.MaxValue)]
         public int HouseNumber { get; set; }
 
         [MaxLength(10)]
@@ -20,5 +21,10 @@ namespace Festispec.Models
 
         [Required, MinLength(1), MaxLength(75)]
         public string Country { get; set; }
+
+        public string ToString()
+        {
+            return $"{StreetName} {HouseNumber}{Suffix}, {City} {Country}";
+        }
     }
 }
