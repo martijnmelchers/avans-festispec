@@ -22,7 +22,11 @@ namespace Festispec.Models
         [Required, MinLength(1), MaxLength(75)]
         public string Country { get; set; }
 
-        public string ToString()
+        // TODO: MAKE REQUIRED
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
+
+        public override string ToString()
         {
             return $"{StreetName} {HouseNumber}{Suffix}, {City} {Country}";
         }
