@@ -88,11 +88,11 @@
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Terug" Command="{Binding CancelCommand}"
-                        Style="{DynamicResource ButtonRed}" Height="50" Width="250" HorizontalAlignment="Right" />
+                        Style="{DynamicResource ButtonRed}" Height="50" Width="250"  />
             </StackPanel>
         </Grid>
     </Grid>
