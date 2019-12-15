@@ -23,10 +23,7 @@ namespace Festispec.DomainServices
             services.AddSingleton(new QuestionFactory());
             
             // Database initialisation code below
-            using (var ctx = new FestispecContext())
-            {
-                ctx.Database.Initialize(false);
-            }
+            using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
 
             return services;
         }
