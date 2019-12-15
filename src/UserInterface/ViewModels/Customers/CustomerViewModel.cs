@@ -1,5 +1,4 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
@@ -7,7 +6,7 @@ using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Customers
 {
     public class CustomerViewModel
     {
@@ -48,7 +47,7 @@ namespace Festispec.UI.ViewModels
 
         private void NavigateToEditCustomer()
         {
-            _navigationService.NavigateTo("EditCustomer", Customer.Id);
+            _navigationService.NavigateTo("UpdateCustomer", Customer.Id);
         }
 
 
@@ -75,7 +74,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _customerService.SaveChangesAsync();
-                _navigationService.NavigateTo("ViewCustomer", Customer.Id);
+                _navigationService.NavigateTo("CustomerInfo", Customer.Id);
             }
             catch (Exception e)
             {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
@@ -10,7 +6,7 @@ using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Customers
 {
     public class CustomerListViewModel
     {
@@ -52,17 +48,17 @@ namespace Festispec.UI.ViewModels
 
         private void NavigateToViewCustomer(int customerId)
         {
-            _navigationService.NavigateTo("ViewCustomer", customerId);
+            _navigationService.NavigateTo("CustomerInfo", customerId);
         }
 
         private void NavigateToEditCustomer(int customerId)
         {
-            _navigationService.NavigateTo("EditCustomer", customerId);
+            _navigationService.NavigateTo("UpdateCustomer", customerId);
         }
 
         private void NavigateToAddNewCustomer()
         {
-            _navigationService.NavigateTo("NewCustomer");
+            _navigationService.NavigateTo("CreateCustomer");
         }
     }
 }
