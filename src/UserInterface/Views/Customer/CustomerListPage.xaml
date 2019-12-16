@@ -54,7 +54,7 @@
 
                             <Button Grid.Column="2" Content="Wijzig"
                                     Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                    CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}"
+                                    CommandParameter="{Binding Id}" Style="{DynamicResource ButtonBase}"
                                     Height="50" Width="185" Margin="10,5,0,5" />
                         </Grid>
                     </DataTemplate>
