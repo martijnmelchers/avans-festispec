@@ -34,7 +34,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Customer.CustomerName, StringFormat='KLANTGEGEVENS {0}'}" Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
+            <TextBlock Text="{Binding Customer.CustomerName, Converter={StaticResource UpperCaseConverter}, StringFormat='KLANTGEGEVENS {0}'}"
+                       Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
             <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
             <!-- Bedrijfsgegevens -->
