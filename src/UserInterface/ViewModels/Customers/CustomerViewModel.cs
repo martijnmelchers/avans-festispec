@@ -22,6 +22,8 @@ namespace Festispec.UI.ViewModels.Customers
 
         public bool CanDeleteCustomer { get; }
 
+        public ICommand AddFestivalCommand { get; }
+
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
             _customerService = customerService;
@@ -43,6 +45,12 @@ namespace Festispec.UI.ViewModels.Customers
             CancelCommand = new RelayCommand(NavigateBack);
             RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
             EditCustomerCommand = new RelayCommand(NavigateToEditCustomer);
+            AddFestivalCommand = new RelayCommand(NavigateToAddFestival);
+        }
+
+        private void NavigateToAddFestival()
+        {
+            _navigationService.NavigateTo("CreateFestival", Customer.Id);
         }
 
         private void NavigateToEditCustomer()

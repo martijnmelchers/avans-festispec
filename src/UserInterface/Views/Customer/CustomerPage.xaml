@@ -84,8 +84,7 @@
                      Margin="55,0,0,0" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="15">
-                <!-- TODO: Binding opzetten voor festival toevoegen -->
-                <Button Content="Festival toevoegen" Command="{Binding}"
+                <Button Content="Festival toevoegen" Command="{Binding AddFestivalCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
             </StackPanel>
 
