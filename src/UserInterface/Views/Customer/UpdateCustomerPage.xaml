@@ -86,10 +86,10 @@
                      Margin="55,0,0,0" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
-                <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Annuleren" Command="{Binding CancelCommand}"
-                        Style="{DynamicResource ButtonRed}" Height="50" Width="250"/>
+                        Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
+                <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
 
             <Popup x:Name="DeleteWarning"  Placement="Center" AllowsTransparency="True" Width="550">
