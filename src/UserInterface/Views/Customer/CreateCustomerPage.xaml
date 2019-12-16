@@ -44,7 +44,7 @@
             <TextBox Text="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
 
             <Label Content="KvK-nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.KvkNr}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
+            <TextBox Text="{Binding Customer.KvkNr, Mode=OneWayToSource}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
                      Grid.Column="0" Margin="0,0,55,0" />
 
             <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
@@ -53,7 +53,7 @@
                      HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
 
             <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.HouseNumber}"
+            <TextBox Text="{Binding Customer.Address.HouseNumber, Mode=OneWayToSource}"
                      PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="150" HorizontalAlignment="Left"
                      Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
 
