@@ -1,4 +1,4 @@
-﻿using Festispec.Models;
+using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System.Collections.Generic;
@@ -22,5 +22,8 @@ namespace Festispec.DomainServices.Interfaces
 
         Task<Answer> CreateAnswer(Answer answer);
         void Save();
+
+        List<Question> GetQuestionsFromQuestionnaire(int questionnaireId);
+
     }
 }

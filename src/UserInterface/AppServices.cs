@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
@@ -33,6 +33,9 @@ namespace Festispec.UI
             services.AddTransient<CustomerListViewModel>();
             #endregion
 
+
+            services.AddTransient<RapportPreviewViewModel>();
+
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
 
@@ -65,7 +68,9 @@ namespace Festispec.UI
             navigationService.Configure("UpdateCustomer", new Uri("../Views/Customer/UpdateCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
-    
+
+            navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+
             return navigationService;
         }
 
