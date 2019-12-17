@@ -32,7 +32,7 @@ namespace Festispec.UI.ViewModels.Employees
             if (_navigationService.Parameter is int customerId)
             {
                 Employee = _employeeService.GetEmployee(customerId);
-                CanDeleteEmployee = true; // TODO
+                CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
             }
             else

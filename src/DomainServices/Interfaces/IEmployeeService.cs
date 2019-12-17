@@ -18,5 +18,6 @@ namespace Festispec.DomainServices.Interfaces
         Task<Employee> CreateEmployeeAsync(Employee employee);
         
         Task<int> SaveChangesAsync();
+        bool CanRemoveEmployee(Employee employee);
     }
 }
