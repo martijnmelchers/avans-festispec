@@ -49,9 +49,7 @@ namespace Festispec.UI.ViewModels
             {
                 Place = await _googleService.GetPlace(id);
                 RaisePropertyChanged(nameof(Place));
-                MessageBox.Show($"LAT: {Place.Geometry.Location.Latitude} LONG: {Place.Geometry.Location.Longitude}");
                 var a = _googleService.PlaceToAddress(Place);
-                MessageBox.Show(a.StreetName);
             } catch (Exception e)
             {
                 MessageBox.Show("Error fetching place, try again!");

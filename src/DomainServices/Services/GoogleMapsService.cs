@@ -49,23 +49,32 @@ namespace Festispec.DomainServices.Services
 
         public Address PlaceToAddress(Place place)
         {
-            var zipCode = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("postal_code")).LongName;
-            var houseNumber = int.Parse(place.AddressComponents.FirstOrDefault(x => x.Types.Contains("street_number")).LongName);
-            var city = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("locality")).LongName;
-            var country = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("country")).LongName;
-            var streetName = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("route")).LongName;
-
+            int.TryParse(GetComponent(place, "street_number")?.LongName, out int houseNumber);
             return new Address
             {
-                City = city,
-                ZipCode = zipCode,
+                City = GetComponent(place, "locality")?.LongName,
+                ZipCode = GetComponent(place, "postal_code")?.LongName,
                 HouseNumber = houseNumber,
-                Country = country,
-                StreetName = streetName,
+                Country = GetComponent(place, "country")?.LongName,
+                StreetName = GetComponent(place, "route")?.LongName,
                 Suffix = "",
                 Latitude = place.Geometry.Location.Latitude,
                 Longitude = place.Geometry.Location.Longitude
             };
         }
+
+
+        private AddressComponent GetComponent(Place place, string name)
+        {
+            return place.AddressComponents.FirstOrDefault(x => x.Types.Contains(name));
+        }
+
+
+
+
+
+
+
+
     }
 }
