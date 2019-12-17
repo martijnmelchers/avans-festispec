@@ -32,7 +32,7 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1342,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Medewerkers</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="EmployeeList" Style="{StaticResource HeaderLink}">Medewerkers</Hyperlink>
             </TextBlock>
 
 
