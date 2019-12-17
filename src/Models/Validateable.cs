@@ -5,7 +5,7 @@ namespace Festispec.Models
 {
     public abstract class Validateable : IValidateable
     {
-        public bool Validate()
+        public virtual bool Validate()
         {
             return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
