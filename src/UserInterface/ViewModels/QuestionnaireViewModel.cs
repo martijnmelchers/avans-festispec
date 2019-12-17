@@ -110,6 +110,7 @@ namespace Festispec.UI.ViewModels
                 }
             }
             _removedQuestions.Clear();
+
         }
 
         public bool HasAnswers(Question question)

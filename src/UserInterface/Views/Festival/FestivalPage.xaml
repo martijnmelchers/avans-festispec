@@ -16,7 +16,7 @@
         <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
         <Rectangle Style="{DynamicResource ContentBox}" Margin="795,50,618,80" />
 
-        <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
+        <TextBlock Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,180,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
         <Image Source="{StaticResource LocationGreen}" HorizontalAlignment="Left" Height="24" Margin="180,200,0,0" VerticalAlignment="Top" Width="20"/>
@@ -83,10 +83,18 @@
 
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
-        <Grid>
-        <TextBlock Text="INSPECTIES" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="825,100,0,0" VerticalAlignment="Top"/>
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="825,145,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
-            <ListView Margin="800,166,620,163" ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}">
+        <Grid Margin="800,100,625,100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="INSPECTIES" Style="{DynamicResource Header}" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                <Rectangle HorizontalAlignment="Left" Height="7"  VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                
+            </StackPanel>
+            <ListView ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}" Grid.Row="1" Background="{x:Null}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                     <Grid HorizontalAlignment="Stretch" >
@@ -95,8 +103,14 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding [0].EventTitle }" />
-                            <TextBlock Text="Stijn Toemen" />
+                                <TextBlock Text="{Binding [0].EventTitle}" />
+                                <ListView ItemsSource="{Binding}" BorderThickness="0" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Employee.Name}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                                 <TextBlock Text="{Binding [0].Questionnaire.Name}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding [0].StartTime, StringFormat=HH:mm}" />
@@ -113,7 +127,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}" Margin="885,853,746,110" Height="48" Width="289"/>
+            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}" Command="{Binding DataContext.CreatePlannedInspectionCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}"   Height="48" Width="289" Grid.Row="2"/>
         </Grid>
 
 

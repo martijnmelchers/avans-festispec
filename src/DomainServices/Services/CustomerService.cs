@@ -25,7 +25,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails)
         {
-            var customer = new Customer()
+            var customer = new Customer
             {
                 CustomerName = name,
                 KvkNr = kvkNr,

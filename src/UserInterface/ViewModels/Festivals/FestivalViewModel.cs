@@ -43,6 +43,7 @@ namespace Festispec.UI.ViewModels
 
         public ICommand DeletePlannedInspectionsCommand { get; set; }
         public ICommand EditPlannedInspectionCommand { get; set; }
+        public ICommand CreatePlannedInspectionCommand { get; set; }
 
         public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService)
         {
@@ -60,6 +61,7 @@ namespace Festispec.UI.ViewModels
 
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
+            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
 
             Task.Run(async () => await Initialize((int)_navigationService.Parameter));
         }
@@ -96,9 +98,9 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo("InspectionPage",new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1} );
         }
 
-        public void CreatePlannedInspection(int festivalId)
+        public void CreatePlannedInspection()
         {
-            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = -1, FestivalId = festivalId });
+            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = -1, FestivalId = Festival.Id });
         }
         public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
         {

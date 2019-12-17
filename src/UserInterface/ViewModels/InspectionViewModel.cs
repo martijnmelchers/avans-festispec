@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -74,13 +75,12 @@ namespace Festispec.UI.ViewModels
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             AddEmployee = new RelayCommand(Save);
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
+            
             _plannedInspections = new List<PlannedInspection>();
-            Employees.Filter = new Predicate<object>(Filter);
+           
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
-            _originalStartTime = _startTime;
-            //Festival = _inspectionService.GetFestival();
+            EmployeesAdded = new ObservableCollection<Employee>(); 
             Task.Run(async () => await Initialize(_navigationService.Parameter));
         }
 
@@ -96,18 +96,30 @@ namespace Festispec.UI.ViewModels
                 _selectedDate = temp.StartTime;
                 
                 _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
-            }else if(parameter.FestivalId > 0)
+                _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
+                //RaisePropertyChanged(nameof(EmployeesAdded));
+            }
+            else if(parameter.FestivalId > 0)
             {
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
             }
-            
+
+            if (Festival == null)
+            {
+                throw new System.Exception();
+            }
+
+            _originalStartTime = _startTime;
                 RaisePropertyChanged(nameof(Festival));
                 RaisePropertyChanged(nameof(GetDateOptions));
-                RaisePropertyChanged(nameof(Employees));
                 RaisePropertyChanged(nameof(Questionnaire));
                 RaisePropertyChanged(nameof(StartTime));
                 RaisePropertyChanged(nameof(EndTime));
                 RaisePropertyChanged(nameof(SelectedDate));
+                RaisePropertyChanged(nameof(CheckBox));
+            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
+                RaisePropertyChanged(nameof(Employees));
+            Employees.Filter = new Predicate<object>(Filter);
         }
 
         public List<DateTime> GetDateOptions
@@ -203,20 +215,31 @@ namespace Festispec.UI.ViewModels
 
         public ObservableCollection<Employee> EmployeesToAdd { get; set; }
         public ObservableCollection<Employee> EmployeesToRemove { get; set; }
+        public ObservableCollection<Employee> EmployeesAdded { get; set; }
 
         public void CheckBox(Employee employee)
         {
-            if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
-            {
+            //if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
+            //{
+            //    EmployeesToAdd.Add(employee);
+            //}
+            //else if (EmployeesToAdd.Contains(employee))
+            //{
+            //    EmployeesToAdd.Remove(employee);
+            //}
+            //else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
+            //{
+            //    EmployeesToRemove.Add(employee);
+            //}
+
+            if (!EmployeesToAdd.Any(e => e.Id == employee.Id) && !EmployeesAdded.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Add(employee);
-            }
-            else if (EmployeesToAdd.Contains(employee))
-            {
+            else if (EmployeesToAdd.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Remove(employee);
-            }
-            else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
+            else if (EmployeesAdded.Any(e => e.Id == e.Id))
             {
                 EmployeesToRemove.Add(employee);
+                EmployeesAdded.Remove(employee);
             }
         }
 
@@ -240,33 +263,36 @@ namespace Festispec.UI.ViewModels
             {
                 p.StartTime = _startTime;
                 p.EndTime = _endTime;
-                //p.Questionnaire = Questionnaire;
+                p.Questionnaire = Questionnaire;
             }
 
             foreach (Employee q in EmployeesToAdd)
             {
-                //try
-                //{
+                try
+                {
                     await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
-                    //EmployeesToAdd.Remove(q);
-                //}
-                //catch (Exception e)
-                //{
-                //    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
+                    
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            //foreach (Employee q in EmployeesToRemove)
-            //{
-            //    try
-            //    {
-            //        await _inspectionService.RemoveInspection(0);
-            //        EmployeesToRemove.Remove(q);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    }
-            //}
+            EmployeesToAdd.Clear();
+            foreach (Employee q in EmployeesToRemove)
+            {
+                try
+                {
+                    var plannedInspection = await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
+                    await _inspectionService.RemoveInspection(plannedInspection.Id);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            EmployeesToRemove.Clear();
+            _navigationService.NavigateTo("UpdateFestival", Festival.Id);
         }
     }
 }
