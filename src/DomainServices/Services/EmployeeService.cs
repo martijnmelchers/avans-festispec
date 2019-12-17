@@ -77,6 +77,11 @@ namespace Festispec.DomainServices.Services
             return employee;
         }
 
+        public bool CanRemoveEmployee(Employee employee)
+        {
+            return employee.PlannedEvents.ToList().Count == 0;
+        }
+
         public async Task<int> RemoveEmployeeAsync(int employeeId)
         {
             Employee employee = await GetEmployeeAsync(employeeId);
