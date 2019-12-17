@@ -34,8 +34,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <!-- TODO: Add Converter={StaticResource UpperCaseConverter}, when #31 is merged -->
-            <TextBlock Text="{Binding Employee.Name, StringFormat='MEDEWERKER {0} WIJZIGEN'}"
+            <TextBlock Text="{Binding Employee.Name, Converter={StaticResource UpperCaseConverter}, StringFormat='MEDEWERKER {0} WIJZIGEN'}"
                        Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
             <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
