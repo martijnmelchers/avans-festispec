@@ -74,13 +74,12 @@ namespace Festispec.UI.ViewModels
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             AddEmployee = new RelayCommand(Save);
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
+            
             _plannedInspections = new List<PlannedInspection>();
-            Employees.Filter = new Predicate<object>(Filter);
+           
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
-            _originalStartTime = _startTime;
-            //Festival = _inspectionService.GetFestival();
+            EmployeesAdded = new ObservableCollection<Employee>(); 
             Task.Run(async () => await Initialize(_navigationService.Parameter));
         }
 
@@ -96,18 +95,30 @@ namespace Festispec.UI.ViewModels
                 _selectedDate = temp.StartTime;
                 
                 _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
-            }else if(parameter.FestivalId > 0)
+                _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
+                //RaisePropertyChanged(nameof(EmployeesAdded));
+            }
+            else if(parameter.FestivalId > 0)
             {
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
             }
-            
+
+            if (Festival == null)
+            {
+                throw new System.Exception();
+            }
+
+            _originalStartTime = _startTime;
                 RaisePropertyChanged(nameof(Festival));
                 RaisePropertyChanged(nameof(GetDateOptions));
-                RaisePropertyChanged(nameof(Employees));
                 RaisePropertyChanged(nameof(Questionnaire));
                 RaisePropertyChanged(nameof(StartTime));
                 RaisePropertyChanged(nameof(EndTime));
                 RaisePropertyChanged(nameof(SelectedDate));
+                RaisePropertyChanged(nameof(CheckBox));
+            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
+                RaisePropertyChanged(nameof(Employees));
+            Employees.Filter = new Predicate<object>(Filter);
         }
 
         public List<DateTime> GetDateOptions
@@ -203,6 +214,7 @@ namespace Festispec.UI.ViewModels
 
         public ObservableCollection<Employee> EmployeesToAdd { get; set; }
         public ObservableCollection<Employee> EmployeesToRemove { get; set; }
+        public ObservableCollection<Employee> EmployeesAdded { get; set; }
 
         public void CheckBox(Employee employee)
         {

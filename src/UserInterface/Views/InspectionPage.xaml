@@ -42,7 +42,7 @@
             <Label Content="Selecteer een datum" Grid.Column="0" Grid.Row="2"/>
             <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}" SelectedItem="{Binding SelectedDate}" />
             <Label Content="Vragenlijst" Grid.Column="1" Grid.Row="2"/>
-            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Festival.Questionnaires}" SelectedValue="{Binding Questionnaire}" />
+            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Festival.Questionnaires}" SelectedValue="{Binding Questionnaire}" DisplayMemberPath="Name" />
             <Label Content="Begin tijd" Grid.Column="0" Grid.Row="4"/>
             <TextBox Text="{Binding  StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Grid.Row="5" Grid.Column="0"/>
             <Label Content="Eindtijd" Grid.Column="1" Grid.Row="4"/>
@@ -66,9 +66,10 @@
                                 <Label Content="{Binding Address.City}" Grid.Column="1"/>
                                 <CheckBox Grid.Column="2" Command="{Binding DataContext.CheckBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}">
                                     <CheckBox.IsChecked>
-                                        <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay">
+                                        <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay" >
                                             <Binding Path="DataContext.EmployeesToAdd" RelativeSource="{RelativeSource AncestorType=Page}" />
-                                            <Binding Path="."/>
+                                            <Binding Path="DataContext.EmployeesAdded" RelativeSource="{RelativeSource AncestorType=Page}" />
+                                            <Binding Path="." UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>
