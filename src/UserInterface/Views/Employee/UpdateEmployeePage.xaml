@@ -86,8 +86,13 @@
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
             <TextBox Text="{Binding Employee.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
 
-            <Button Content="Verwijder" HorizontalAlignment="Left" Style="{DynamicResource ButtonRed}" IsEnabled="{Binding CanDeleteEmployee}"
-                    Click="OpenDeleteCheckPopUp" Height="50" Width="185" Grid.Column="0" Grid.Row="15" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="15">
+                <Button Content="Verwijder" Style="{DynamicResource ButtonRed}"
+                        IsEnabled="{Binding CanDeleteEmployee}" Margin="0,0,10,0"
+                        Click="OpenDeleteCheckPopUp" Height="50" Width="185" />
+                <Button Content="Wijzig account" Command="{Binding EditAccountCommand}"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
+            </StackPanel>
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
