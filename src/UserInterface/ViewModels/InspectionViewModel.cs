@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -218,17 +219,27 @@ namespace Festispec.UI.ViewModels
 
         public void CheckBox(Employee employee)
         {
-            if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
-            {
+            //if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
+            //{
+            //    EmployeesToAdd.Add(employee);
+            //}
+            //else if (EmployeesToAdd.Contains(employee))
+            //{
+            //    EmployeesToAdd.Remove(employee);
+            //}
+            //else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
+            //{
+            //    EmployeesToRemove.Add(employee);
+            //}
+
+            if (!EmployeesToAdd.Any(e => e.Id == employee.Id) && !EmployeesAdded.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Add(employee);
-            }
-            else if (EmployeesToAdd.Contains(employee))
-            {
+            else if (EmployeesToAdd.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Remove(employee);
-            }
-            else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
+            else if (EmployeesAdded.Any(e => e.Id == e.Id))
             {
                 EmployeesToRemove.Add(employee);
+                EmployeesAdded.Remove(employee);
             }
         }
 
@@ -252,33 +263,36 @@ namespace Festispec.UI.ViewModels
             {
                 p.StartTime = _startTime;
                 p.EndTime = _endTime;
-                //p.Questionnaire = Questionnaire;
+                p.Questionnaire = Questionnaire;
             }
 
             foreach (Employee q in EmployeesToAdd)
             {
-                //try
-                //{
+                try
+                {
                     await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
-                    //EmployeesToAdd.Remove(q);
-                //}
-                //catch (Exception e)
-                //{
-                //    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
+                    
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            //foreach (Employee q in EmployeesToRemove)
-            //{
-            //    try
-            //    {
-            //        await _inspectionService.RemoveInspection(0);
-            //        EmployeesToRemove.Remove(q);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    }
-            //}
+            EmployeesToAdd.Clear();
+            foreach (Employee q in EmployeesToRemove)
+            {
+                try
+                {
+                    var plannedInspection = await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
+                    await _inspectionService.RemoveInspection(plannedInspection.Id);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            EmployeesToRemove.Clear();
+            _navigationService.NavigateTo("UpdateFestival", Festival.Id);
         }
     }
 }

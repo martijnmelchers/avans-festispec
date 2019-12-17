@@ -94,7 +94,7 @@
                 <Rectangle HorizontalAlignment="Left" Height="7"  VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
                 
             </StackPanel>
-            <ListView ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}" Grid.Row="1">
+            <ListView ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}" Grid.Row="1" Background="{x:Null}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                     <Grid HorizontalAlignment="Stretch" >
@@ -103,10 +103,14 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding }" />
-                                <TextBlock Text="{Binding Path=Key}" />
-                                <TextBlock Text="{Binding Path=[0] }" />
-                            <TextBlock Text="Stijn Toemen" />
+                                <TextBlock Text="{Binding [0].EventTitle}" />
+                                <ListView ItemsSource="{Binding}" BorderThickness="0" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Employee.Name}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                                 <TextBlock Text="{Binding [0].Questionnaire.Name}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding [0].StartTime, StringFormat=HH:mm}" />
