@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Festispec.DomainServices.Services
 {
@@ -21,7 +22,7 @@ namespace Festispec.DomainServices.Services
         public async Task<Festival> CreateFestival(Festival festival)
         {
             if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
-                throw new InvalidDataException();
+                throw new System.IO.InvalidDataException();
 
             _db.Festivals.Add(festival);
 
@@ -65,7 +66,7 @@ namespace Festispec.DomainServices.Services
         public async Task UpdateFestival(Festival festival)
         {
             if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
-                throw new InvalidDataException();
+                throw new System.IO.InvalidDataException();
 
             await _db.SaveChangesAsync();
         }

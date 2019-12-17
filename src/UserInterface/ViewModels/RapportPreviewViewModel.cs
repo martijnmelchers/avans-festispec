@@ -16,6 +16,7 @@ using IronPdf;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
 using Festispec.Models.Answers;
+using Festispec.UI.Interfaces;
 
 namespace Festispec.UI.ViewModels
 {
@@ -23,24 +24,24 @@ namespace Festispec.UI.ViewModels
     {
         private IQuestionService _questionService;
         private IQuestionnaireService _questionnaireService;
+        private IFrameNavigationService _navigationService;
         public ObservableCollection<Control> Charts { get; set; }
         public Festival selectedFestival { get; set; }
 
         private string PdfHtml = "";
 
         public ICommand GeneratePdfCommand { get; set; }
-        public RapportPreviewViewModel(IQuestionService questionService, IQuestionnaireService questionnaireService)
+        public RapportPreviewViewModel(IFrameNavigationService navigationService, IQuestionService questionService, IQuestionnaireService questionnaireService)
         {
             _questionService = questionService;
             _questionnaireService = questionnaireService;
+            _navigationService = navigationService;
 
-            GenerateReport(2);
+            GenerateReport((int)_navigationService.Parameter);
         }
-
 
         private async void GenerateReport(int questionaireId)
         {
-
             var questionaire = _questionnaireService.GetQuestionnaire(questionaireId);
             var questions = await _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<Control>();
