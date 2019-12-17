@@ -1,11 +1,11 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

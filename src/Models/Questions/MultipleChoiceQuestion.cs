@@ -1,4 +1,4 @@
-﻿using Festispec.Models.Answers;
+using Festispec.Models.Answers;
 using Festispec.Models.Attributes;
 using Festispec.Models.Interfaces;
 using System.Collections.Generic;
@@ -32,12 +32,11 @@ namespace Festispec.Models.Questions
         {
             Options = string.Join(STRING_SEPERATOR, OptionCollection);
         }
+ 
 
         public void StringToObjects()
         {
             OptionCollection = new ObservableCollection<StringObject>(Options.Split(STRING_SEPERATOR).Select(str => new StringObject(str)));
         }
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Festispec.Models;
+using Festispec.Models;
+using Festispec.Models.EntityMapping;
 using Festispec.Models.Google;
 using Newtonsoft.Json;
 using System;
@@ -12,16 +13,31 @@ namespace Festispec.DomainServices.Services
     public class GoogleMapsService
     {
         private readonly HttpClient _client;
-        private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
+        private readonly HttpClient _clientStatic;
+        private const string API_KEY = "AIzaSyDqy_DxcI0571BKIoakNuOj-eWQ6S_B3NM";
         private readonly string _sessionToken;
-        public GoogleMapsService()
+
+
+        private readonly FestispecContext _db;
+
+        public GoogleMapsService(FestispecContext db)
         {
+
+            _db = db;
+
             _client = new HttpClient
             {
                 BaseAddress = new Uri("https://maps.googleapis.com/maps/api/place/")
             };
 
-            _sessionToken =  new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)]).ToArray());
+                _sessionToken =  new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)]).ToArray());
+
+
+            _clientStatic = new HttpClient
+            {
+                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/staticmap/")
+            };
+
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
@@ -66,6 +82,21 @@ namespace Festispec.DomainServices.Services
                 Latitude = place.Geometry.Location.Latitude,
                 Longitude = place.Geometry.Location.Longitude
             };
+        }
+
+        public async Task<string> GenerateStaticMap()
+        {
+            var request = await _clientStatic.GetAsync($"?center=Netherlands&size=1920x1080&key={API_KEY}");
+            var image = await request.Content.ReadAsByteArrayAsync ();
+            var imageData = Convert.ToBase64String(image);
+            return String.Format("<img src='{0}'></img>", imageData);
+        }
+
+
+        private String CreateMarkters()
+        {
+           
+            return "";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
@@ -32,6 +32,10 @@ namespace Festispec.UI
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
             #endregion
+
+
+            services.AddTransient<MapViewModel>();
+
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());

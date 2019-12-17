@@ -66,6 +66,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapsui" Version="2.0.0-beta.30" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.XamlHost" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="0.8.355" />
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
@@ -76,6 +82,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainServices\DomainServices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\Map\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
