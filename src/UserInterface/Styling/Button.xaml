@@ -33,6 +33,13 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource ButtonGray}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
         </Style.Triggers>
     </Style>
     <Style x:Key="ButtonGreen" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
