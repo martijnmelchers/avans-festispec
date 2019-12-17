@@ -39,7 +39,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public EmployeeListViewModel(IEmployeeService customerService, IFrameNavigationService navigationService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;
 
@@ -47,18 +47,18 @@ namespace Festispec.UI.ViewModels.Employees
             EditEmployeeCommand = new RelayCommand<int>(NavigateToEditEmployee);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
-            EmployeeList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllEmployees());
+            EmployeeList = (CollectionView)CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
             EmployeeList.Filter = Filter;
         }
 
-        private void NavigateToViewEmployee(int customerId)
+        private void NavigateToViewEmployee(int employeeId)
         {
-            _navigationService.NavigateTo("EmployeeInfo", customerId);
+            _navigationService.NavigateTo("EmployeeInfo", employeeId);
         }
 
-        private void NavigateToEditEmployee(int customerId)
+        private void NavigateToEditEmployee(int employeeId)
         {
-            _navigationService.NavigateTo("UpdateEmployee", customerId);
+            _navigationService.NavigateTo("UpdateEmployee", employeeId);
         }
 
         private void NavigateToAddNewEmployee()

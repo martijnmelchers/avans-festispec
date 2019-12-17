@@ -1,11 +1,11 @@
 ﻿using System.Windows.Controls;
-using Festispec.UI.ViewModels.Customers;
+using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Employee
 {
     /// <summary>
-    /// Interaction logic for CustomerScreen.xaml
+    /// Interaction logic for EmployeeScreen.xaml
     /// </summary>
     public partial class EmployeeListPage : Page
     {
@@ -16,7 +16,7 @@ namespace Festispec.UI.Views.Employee
             IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = scope.ServiceProvider.GetRequiredService<CustomerListViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<EmployeeListViewModel>();
         }
     }
 }

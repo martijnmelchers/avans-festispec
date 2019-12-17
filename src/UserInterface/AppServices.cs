@@ -4,6 +4,7 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using Festispec.UI.ViewModels.Employees;
 
 namespace Festispec.UI
 {
@@ -30,6 +31,11 @@ namespace Festispec.UI
             #region Customer ViewModels
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
+            #endregion
+            
+            #region Employee ViewModels
+            services.AddTransient<EmployeeViewModel>();
+            services.AddTransient<EmployeeListViewModel>();
             #endregion
 
             // Services from UI project
@@ -62,6 +68,13 @@ namespace Festispec.UI
             navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerScreen.xaml", UriKind.Relative));
             navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
+            #endregion
+            
+            #region Employee Routes
+            navigationService.Configure("EmployeeInfo", new Uri("../Views/Employee/EmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateEmployee", new Uri("../Views/Employee/CreateEmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateEmployee", new Uri("../Views/Employee/UpdateEmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("EmployeeList", new Uri("../Views/Employee/EmployeeListPage.xaml", UriKind.Relative));
             #endregion
     
             return navigationService;
