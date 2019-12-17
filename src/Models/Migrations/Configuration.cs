@@ -147,7 +147,7 @@ namespace Festispec.Models.Migrations
                     PicturePath = "/drawings/map_defqon.png",
                     Questionnaire = questionnaire,
                     Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
-                    Answers = new List<FileAnswer>
+                    Answers = new List<Answer>
                 {
                     new FileAnswer
                     {
@@ -169,23 +169,23 @@ namespace Festispec.Models.Migrations
                         new StringObject("Option1")
                     },
                     Questionnaire = questionnaire,
-                   /* Answers = new List<MultipleChoiceAnswer>
-                {
-                    new MultipleChoiceAnswer
+                    Answers = new List<Answer>
                     {
-                        Id = 2,
-                        MultipleChoiceAnswerKey = 0,
-                        PlannedInspection = plannedInspection,
-                        Attachments = new List<Attachment>
+                        new MultipleChoiceAnswer
                         {
-                            new Attachment
+                            Id = 2,
+                            MultipleChoiceAnswerKey = 0,
+                            PlannedInspection = plannedInspection,
+                            Attachments = new List<Attachment>
                             {
-                                Id = 1,
-                                FilePath = "/attachments/1.png"
+                                new Attachment
+                                {
+                                    Id = 1,
+                                    FilePath = "/attachments/1.png"
+                                }
                             }
                         }
                     }
-                }*/
                 };
 
                 var numericQuestion = new NumericQuestion
@@ -216,7 +216,7 @@ namespace Festispec.Models.Migrations
                     Contents = "Geef een korte samenvatting van het vluchtplan.",
                     IsMultiline = true,
                     Questionnaire = questionnaire,
-                    Answers = new List<StringAnswer>
+                    Answers = new List<Answer>
                 {
                     new StringAnswer
                     {
@@ -233,7 +233,7 @@ namespace Festispec.Models.Migrations
                     Category = questionCategory,
                     Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
                     Questionnaire = questionnaire,
-                    Answers = new List<FileAnswer>
+                    Answers = new List<Answer>
                 {
                     new FileAnswer
                     {
