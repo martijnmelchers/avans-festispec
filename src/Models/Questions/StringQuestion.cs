@@ -4,7 +4,7 @@ using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Questions
 {
-    public class StringQuestion : Question, IAnswerable<StringAnswer>
+    public class StringQuestion : Question
     {
         public StringQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire) { }
         public StringQuestion() : base() { }
@@ -14,7 +14,5 @@ namespace Festispec.Models.Questions
         public bool IsMultiline { get; set; }
 
         public override GraphType GraphType => GraphType.None;
-
-        public new virtual ICollection<StringAnswer> Answers { get; set; }
     }
 }

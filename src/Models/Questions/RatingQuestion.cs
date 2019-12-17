@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Festispec.Models.Answers;
 using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Questions
 {
-    public class RatingQuestion : Question, IAnswerable<NumericAnswer>
+    public class RatingQuestion : Question
     {
         public RatingQuestion(string contents, Questionnaire questionnaire, string lowRatingDescription, string highRatingDescription) : base(contents, questionnaire) 
         {
@@ -22,6 +22,5 @@ namespace Festispec.Models.Questions
 
         public override GraphType GraphType => GraphType.Column;
 
-        public new virtual ICollection<NumericAnswer> Answers { get; set; }
     }
 }
