@@ -164,8 +164,8 @@ namespace Festispec.UI.ViewModels
             if(control is TextBox)
             {
                 var textBox = (TextBox)control;
-                string richText = textBox.Text;
-
+                String richText = textBox.Text;
+                richText = richText.Replace("\n", "<br>");
                 PdfHtml += String.Format("<p>{0}</p>", richText);
             }
             else if(control is Label)
@@ -225,6 +225,10 @@ namespace Festispec.UI.ViewModels
 
             var stringQuest = (StringQuestion)question;
             var answer = (StringAnswer)stringQuest.Answers.FirstOrDefault();
+
+            var contents = answer.AnswerContents;
+            contents = contents.Replace("\n", "<br>");
+
             stringAnswer.Text = answer.AnswerContents;
 
             return stringAnswer;
