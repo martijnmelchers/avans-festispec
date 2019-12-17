@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Festispec.UI"
         mc:Ignorable="d" Background="#EFEFEF"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Grid>
+    <Grid x:Name="MainGrid">
 
         <Grid Height="69" VerticalAlignment="Top" Background="#FFFFFF">
             <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" Grid.Column="0"/>
@@ -20,11 +20,11 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="FestivalList" Style="{StaticResource HeaderLink}">Festivals</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}">Inspecties</Hyperlink>
+                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Questionnaire" Style="{StaticResource HeaderLink}">Inspecties</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
@@ -42,6 +42,6 @@
 
         </Grid>
 
-        <Frame x:Name="MainFrame" Margin="0,74,0,0"/>
+        <Frame x:Name="MainFrame" Margin="0,74,0,0" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

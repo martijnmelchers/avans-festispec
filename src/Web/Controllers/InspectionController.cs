@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
+using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,19 @@ namespace Festispec.Web.Controllers
         // GET: Inspection/Details/5
         public ActionResult Details(int id)
         {
+            return View(_questionnaireService.GetPlannedInspections(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Details(int id, List<Answer> answers )
+        {
+            foreach (var item in answers)
+            {
+                if (ModelState.IsValid)
+                {
+                    await _questionnaireService.CreateAnswer(item);
+                }
+            }
             return View(_questionnaireService.GetPlannedInspections(id));
         }
 

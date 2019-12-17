@@ -26,7 +26,7 @@ namespace Festispec.Models
         [Required]
         public virtual Festival Festival { get; set; }
 
-        public virtual PlannedInspection PlannedInspection { get; set; }
+        public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }

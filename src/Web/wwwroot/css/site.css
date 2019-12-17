@@ -155,6 +155,7 @@ body {
         color: #707070;
         opacity: 1;
     }
+
 .Question-title::after {
     content: "";
     display: block;
@@ -174,6 +175,6 @@ textarea {
     width: 100%;
 }
 
-.Question{
-    margin: 5em, 0, 5em, 0;
+.Question {
+    margin-bottom: 5em;
 }

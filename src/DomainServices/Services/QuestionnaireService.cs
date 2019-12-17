@@ -6,8 +6,8 @@ using System.Linq;
 using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Festispec.Models.Answers;
 
 namespace Festispec.DomainServices.Services
 {
@@ -19,6 +19,8 @@ namespace Festispec.DomainServices.Services
         {
             _db = db;
         }
+
+        #region Questionnaire Management
         public Questionnaire GetQuestionnaire(int questionnaireId)
         {
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
@@ -32,9 +34,19 @@ namespace Festispec.DomainServices.Services
             return questionnaire;
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _db.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return _db.SaveChanges();
+        }
+
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
-            var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);
+            var existing = await _db.Questionnaires.Include(x => x.Festival).FirstOrDefaultAsync(x => x.Name == name && x.Festival.Id == festival.Id);
 
             if (existing != null)
                 throw new EntityExistsException();
@@ -64,6 +76,24 @@ namespace Festispec.DomainServices.Services
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
         }
+
+        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
+        {
+            Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
+
+            var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
+
+            oldQuestionnaire.Questions.ToList().ForEach(async e => await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
+
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
+
+            return newQuestionnaire;
+        }
+
+        #endregion
+
+        #region Question Management
 
         public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
@@ -109,30 +139,44 @@ namespace Festispec.DomainServices.Services
             return await _db.SaveChangesAsync() > 1;
         }
 
-        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
+        public List<PlannedInspection> GetPlannedInspections()
         {
-            Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
+            return _db.PlannedInspections.ToList();
+        }
 
-            var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
+        public PlannedInspection GetPlannedInspections(int id)
+        {
+            var plannedInspection =  _db.PlannedInspections.FirstOrDefault(e => e.Id == id);
 
-            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
+            if (plannedInspection == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspection;
+        }
+
+        public void Save()
+        {
+            _db.SaveChanges();
+        }
+
+        public async Task<Answer> CreateAnswer(Answer answer)
+        {
+            var existing = await _db.Answers.FirstOrDefaultAsync(x => x.Question.Id == answer.Question.Id && x.PlannedInspection.Id == answer.PlannedInspection.Id);
+
+            if (existing != null)
+                throw new EntityExistsException();
+
+
+            if (!answer.Validate())
+                throw new InvalidDataException();
+
+            _db.Answers.Add(answer);
 
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
 
-            return newQuestionnaire;
+            return answer;
         }
-
-        public List<PlannedInspection> GetPlannedInspections()
-        {
-            return _db.PlannedInspections.ToList();
-        }public PlannedInspection GetPlannedInspections(int id)
-        {
-            var test = _db.PlannedInspections.FirstOrDefault(e => e.Id == id);
-
-            if (test == null)
-                throw new EntityNotFoundException();
-            return test;
-        }
+        #endregion
     }
 }

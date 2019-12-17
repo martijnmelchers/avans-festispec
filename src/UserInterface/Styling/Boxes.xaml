@@ -3,6 +3,8 @@
     
     <Style x:Key="ContentBox" TargetType="Rectangle">
         <Setter Property="Fill" Value="White"/>
+        <Setter Property="RadiusX" Value="10"/>
+        <Setter Property="RadiusY" Value="10"/>
         <Setter Property="Stroke">
             <Setter.Value>
                 <SolidColorBrush Opacity="0" />
@@ -25,6 +27,18 @@
                 <DropShadowEffect  Color="Black" Opacity="0.2" BlurRadius="20" ShadowDepth="0"/>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="InnerContextBox" TargetType="Rectangle">
+        <Setter Property="Fill" Value="White"/>
+        <Setter Property="RadiusX" Value="10"/>
+        <Setter Property="RadiusY" Value="10"/>
+        <Setter Property="Stroke">
+            <Setter.Value>
+                <SolidColorBrush Color="#CFCFCF" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="StrokeThickness" Value="1" />
     </Style>
 
     <ControlTemplate x:Key="ExpanderToggleButton"

@@ -1,11 +1,12 @@
 ﻿using Festispec.Models;
+using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IQuestionnaireService
+    public interface IQuestionnaireService : ISaveable
     {
         Questionnaire GetQuestionnaire(int questionnaireId);
         Task<Questionnaire> CreateQuestionnaire(string name, Festival festival);
@@ -18,5 +19,8 @@ namespace Festispec.DomainServices.Interfaces
         //TODO: remove
         List<PlannedInspection> GetPlannedInspections();
         PlannedInspection GetPlannedInspections(int id);
+
+        Task<Answer> CreateAnswer(Answer answer);
+        void Save();
     }
 }
