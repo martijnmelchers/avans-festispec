@@ -18,8 +18,9 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}" Margin="529,0,1043,108" Height="45" VerticalAlignment="Bottom"/>
+        <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}" Margin="1043,0,529,108" Height="45" VerticalAlignment="Bottom"/>
         <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat='GENEREREN {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Center" Margin="0,56,0,0" VerticalAlignment="Top" Width="701"/>
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="529,109,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+        <Button Command="{Binding BackCommand}" Content="Terug" Style="{DynamicResource ButtonBase}" Margin="529,0,1043,108" Height="45" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

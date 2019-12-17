@@ -18,6 +18,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Festispec.Models.Answers;
 using Festispec.UI.Interfaces;
 using System.Linq;
+using System.Data.Entity;
 namespace Festispec.UI.ViewModels
 {
     public class RapportPreviewViewModel: ViewModelBase
@@ -29,17 +30,25 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Control> Charts { get; set; }
         public Festival selectedFestival { get; set; }
         public string DescriptionText { get; set; }
-
         private string PdfHtml = "";
 
+
+
         public ICommand GeneratePdfCommand { get; set; }
+        public ICommand BackCommand { get; set; }
+
+
         public RapportPreviewViewModel(IFrameNavigationService navigationService, IQuestionService questionService, IQuestionnaireService questionnaireService, IFestivalService festivalService)
         {
             _festivalService = festivalService;
             _questionService = questionService;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
-            selectedFestival =  _festivalService.GetFestival((int)_navigationService.Parameter);
+            GeneratePdfCommand = new RelayCommand(SavePdf);
+
+            BackCommand = new RelayCommand(Back);
+
+            selectedFestival = _festivalService.GetFestival((int)_navigationService.Parameter);
 
             GenerateReport();
         }
@@ -47,12 +56,10 @@ namespace Festispec.UI.ViewModels
         private async void GenerateReport()
         {
             var questionaireId = selectedFestival.Questionnaires.FirstOrDefault().Id;
-            var questionaire = _questionnaireService.GetQuestionnaire(questionaireId);
-            var questions = await _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
+            var questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<Control>();
 
             var textBox = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true, TextWrapping = TextWrapping.Wrap };
-
 
             PdfHtml += String.Format("<h1>Rapport {0}</h1>", selectedFestival.FestivalName);
 
@@ -64,9 +71,12 @@ namespace Festispec.UI.ViewModels
                 AddQuestionToReport(question);
             }
 
-            GeneratePdfCommand = new RelayCommand(SavePdf);
         }
 
+        private void Back()
+        {
+            _navigationService.NavigateTo("FestivalInfo", selectedFestival.Id);
+        }
 
         private void AddQuestionToReport(Question question)
         {
@@ -137,9 +147,16 @@ namespace Festispec.UI.ViewModels
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var renderPath = Path.Combine(path, String.Format("Rapport {0}.pdf", selectedFestival.FestivalName));
 
-            Renderer.RenderHtmlAsPdf(PdfHtml).SaveAs(renderPath);
+            try
+            {
+                Renderer.RenderHtmlAsPdf(PdfHtml).SaveAs(renderPath);
+                MessageBox.Show("Generated!");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Sluit het pdf bestand in de editor. voor het opslaan.");
+            }
 
-            MessageBox.Show("Generated!");
         }
 
         private void AddControlToPdf(Control control)

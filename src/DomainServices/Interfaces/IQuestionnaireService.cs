@@ -15,7 +15,7 @@ namespace Festispec.DomainServices.Interfaces
         Task RemoveQuestionnaire(int questionnaireId);
         Task<Questionnaire> CopyQuestionnaire(int questionnaireId);
 
-        Task<List<Question>> GetQuestionsFromQuestionnaire(int questionnaireId);
+        List<Question> GetQuestionsFromQuestionnaire(int questionnaireId);
 
     }
 }
