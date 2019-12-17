@@ -98,8 +98,10 @@ namespace Festispec.Models.Migrations
                     },
                     OpeningHours = new OpeningHours
                     {
-                        StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
-                        EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
+                        StartTime = new TimeSpan(18, 0, 0),
+                        EndTime = new TimeSpan(8, 0, 0),
+                        StartDate = new DateTime(2020, 9, 5),
+                        EndDate = new DateTime(2020, 9, 6)
                     }
                 };
 
@@ -116,10 +118,11 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Name = "Tester",
-                    Festival = festival
+                    Festival = festival,
                 };
 
                 context.Questionnaires.AddOrUpdate(questionnaire);
+
 
                 var plannedInspection = new PlannedInspection
                 {

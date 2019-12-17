@@ -28,8 +28,10 @@ namespace Festispec.UnitTests.Helpers
 
         public static OpeningHours OpeningHours = new OpeningHours()
         {
-            StartTime = new DateTime(2020, 3, 10, 20, 0, 0),
-            EndTime = new DateTime(2020, 3, 12, 1, 0, 0)
+            StartDate = new DateTime(2020, 3, 10),
+            EndDate = new DateTime(2020, 3, 12),
+            StartTime = new TimeSpan(10, 0, 0),
+            EndTime = new TimeSpan(1, 0, 0)
         };
 
         public static Customer CustomerPinkPop = new Customer()

@@ -80,7 +80,7 @@ namespace Festispec.UI.ViewModels
             get
             {
                 var dateOptions = new List<DateTime>();
-                foreach (DateTime day in EachDay(Festival.OpeningHours.StartTime, Festival.OpeningHours.EndTime))
+                foreach (DateTime day in EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate))
                 {
                     dateOptions.Add(day);
                 }

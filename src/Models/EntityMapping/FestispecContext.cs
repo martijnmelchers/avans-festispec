@@ -3,6 +3,7 @@ using Festispec.Models.Questions;
 using Festispec.Models.Reports;
 using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Festispec.Models.EntityMapping
 {
     public class FestispecContext : DbContext
     {
-        public FestispecContext() : base("default")
+        public FestispecContext() : base("Server=localhost;Database=Festispec;Trusted_Connection=True;")
         {
         }
 

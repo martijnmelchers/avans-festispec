@@ -14,6 +14,7 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
+            services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<FestispecContext>();
             services.AddScoped<IInspectionService, InspectionService>();
@@ -21,6 +22,9 @@ namespace Festispec.DomainServices
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
+            
+            // Database initialisation code below
+            using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
 
             return services;
         }
