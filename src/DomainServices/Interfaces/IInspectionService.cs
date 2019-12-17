@@ -16,7 +16,7 @@ namespace Festispec.DomainServices.Interfaces
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
         Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime);
         Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime);
-        IEnumerable<IEnumerable<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival);
+        IEnumerable<IGrouping<DateTime, PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
             DateTime endTime, string eventTitle, Employee employee);

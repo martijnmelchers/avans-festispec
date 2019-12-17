@@ -103,7 +103,9 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding [0].EventTitle }" />
+                                <TextBlock Text="{Binding }" />
+                                <TextBlock Text="{Binding Path=Key}" />
+                                <TextBlock Text="{Binding Path=[0] }" />
                             <TextBlock Text="Stijn Toemen" />
                                 <TextBlock Text="{Binding [0].Questionnaire.Name}"/>
                                 <StackPanel Orientation="Horizontal">
