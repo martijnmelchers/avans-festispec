@@ -10,7 +10,7 @@ namespace Festispec.UI.ViewModels.Employees
 {
     public class EmployeeViewModel
     {
-        private readonly IEmployeeService _customerService;
+        private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
 
         public Employee Employee { get; }
@@ -22,17 +22,17 @@ namespace Festispec.UI.ViewModels.Employees
 
         public bool CanDeleteEmployee { get; }
 
-        public ICommand AddFestivalCommand { get; }
+        public ICommand EditAccountCommand { get; set; }
 
-        public EmployeeViewModel(IEmployeeService customerService, IFrameNavigationService navigationService)
+        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
-            _customerService = customerService;
+            _employeeService = employeeService;
             _navigationService = navigationService;
 
             if (_navigationService.Parameter is int customerId)
             {
-                Employee = _customerService.GetEmployee(customerId);
-                CanDeleteEmployee = false; // TODO
+                Employee = _employeeService.GetEmployee(customerId);
+                CanDeleteEmployee = true; // TODO
                 SaveCommand = new RelayCommand(UpdateEmployee);
             }
             else
@@ -45,12 +45,12 @@ namespace Festispec.UI.ViewModels.Employees
             CancelCommand = new RelayCommand(NavigateBack);
             RemoveEmployeeCommand = new RelayCommand(RemoveEmployee);
             EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
-            AddFestivalCommand = new RelayCommand(NavigateToAddFestival);
+            EditAccountCommand = new RelayCommand(NavigateToEditAccount);
         }
 
-        private void NavigateToAddFestival()
+        private void NavigateToEditAccount()
         {
-            _navigationService.NavigateTo("CreateFestival", Employee.Id);
+            _navigationService.NavigateTo("UpdateAccount", Employee.Id);
         }
 
         private void NavigateToEditEmployee()
@@ -68,12 +68,12 @@ namespace Festispec.UI.ViewModels.Employees
         {
             try
             {
-                await _customerService.CreateEmployeeAsync(Employee);
+                await _employeeService.CreateEmployeeAsync(Employee);
                 NavigateBack();
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while adding a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occured while adding an employee. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -81,12 +81,12 @@ namespace Festispec.UI.ViewModels.Employees
         {
             try
             {
-                await _customerService.SaveChangesAsync();
+                await _employeeService.SaveChangesAsync();
                 _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while editing a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occured while editing an employee. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -95,7 +95,7 @@ namespace Festispec.UI.ViewModels.Employees
             if (!CanDeleteEmployee)
                 throw new InvalidOperationException("Cannot remove this customer");
 
-            await _customerService.RemoveEmployeeAsync(Employee.Id);
+            await _employeeService.RemoveEmployeeAsync(Employee.Id);
             NavigateBack();
         }
     }
