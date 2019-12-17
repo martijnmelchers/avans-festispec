@@ -12,8 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Migrations\201912031418205_Initial.resx">
-      <DependentUpon>201912031418205_Initial.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\201911201708219_ChangedMultipleChoiceSeed.resx">
+      <DependentUpon>201911201708219_ChangedMultipleChoiceSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912122307273_initial.resx">
+      <DependentUpon>201912122307273_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

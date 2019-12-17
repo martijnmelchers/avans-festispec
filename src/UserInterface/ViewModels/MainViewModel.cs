@@ -9,7 +9,6 @@ namespace Festispec.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public string Name { get => "John Doe";  }
         public RelayCommand<string> NavigateCommand { get; set; }
         private readonly IFrameNavigationService _navigationService;
 
@@ -17,11 +16,6 @@ namespace Festispec.UI.ViewModels
         {
             _navigationService = navigationService;
             NavigateCommand = new RelayCommand<string>(Navigate);
-
-            foreach(string page in _navigationService.Pages)
-            {
-                MessageBox.Show(page);
-            }
         }
 
         public void Navigate(string page)

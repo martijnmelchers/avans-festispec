@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -78,12 +78,15 @@
                         IsCancelled = c.DateTime(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                         Festival_Id = c.Int(),
+                        Questionnaire_Id = c.Int(),
                         Employee_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Festivals", t => t.Festival_Id)
+                .ForeignKey("dbo.Questionnaires", t => t.Questionnaire_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Employees", t => t.Employee_Id, cascadeDelete: true)
                 .Index(t => t.Festival_Id)
+                .Index(t => t.Questionnaire_Id)
                 .Index(t => t.Employee_Id);
             
             CreateTable(
@@ -165,7 +168,7 @@
                 "dbo.Questionnaires",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 45),
                         IsComplete = c.DateTime(),
                         CreatedAt = c.DateTime(nullable: false),
@@ -174,8 +177,6 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Festivals", t => t.Festival_Id, cascadeDelete: true)
-                .ForeignKey("dbo.PlannedEvents", t => t.Id)
-                .Index(t => t.Id)
                 .Index(t => t.Festival_Id);
             
             CreateTable(
@@ -191,8 +192,10 @@
                         Address_Suffix = c.String(maxLength: 10),
                         Address_City = c.String(nullable: false, maxLength: 200),
                         Address_Country = c.String(nullable: false, maxLength: 75),
-                        OpeningHours_StartTime = c.DateTime(nullable: false),
-                        OpeningHours_EndTime = c.DateTime(nullable: false),
+                        OpeningHours_StartTime = c.Time(nullable: false, precision: 7),
+                        OpeningHours_EndTime = c.Time(nullable: false, precision: 7),
+                        OpeningHours_StartDate = c.DateTime(nullable: false),
+                        OpeningHours_EndDate = c.DateTime(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
                         Customer_Id = c.Int(nullable: false),
@@ -295,7 +298,7 @@
         {
             DropForeignKey("dbo.Accounts", "Id", "dbo.Employees");
             DropForeignKey("dbo.PlannedEvents", "Employee_Id", "dbo.Employees");
-            DropForeignKey("dbo.Questionnaires", "Id", "dbo.PlannedEvents");
+            DropForeignKey("dbo.PlannedEvents", "Questionnaire_Id", "dbo.Questionnaires");
             DropForeignKey("dbo.Answers", "Question_Id", "dbo.Questions");
             DropForeignKey("dbo.Questions", "Question_Id", "dbo.Questions");
             DropForeignKey("dbo.Questions", "Questionnaire_Id", "dbo.Questionnaires");
@@ -318,7 +321,6 @@
             DropIndex("dbo.ContactPersons", new[] { "Customer_Id" });
             DropIndex("dbo.Festivals", new[] { "Customer_Id" });
             DropIndex("dbo.Questionnaires", new[] { "Festival_Id" });
-            DropIndex("dbo.Questionnaires", new[] { "Id" });
             DropIndex("dbo.Questions", new[] { "Question_Id" });
             DropIndex("dbo.Questions", new[] { "Questionnaire_Id" });
             DropIndex("dbo.Questions", new[] { "Category_Id" });
@@ -326,6 +328,7 @@
             DropIndex("dbo.Answers", new[] { "Question_Id" });
             DropIndex("dbo.Answers", new[] { "PlannedInspection_Id" });
             DropIndex("dbo.PlannedEvents", new[] { "Employee_Id" });
+            DropIndex("dbo.PlannedEvents", new[] { "Questionnaire_Id" });
             DropIndex("dbo.PlannedEvents", new[] { "Festival_Id" });
             DropIndex("dbo.Certificates", new[] { "Employee_Id" });
             DropIndex("dbo.Accounts", new[] { "Id" });
