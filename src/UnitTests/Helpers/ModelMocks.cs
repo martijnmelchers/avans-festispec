@@ -136,12 +136,14 @@ namespace Festispec.UnitTests.Helpers
         {
             new Account()
             {
+                Id = 1,
                 Username = "JohnDoe",
                 Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
                 Role = Role.Employee
             },
             new Account()
             {
+                Id = 2,
                 Username = "EricKuipers",
                 Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
                 Role = Role.Inspector
@@ -165,5 +167,63 @@ namespace Festispec.UnitTests.Helpers
         };
         
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();
+        
+        public List<Employee> Employees = new List<Employee>
+        {
+            new Employee
+            {
+                Id = 1,
+                Name = new FullName {First = "Dit", Middle = "is", Last = "Een Test"},
+                Iban = "NL01ABCD1234567890",
+                Account = new Account
+                    {
+                        Id = 3,
+                        Username = "test",
+                        Password = "testing",
+                        Role = Role.Employee
+                    },
+                
+                Address = new Address
+                {
+                    ZipCode = "1234AB",
+                    StreetName = "Teststraat",
+                    HouseNumber = 123,
+                    Suffix = "a",
+                    City = "Teststad",
+                    Country = "Nederland"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    PhoneNumber = "+316123456789",
+                    EmailAddress = "test@testing.com"
+                }
+            },
+            new Employee
+            {
+                Id = 2,
+                Name = new FullName{First = "Test", Last = "Ing"},
+                Iban = "NL02DBCA0987654321",
+                Account = new Account
+                {
+                    Id = 4,
+                    Username = "tester",
+                    Password = "testers",
+                    Role = Role.Inspector
+                },
+                Address = new Address
+                {
+                    ZipCode = "3734AB",
+                    StreetName = "Hermelijnlaan",
+                    HouseNumber = 12,
+                    City = "Den Dolder",
+                    Country = "Nederland"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    PhoneNumber = "+316314253647",
+                    EmailAddress = "tester@testing.com"
+                }
+            }
+        };
     }
 }
