@@ -28,6 +28,7 @@ namespace Festispec.UI.ViewModels
         private IFestivalService _festivalService;
         public ObservableCollection<Control> Charts { get; set; }
         public Festival selectedFestival { get; set; }
+        public string DescriptionText { get; set; }
 
         private string PdfHtml = "";
 
@@ -38,20 +39,25 @@ namespace Festispec.UI.ViewModels
             _questionService = questionService;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
+            selectedFestival =  _festivalService.GetFestival((int)_navigationService.Parameter);
 
             GenerateReport();
         }
 
         private async void GenerateReport()
         {
-            var festival = _festivalService.GetFestival((int)_navigationService.Parameter);
-            var questionaireId = festival.Questionnaires.FirstOrDefault().Id;
+            var questionaireId = selectedFestival.Questionnaires.FirstOrDefault().Id;
             var questionaire = _questionnaireService.GetQuestionnaire(questionaireId);
             var questions = await _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<Control>();
 
+            var textBox = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true, TextWrapping = TextWrapping.Wrap };
 
-            PdfHtml += String.Format("<h1>{0}</h1>", questionaire.Name);
+
+            PdfHtml += String.Format("<h1>Rapport {0}</h1>", selectedFestival.FestivalName);
+
+            Charts.Add(CreateLabel("Beschrijving"));
+            Charts.Add(textBox);
 
             foreach (var question in questions)
             {
@@ -67,8 +73,6 @@ namespace Festispec.UI.ViewModels
 
             // Answers
             var converter = new GraphSelectorFactory().GetConverter(question.GraphType);
-
-
             if (converter == null && !(question is UploadPictureQuestion || question is StringQuestion))
             {
                 return;
@@ -85,7 +89,7 @@ namespace Festispec.UI.ViewModels
                 {
                     // String.
                     Charts.Add(CreateLabel(question.Contents));
-                    var stringAnswer = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10) };
+                    Charts.Add(CreateTextBoxFromStringQuestion(question));
                     return;
                 }
             }
@@ -116,9 +120,10 @@ namespace Festispec.UI.ViewModels
             }
 
 
+            var textBox = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true, TextWrapping = TextWrapping.Wrap };
             Charts.Add(CreateLabel(question.Contents));
-            var textBox = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10) };
             Charts.Add(lineControl);
+            
             Charts.Add(textBox);
         }
 
@@ -130,7 +135,7 @@ namespace Festispec.UI.ViewModels
 
             IronPdf.HtmlToPdf Renderer = new IronPdf.HtmlToPdf();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var renderPath = Path.Combine(path, "report-Festispec.pdf");
+            var renderPath = Path.Combine(path, String.Format("Rapport {0}.pdf", selectedFestival.FestivalName));
 
             Renderer.RenderHtmlAsPdf(PdfHtml).SaveAs(renderPath);
 
@@ -193,12 +198,19 @@ namespace Festispec.UI.ViewModels
 
             label.Height = 30;
 
-            label.Foreground = new SolidColorBrush(Colors.White);
-
-            label.Background = new SolidColorBrush(Colors.Black);
-
 
             return label;
+        }
+
+        private TextBox CreateTextBoxFromStringQuestion(Question question)
+        {
+            var stringAnswer = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true, TextWrapping = TextWrapping.Wrap };
+
+            var stringQuest = (StringQuestion)question;
+            var answer = (StringAnswer)stringQuest.Answers.FirstOrDefault();
+            stringAnswer.Text = answer.AnswerContents;
+
+            return stringAnswer;
         }
     }
 }

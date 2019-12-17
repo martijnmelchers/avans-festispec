@@ -1,18 +1,10 @@
 using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Festispec.UI.Views.Controls
 {
@@ -23,7 +15,8 @@ namespace Festispec.UI.Views.Controls
     {
 
         public string[] Labels { get; set; }
-        public Func<double, string> YFormatter { get; set; }
+        public AxesCollection YFormatter { get; set; }
+        public AxesCollection XFormatter { get; set; }
 
         public SeriesCollection SeriesCollection { get; set; }
         public LineChartControl(List<GraphableSeries> values)
@@ -31,6 +24,27 @@ namespace Festispec.UI.Views.Controls
             InitializeComponent();
 
             SeriesCollection = new SeriesCollection();
+            YFormatter = new AxesCollection();
+            XFormatter = new AxesCollection();
+            YFormatter.Add(new Axis
+            {
+                IsMerged = true,
+                Separator = new LiveCharts.Wpf.Separator
+                {
+                    Step = 1,
+                    IsEnabled = true
+                }
+            });
+
+            XFormatter.Add(new Axis
+            {
+                IsMerged = true,
+                Separator = new LiveCharts.Wpf.Separator
+                {
+                    Step = 1,
+                    IsEnabled = true
+                }
+            });
 
             foreach (var GraphableSeries in values)
                 {
@@ -38,9 +52,14 @@ namespace Festispec.UI.Views.Controls
                      new LineSeries
                      {
                         Title = GraphableSeries.Title,
-                        Values = GraphableSeries.Values
+                        Values = GraphableSeries.Values,
+                        PointGeometry = null,
+                        
                      });
                 }
+
+
+            Chart.LegendLocation = LegendLocation.Bottom;
             DataContext = this;
         }
     }

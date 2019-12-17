@@ -8,19 +8,18 @@
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="RapportenPreviewPage">
 
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"  Margin="110,104,110,104">
-            <StackPanel>
-                <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat=INFORMATIE \{0\}}" Style="{DynamicResource Header}" Width="198"/>
+    <Grid HorizontalAlignment="Left">
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="512,50,512,90" />
 
-
+        <ScrollViewer VerticalScrollBarVisibility="Auto"  Margin="529,128,529,158">
+            <StackPanel HorizontalAlignment="Left">
                 <!--hier door de antwoorden loopen teksblok eronder knallen-->
-                <TextBox Height="150" Width="700" Margin="10" />
                 <ItemsControl ItemsSource="{Binding Charts}"/>
 
             </StackPanel>
         </ScrollViewer>
-        <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}"  Height="45" Width="199" Margin="861,926,860,0" VerticalAlignment="Top"/>
-        <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Width="198"/>
+        <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport" Style="{DynamicResource ButtonGreen}" Margin="529,0,1043,108" Height="45" VerticalAlignment="Bottom"/>
+        <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat='GENEREREN {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Center" Margin="0,56,0,0" VerticalAlignment="Top" Width="701"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="529,109,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
     </Grid>
 </Page>

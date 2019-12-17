@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
+        <lvc:CartesianChart Name="Chart"  AxisX="{Binding XFormatter}"  AxisY="{Binding YFormatter}" Series="{Binding SeriesCollection}" LegendLocation="Right" >
         </lvc:CartesianChart>
     </Grid>
 </UserControl>
