@@ -1,12 +1,15 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -19,6 +22,9 @@ namespace Festispec.UI.ViewModels
         public ICommand AddEmployee { get; set; }
         public ICommand SaveCommand { get; set; }
         private IInspectionService _inspectionService;
+        private IFrameNavigationService _navigationService;
+        private IFestivalService _festivalService;
+
         private DateTime _originalStartTime { get; set; }
 
         private bool Filter(object item)
@@ -60,9 +66,11 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public InspectionViewModel(IInspectionService inspectionService)
+        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService)
         {
             _inspectionService = inspectionService;
+            _navigationService = navigationService;
+            _festivalService = festivalService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             AddEmployee = new RelayCommand(Save);
@@ -71,14 +79,44 @@ namespace Festispec.UI.ViewModels
             Employees.Filter = new Predicate<object>(Filter);
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
-            _originalStartTime = _startTime; 
-            Festival = _inspectionService.GetFestival();
+            _originalStartTime = _startTime;
+            //Festival = _inspectionService.GetFestival();
+            Task.Run(async () => await Initialize(_navigationService.Parameter));
+        }
+
+        private async Task Initialize(dynamic parameter)
+        {
+            if (parameter.PlannedInspectionId > 0)
+            {
+                PlannedInspection temp = await _inspectionService.GetPlannedInspection(parameter.PlannedInspectionId);
+                Festival = temp.Festival;
+                _startTime = temp.StartTime;
+                _endTime = temp.EndTime;
+                Questionnaire = temp.Questionnaire;
+                _selectedDate = temp.StartTime;
+                
+                _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
+            }else if(parameter.FestivalId > 0)
+            {
+                Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
+            }
+            
+                RaisePropertyChanged(nameof(Festival));
+                RaisePropertyChanged(nameof(GetDateOptions));
+                RaisePropertyChanged(nameof(Employees));
+                RaisePropertyChanged(nameof(Questionnaire));
+                RaisePropertyChanged(nameof(StartTime));
+                RaisePropertyChanged(nameof(EndTime));
+                RaisePropertyChanged(nameof(SelectedDate));
         }
 
         public List<DateTime> GetDateOptions
         {
             get
             {
+                if (Festival == null)
+                    return new List<DateTime>();
+
                 var dateOptions = new List<DateTime>();
                 foreach (DateTime day in EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate))
                 {
@@ -88,6 +126,28 @@ namespace Festispec.UI.ViewModels
                 return dateOptions;
             }
         }
+
+        public DateTime SelectedDate
+        {
+            get
+            {
+                return _selectedDate;
+            }
+            set
+            {
+                try
+                {
+                    string dateString = $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_startTime.Hour}:{_startTime.Minute}";
+                    DateTime outvar;
+                    bool isvalid = DateTime.TryParse(dateString, out outvar);
+                    _startTime = outvar;
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+        public DateTime _selectedDate { get; set; }
 
         public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {

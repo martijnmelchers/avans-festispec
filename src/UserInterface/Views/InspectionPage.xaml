@@ -40,7 +40,7 @@
             </StackPanel>
             <TextBlock Text="28 juni 2020 - 30 juni 2020" Grid.Column="1" Grid.Row="1"/>
             <Label Content="Selecteer een datum" Grid.Column="0" Grid.Row="2"/>
-            <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}" />
+            <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}" SelectedItem="{Binding SelectedDate}" />
             <Label Content="Vragenlijst" Grid.Column="1" Grid.Row="2"/>
             <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Festival.Questionnaires}" SelectedValue="{Binding Questionnaire}" />
             <Label Content="Begin tijd" Grid.Column="0" Grid.Row="4"/>

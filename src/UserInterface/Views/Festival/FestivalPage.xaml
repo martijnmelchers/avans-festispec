@@ -83,6 +83,40 @@
 
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
+        <Grid>
+        <TextBlock Text="INSPECTIES" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="825,100,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="825,145,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+            <ListView Margin="800,166,620,163" ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                                <TextBlock Text="{Binding [0].EventTitle }" />
+                            <TextBlock Text="Stijn Toemen" />
+                                <TextBlock Text="{Binding [0].Questionnaire.Name}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding [0].StartTime, StringFormat=HH:mm}" />
+                                    <TextBlock Text=" - " />
+                                    <TextBlock Text="{Binding [0].EndTime, StringFormat=HH:mm}" />
+                                </StackPanel>
+                            <TextBlock Text="{Binding [0].StartTime, StringFormat=D}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                                <Button Content="Edit" Style="{StaticResource ButtonGreen}" Command="{Binding DataContext.EditPlannedInspectionCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" />
+                                <Button Content="Delete" Style="{StaticResource ButtonRed}" Command="{Binding DataContext.DeletePlannedInspectionsCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}" Margin="885,853,746,110" Height="48" Width="289"/>
+        </Grid>
+
+
 
         <!-- POP UPS -->
         <Popup x:Name="CreateQuestionnairePopUp"  Placement="Center" AllowsTransparency="True" Width="550">

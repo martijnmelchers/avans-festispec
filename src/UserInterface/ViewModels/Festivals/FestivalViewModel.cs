@@ -19,6 +19,7 @@ namespace Festispec.UI.ViewModels
         private readonly IFestivalService _festivalService;
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IInspectionService _inspectionService;
 
         private Festival _festival;
         public Festival Festival
@@ -39,11 +40,16 @@ namespace Festispec.UI.ViewModels
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
 
-        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService)
+
+        public ICommand DeletePlannedInspectionsCommand { get; set; }
+        public ICommand EditPlannedInspectionCommand { get; set; }
+
+        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
             _questionnaireService = questionnaireService;
+            _inspectionService = inspectionService;
 
             RemoveFestivalCommand = new RelayCommand(RemoveFestival);
             EditFestivalCommand = new RelayCommand(EditFestival);
@@ -52,19 +58,65 @@ namespace Festispec.UI.ViewModels
             ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
 
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
+
             Task.Run(async () => await Initialize((int)_navigationService.Parameter));
         }
 
+        #region PlannedInspections
+        public IEnumerable<IEnumerable<PlannedInspection>> PlannedInspections
+        {
+            get
+            {
+                if (Festival != null)
+                    return _inspectionService.GetPlannedInspectionsGrouped(Festival);
+                else
+                    return new List<List<PlannedInspection>>();
+            }
+        }
+
+        public async void DeletePlannedInspection(List<PlannedInspection> plannedInspections)
+        {
+            foreach (var plannedInspection in plannedInspections)
+            {
+                try
+                {
+                    await _inspectionService.RemoveInspection(plannedInspection.Id);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while removing festival with the id: {plannedInspection.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        public void OpenPlannedInspection(PlannedInspection plannedInspection)
+        {
+            _navigationService.NavigateTo("InspectionPage",new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1} );
+        }
+
+        public void CreatePlannedInspection(int festivalId)
+        {
+            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = -1, FestivalId = festivalId });
+        }
+        public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
+        {
+            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 });
+
+        }
+
+        #endregion
         public async Task Initialize(int id)
         {
             Festival = await _festivalService.GetFestivalAsync(id);
 
             FestivalData = Festival.OpeningHours.StartDate.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndDate.ToString("dd/MM/yyyy");
             FestivalTimes = Festival.OpeningHours.StartTime.ToString(@"hh\:mm") + " - " + Festival.OpeningHours.EndTime.ToString(@"hh\:mm");
-
             RaisePropertyChanged(nameof(FestivalData));
             RaisePropertyChanged(nameof(FestivalLocation));
             RaisePropertyChanged(nameof(FestivalTimes));
+            RaisePropertyChanged(nameof(PlannedInspections));
         }
 
         public void EditFestival()

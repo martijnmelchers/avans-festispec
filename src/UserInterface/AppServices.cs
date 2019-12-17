@@ -32,6 +32,11 @@ namespace Festispec.UI
             services.AddTransient<CustomerListViewModel>();
             #endregion
 
+            #region InspectionViewModels
+            services.AddTransient<InspectionViewModel>();
+            
+            #endregion
+
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
 
@@ -63,7 +68,9 @@ namespace Festispec.UI
             navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
             #endregion
-    
+            #region plannedInspection   
+            navigationService.Configure("PlannedInspection", new Uri("../Views/InspectionPage.xaml", UriKind.Relative));
+            #endregion
             return navigationService;
         }
 

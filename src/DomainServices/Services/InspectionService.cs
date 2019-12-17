@@ -88,6 +88,32 @@ namespace Festispec.DomainServices.Services
 
             return plannedInspection;
         }
+
+        public IEnumerable<IEnumerable<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
+        {
+            List<List<PlannedInspection>> outer = new List<List<PlannedInspection>>();
+            var plannedInspections =  _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id).ToList();
+
+            foreach (var item in plannedInspections)
+            {
+                foreach (var item2 in outer)
+                {
+
+                    if (item2.Any(e => e.StartTime.Equals(item.StartTime)))
+                    {
+                        item2.Add(item);
+                    }
+                    else
+                    {
+                        outer.Add(new List<PlannedInspection>() { item });
+                    }
+                }
+
+                if (outer.Count < 1)
+                    outer.Add(new List<PlannedInspection>() { item });
+            }
+            return outer;
+        }
         public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
         {
 
@@ -134,9 +160,9 @@ namespace Festispec.DomainServices.Services
 
         }
         #warning temp till festival beheren is made
-        public Festival GetFestival()
+        public Festival GetFestival(int id)
         {
-            var employees = _db.Festivals.FirstOrDefault(e=> e.Id == 1);
+            var employees = _db.Festivals.FirstOrDefault(e=> e.Id == id);
             if (employees == null)
                 throw new EntityNotFoundException();
             return employees;
