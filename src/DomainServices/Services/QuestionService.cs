@@ -21,12 +21,6 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public async Task<List<Answer>> GetAnswers(Question question)
-        { 
-            List<Answer> questionAnswers = new List<Answer>();
-            return await _db.Answers.Where(x => x.Question == question).ToListAsync();
-        }
-
         public async Task<Questionnaire> GetQuestionaire(int id)
         {
             return await _db.Questionnaires.Include(x => x.Questions).FirstOrDefaultAsync(x => x.Id == id);

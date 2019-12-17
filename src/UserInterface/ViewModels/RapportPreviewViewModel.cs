@@ -67,9 +67,7 @@ namespace Festispec.UI.ViewModels
             Charts.Add(textBox);
 
             foreach (var question in questions)
-            {
                 AddQuestionToReport(question);
-            }
 
         }
 
@@ -84,18 +82,15 @@ namespace Festispec.UI.ViewModels
             // Answers
             var converter = new GraphSelectorFactory().GetConverter(question.GraphType);
             if (converter == null && !(question is UploadPictureQuestion || question is StringQuestion))
-            {
                 return;
-            }
 
             else if (question is UploadPictureQuestion || question is StringQuestion)
             {
                 // String question or image upload.
                 if (question is UploadPictureQuestion)
-                {
                     return;
-                }
-                else if(question is StringQuestion)
+
+                else if (question is StringQuestion)
                 {
                     // String.
                     Charts.Add(CreateLabel(question.Contents));
@@ -110,28 +105,22 @@ namespace Festispec.UI.ViewModels
                 return;
 
             var lineControl = new Control();
+        
+
             if (question.GraphType == Models.GraphType.Line)
-            {
                 lineControl = new LineChartControl(chartValues);
-                lineControl.Height = 300;
-                lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            }
             if (question.GraphType == Models.GraphType.Pie)
-            {
                 lineControl = new PieChartControl(chartValues);
-                lineControl.Height = 300;
-                lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            }
             else if (question.GraphType == Models.GraphType.Column)
-            {
                 lineControl = new ColumnChartControl(chartValues);
-                lineControl.Height = 300;
-                lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            }
 
 
             var textBox = new TextBox { Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true, TextWrapping = TextWrapping.Wrap };
             Charts.Add(CreateLabel(question.Contents));
+
+
+            lineControl.Height = 300;
+            lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             Charts.Add(lineControl);
             
             Charts.Add(textBox);

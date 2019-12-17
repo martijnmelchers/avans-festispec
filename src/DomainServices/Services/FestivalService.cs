@@ -22,7 +22,7 @@ namespace Festispec.DomainServices.Services
         public async Task<Festival> CreateFestival(Festival festival)
         {
             if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
-                throw new System.IO.InvalidDataException();
+                throw new Models.Exception.InvalidDataException();
 
             _db.Festivals.Add(festival);
 

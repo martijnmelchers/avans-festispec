@@ -20,9 +20,11 @@ namespace Festispec.Models.GraphConverters
             
             foreach (var plannedInspection in plannedInspections)
             {
-                GraphableSeries serie = new GraphableSeries();
-                serie.Values = new ChartValues<int>();
-                serie.Title = plannedInspection.EventTitle;
+                var serie = new GraphableSeries()
+                {
+                    Title = plannedInspection.EventTitle,
+                    Values = new ChartValues<int>()
+                };
 
                 var answer = question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
 

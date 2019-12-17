@@ -28,22 +28,22 @@ namespace Festispec.Models.GraphConverters
 
             MultipleChoiceQuestion quest = (MultipleChoiceQuestion)question;
 
-            for(var i = 0; i < quest.OptionCollection.Count; i++)
+            for (var i = 0; i < quest.OptionCollection.Count; i++)
             {
                 var option = quest.OptionCollection[i];
-
-                var serie = new GraphableSeries();
-                serie.Title = option.Value;
-
                 // Hoevaak hebben we de index answered.
 
-                var count = quest.Answers.Count(x => {
-
-                    var answerMC = (MultipleChoiceAnswer)x;
-                    return answerMC.MultipleChoiceAnswerKey == i;
+                var count = quest.Answers.Count(a => {
+                    var answer = (MultipleChoiceAnswer)a; ;
+                    return answer.MultipleChoiceAnswerKey == i;
                 });
 
-                serie.Values = new ChartValues<int> { count };
+                var serie = new GraphableSeries()
+                {
+                    Title = option.Value,
+                    Values = new ChartValues<int> { count }
+                };
+            
                 chartSeries.Add(serie);
             }
             

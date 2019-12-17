@@ -2,7 +2,6 @@ using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
-
 using System.Windows.Controls;
 
 
@@ -26,6 +25,7 @@ namespace Festispec.UI.Views.Controls
             SeriesCollection = new SeriesCollection();
             YFormatter = new AxesCollection();
             XFormatter = new AxesCollection();
+
             YFormatter.Add(new Axis
             {
                 IsMerged = true,
