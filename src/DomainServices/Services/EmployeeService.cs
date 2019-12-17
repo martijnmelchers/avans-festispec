@@ -81,8 +81,8 @@ namespace Festispec.DomainServices.Services
         {
             Employee employee = await GetEmployeeAsync(employeeId);
             
-            //_db.ContactPersons.RemoveRange(employee.ContactPersons);
             _db.Employees.Remove(employee);
+            _db.Accounts.Remove(employee.Account);
 
             return await SaveChangesAsync();
         }
