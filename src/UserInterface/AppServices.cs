@@ -14,7 +14,7 @@ namespace Festispec.UI
             var services = new ServiceCollection();
 
             //  Register Viewmodels here
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             #region Festival ViewModels
             services.AddTransient<FestivalViewModel>();
@@ -63,7 +63,11 @@ namespace Festispec.UI
             navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
             #endregion
-    
+
+            #region Login Routes
+            navigationService.Configure("LoginPageEmployee", new Uri("../Views/Login/LoginPageEmployee.xaml", UriKind.Relative));
+            #endregion
+
             return navigationService;
         }
 

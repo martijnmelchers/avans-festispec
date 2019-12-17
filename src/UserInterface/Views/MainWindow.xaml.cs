@@ -19,8 +19,13 @@ namespace Festispec.UI
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>(); 
+            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
+            ContentRendered += MainWindow_ContentRendered;
         }
 
+        private void MainWindow_ContentRendered(object sender, System.EventArgs e)
+        {
+            ((MainViewModel)DataContext).ShowLoginPageOnStartup();
+        }
     }
 }
