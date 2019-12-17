@@ -17,7 +17,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
 using Festispec.Models.Answers;
 using Festispec.UI.Interfaces;
-
+using System.Linq;
 namespace Festispec.UI.ViewModels
 {
     public class RapportPreviewViewModel: ViewModelBase
@@ -25,23 +25,27 @@ namespace Festispec.UI.ViewModels
         private IQuestionService _questionService;
         private IQuestionnaireService _questionnaireService;
         private IFrameNavigationService _navigationService;
+        private IFestivalService _festivalService;
         public ObservableCollection<Control> Charts { get; set; }
         public Festival selectedFestival { get; set; }
 
         private string PdfHtml = "";
 
         public ICommand GeneratePdfCommand { get; set; }
-        public RapportPreviewViewModel(IFrameNavigationService navigationService, IQuestionService questionService, IQuestionnaireService questionnaireService)
+        public RapportPreviewViewModel(IFrameNavigationService navigationService, IQuestionService questionService, IQuestionnaireService questionnaireService, IFestivalService festivalService)
         {
+            _festivalService = festivalService;
             _questionService = questionService;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
 
-            GenerateReport((int)_navigationService.Parameter);
+            GenerateReport();
         }
 
-        private async void GenerateReport(int questionaireId)
+        private async void GenerateReport()
         {
+            var festival = _festivalService.GetFestival((int)_navigationService.Parameter);
+            var questionaireId = festival.Questionnaires.FirstOrDefault().Id;
             var questionaire = _questionnaireService.GetQuestionnaire(questionaireId);
             var questions = await _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<Control>();
