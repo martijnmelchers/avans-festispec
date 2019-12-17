@@ -1,0 +1,69 @@
+﻿using System;
+using System.Windows.Data;
+using System.Windows.Input;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight.Command;
+
+namespace Festispec.UI.ViewModels.Employees
+{
+    public class EmployeeListViewModel
+    {
+        private readonly IFrameNavigationService _navigationService;
+
+        public CollectionView EmployeeList { get; }
+
+        public ICommand AddNewEmployeeCommand { get; }
+        public ICommand EditEmployeeCommand { get; }
+        public ICommand ViewEmployeeCommand { get; }
+
+        private bool Filter(object item)
+        {
+            if (string.IsNullOrEmpty(Search)) return true;
+
+            return ((Employee) item).Name.First.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0
+                   || ((Employee) item).Name.Middle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0
+                   || ((Employee) item).Name.Last.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private string _search;
+
+        public string Search
+        {
+            get => _search;
+            set
+            {
+                _search = value;
+                EmployeeList.Filter += Filter;
+            }
+        }
+
+        public EmployeeListViewModel(IEmployeeService customerService, IFrameNavigationService navigationService)
+        {
+            _navigationService = navigationService;
+
+            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
+            EditEmployeeCommand = new RelayCommand<int>(NavigateToEditEmployee);
+            ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
+
+            EmployeeList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllEmployees());
+            EmployeeList.Filter = Filter;
+        }
+
+        private void NavigateToViewEmployee(int customerId)
+        {
+            _navigationService.NavigateTo("EmployeeInfo", customerId);
+        }
+
+        private void NavigateToEditEmployee(int customerId)
+        {
+            _navigationService.NavigateTo("UpdateEmployee", customerId);
+        }
+
+        private void NavigateToAddNewEmployee()
+        {
+            _navigationService.NavigateTo("CreateEmployee");
+        }
+    }
+}
