@@ -139,6 +139,42 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
+        public static Questionnaire QuestionnaireThunderDome = new Questionnaire
+        {
+            Id = 4,
+            Name = "Thunderdome DinsdagOchtend",
+            Festival = festivalThunderDome,
+            Questions = new List<Question>()
+            {
+                new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireThunderDome)
+                {
+                    Id = 1
+                },
+                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireThunderDome)
+                {
+                    Id = 2
+                }
+            }
+        };
+
+        public static Questionnaire QuestionnaireLowlands = new Questionnaire
+        {
+            Id = 4,
+            Name = "Lowlands DinsdagOchtend",
+            Festival = festivalLowlands,
+            Questions = new List<Question>()
+            {
+                new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireLowlands)
+                {
+                    Id = 1
+                },
+                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireLowlands)
+                {
+                    Id = 2
+                }
+            }
+        };
+
         public static Account InspectorAccount = new Account()
         {
             Username = "EricKuipers",
@@ -179,6 +215,14 @@ namespace Festispec.UnitTests.Helpers
             Question = StringQuestion,
         };
 
+        public static Address Address2 = new Address()
+        {
+            ZipCode = "3245JK",
+            StreetName = "Kadestraat",
+            City = "Biddinghuizen",
+            Country = "Nederland"
+        };
+
         public static Customer CustomerThunderDome = new Customer()
         {
             KvkNr = 12345678,
@@ -192,10 +236,51 @@ namespace Festispec.UnitTests.Helpers
             Description = "Op 26 oktober 2019 keert Thunderdome terug naar de Jaarbeurs in Utrecht. " +
                         "In 2017 maakte het legendarische Hardcore concept een comeback na vijf jaar afwezig te zijn geweest.",
 
-            Customer = CustomerThunderDome
+            Customer = CustomerThunderDome,
+
+            Address = Address2,
+
+            OpeningHours = new OpeningHours()
+            {
+                StartTime = new TimeSpan(10, 0, 0),
+
+                EndTime = new TimeSpan(2, 0, 0),
+
+                StartDate = new DateTime(2019, 12, 10),
+
+                EndDate = new DateTime(2019, 12, 14)
+            }
         };
 
-        public static PlannedInspection PlannedInspection1 = new PlannedInspection()
+        public static Customer CustomerLowlands = new Customer()
+        {
+            KvkNr = 16348472,
+            CustomerName = "Lowlands"
+        };        
+
+        public static Festival festivalLowlands = new Festival()
+        {
+            FestivalName = "Lowlands",
+
+            Description = "Elk jaar in augustus strijken in Biddinghuizen duizenden Lowlanders neer voor A Campingflight to Lowlands Paradise",
+
+            Customer = CustomerLowlands,
+
+            Address = Address2,
+
+            OpeningHours = new OpeningHours()
+            {
+                StartTime = new TimeSpan(10, 0, 0),
+
+                EndTime = new TimeSpan(2, 0, 0),
+
+                StartDate = new DateTime(2020, 7, 15),
+
+                EndDate = new DateTime(2020, 7, 18)
+            }
+        };
+
+        public static PlannedInspection PlannedInspectionPinkpop = new PlannedInspection()
         {
             Id = 1,
 
@@ -209,10 +294,15 @@ namespace Festispec.UnitTests.Helpers
 
             Questionnaire = Questionnaire4,
 
-            Festival = FestivalPinkPop,            
+            Festival = FestivalPinkPop,
+
+            Answers = new List<Answer>()
+            {
+
+            }
         };
 
-        public static PlannedInspection PlannedInspection2 = new PlannedInspection()
+        public static PlannedInspection PlannedInspectionThunderDome = new PlannedInspection()
         {
             Id = 2,
 
@@ -224,7 +314,7 @@ namespace Festispec.UnitTests.Helpers
 
             Employee = Employee,
 
-            Questionnaire = Questionnaire4,
+            Questionnaire = QuestionnaireThunderDome,
 
             Festival = festivalThunderDome,
 
@@ -232,23 +322,48 @@ namespace Festispec.UnitTests.Helpers
             {
                 new StringAnswer()
                 {
-                    PlannedInspection = PlannedInspection2,
+                    PlannedInspection = PlannedInspectionThunderDome,
 
-                    Question = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", Questionnaire4)
+                    Question = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", QuestionnaireThunderDome)
                 }                      
+            }
+        };
+
+        public static PlannedInspection PlannedInspectionLowlands = new PlannedInspection()
+        {
+            Id = 3,
+
+            StartTime = new DateTime(2020, 8, 11, 13, 0, 0),
+
+            EndTime = new DateTime(2020, 8, 15, 20, 30, 0),
+
+            EventTitle = "Lowlands",
+
+            Employee = Employee,
+
+            Questionnaire = QuestionnaireLowlands,
+
+            Festival = festivalLowlands,
+
+            Answers = new List<Answer>()
+            {
+                
             }
         };
 
         public List<PlannedInspection> plannedInspections = new List<PlannedInspection>()
         {
-            PlannedInspection1,
-            PlannedInspection2
+            PlannedInspectionPinkpop,
+            PlannedInspectionThunderDome,
+            PlannedInspectionLowlands
         };
         
         public List<Customer> Customers = new List<Customer>
         {
             CustomerPinkPop,
-            Customer2
+            Customer2,
+            CustomerLowlands,
+            CustomerThunderDome
         };
         
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();

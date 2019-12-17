@@ -82,7 +82,7 @@ namespace Festispec.UI.ViewModels
             {
                 try
                 {
-                    await _inspectionService.RemoveInspection(plannedInspection.Id);
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
                 }
                 catch (Exception e)
                 {
