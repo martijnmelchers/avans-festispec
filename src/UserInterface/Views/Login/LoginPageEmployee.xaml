@@ -35,7 +35,7 @@
                 <PasswordBox Name="Password" Width="200"  VerticalAlignment="Center"/>
             </StackPanel>
 
-            <Button Content="Inloggen" Click="Login_OnClick" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
+            <Button Content="Inloggen" Click="Login_OnClick" Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
         </Grid>
     </Grid>
 </Page>
