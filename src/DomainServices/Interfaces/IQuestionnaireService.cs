@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IQuestionnaireService
+    public interface IQuestionnaireService : ISaveable
     {
         Questionnaire GetQuestionnaire(int questionnaireId);
         Task<Questionnaire> CreateQuestionnaire(string name, Festival festival);
