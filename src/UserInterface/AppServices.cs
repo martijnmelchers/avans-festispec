@@ -15,6 +15,7 @@ namespace Festispec.UI
 
             //  Register Viewmodels here
             services.AddTransient<MainViewModel>();
+            services.AddTransient<GoogleTestViewModel>();
 
             #region Festival ViewModels
             services.AddTransient<FestivalViewModel>();
@@ -46,6 +47,8 @@ namespace Festispec.UI
             var navigationService = new FrameNavigationService();
 
             // Register your routes here
+            navigationService.Configure("GoogleTest", new Uri("../Views/GoogleTestPage.xaml", UriKind.Relative));
+
 
             #region Festival Routes
             navigationService.Configure("FestivalInfo", new Uri("../Views/Festival/FestivalPage.xaml", UriKind.Relative));
