@@ -1,19 +1,19 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Festispec.UI.ViewModels;
+using Festispec.UI.ViewModels.Customers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Festispec.UI.Views
+namespace Festispec.UI.Views.Customer
 {
     /// <summary>
     /// Interaction logic for CustomerPage.xaml
     /// </summary>
-    public partial class CustomerPage : Page
+    public partial class CreateCustomerPage : Page
     {
-        private static readonly Regex _numericOnlyRegex = new Regex("[^0-9]+");
+        private static readonly Regex NumericOnlyRegex = new Regex("[^0-9]+");
         
-        public CustomerPage()
+        public CreateCustomerPage()
         {
             InitializeComponent();
 
@@ -25,7 +25,7 @@ namespace Festispec.UI.Views
 
         private void NumericTextBlockOnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = _numericOnlyRegex.IsMatch(e.Text);
+            e.Handled = NumericOnlyRegex.IsMatch(e.Text);
         }
     }
 }
