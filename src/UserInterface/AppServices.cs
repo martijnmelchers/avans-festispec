@@ -4,6 +4,7 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using Festispec.UI.ViewModels.Customers;
 
 namespace Festispec.UI
 {
@@ -59,9 +60,10 @@ namespace Festispec.UI
             #endregion
 
             #region Customer Routes
-            navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerScreen.xaml", UriKind.Relative));
-            navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
-            navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerListPage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateCustomer", new Uri("../Views/Customer/CreateCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateCustomer", new Uri("../Views/Customer/UpdateCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
     
             return navigationService;

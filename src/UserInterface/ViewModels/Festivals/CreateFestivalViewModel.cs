@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using Festispec.UI.Exceptions;
 
 namespace Festispec.UI.ViewModels
 {
@@ -40,8 +41,11 @@ namespace Festispec.UI.ViewModels
             _festivalService = festivalService;
             _customerService = customerService;
             _navigationService = navigationService;
-            //deze regel is om te testen, later moet dit via navigationcommand parameter. 
-            Festival.Customer = _customerService.GetCustomer(1);
+            
+            if (navigationService.Parameter == null || !(navigationService.Parameter is int customerId))
+                throw new InvalidNavigationException();
+            
+            Festival.Customer = _customerService.GetCustomer(customerId);
             CreateFestivalCommand = new RelayCommand(CreateFestival);
         }
         public async void CreateFestival()
