@@ -84,10 +84,4 @@
     <ProjectReference Include="..\DomainServices\DomainServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Views\Map\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

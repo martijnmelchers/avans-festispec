@@ -1,13 +1,13 @@
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Google;
+using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService
@@ -35,7 +35,7 @@ namespace Festispec.DomainServices.Services
 
             _clientStatic = new HttpClient
             {
-                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/staticmap/")
+                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/staticmap")
             };
 
         }
@@ -86,17 +86,27 @@ namespace Festispec.DomainServices.Services
 
         public async Task<string> GenerateStaticMap()
         {
-            var request = await _clientStatic.GetAsync($"?center=Netherlands&size=1920x1080&key={API_KEY}");
-            var image = await request.Content.ReadAsByteArrayAsync ();
-            var imageData = Convert.ToBase64String(image);
-            return String.Format("<img src='{0}'></img>", imageData);
+            var queryBuilder = new QueryBuilder();
+
+            queryBuilder.Add("key", API_KEY);
+            queryBuilder.Add("center", "Netherlands");
+            queryBuilder.Add("size", "1920x1080");
+
+            foreach (Festival festival in _db.Festivals.ToList()) {
+                var latitude = festival.Address.Latitude.ToString();
+                var longitude = festival.Address.Longitude.ToString();
+                var label = festival.FestivalName;
+                var color = "blue";
+                queryBuilder.Add("markers", CreateMarker(latitude, longitude, label, color));
+            }
+
+            return String.Format("{0}{1}","https://maps.googleapis.com/maps/api/staticmap", queryBuilder.ToString());
         }
 
 
-        private String CreateMarkters()
+        private string CreateMarker(string latitude, string longitude, string label, string color)
         {
-           
-            return "";
+            return String.Format("color:{0}|label:{1}|{2},{3}",color, label, latitude, longitude);
         }
     }
 }
