@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="DrawQuestion erft over omdat er nog een beschrijving kan worden bijgevoegd bij de tekening.">
+    <Position X="23.74" Y="9.073" Height="0.875" Width="1.835" />
+  </Comment>
+  <Class Name="Festispec.Models.Customer">
+    <Position X="6" Y="8.75" Width="1.5" />
+    <AssociationLine Name="Address" Type="Festispec.Models.Address" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="9.25" />
+        <Point X="5.625" Y="9.25" />
+        <Point X="5.625" Y="8.37" />
+        <Point X="3.833" Y="8.37" Type="JumpStart" />
+        <Point X="3.667" Y="8.37" Type="JumpEnd" />
+        <Point X="2.531" Y="8.37" />
+        <Point X="2.531" Y="7.815" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.188" Y="8.75" />
+        <Point X="6.188" Y="8.005" />
+        <Point X="4.608" Y="8.005" />
+        <Point X="4.608" Y="5.072" />
+        <Point X="3.833" Y="5.072" Type="JumpStart" />
+        <Point X="3.667" Y="5.072" Type="JumpEnd" />
+        <Point X="3" Y="5.072" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAACCAAAQAAAAAACAgAAAAAAAAA=</HashCode>
+      <FileName>Customer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Address" />
+      <Property Name="ContactDetails" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Festival">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <AssociationLine Name="Address" Type="Festispec.Models.Address" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="6.699" />
+        <Point X="4.691" Y="6.699" Type="JumpStart" />
+        <Point X="4.525" Y="6.699" Type="JumpEnd" />
+        <Point X="4.25" Y="6.699" />
+        <Point X="4.25" Y="7.144" />
+        <Point X="3.833" Y="7.144" Type="JumpStart" />
+        <Point X="3.667" Y="7.144" Type="JumpEnd" />
+        <Point X="3" Y="7.144" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Customer" Type="Festispec.Models.Customer">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.079" Y="1.513" Height="0.182" Width="0.837" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAECgAAAAAAgAAAAABAQAAAAAAAQAAACAAAAAAAABAA=</HashCode>
+      <FileName>Festival.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Address" />
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.ContactPerson">
+    <Position X="3.25" Y="8.75" Width="1.5" />
+    <AssociationLine Name="Customer" Type="Festispec.Models.Customer" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="9.875" />
+        <Point X="6" Y="9.875" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAEiAAAAAAAAAAAAEAACAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ContactPerson.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ContactDetails" />
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.ContactPersonNote">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <Members>
+      <Property Name="Id" Hidden="true" />
+    </Members>
+    <AssociationLine Name="ContactPerson" Type="Festispec.Models.ContactPerson" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="9.875" />
+        <Point X="3.25" Y="9.875" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ContactPersonNote.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ContactPerson" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.ContactDetails">
+    <Position X="1.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ContactDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Address">
+    <Position X="1.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACIAAAAAAAAAEIAAAABACAAAAAAAAA=</HashCode>
+      <FileName>Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Employee">
+    <Position X="5.75" Y="0.5" Width="5.5" />
+    <AssociationLine Name="Account" Type="Festispec.Models.Account" FixedFromPoint="true">
+      <Path>
+        <Point X="5.75" Y="0.698" />
+        <Point X="2" Y="0.698" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Address" Type="Festispec.Models.Address" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="1.648" />
+        <Point X="5.196" Y="1.648" />
+        <Point X="5.196" Y="6.181" />
+        <Point X="4.691" Y="6.181" Type="JumpStart" />
+        <Point X="4.525" Y="6.181" Type="JumpEnd" />
+        <Point X="3.833" Y="6.181" Type="JumpStart" />
+        <Point X="3.667" Y="6.181" Type="JumpEnd" />
+        <Point X="3" Y="6.181" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="ContactDetails" Type="Festispec.Models.ContactDetails" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="1.344" />
+        <Point X="4.607" Y="1.344" />
+        <Point X="4.607" Y="4.293" />
+        <Point X="3" Y="4.293" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.081" Y="0.081" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAACCCQAAAAAAAACAAAAAEAAAEA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Account" />
+      <Property Name="Address" />
+      <Property Name="ContactDetails" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Questionnaire">
+    <Position X="15.75" Y="5.75" Width="1.5" />
+    <AssociationLine Name="PlannedInspection" Type="Festispec.Models.PlannedInspection" FixedFromPoint="true">
+      <Path>
+        <Point X="15.75" Y="6.737" />
+        <Point X="13.5" Y="6.737" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.081" Y="0.068" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAABACAAQAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Questionnaire.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Festival" />
+      <Property Name="PlannedInspection" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.PlannedInspection">
+    <Position X="11.5" Y="5.75" Width="2" />
+    <AssociationLine Name="Questionnaire" Type="Festispec.Models.Questionnaire" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="6.925" />
+        <Point X="15.75" Y="6.95" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.259" Y="0.086" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Festival" Type="Festispec.Models.Festival" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="6.235" />
+        <Point X="9.052" Y="6.202" Type="JumpStart" />
+        <Point X="8.885" Y="6.2" Type="JumpEnd" />
+        <Point X="8" Y="6.188" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAABAAACBAAAAAAAAAAAQAAAIAAAAAg=</HashCode>
+      <FileName>PlannedInspection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Questionnaire" />
+      <Property Name="Festival" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.PlannedEvent">
+    <Position X="10.25" Y="3" Width="1.25" />
+    <AssociationLine Name="Employee" Type="Festispec.Models.Employee">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.127" Y="0.12" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAAAAAAAAAAAAAAAAKAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlannedEvent.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Availability">
+    <Position X="8.25" Y="3" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Availability.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Account">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="Employee" Type="Festispec.Models.Employee" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="1.053" />
+        <Point X="5.75" Y="1.053" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEACAAAAAEQAAAAAACAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Account.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+      <Property Name="Role" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.OpeningHours">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpeningHours.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Certificate">
+    <Position X="6" Y="3" Width="1.5" />
+    <AssociationLine Name="Employee" Type="Festispec.Models.Employee">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.083" Y="0.143" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAQAAAAASIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Certificate.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Answers.StringAnswer">
+    <Position X="16.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Answers\StringAnswer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Festispec.Models.Reports.Report">
+    <Position X="8.5" Y="8.75" Width="3.75" />
+    <AssociationLine Name="Festival" Type="Festispec.Models.Festival">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.84" Y="0.726" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Reports\Report.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Festival" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Reports.ReportEntry">
+    <Position X="13.25" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAA=</HashCode>
+      <FileName>Reports\ReportEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Report" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Answers.Answer">
+    <Position X="15.75" Y="4" Width="1.5" />
+    <AssociationLine Name="PlannedInspection" Type="Festispec.Models.PlannedInspection" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.75" Y="4.895" />
+        <Point X="13.375" Y="4.895" />
+        <Point X="13.375" Y="5.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAEAABAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Answers\Answer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Question" />
+      <Property Name="PlannedInspection" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Reports.ReportTextEntry">
+    <Position X="11.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Reports\ReportTextEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Reports.ReportGraphEntry">
+    <Position X="13.25" Y="10.75" Width="1.5" />
+    <AssociationLine Name="GraphType" Type="Festispec.Models.GraphType" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="11.732" />
+        <Point X="15.125" Y="11.732" />
+        <Point X="15.125" Y="9.965" />
+        <Point X="17.5" Y="9.965" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAQAQAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Reports\ReportGraphEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="GraphXAxisType" />
+      <Property Name="GraphType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Questions.DrawQuestion">
+    <Position X="20.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\DrawQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Questions.StringQuestion">
+    <Position X="22.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAQAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\StringQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Questions.MultipleChoiceQuestion">
+    <Position X="22.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>wCEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\MultipleChoiceQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Questions.Question">
+    <Position X="19.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAABACAg=</HashCode>
+      <FileName>Questions\Question.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="GraphType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Questions.QuestionCategory">
+    <Position X="19.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\QuestionCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Answers.Attachment">
+    <Position X="17.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAgAAAAA=</HashCode>
+      <FileName>Answers\Attachment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Answer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Questions.NumericQuestion">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAACAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\NumericQuestion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Unit" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Festispec.Models.Answers.NumericAnswer">
+    <Position X="12.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Answers\NumericAnswer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Festispec.Models.Answers.MultipleChoiceAnswer">
+    <Position X="14.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Answers\MultipleChoiceAnswer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Festispec.Models.Answers.FileAnswer">
+    <Position X="18.5" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Answers\FileAnswer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Questions.RatingQuestion">
+    <Position X="22.25" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQBAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\RatingQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.Questions.UploadPictureQuestion" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Questions\UploadPictureQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Festispec.Models.ReferenceQuestion">
+    <Position X="25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>ReferenceQuestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Festispec.Models.Interfaces.IAnswer&lt;TAnswer&gt;">
+    <Position X="13.25" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IAnswer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Festispec.Models.Role">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Role.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Festispec.Models.GraphXAxisType">
+    <Position X="16.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>GraphXAxisType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Festispec.Models.GraphType">
+    <Position X="17.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>GraphType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Festispec.Models.Questions.AnswerUnit">
+    <Position X="24.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Questions\AnswerUnit.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

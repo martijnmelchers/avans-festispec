@@ -1,15 +1,28 @@
-﻿<Application x:Class="Festispec.UI.App"
+<Application x:Class="Festispec.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
              mc:Ignorable="d"
-             xmlns:local="clr-namespace:Festispec.UI"
-             StartupUri="MainWindow.xaml">
-    
+             xmlns:converters="clr-namespace:Festispec.UI.Converters"
+             StartupUri="Views/MainWindow.xaml">
+
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:UI.ViewModel" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="Styling/Boxes.xaml"/>
+                <ResourceDictionary  Source="Styling/Button.xaml"/>
+                <ResourceDictionary  Source="Styling/Colors.xaml"/>
+                <ResourceDictionary  Source="Styling/Forms.xaml"/>
+                <ResourceDictionary  Source="Styling/Markup.xaml"/>
+                <ResourceDictionary  Source="Styling/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="Montserrat">pack://application:,,,/Assets/Montserrat/#Montserrat</FontFamily>
+            
+            <!-- Global converters below -->
+            <converters:UpperCaseStringConverter x:Key="UpperCaseConverter" />
         </ResourceDictionary>
+       
     </Application.Resources>
+
 </Application>

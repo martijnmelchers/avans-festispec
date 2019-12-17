@@ -1,19 +1,13 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
-    public class Availability
+    public class Availability : PlannedEvent
     {
-        public int Id { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
-
+        [Required]
         public bool IsAvailable { get; set; }
 
+        [MaxLength(250)]
         public string Reason { get; set; }
-
-        public virtual Employee Employee { get; set; }
     }
 }

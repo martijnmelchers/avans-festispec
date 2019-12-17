@@ -6,10 +6,14 @@ namespace Festispec.Models.EntityMapping
     {
         public QuestionnaireMapping()
         {
-            HasRequired(qn => qn.PlannedInspection).WithRequiredDependent(pi => pi.Questionnaire);
 
-            HasMany(qn => qn.Answers).WithRequired(a => a.Questionnaire);
-            HasMany(qn => qn.Questions).WithMany(q => q.Questionnaires);
+            Property(qn => qn.IsComplete).IsOptional();
+
+            Property(qn => qn.Name).IsRequired();
+            HasMany(qn => qn.PlannedInspections).WithRequired(pi => pi.Questionnaire);
+            HasRequired(qn => qn.Festival).WithMany(f => f.Questionnaires);
+
+            HasMany(qn => qn.Questions).WithRequired(q => q.Questionnaire);
         }
     }
 }

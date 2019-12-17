@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using Festispec.Models.Questions;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Festispec.Models.EntityMapping
 {
@@ -6,11 +7,13 @@ namespace Festispec.Models.EntityMapping
     {
         public QuestionMapping()
         {
-            Property(q => q.Contents).IsRequired().HasMaxLength(250);
+            Ignore(q => q.GraphType);
 
-            HasRequired(q => q.Category).WithMany(qc => qc.Questions);
+            Property(q => q.Contents).IsRequired();
 
-            HasMany(q => q.Questionnaires).WithMany(q => q.Questions);
+            HasRequired(q => q.Questionnaire).WithMany(q => q.Questions);
+
+            HasMany(q => q.Answers).WithRequired(a => a.Question);
         }
     }
 }

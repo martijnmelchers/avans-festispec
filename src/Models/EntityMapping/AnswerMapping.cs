@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using Festispec.Models.Answers;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Festispec.Models.EntityMapping
 {
@@ -6,11 +7,13 @@ namespace Festispec.Models.EntityMapping
     {
         public AnswerMapping()
         {
-            Property(a => a.Contents).IsRequired().HasMaxLength(250);
+            HasRequired(a => a.Question)
+                .WithMany(q => q.Answers)
+                .WillCascadeOnDelete(false);
 
-            HasRequired(a => a.Inspector).WithMany();
-            HasRequired(a => a.Question).WithRequiredPrincipal();
-            HasRequired(a => a.Questionnaire).WithMany(q => q.Answers);
+            HasRequired(a => a.PlannedInspection)
+                .WithMany(pi => pi.Answers)
+                .WillCascadeOnDelete(false);
 
             HasMany(a => a.Attachments).WithRequired(a => a.Answer);
         }

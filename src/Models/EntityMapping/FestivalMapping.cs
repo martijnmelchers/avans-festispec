@@ -6,13 +6,13 @@ namespace Festispec.Models.EntityMapping
     {
         public FestivalMapping()
         {
-            Property(f => f.FestivalName).IsRequired().HasMaxLength(45);
-            Property(f => f.Description).IsRequired().HasMaxLength(250);
+            Property(f => f.FestivalName).IsRequired();
+            Property(f => f.Description).IsRequired();
 
-            HasRequired(f => f.Address).WithRequiredPrincipal();
+            HasOptional(f => f.Report).WithRequired(r => r.Festival);
             HasRequired(f => f.Customer).WithMany(c => c.Festivals);
 
-            HasMany(f => f.OpeningHours).WithRequired(oh => oh.Festival);
+            HasMany(f => f.Questionnaires).WithRequired(q => q.Festival);
             HasMany(f => f.PlannedInspections).WithRequired(pi => pi.Festival);
         }
     }
