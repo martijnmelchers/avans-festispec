@@ -24,7 +24,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="KLANTEN ZOEKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
+            <TextBlock Text="MEDEWERKERS ZOEKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
             <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
             
             <TextBox HorizontalAlignment="Right" FontSize="30" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466" Height="64" Grid.Row="0" Grid.Column="1"/>
