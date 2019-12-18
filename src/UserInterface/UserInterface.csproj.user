@@ -11,51 +11,8 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Compile Update="Views\CustomerInformationScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\CustomerScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\EditCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\NewCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\FirstTimePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\QuestionnairePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SearchCustomerPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\CustomerInformationScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\CustomerScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\EditCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\NewCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\FirstTimePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\QuestionnairePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SearchCustomerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Styling\Icons.xaml">
       <SubType>Designer</SubType>
     </Page>
