@@ -1,4 +1,5 @@
-﻿using Festispec.UI.Interfaces;
+using Festispec.DomainServices.Interfaces;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Festispec.UI.Views;
@@ -10,6 +11,7 @@ namespace Festispec.UI.ViewModels
     {
         public RelayCommand<string> NavigateCommand { get; set; }
         private readonly IFrameNavigationService _navigationService;
+
         public MainViewModel(IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;

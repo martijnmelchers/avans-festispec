@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Factories;
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
@@ -17,6 +17,9 @@ namespace Festispec.DomainServices
             services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+
+            services.AddScoped<IQuestionService, QuestionService>();
+
             services.AddScoped<FestispecContext>();
 
             // Register all your factories here
