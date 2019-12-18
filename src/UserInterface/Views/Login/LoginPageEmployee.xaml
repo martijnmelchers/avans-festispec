@@ -21,7 +21,6 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-
             <TextBlock Text="Welkom!" Style="{DynamicResource Header}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
             <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>
             
