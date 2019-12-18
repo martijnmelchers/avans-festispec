@@ -3,6 +3,7 @@ using Festispec.Models.Questions;
 using Festispec.Models.Reports;
 using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Festispec.Models.EntityMapping
 {
     public class FestispecContext : DbContext
     {
-        public FestispecContext() : base("default")
+        public FestispecContext() : base("Server=localhost;Database=Festispec;Trusted_Connection=True;")
         {
         }
 
@@ -22,18 +23,15 @@ namespace Festispec.Models.EntityMapping
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Availability> Availabilities { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
-        public virtual DbSet<ContactDetails> ContactDetails { get; set; }
         public virtual DbSet<ContactPerson> ContactPersons { get; set; }
         public virtual DbSet<ContactPersonNote> ContactPersonNotes { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Festival> Festivals { get; set; }
-        public virtual DbSet<OpeningHours> OpeningHours { get; set; }
         public virtual DbSet<PlannedEvent> PlannedEvents { get; set; }
         public virtual DbSet<PlannedInspection> PlannedInspections { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
@@ -65,6 +63,5 @@ namespace Festispec.Models.EntityMapping
                 ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
             }
         }
-
     }
 }

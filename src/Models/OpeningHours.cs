@@ -1,15 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
-    public class OpeningHours : Entity
+    public class OpeningHours : Validateable
     {
-        public int Id { get; set; }
+        [Required]
+        public TimeSpan StartTime { get; set; }
 
-        public DateTime StartTime { get; set; }
+        [Required]
+        public TimeSpan EndTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        [Required]
+        public DateTime StartDate { get; set; }
 
-        public virtual Festival Festival { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
     }
 }

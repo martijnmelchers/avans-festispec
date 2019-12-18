@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -6,13 +7,24 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
+        public Customer()
+        {
+            Address = new Address
+            {
+                Country = "Nederland"
+            };
+            ContactDetails = new ContactDetails();
+        }
+
+        [Required]
         public int KvkNr { get; set; }
 
+        [Required, MaxLength(20)]
         public string CustomerName { get; set; }
 
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
-        public virtual ContactDetails ContactDetails { get; set; }
+        public ContactDetails ContactDetails { get; set; }
 
         public virtual ICollection<ContactPerson> ContactPersons { get; set; }
 

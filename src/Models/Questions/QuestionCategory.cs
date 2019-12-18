@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models.Questions
 {
@@ -6,6 +7,7 @@ namespace Festispec.Models.Questions
     {
         public int Id { get; set; }
        
+        [Required, MaxLength(45)]
         public string CategoryName { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }

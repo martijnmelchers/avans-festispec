@@ -24,26 +24,8 @@ namespace Festispec.UnitTests
             // Setup add mock
             _dbMock.Setup(x => x.Accounts.Add(It.IsAny<Account>())).Returns((Account u) => u);
 
-
-            // Setup mock accounts
-            var testAccounts = new List<Account>()
-            {
-                new Account()
-                {
-                    Username = "JohnDoe",
-                    Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
-                    Role = Role.Employee
-                },
-                new Account()
-                {
-                    Username = "EricKuipers",
-                    Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
-                    Role = Role.Inspector
-                }
-            };
-
             // Mock accounts
-            _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(testAccounts).Object);
+            _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Accounts).Object);
 
             // Create AuthenticationService
             _authenticationService = new AuthenticationService(_dbMock.Object);
@@ -73,7 +55,7 @@ namespace Festispec.UnitTests
         [InlineData("EricKuipers", "HeelLangWachtwoord", Role.Inspector)]
         public async void SameUsernameShouldThrowError(string username, string password, Role requiredRole)
         {
-            await Assert.ThrowsAsync<AccountExistsException>(() => _authenticationService.Register(username, password, requiredRole));
+            await Assert.ThrowsAsync<EntityExistsException>(() => _authenticationService.Register(username, password, requiredRole));
         }
 
         [Theory]

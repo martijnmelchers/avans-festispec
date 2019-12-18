@@ -1,7 +1,16 @@
-﻿namespace Festispec.Models.Questions
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Festispec.Models.Questions
 {
-    public class DrawQuestion : StringQuestion
+    public class DrawQuestion : UploadPictureQuestion
     {
+        public DrawQuestion(string contents, Questionnaire questionnaire, string picturePath) : base(contents, questionnaire) 
+        {
+            PicturePath = picturePath;
+        }
+        public DrawQuestion() : base() { }
+
+        [Required]
         public string PicturePath { get; set; }
     }
 }

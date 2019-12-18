@@ -6,14 +6,9 @@ namespace Festispec.Models.EntityMapping
     {
         public ContactPersonNoteMapping()
         {
-            HasKey(ln => ln.ContactPersonId);
-            HasKey(ln => ln.Created);
+            HasRequired(ln => ln.ContactPerson).WithMany(l => l.Notes);
 
-            HasRequired(ln => ln.ContactPerson)
-                .WithMany(l => l.Notes)
-                .HasForeignKey(ln => ln.ContactPersonId);
-
-            Property(ln => ln.Note).IsRequired().HasMaxLength(500);
+            Property(ln => ln.Note).IsRequired();
         }
     }
 }

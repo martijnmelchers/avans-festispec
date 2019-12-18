@@ -1,5 +1,6 @@
-﻿using Festispec.Models.Questions;
+using Festispec.Models.Questions;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models.Answers
 {
@@ -7,12 +8,10 @@ namespace Festispec.Models.Answers
     {
         public int Id { get; set; }
 
-        public virtual Employee Inspector { get; set; }
-
+        [Required]
         public virtual Question Question { get; set; }
 
-        public virtual Questionnaire Questionnaire { get; set; }
-
+        [Required]
         public virtual PlannedInspection PlannedInspection { get; set; }
 
         public virtual ICollection<Attachment> Attachments { get; set; }
