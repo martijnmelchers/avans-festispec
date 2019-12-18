@@ -20,6 +20,8 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand CancelCommand { get; }
         public ICommand EditEmployeeCommand { get; }
 
+        public ICollection<Role> AvailableRoles => Enum.GetValues(typeof(Role)).OfType<Role>().ToList();
+
         public bool CanDeleteEmployee { get; }
 
         public ICommand EditAccountCommand { get; set; }
@@ -38,8 +40,9 @@ namespace Festispec.UI.ViewModels.Employees
             else
             {
                 Employee = new Employee();
+                Employee.Account = new Account();
                 CanDeleteEmployee = false;
-                SaveCommand = new RelayCommand(AddEmployee);
+                SaveCommand = new RelayCommand<string>(AddEmployee);
             }
 
             CancelCommand = new RelayCommand(NavigateBack);
@@ -64,11 +67,18 @@ namespace Festispec.UI.ViewModels.Employees
             _navigationService.NavigateTo("EmployeeList");
         }
 
-        private async void AddEmployee()
+        private async void AddEmployee(string password)
         {
             try
             {
-                await _employeeService.CreateEmployeeAsync(Employee);
+                await _employeeService.CreateEmployeeAsync(
+                    Employee.Name,
+                    Employee.Iban,
+                    Employee.Account.Username,
+                    password,
+                    Employee.Account.Role,
+                    Employee.Address,
+                    Employee.ContactDetails);
                 NavigateBack();
             }
             catch (Exception e)
