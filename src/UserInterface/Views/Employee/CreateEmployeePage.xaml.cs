@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Festispec.UI.ViewModels.Employees;
@@ -26,6 +27,39 @@ namespace Festispec.UI.Views.Employee
         private void NumericTextBlockOnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = NumericOnlyRegex.IsMatch(e.Text);
+        }
+
+        private void Continue_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Password.Password == string.Empty 
+                || PasswordRepeat.Password == string.Empty 
+                || Password.Password != PasswordRepeat.Password)
+            {
+                WarningPopupLabel.Content = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
+                WarningPopup.IsOpen = true;
+                return;
+            }
+            
+            if (Password.Password.Length < 5)
+            {
+                WarningPopupLabel.Content = "Het ingevoerde wachtwoord is te kort.";
+                WarningPopup.IsOpen = true;
+                return;
+            }
+
+            if (Username.Text.Length < 5)
+            {
+                WarningPopupLabel.Content = "De ingevoerde gebruikersnaam is te kort.";
+                WarningPopup.IsOpen = true;
+                return;
+            }
+
+            ((EmployeeViewModel) DataContext).SaveCommand.Execute(Password.Password);
+        }
+
+        private void ClosePopup(object sender, RoutedEventArgs e)
+        {
+            WarningPopup.IsOpen = false;
         }
     }
 }

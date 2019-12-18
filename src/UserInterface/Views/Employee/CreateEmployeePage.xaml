@@ -37,14 +37,28 @@
             <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
             <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
-            <!-- Bedrijfsgegevens -->
-            <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            <!-- Medewerkersgegevens -->
+            <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            
+            <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Orientation="Horizontal">
+                <StackPanel Width="190" Margin="0,0,30,0">
+                    <Label Content="Voornaam" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <TextBox Width="190" Text="{Binding Employee.Name.First}" />
+                </StackPanel>
 
-            <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
-            <TextBox Text="{Binding Employee.EmployeeName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
+                <StackPanel Width="100" Margin="0,0,30,0">
+                    <Label Content="Tussenv." VerticalAlignment="Center" />
+                    <TextBox Width="100" Text="{Binding Employee.Name.Middle}" HorizontalAlignment="Left" />
+                </StackPanel>
 
-            <Label Content="KvK-nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Text="{Binding Employee.KvkNr, Mode=OneWayToSource}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
+                <StackPanel Width="195">
+                    <Label Content="Achternaam" VerticalAlignment="Center" />
+                    <TextBox Width="195" Text="{Binding Employee.Name.Last}" HorizontalAlignment="Left" />
+                </StackPanel>
+            </StackPanel>
+
+            <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
+            <TextBox Text="{Binding Employee.Iban}" Grid.Row="5"
                      Grid.Column="0" Margin="0,0,55,0" />
 
             <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
@@ -82,12 +96,54 @@
             <TextBox Text="{Binding Employee.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
                      Margin="55,0,0,0" />
             
+            <!-- Contactgegevens -->
+            <Label Content="Accountgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Margin="55,0,0,0" />
+
+            <Label Content="Gebruikersnaam" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" Margin="55,0,0,0" />
+            <TextBox Name="Username" Text="{Binding Employee.Account.Username}" Grid.Column="1" Grid.Row="8"
+                     Margin="55,0,0,0" />
+
+            <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="55,0,0,0" />
+            <PasswordBox Name="Password" Grid.Column="1" Grid.Row="10" Margin="55,0,0,0" />
+            <PasswordBox Name="PasswordRepeat" Grid.Column="1" Grid.Row="11" Margin="55,0,0,0" />
+            
+            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="1" Grid.Row="12" Margin="55,0,0,0" />
+            <ComboBox ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding Employee.Account.Role}"
+                      Grid.Column="1" Grid.Row="13" Margin="55,0,0,0" />
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding CancelCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
-                <Button Content="Klant toevoegen" Command="{Binding SaveCommand}" 
+                <Button Content="Klant toevoegen" Click="Continue_OnClick"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
+            
+            <Popup x:Name="WarningPopup"  Placement="Center" AllowsTransparency="True">
+                <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
+                    <StackPanel Orientation="Vertical" Background="White">
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                            <TextBlock Text="MEDEWERKER TOEVOEGEN" Style="{DynamicResource Header}"/>
+                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                            <Label Name="WarningPopupLabel"/>
+                            <Label Content="Controleer de ingevoerde data en probeer het opnieuw."/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
+                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0"/>
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+            </Popup>
 
         </Grid>
     </Grid>
