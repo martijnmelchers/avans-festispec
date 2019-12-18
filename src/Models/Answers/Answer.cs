@@ -1,4 +1,4 @@
-﻿using Festispec.Models.Questions;
+using Festispec.Models.Questions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

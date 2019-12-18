@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
