@@ -54,7 +54,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 CurrentAccount = _authenticationService.Login(username, password, Role.Employee);
-                _navigationService.NavigateTo("CustomerList");
+                _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException)
             {

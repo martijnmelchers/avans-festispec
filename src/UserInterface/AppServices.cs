@@ -73,6 +73,10 @@ namespace Festispec.UI
             navigationService.Configure("LoginPageEmployee", new Uri("../Views/Login/LoginPageEmployee.xaml", UriKind.Relative));
             #endregion
 
+            #region Home Routes
+            navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
+            #endregion
+
             navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
 
             return navigationService;

@@ -8,24 +8,21 @@
       Title="HomePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="850" />
-        <Grid Width="1200" Height="800">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="950" Height="550" />
+        <Grid Width="900" Height="500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Style="{DynamicResource Header}" Text="Welkom op de homepagina van Festispec." HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <TextBlock Style="{DynamicResource Header}" Text="Welkom op de homepagina van Festispec" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
 
             <Label Content="Hier boven vind u de navigatie naar de relevante pagina's" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2"/>
 
