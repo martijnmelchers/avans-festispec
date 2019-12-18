@@ -42,7 +42,7 @@ namespace Festispec.UI.ViewModels
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
-            NavigateCommand = new RelayCommand<string>(Navigate);
+            NavigateCommand = new RelayCommand<string>(Navigate,IsNotOnSamePage);
         }
         
         public void Navigate(string page)
