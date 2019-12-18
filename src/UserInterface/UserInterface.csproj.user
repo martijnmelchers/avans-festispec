@@ -6,23 +6,10 @@
   <PropertyGroup>
     <ActiveDebugProfile>UserInterface</ActiveDebugProfile>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Update="Views\Home\HomePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Login\LoginPageEmployee.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <ItemGroup>
     <Page Update="Styling\Icons.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Home\HomePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Login\LoginPageEmployee.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

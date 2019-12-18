@@ -3,7 +3,8 @@ using System.Net;
 using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Views;
 using Festispec.UI.Views;
 using System.Windows;
 using System.Windows.Input;
@@ -71,6 +72,13 @@ namespace Festispec.UI.ViewModels
         public void ShowLoginPageOnStartup()
         {
             _navigationService.NavigateTo("LoginPageEmployee");
+        }
+
+        public bool IsNotOnSamePage(string page)
+        {
+            if (_navigationService.CurrentPageKey != null)
+                return !_navigationService.CurrentPageKey.Equals(page);
+            return true;
         }
     }
 }

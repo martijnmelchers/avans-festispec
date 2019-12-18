@@ -4,8 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Festispec.UI"
-        xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
-        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d" Background="#EFEFEF"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid x:Name="MainGrid">
@@ -14,31 +12,33 @@
             <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" Grid.Column="0"/>
 
             <TextBlock HorizontalAlignment="Left" Margin="424,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="HomePage" Style="{StaticResource HeaderLink}" IsEnabled="{Binding IsLoggedIn}">Home</Hyperlink>
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Homepage" Content="Home"></Button>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Margin="568,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="CustomerList" Style="{StaticResource ActiveLink}" IsEnabled="{Binding IsLoggedIn}">Klanten</Hyperlink>
+            <TextBlock HorizontalAlignment="Left" Margin="571,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="CustomerList" Content="Klanten"></Button>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="FestivalList" Style="{StaticResource HeaderLink}" IsEnabled="{Binding IsLoggedIn}">Festivals</Hyperlink>
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="FestivalList" Content="Festivals"></Button>
+
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" CommandParameter="Questionnaire" Style="{StaticResource HeaderLink}" IsEnabled="{Binding IsLoggedIn}">Inspecties</Hyperlink>
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Questionnaire" Content="Inspecties"></Button>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}" IsEnabled="{Binding IsLoggedIn}">Inspecteurs</Hyperlink>
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Inspecteurs" Content="Inspecteurs"></Button>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Left" Margin="1342,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Hyperlink Command="{Binding NavigateCommand}" Style="{StaticResource HeaderLink}" IsEnabled="{Binding IsLoggedIn}">Medewerkers</Hyperlink>
+                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Medewerkers" Content="Medewerkers"></Button>
             </TextBlock>
 
 
-            <Button Height="37" Content="{Binding CurrentName, StringFormat='Hallo, {0}'}" HorizontalAlignment="Left" Margin="1637,17,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="{DynamicResource Montserrat}" Foreground="#707070" Background="#FFFFFF" BorderThickness="0" IsEnabled="{Binding IsLoggedIn}"/>
+
+            <Button Height="37" Content="Hallo, Martijn" HorizontalAlignment="Left" Margin="1637,17,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="{DynamicResource Montserrat}" Foreground="#707070" Background="#FFFFFF" BorderThickness="0"/>
             <Image HorizontalAlignment="Left" Height="25" Margin="1599,0,0,0" VerticalAlignment="Center" Width="22" Source="/Assets/user.png"/>
             <Image HorizontalAlignment="Left" Height="19" Margin="1841,0,0,0" VerticalAlignment="Center" Width="31" Source="/Assets/Chevron.png"/>
 
