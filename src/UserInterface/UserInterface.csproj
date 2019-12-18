@@ -67,6 +67,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mapsui" Version="2.0.0-beta.30" />
+    <PackageReference Include="Microsoft.BingMaps.V8.TypeScript" Version="2.0.3" />
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
@@ -78,6 +79,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="XAML.MapControl" Version="4.15.1" />
   </ItemGroup>
 
   <ItemGroup>

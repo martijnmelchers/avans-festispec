@@ -70,7 +70,10 @@ namespace Festispec.UI
             navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
             #endregion
-    
+
+            navigationService.Configure("MapPage", new Uri("../Views/Map/MapPage.xaml", UriKind.Relative));
+
+
             return navigationService;
         }
 

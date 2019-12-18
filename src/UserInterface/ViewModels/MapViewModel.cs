@@ -7,24 +7,91 @@ using System.Windows.Controls;
 using Festispec.DomainServices.Services;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using MapControl;
+using System.Collections.ObjectModel;
+using Festispec.DomainServices.Interfaces;
+using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight.Command;
+using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    class MapViewModel : ViewModelBase
+
+    public class PointItem : ViewModelBase
     {
-        private GoogleMapsService _googleMapsService;
-        public ImageSource Source { get; set; }
+        public MapViewModel Parent;
 
-        private BitmapImage img;
-        public MapViewModel(GoogleMapsService googleMapsService) {
-            _googleMapsService = googleMapsService;
-            SetUrl();
-        }
+        public string DestinationView { get; set; }
+        public object DestinationParameter { get; set; }
 
-        private async void SetUrl()
+        public ICommand LabelCommand { get; set; }
+
+        public PointItem()
         {
-            var url = await _googleMapsService.GenerateStaticMap();
-            Source = new BitmapImage(new Uri(url));
+            LabelCommand = new RelayCommand(Navigate);
         }
+
+        private void Navigate()
+        {
+            Parent.Navigate(DestinationView, DestinationParameter);
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                RaisePropertyChanged(nameof(Name));
+            }
+        }
+
+        private Location location;
+        public Location Location
+        {
+            get { return location; }
+            set
+            {
+                location = value;
+                RaisePropertyChanged(nameof(Location));
+            }
+        }
+    }
+
+
+    public class MapViewModel : ViewModelBase
+    {
+        public List<PointItem> Points { get; } = new List<PointItem>();
+        private GoogleMapsService _googleMapsService;
+        private IFestivalService _festivalService;
+        private IFrameNavigationService _navigationService;
+
+        public MapViewModel(IFrameNavigationService navigationService, GoogleMapsService googleMapsService, IFestivalService festivalService) {
+            _googleMapsService = googleMapsService;
+            _festivalService = festivalService;
+            _navigationService = navigationService;
+
+            var festivals = _festivalService.GetFestivals();
+
+            foreach( var festival in festivals)
+            {
+                Points.Add(new PointItem()
+                {
+                    Name = festival.FestivalName,
+                    Location = new Location(festival.Address.Latitude, festival.Address.Longitude),
+                    DestinationParameter = festival.Id,
+                    DestinationView = "FestivalInfo",
+                    Parent = this
+                });
+            }
+
+        }
+
+        public void Navigate(string DestinationView, object DestinationParameter)
+        {
+            _navigationService.NavigateTo("FestivalInfo", 1);
+        }
+
     }
 }

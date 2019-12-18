@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using MapControl;
 namespace Festispec.UI.Views.Map
 {
     /// <summary>
@@ -30,7 +30,7 @@ namespace Festispec.UI.Views.Map
             Unloaded += (sender, e) => _scope.Dispose();
 
             DataContext = _scope.ServiceProvider.GetRequiredService<MapViewModel>();
+            BingMapsTileLayer.ApiKey = "Ag2i7B-Uw8sWueLGS7BX7J5xYYKPJnynHsz7KYPQuE_cZAZItqMIQtYgE9mWIvkH";
         }
-
     }
 }

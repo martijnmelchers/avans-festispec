@@ -1,4 +1,4 @@
-﻿using Festispec.UI.Interfaces;
+using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Festispec.UI.Views;
@@ -18,7 +18,7 @@ namespace Festispec.UI.ViewModels
 
         public void Navigate(string page)
         {
-            _navigationService.NavigateTo(page);
+            _navigationService.NavigateTo("MapPage");
         }
     }
 }
