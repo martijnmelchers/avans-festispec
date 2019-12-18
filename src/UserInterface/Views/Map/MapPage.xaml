@@ -45,7 +45,7 @@
                                     <EllipseGeometry RadiusX="15" RadiusY="15"/>
                                 </Path.Data>
                             </Path>
-                            <Path StrokeThickness="2" Fill="Black">
+                            <Path StrokeThickness="2" Fill="{Binding DotColor}">
                                 <Path.Stroke>
                                     <SolidColorBrush Color="Gray"/>
                                 </Path.Stroke>
@@ -73,14 +73,17 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <Label Content="Saus"></Label>
 
-        <map:Map x:Name="Map" ZoomLevel="8" Center="52.092876, 5.104480">
+        <Rectangle Style="{DynamicResource ContentBox}" Margin="200,50,0,50" HorizontalAlignment="Left" Width="336" />
 
-            <map:BingMapsTileLayer Mode="Road">
+        <TextBlock Text="Kaartoverzicht" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="217,66,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="217,119,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+        <map:Map Background="GhostWhite" x:Name="Map" ZoomLevel="8" Center="52.092876, 5.104480" Margin="0,50,200,50" HorizontalAlignment="Right" Width="1120" UseLayoutRounding="True" MinZoomLevel="2">
+
+            <map:BingMapsTileLayer Mode="Road"  >
             </map:BingMapsTileLayer>
 
-            
+
             <map:Pushpin map:MapPanel.Location="65,-18" Content="Iceland"/>
             <map:Pushpin map:MapPanel.Location="71,25" Content="Norway"/>
             <map:Pushpin map:MapPanel.Location="35,33" Content="Cyprus"/>
@@ -90,6 +93,7 @@
                                  ItemContainerStyle="{StaticResource PointItemStyle}"
                                  SelectionMode="Extended"/>
         </map:Map>
-
+        <Label Content="Filters" HorizontalAlignment="Left" Margin="217,148,0,0" VerticalAlignment="Top"/>
+            
     </Grid>
 </Page>

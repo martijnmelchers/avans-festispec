@@ -22,7 +22,10 @@ namespace Festispec.UI.ViewModels
         public MapViewModel Parent;
 
         public string DestinationView { get; set; }
+
         public object DestinationParameter { get; set; }
+
+        public SolidColorBrush DotColor { get; set; }
 
         public ICommand LabelCommand { get; set; }
 
@@ -62,7 +65,9 @@ namespace Festispec.UI.ViewModels
 
     public class MapViewModel : ViewModelBase
     {
-        public List<PointItem> Points { get; } = new List<PointItem>();
+
+        public ObservableCollection<PointItem> Points { get; } = new ObservableCollection<PointItem>();
+
         private GoogleMapsService _googleMapsService;
         private IFestivalService _festivalService;
         private IFrameNavigationService _navigationService;
@@ -82,7 +87,8 @@ namespace Festispec.UI.ViewModels
                     Location = new Location(festival.Address.Latitude, festival.Address.Longitude),
                     DestinationParameter = festival.Id,
                     DestinationView = "FestivalInfo",
-                    Parent = this
+                    Parent = this,
+                    DotColor = new SolidColorBrush(Colors.Red)
                 });
             }
 
@@ -91,6 +97,12 @@ namespace Festispec.UI.ViewModels
         public void Navigate(string DestinationView, object DestinationParameter)
         {
             _navigationService.NavigateTo("FestivalInfo", 1);
+        }
+
+
+        private void FilterPoints()
+        {
+            // Check which items are checked and add them to the points list.
         }
 
     }
