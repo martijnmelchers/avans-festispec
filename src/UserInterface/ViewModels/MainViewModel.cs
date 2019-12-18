@@ -33,6 +33,7 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged(); 
                 RaisePropertyChanged(nameof(IsLoggedIn));
                 RaisePropertyChanged(nameof(CurrentName));
+                RaisePropertyChanged(nameof(Hidden));
             }
         }
 
@@ -79,6 +80,17 @@ namespace Festispec.UI.ViewModels
             if (_navigationService.CurrentPageKey != null)
                 return !_navigationService.CurrentPageKey.Equals(page);
             return true;
+        }
+
+        public Visibility Hidden
+        {
+            get
+            {
+                if (!IsLoggedIn) 
+                    return Visibility.Hidden;
+                else
+                    return Visibility.Visible;
+            }
         }
     }
 }
