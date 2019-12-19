@@ -29,7 +29,7 @@ namespace Festispec.DomainServices.Services
         public async Task<Employee> CreateEmployeeAsync(FullName name, string iban, string username, string password,
             Role role, Address address, ContactDetails contactDetails)
         {
-            Account account = await _authenticationService.Register(username, password, role);
+            Account account = _authenticationService.AssembleAccount(username, password, role);
 
             var employee = new Employee
             {
@@ -57,8 +57,7 @@ namespace Festispec.DomainServices.Services
         
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            Employee employee = await _db.Employees
-                .FirstOrDefaultAsync(e => e.Id == employeeId);
+            Employee employee = await _db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
 
             if (employee == null)
                 throw new EntityNotFoundException();
@@ -86,8 +85,8 @@ namespace Festispec.DomainServices.Services
         {
             Employee employee = await GetEmployeeAsync(employeeId);
             
-            _db.Employees.Remove(employee);
             _db.Accounts.Remove(employee.Account);
+            _db.Employees.Remove(employee);
 
             return await SaveChangesAsync();
         }
