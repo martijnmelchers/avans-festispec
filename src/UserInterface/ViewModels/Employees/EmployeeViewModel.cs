@@ -41,16 +41,22 @@ namespace Festispec.UI.ViewModels.Employees
             }
             else
             {
-                Employee = new Employee();
-                Employee.Account = new Account();
-                CanDeleteEmployee = false;
+                Employee = new Employee {Account = new Account()};
                 SaveCommand = new RelayCommand<string>(AddEmployee);
             }
 
-            CancelCommand = new RelayCommand(NavigateBack);
+            CancelCommand = new RelayCommand(NavigateToAccount);
             RemoveEmployeeCommand = new RelayCommand(RemoveEmployee);
             EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
             EditAccountCommand = new RelayCommand(NavigateToEditAccount);
+            NavigateBackCommand = new RelayCommand(NavigateBack);
+        }
+
+        public ICommand NavigateBackCommand { get; }
+
+        private void NavigateToAccount()
+        {
+            _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
         }
 
         private void NavigateToEditAccount()

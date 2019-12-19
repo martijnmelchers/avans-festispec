@@ -112,7 +112,7 @@
                       Grid.Column="1" Grid.Row="13" Margin="55,0,0,0" />
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
-                <Button Content="Annuleren" Command="{Binding CancelCommand}"
+                <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Klant toevoegen" Click="Continue_OnClick"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
