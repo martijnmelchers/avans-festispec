@@ -15,7 +15,6 @@ namespace Festispec.UI.ViewModels.Employees
         public CollectionView EmployeeList { get; }
 
         public ICommand AddNewEmployeeCommand { get; }
-        public ICommand EditEmployeeCommand { get; }
         public ICommand ViewEmployeeCommand { get; }
 
         private bool Filter(object item)
@@ -44,7 +43,6 @@ namespace Festispec.UI.ViewModels.Employees
             _navigationService = navigationService;
 
             AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
-            EditEmployeeCommand = new RelayCommand<int>(NavigateToEditEmployee);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
             EmployeeList = (CollectionView)CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
@@ -54,11 +52,6 @@ namespace Festispec.UI.ViewModels.Employees
         private void NavigateToViewEmployee(int employeeId)
         {
             _navigationService.NavigateTo("EmployeeInfo", employeeId);
-        }
-
-        private void NavigateToEditEmployee(int employeeId)
-        {
-            _navigationService.NavigateTo("UpdateEmployee", employeeId);
         }
 
         private void NavigateToAddNewEmployee()
