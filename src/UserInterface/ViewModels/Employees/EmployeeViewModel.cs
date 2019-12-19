@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
@@ -20,7 +22,7 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand CancelCommand { get; }
         public ICommand EditEmployeeCommand { get; }
 
-        public ICollection<Role> AvailableRoles => Enum.GetValues(typeof(Role)).OfType<Role>().ToList();
+        public IEnumerable<Role> AvailableRoles => Enum.GetValues(typeof(Role)).OfType<Role>().ToList();
 
         public bool CanDeleteEmployee { get; }
 
