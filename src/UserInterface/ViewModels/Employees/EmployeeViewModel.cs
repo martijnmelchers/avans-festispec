@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
@@ -10,7 +11,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Employees
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel : BaseValidationViewModel
     {
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
@@ -38,11 +39,13 @@ namespace Festispec.UI.ViewModels.Employees
                 Employee = _employeeService.GetEmployee(customerId);
                 CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
+                Caption = "Medewerker Toevoegen";
             }
             else
             {
                 Employee = new Employee {Account = new Account()};
-                SaveCommand = new RelayCommand<string>(AddEmployee);
+                SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
+                Caption = "Medewerker Wijzigen";
             }
 
             CancelCommand = new RelayCommand(NavigateToAccount);
@@ -69,21 +72,44 @@ namespace Festispec.UI.ViewModels.Employees
             _navigationService.NavigateTo("UpdateEmployee", Employee.Id);
         }
 
-
         private void NavigateBack()
         {
             _navigationService.NavigateTo("EmployeeList");
         }
 
-        private async void AddEmployee(string password)
+        private async void AddEmployee(PasswordWithVerification passwordWithVerification)
         {
+            if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
+            {
+                ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
+                PopupIsOpen = true;
+                return;
+            }
+
+            if (passwordWithVerification.Password.Length < 5)
+            {
+                ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
+                PopupIsOpen = true;
+                return;
+            }
+
+            if (!Employee.Validate())
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
+                return;
+            }
+
+            IntPtr valuePtr = IntPtr.Zero;
             try
             {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);
+                
                 await _employeeService.CreateEmployeeAsync(
                     Employee.Name,
                     Employee.Iban,
                     Employee.Account.Username,
-                    password,
+                    Marshal.PtrToStringUni(valuePtr),
                     Employee.Account.Role,
                     Employee.Address,
                     Employee.ContactDetails);
@@ -91,7 +117,12 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while adding an employee. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
+                PopupIsOpen = true;
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
             }
         }
 
