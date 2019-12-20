@@ -21,9 +21,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             if (string.IsNullOrEmpty(Search)) return true;
 
-            return ((Employee) item).Name.First.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0
-                   || ((Employee) item).Name.Middle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0
-                   || ((Employee) item).Name.Last.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            return ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private string _search;
