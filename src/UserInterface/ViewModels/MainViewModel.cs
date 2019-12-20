@@ -1,19 +1,12 @@
-﻿using System;
-using System.Data.Entity.Infrastructure.Design;
-using System.Net;
-using Festispec.DomainServices.Interfaces;
+﻿using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Views;
-using Festispec.UI.Views;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.Exception;
-using Festispec.UI.Views.Login;
 
 namespace Festispec.UI.ViewModels
 {
@@ -24,17 +17,16 @@ namespace Festispec.UI.ViewModels
         private readonly IAuthenticationService _authenticationService;
         private Account _currentAccount;
 
-        public bool IsLoggedIn => CurrentAccount != null;
-
         public ICommand LoginCommand { get; set; }
+        public bool IsLoggedIn => CurrentAccount != null;
 
         public Account CurrentAccount
         {
             get => _currentAccount;
             set
             {
-                _currentAccount = value; 
-                RaisePropertyChanged(); 
+                _currentAccount = value;
+                RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsLoggedIn));
                 RaisePropertyChanged(nameof(CurrentName));
                 RaisePropertyChanged(nameof(HideNavbar));
@@ -42,26 +34,26 @@ namespace Festispec.UI.ViewModels
         }
 
         public string CurrentUsername { get; set; }
-
         public string CurrentName => IsLoggedIn ? CurrentAccount.Employee.Name.First : "Gast";
+
         public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
 
         public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
-            NavigateCommand = new RelayCommand<string>(Navigate,IsNotOnSamePage);
+            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
             LoginCommand = new RelayCommand<object>(Login);
         }
-        
+
         public void Navigate(string page)
         {
             _navigationService.NavigateTo(page);
         }
 
-        public void Login(object password)
+        public void Login(object incommingPassword)
         {
-            var passwordBox = (PasswordBox) password;
+            var passwordBox = (PasswordBox)incommingPassword;
             var passwordString = passwordBox.Password;
 
             try

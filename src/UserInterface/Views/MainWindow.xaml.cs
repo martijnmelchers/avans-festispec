@@ -1,8 +1,6 @@
 ﻿using Festispec.UI.ViewModels;
-using Festispec.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Festispec.UI
 {
@@ -12,6 +10,7 @@ namespace Festispec.UI
     public partial class MainWindow : Window
     {
         private readonly IServiceScope _scope;
+
         public MainWindow()
         {
             InitializeComponent();
