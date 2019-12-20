@@ -11,8 +11,8 @@
 
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1050" Height="550" />
-        <Grid Width="1000" Height="500">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="800" Height="550" />
+        <Grid Width="750" Height="500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150"/>
                 <RowDefinition Height="100"/>
@@ -22,19 +22,21 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Welkom!" Style="{DynamicResource Header}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
-            <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>
+            <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3"/>
             
-            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-                <Label Content="Username:" VerticalAlignment="Center" Margin="0,0,25,0"/>
-                <TextBox Name="Username" Width="200" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
+                <Label Content="Username:" VerticalAlignment="Center"/>
+                <TextBox Name="Username" Text="{Binding CurrentUsername}" Width="200" VerticalAlignment="Center"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" Margin="0,0,25,0"/>
-                <PasswordBox Name="Password" Width="200"  VerticalAlignment="Center"/>
+            <StackPanel Orientation="Vertical" Grid.Row="3" HorizontalAlignment="Center">
+                <Label Content="Password:" VerticalAlignment="Center"/>
+                <PasswordBox Name="Password" Width="200" VerticalAlignment="Center"/>
             </StackPanel>
 
-            <Button Content="Inloggen" Click="Login_OnClick" Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
+            <Button Content="Inloggen" Command="{Binding LoginCommand}" 
+                    CommandParameter="{Binding ElementName = Password}" 
+                    Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
         </Grid>
     </Grid>
 </Page>

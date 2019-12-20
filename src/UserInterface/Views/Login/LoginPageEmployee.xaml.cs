@@ -29,10 +29,5 @@ namespace Festispec.UI.Views.Login
 
             DataContext = scope.ServiceProvider.GetRequiredService<MainViewModel>();
         }
-
-        private void Login_OnClick(object sender, RoutedEventArgs e)
-        {
-            ((MainViewModel)DataContext).Login(Username.Text, Password.Password);
-        }
     }
 }

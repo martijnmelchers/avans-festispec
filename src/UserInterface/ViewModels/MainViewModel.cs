@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Infrastructure.Design;
 using System.Net;
 using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
@@ -7,6 +8,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Views;
 using Festispec.UI.Views;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -24,6 +26,8 @@ namespace Festispec.UI.ViewModels
 
         public bool IsLoggedIn => CurrentAccount != null;
 
+        public ICommand LoginCommand { get; set; }
+
         public Account CurrentAccount
         {
             get => _currentAccount;
@@ -33,17 +37,21 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged(); 
                 RaisePropertyChanged(nameof(IsLoggedIn));
                 RaisePropertyChanged(nameof(CurrentName));
-                RaisePropertyChanged(nameof(Hidden));
+                RaisePropertyChanged(nameof(HideNavbar));
             }
         }
 
+        public string CurrentUsername { get; set; }
+
         public string CurrentName => IsLoggedIn ? CurrentAccount.Employee.Name.First : "Gast";
+        public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
 
         public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
             NavigateCommand = new RelayCommand<string>(Navigate,IsNotOnSamePage);
+            LoginCommand = new RelayCommand<object>(Login);
         }
         
         public void Navigate(string page)
@@ -51,11 +59,14 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo(page);
         }
 
-        public void Login(string username, string password)
+        public void Login(object password)
         {
+            var passwordBox = (PasswordBox) password;
+            var passwordString = passwordBox.Password;
+
             try
             {
-                CurrentAccount = _authenticationService.Login(username, password, Role.Employee);
+                CurrentAccount = _authenticationService.Login(CurrentUsername, passwordString, Role.Employee);
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException)
@@ -80,17 +91,6 @@ namespace Festispec.UI.ViewModels
             if (_navigationService.CurrentPageKey != null)
                 return !_navigationService.CurrentPageKey.Equals(page);
             return true;
-        }
-
-        public Visibility Hidden
-        {
-            get
-            {
-                if (!IsLoggedIn) 
-                    return Visibility.Hidden;
-                else
-                    return Visibility.Visible;
-            }
         }
     }
 }
