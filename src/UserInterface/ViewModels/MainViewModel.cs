@@ -51,14 +51,11 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo(page);
         }
 
-        public void Login(object incommingPassword)
+        public void Login(object passwordBox)
         {
-            var passwordBox = (PasswordBox)incommingPassword;
-            var passwordString = passwordBox.Password;
-
             try
             {
-                CurrentAccount = _authenticationService.Login(CurrentUsername, passwordString, Role.Employee);
+                CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException)

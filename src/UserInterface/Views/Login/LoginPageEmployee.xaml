@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Festispec.UI.Views.Login"
       xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d"
       Title="LoginPageEmployee" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
