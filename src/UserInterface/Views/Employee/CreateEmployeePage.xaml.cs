@@ -1,6 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+﻿using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,30 +34,12 @@ namespace Festispec.UI.Views.Employee
 
         private void Continue_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Password.Password == string.Empty 
-                || PasswordRepeat.Password == string.Empty 
-                || Password.Password != PasswordRepeat.Password)
+            // This code-behind event needs to happen because we cannot bind on any of the PasswordBox properties.
+            ((EmployeeViewModel) DataContext).SaveCommand.Execute(new PasswordWithVerification
             {
-                WarningPopupLabel.Content = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                WarningPopup.IsOpen = true;
-                return;
-            }
-            
-            if (Password.Password.Length < 5)
-            {
-                WarningPopupLabel.Content = "Het ingevoerde wachtwoord is te kort.";
-                WarningPopup.IsOpen = true;
-                return;
-            }
-
-            if (Username.Text.Length < 5)
-            {
-                WarningPopupLabel.Content = "De ingevoerde gebruikersnaam is te kort.";
-                WarningPopup.IsOpen = true;
-                return;
-            }
-
-            ((EmployeeViewModel) DataContext).SaveCommand.Execute(Password.Password);
+                Password = Password.SecurePassword.Copy(),
+                VerificationPassword = PasswordRepeat.SecurePassword.Copy()
+            });
         }
 
         private void ClosePopup(object sender, RoutedEventArgs e)
