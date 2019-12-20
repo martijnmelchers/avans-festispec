@@ -1,4 +1,3 @@
-﻿using System.Text.RegularExpressions;
 ﻿using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -15,7 +14,6 @@ namespace Festispec.UI.Views.Employee
     /// </summary>
     public partial class CreateEmployeePage : Page
     {
-        private static readonly Regex NumericOnlyRegex = new Regex("[^0-9]+");
         
         public CreateEmployeePage()
         {
@@ -25,11 +23,6 @@ namespace Festispec.UI.Views.Employee
             Unloaded += (sender, e) => scope.Dispose();
 
             DataContext = scope.ServiceProvider.GetRequiredService<EmployeeViewModel>();
-        }
-
-        private void NumericTextBlockOnPreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = NumericOnlyRegex.IsMatch(e.Text);
         }
 
         private void Continue_OnClick(object sender, RoutedEventArgs e)
