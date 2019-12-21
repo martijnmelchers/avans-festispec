@@ -15,7 +15,104 @@ namespace Festispec.UnitTests
     {
         private readonly Mock<FestispecContext> _dbMock;
         private readonly IEmployeeService _employeeService;
-        private ModelMocks _modelMocks;
+        private readonly ModelMocks _modelMocks;
+
+        public static IEnumerable<object[]> ValidEmployees => new[]
+        {
+            new object[]
+            {
+                new FullName {First = "Test", Last = "Testerson"},
+                "NL01RABO0123456789",
+                "tester",
+                "testpassword",
+                Role.Employee,
+                new Address
+                {
+                    ZipCode = "1234AB",
+                    StreetName = "Testing street",
+                    HouseNumber = 1,
+                    Suffix = "a",
+                    City = "Test city",
+                    Country = "Nederland"
+                },
+                new ContactDetails
+                {
+                    EmailAddress = "test@tester.com",
+                    PhoneNumber = "+316123456789"
+                }
+            }
+        };
+
+        public static IEnumerable<object[]> InvalidEmployees => new[]
+        {
+            new object[]
+            {
+                new FullName {First = "Test", Last = "Testerson"},
+                "EMPLOYEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET",
+                "tester",
+                "testpassword",
+                Role.Employee,
+                new Address
+                {
+                    ZipCode = "1234AB",
+                    StreetName = "Testing street",
+                    HouseNumber = 1,
+                    Suffix = "a",
+                    City = "Test city",
+                    Country = "Nederland"
+                },
+                new ContactDetails
+                {
+                    EmailAddress = "test@tester.com",
+                    PhoneNumber = "+316123456789"
+                }
+            },
+            new object[]
+            {
+                new FullName {First = "Veel te lange naam met spaties enzo, totaal niet wat geaccepteerd moet worden", Last = "Testerson"},
+                "NL01RABO0123456789",
+                "tester",
+                "testpassword",
+                Role.Employee,
+                new Address
+                {
+                    ZipCode = "1234AB",
+                    StreetName = "Testing street",
+                    HouseNumber = 1,
+                    Suffix = "a",
+                    City = "Test city",
+                    Country = "Nederland"
+                },
+                new ContactDetails
+                {
+                    EmailAddress = "test@tester.com",
+                    PhoneNumber = "+316123456789"
+                }
+            },
+            new object[]
+            {
+                new FullName {First = "Test", Last = "Testerson"},
+                "NL01RABO0123456789",
+                "tester",
+                "testpassword",
+                Role.Employee,
+                new Address
+                {
+                    // te korte postcode
+                    ZipCode = "123",
+                    StreetName = "Testing street",
+                    HouseNumber = 1,
+                    Suffix = "a",
+                    City = "Test city",
+                    Country = "Nederland"
+                },
+                new ContactDetails
+                {
+                    EmailAddress = "test@tester.com",
+                    PhoneNumber = "+316123456789"
+                }
+            }
+        };
 
         public EmployeeServiceTests()
         {
@@ -39,106 +136,88 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void GetEmployeeReturnsCorrectEmployee(int customerId)
+        public void GetEmployeeReturnsCorrectEmployee(int employeeId)
         {
-            Employee expected = _dbMock.Object.Employees.FirstOrDefault(c => c.Id == customerId);
-            Assert.Equal(expected, _employeeService.GetEmployee(customerId));
+            Employee expected = _dbMock.Object.Employees.FirstOrDefault(c => c.Id == employeeId);
+            Assert.Equal(expected, _employeeService.GetEmployee(employeeId));
         }
         
         [Theory]
         [InlineData(9999)]
-        public void GetNonexistentEmployeeThrowsException(int customerId)
+        public void GetNonexistentEmployeeThrowsException(int employeeId)
         {
-            Assert.Throws<EntityNotFoundException>(() => _employeeService.GetEmployee(customerId));
+            Assert.Throws<EntityNotFoundException>(() => _employeeService.GetEmployee(employeeId));
         }
         
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public async void GetEmployeeAsyncReturnsCorrectEmployee(int customerId)
+        public async void GetEmployeeAsyncReturnsCorrectEmployee(int employeeId)
         {
-            Employee expected = _dbMock.Object.Employees.FirstOrDefault(c => c.Id == customerId);
-            Assert.Equal(expected, await _employeeService.GetEmployeeAsync(customerId));
+            Employee expected = _dbMock.Object.Employees.FirstOrDefault(c => c.Id == employeeId);
+            Assert.Equal(expected, await _employeeService.GetEmployeeAsync(employeeId));
         }
         
         [Theory]
         [InlineData(9999)]
-        public async void GetNonexistentEmployeeAsyncThrowsException(int customerId)
+        public async void GetNonexistentEmployeeAsyncThrowsException(int employeeId)
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(customerId));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(employeeId));
         }
 
-        /*[Theory]
-        [InlineData("PinkPop", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
-        [InlineData("Q-DANCE", 34212891, "1014AS", "Isolatorweg", 36, "Amsterdam", "Nederland", "+31204877300", "info@q-dance.com")]
-        public async void CreateEmployeeAddsEmployee(string name, int kvkNr, string zipCode, string street, int houseNumber, string city, string country, string phoneNumber, string emailAddress)
-        {
-            var address = new Address
-            {
-                City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode
-            };
+         [Theory]
+         [MemberData(nameof(ValidEmployees))]
+         public async void CreateEmployeeAddsEmployee(FullName fullName, string iban, string username, string password, Role role, Address address, ContactDetails contactDetails)
+         {
+             Employee createdEmployee = await _employeeService.CreateEmployeeAsync(fullName, iban, username, password, role, address, contactDetails);
 
-            var contactDetails = new ContactDetails
-            {
-                EmailAddress = emailAddress, PhoneNumber = phoneNumber
-            };
-            
-            Employee createdEmployee = await _employeeService.CreateEmployeeAsync(name, kvkNr, address, contactDetails);
+             Assert.Equal(fullName, createdEmployee.Name);
+             Assert.Equal(createdEmployee.Iban, iban);
+             Assert.Equal(createdEmployee.Address, address);
+             Assert.Equal(createdEmployee.ContactDetails, contactDetails);
+             Assert.Equal(role, createdEmployee.Account.Role);
+             Assert.Equal(username, createdEmployee.Account.Username);
+             Assert.True(BCrypt.Net.BCrypt.Verify(password, createdEmployee.Account.Password));
 
-            Assert.Equal(name, createdEmployee.EmployeeName);
-            Assert.Equal(createdEmployee.KvkNr, kvkNr);
-            Assert.Equal(createdEmployee.Address, address);
-            Assert.Equal(createdEmployee.ContactDetails, contactDetails);
+             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
 
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+             Employee customer = await _employeeService.GetEmployeeAsync(createdEmployee.Id);
+             Assert.Equal(createdEmployee, customer);
+         }
+         
+         [Theory]
+         [MemberData(nameof(InvalidEmployees))]
+         public async void CreateEmployeeWithInvalidDataThrowsException(FullName fullName, string iban, string username, string password, Role role, Address address, ContactDetails contactDetails)
+         {
+             await Assert.ThrowsAsync<InvalidDataException>(() => _employeeService.CreateEmployeeAsync(fullName, iban, username, password, role, address, contactDetails));
+         }
 
-            Employee customer = await _employeeService.GetEmployeeAsync(createdEmployee.Id);
-            Assert.Equal(createdEmployee, customer);
-        }*/
-        
-        // [Theory]
-        // [InlineData("PinkPopDitIsEenHeelLangeNaamDieBovenDe20KaraktersUitKomt", 12345678, "1013 GM", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
-        // [InlineData("PinkPop", 12345678, "1013 AAAAAAAAAAAAAAAAAAB", "Amsterweg", 23, "Utrecht", "Nederland", "31695734859", "psmulde@pinkpop.nl")]
-        // public async void CreateEmployeeWithInvalidDataThrowsException(string name, int kvkNr, string zipCode, string street,
-        //     int houseNumber, string city, string country, string phoneNumber, string emailAddress)
-        // {
-        //     var address = new Address
-        //     {
-        //         City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode
-        //     };
-        //
-        //     var contactDetails = new ContactDetails
-        //     {
-        //         EmailAddress = emailAddress, PhoneNumber = phoneNumber
-        //     };
-        //     
-        //     await Assert.ThrowsAsync<InvalidDataException>(() => _employeeService.CreateEmployeeAsync(name, kvkNr, address, contactDetails));
-        // }
-
-        [Theory]
+         [Theory]
         [InlineData(1)]
-        public async void RemoveEmployeeRemovesEmployee(int customerId)
+        public async void RemoveEmployeeRemovesEmployee(int employeeId)
         {
-            await _employeeService.RemoveEmployeeAsync(customerId);
+            Assert.True(_employeeService.CanRemoveEmployee(_employeeService.GetEmployee(employeeId)));
+            await _employeeService.RemoveEmployeeAsync(employeeId);
             
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(customerId));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(employeeId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Theory]
         [InlineData(99999)]
-        public async void RemoveNonexistentEmployeeThrowsException(int customerId)
+        public async void RemoveNonexistentEmployeeThrowsException(int employeeId)
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.RemoveEmployeeAsync(customerId));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.RemoveEmployeeAsync(employeeId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
 
-        // [Theory]
-        // [InlineData(2)]
-        // public async void RemoveEmployeeWithFestivalsThrowsException(int customerId)
-        // {
-        //     await Assert.ThrowsAsync<EmployeeHasFestivalsException>(() => _employeeService.RemoveEmployeeAsync(customerId));
-        //     _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
-        // }
+        [Theory]
+        [InlineData(2)]
+        public async void RemoveEmployeeWithFestivalsThrowsException(int employeeId)
+        {
+            Assert.False(_employeeService.CanRemoveEmployee(_employeeService.GetEmployee(employeeId)));
+            await Assert.ThrowsAsync<EmployeeHasPlannedEventsException>(() => _employeeService.RemoveEmployeeAsync(employeeId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
     }
 }

@@ -196,7 +196,8 @@ namespace Festispec.UnitTests.Helpers
                 {
                     PhoneNumber = "+316123456789",
                     EmailAddress = "test@testing.com"
-                }
+                },
+                PlannedEvents = new List<PlannedEvent>()
             },
             new Employee
             {
@@ -222,6 +223,16 @@ namespace Festispec.UnitTests.Helpers
                 {
                     PhoneNumber = "+316314253647",
                     EmailAddress = "tester@testing.com"
+                },
+                PlannedEvents = new List<PlannedEvent>
+                {
+                    new PlannedEvent
+                    {
+                        Id = 1,
+                        StartTime = new DateTime(2019, 11, 27, 17, 00, 00),
+                        EndTime = new DateTime(2019, 11, 28, 03, 00, 00),
+                        EventTitle = "Inspectie bij Q-BASE"
+                    }
                 }
             }
         };

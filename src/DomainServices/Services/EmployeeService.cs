@@ -84,6 +84,9 @@ namespace Festispec.DomainServices.Services
         public async Task<int> RemoveEmployeeAsync(int employeeId)
         {
             Employee employee = await GetEmployeeAsync(employeeId);
+
+            if (employee.PlannedEvents.ToList().Count > 0)
+                throw new EmployeeHasPlannedEventsException();
             
             _db.Accounts.Remove(employee.Account);
             _db.Employees.Remove(employee);
