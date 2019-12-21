@@ -159,10 +159,27 @@ namespace Festispec.UnitTests
         }
         
         [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetAccountForEmployeeAsyncReturnsCorrectAccount(int employeeId)
+        {
+            Account expected = _dbMock.Object.Employees.FirstOrDefault(c => c.Id == employeeId).Account;
+            Assert.Equal(expected, _employeeService.GetAccountForEmployee(employeeId));
+        }
+        
+        
+        [Theory]
         [InlineData(9999)]
         public async void GetNonexistentEmployeeAsyncThrowsException(int employeeId)
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(employeeId));
+        }
+        
+        [Theory]
+        [InlineData(9999)]
+        public void GetAccountForNonexistentEmployeeAsyncThrowsException(int employeeId)
+        {
+            Assert.Throws<EntityNotFoundException>(() => _employeeService.GetAccountForEmployee(employeeId));
         }
 
          [Theory]
