@@ -134,7 +134,8 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while editing an employee. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
+                PopupIsOpen = true;
             }
         }
 
