@@ -90,7 +90,7 @@
                    Margin="55,0,0,0" />
 
             <Label Content="Rol" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="55,0,0,0" />
-            <Label Content="{Binding Employee.Account.Role}" FontWeight="Light" Grid.Column="1" Grid.Row="10"
+            <Label Content="{Binding Employee.Account.Role, Converter={StaticResource RoleTranslatorConverter}}" FontWeight="Light" Grid.Column="1" Grid.Row="10"
                    Margin="55,0,0,0" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
