@@ -14,6 +14,11 @@ namespace Festispec.UI.ViewModels.Employees
             return Password.Length == 0 || VerificationPassword.Length == 0;
         }
 
+        public bool BothEmpty()
+        {
+            return Password.Length == 0 && VerificationPassword.Length == 0;
+        }
+
         public bool Equal()
         {
             IntPtr valuePtrPassword = IntPtr.Zero;

@@ -76,6 +76,16 @@ namespace Festispec.DomainServices.Services
             return employee;
         }
 
+        public Account GetAccountForEmployee(int employeeId)
+        {
+            Account account = _db.Accounts.FirstOrDefault(a => a.Id == employeeId);
+
+            if (account == null)
+                throw new EntityNotFoundException();
+
+            return account;
+        }
+
         public bool CanRemoveEmployee(Employee employee)
         {
             return employee.PlannedEvents.ToList().Count == 0;

@@ -37,6 +37,7 @@ namespace Festispec.UI
             #region Employee ViewModels
             services.AddTransient<EmployeeViewModel>();
             services.AddTransient<EmployeeListViewModel>();
+            services.AddTransient<AccountViewModel>();
             #endregion
 
 
@@ -79,6 +80,7 @@ namespace Festispec.UI
             navigationService.Configure("EmployeeInfo", new Uri("../Views/Employee/EmployeePage.xaml", UriKind.Relative));
             navigationService.Configure("CreateEmployee", new Uri("../Views/Employee/CreateEmployeePage.xaml", UriKind.Relative));
             navigationService.Configure("UpdateEmployee", new Uri("../Views/Employee/UpdateEmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateAccount", new Uri("../Views/Employee/UpdateAccountPage.xaml", UriKind.Relative));
             navigationService.Configure("EmployeeList", new Uri("../Views/Employee/EmployeeListPage.xaml", UriKind.Relative));
             #endregion
     
