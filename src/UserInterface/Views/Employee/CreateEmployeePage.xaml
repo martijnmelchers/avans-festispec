@@ -107,9 +107,16 @@
             <PasswordBox Name="PasswordRepeat" Grid.Column="1" Grid.Row="11" Margin="55,0,0,0" />
 
             <Label Content="Rol" VerticalAlignment="Center" Grid.Column="1" Grid.Row="12" Margin="55,0,0,0" />
-            <ComboBox ItemsSource="{Binding AvailableRoles}" SelectedItem="{Binding Employee.Account.Role}"
-                Grid.Column="1" Grid.Row="13" Margin="55,0,0,0" />
-            
+            <ComboBox ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
+                      SelectedItem="{Binding Employee.Account.Role}"
+                      Grid.Column="1" Grid.Row="13" Margin="55,0,0,0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource RoleTranslatorConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
