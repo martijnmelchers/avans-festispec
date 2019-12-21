@@ -23,8 +23,6 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand CancelCommand { get; }
         public ICommand EditEmployeeCommand { get; }
 
-        public IEnumerable<Role> AvailableRoles => Enum.GetValues(typeof(Role)).OfType<Role>().ToList();
-
         public bool CanDeleteEmployee { get; }
 
         public ICommand EditAccountCommand { get; set; }
