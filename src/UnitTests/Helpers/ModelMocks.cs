@@ -132,23 +132,7 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public List<Account> Accounts = new List<Account>()
-        {
-            new Account()
-            {
-                Id = 1,
-                Username = "JohnDoe",
-                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
-                Role = Role.Employee
-            },
-            new Account()
-            {
-                Id = 2,
-                Username = "EricKuipers",
-                Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
-                Role = Role.Inspector
-            }
-        };
+        public List<Account> Accounts { get; set; }
 
         public List<Question> Questions = Questionnaire4.Questions.ToList();
 
@@ -175,14 +159,13 @@ namespace Festispec.UnitTests.Helpers
                 Id = 1,
                 Name = new FullName {First = "Dit", Middle = "is", Last = "Een Test"},
                 Iban = "NL01ABCD1234567890",
-                Account = new Account
-                    {
-                        Id = 3,
-                        Username = "test",
-                        Password = "testing",
-                        Role = Role.Employee
-                    },
-                
+                Account = new Account()
+                {
+                    Id = 1,
+                    Username = "JohnDoe",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                    Role = Role.Employee
+                },
                 Address = new Address
                 {
                     ZipCode = "1234AB",
@@ -206,9 +189,9 @@ namespace Festispec.UnitTests.Helpers
                 Iban = "NL02DBCA0987654321",
                 Account = new Account
                 {
-                    Id = 4,
-                    Username = "tester",
-                    Password = "testers",
+                    Id = 2,
+                    Username = "EricKuipers",
+                    Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
                     Role = Role.Inspector
                 },
                 Address = new Address
@@ -236,5 +219,10 @@ namespace Festispec.UnitTests.Helpers
                 }
             }
         };
+
+        public ModelMocks()
+        {
+            Accounts = Employees.Select(e => e.Account).ToList();
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Festispec.UnitTests
             {
                 new FullName {First = "Test", Last = "Testerson"},
                 "NL01RABO0123456789",
-                "tester",
+                "tester123",
                 "testpassword",
                 Role.Employee,
                 new Address
@@ -49,7 +49,7 @@ namespace Festispec.UnitTests
             {
                 new FullName {First = "Test", Last = "Testerson"},
                 "EMPLOYEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET",
-                "tester",
+                "testerino",
                 "testpassword",
                 Role.Employee,
                 new Address
@@ -71,7 +71,7 @@ namespace Festispec.UnitTests
             {
                 new FullName {First = "Veel te lange naam met spaties enzo, totaal niet wat geaccepteerd moet worden", Last = "Testerson"},
                 "NL01RABO0123456789",
-                "tester",
+                "testertesttest",
                 "testpassword",
                 Role.Employee,
                 new Address
@@ -93,7 +93,7 @@ namespace Festispec.UnitTests
             {
                 new FullName {First = "Test", Last = "Testerson"},
                 "NL01RABO0123456789",
-                "tester",
+                "testeretta",
                 "testpassword",
                 Role.Employee,
                 new Address
