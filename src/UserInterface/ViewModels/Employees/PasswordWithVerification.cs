@@ -4,7 +4,7 @@ using System.Security;
 
 namespace Festispec.UI.ViewModels.Employees
 {
-    public class PasswordWithVerification
+    public class PasswordWithVerification : IDisposable
     {
         public SecureString Password { get; set; }
         public SecureString VerificationPassword { get; set; }
@@ -30,6 +30,12 @@ namespace Festispec.UI.ViewModels.Employees
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtrPassword);
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtrVerificationPassword);
             }
+        }
+
+        public void Dispose()
+        {
+            Password?.Dispose();
+            VerificationPassword?.Dispose();
         }
     }
 }

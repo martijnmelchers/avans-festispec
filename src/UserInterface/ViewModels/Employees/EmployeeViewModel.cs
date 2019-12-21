@@ -121,6 +121,7 @@ namespace Festispec.UI.ViewModels.Employees
             finally
             {
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+                passwordWithVerification.Dispose();
             }
         }
 
