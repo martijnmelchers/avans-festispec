@@ -63,7 +63,7 @@
 
             <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
             <TextBox HorizontalAlignment="Left" Width="150" Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0"
-                     Text="{Binding Path=Employee.Address.HouseNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                     Text="{Binding Path=Employee.Address.HouseNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
             <TextBox HorizontalAlignment="Left" Width="115" Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0"
