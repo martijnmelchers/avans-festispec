@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Employees"
+      xmlns:enums="clr-namespace:Festispec.UI.Enums"
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:EmployeeViewModel}">
@@ -78,8 +79,9 @@
                      Text="{Binding Path=Employee.Address.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <TextBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
-                     Text="{Binding Path=Employee.Address.Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
+                     Text="{Binding Path=Employee.Address.Country, Mode=TwoWay}"
+                     ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" SelectedIndex="0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
