@@ -34,25 +34,26 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0"
+                       VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
 
             <!-- Medewerkersgegevens -->
             <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
 
             <Label Content="Voornaam" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
-            <TextBox HorizontalAlignment="Left"  Width="190" Grid.Row="3" Grid.Column="0"
+            <TextBox HorizontalAlignment="Left" Width="190" Grid.Row="3" Grid.Column="0"
                      Text="{Binding Path=Employee.Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-            
+
             <Label Content="Tussenv." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="220,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="100" Grid.Row="3" Grid.Column="0" Margin="220,0,0,0" 
+            <TextBox HorizontalAlignment="Left" Width="100" Grid.Row="3" Grid.Column="0" Margin="220,0,0,0"
                      Text="{Binding Path=Employee.Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-            
+
             <Label Content="Achternaam" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="350,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="195" Grid.Row="3" Grid.Column="0" Margin="350,0,0,0" 
+            <TextBox HorizontalAlignment="Left" Width="195" Grid.Row="3" Grid.Column="0" Margin="350,0,0,0"
                      Text="{Binding Path=Employee.Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-            
+
             <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
             <TextBox Grid.Row="5" Grid.Column="0" Margin="0,0,55,0"
                      Text="{Binding Path=Employee.Iban, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
@@ -67,8 +68,7 @@
 
             <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
             <TextBox HorizontalAlignment="Left" Width="115" Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0"
-                     Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-            </TextBox>
+                     Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
             <TextBox Grid.Row="9" Grid.Column="0" Margin="0,0,55,0"
@@ -92,9 +92,8 @@
 
             <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
             <TextBox Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"
-                     Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-            </TextBox>
-            
+                     Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
             <!-- Accountgegevens -->
             <Label Content="Accountgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Margin="55,0,0,0" />
 
@@ -120,22 +119,23 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
-                
+
                 <Button Content="Medewerker toevoegen" Click="Continue_OnClick" Height="50" Width="275"
                         Style="{DynamicResource ButtonGreen}" />
             </StackPanel>
-            
-            <Popup x:Name="WarningPopup" IsOpen="{Binding PopupIsOpen}"  Placement="Center" AllowsTransparency="True">
+
+            <Popup x:Name="WarningPopup" IsOpen="{Binding PopupIsOpen}" Placement="Center" AllowsTransparency="True">
                 <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
                     <StackPanel Orientation="Vertical" Background="White">
                         <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <TextBlock Text="MEDEWERKER TOEVOEGEN" Style="{DynamicResource Header}"/>
-                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                            <TextBlock Text="MEDEWERKER TOEVOEGEN" Style="{DynamicResource Header}" />
+                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5"
+                                       Fill="#FF4A4A" />
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                             <Label Content="{Binding ValidationError}" />
-                            <Label Content="Controleer de ingevoerde data en probeer het opnieuw."/>
+                            <Label Content="Controleer de ingevoerde data en probeer het opnieuw." />
                         </StackPanel>
 
                         <Grid>
@@ -145,7 +145,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
-                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0"/>
+                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
                         </Grid>
                     </StackPanel>
                 </Border>

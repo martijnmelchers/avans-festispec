@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920" Background="#EFEFEF" Title="EditEmployeePage"
       d:DataContext="{d:DesignInstance Type=customers:EmployeeViewModel}">
-    
+
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="870" />
         <Grid Width="1200" Height="820">
@@ -35,23 +35,25 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Employee.Name, Converter={StaticResource UpperCaseConverter}, StringFormat='MEDEWERKER {0} WIJZIGEN'}"
-                       Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+            <TextBlock
+                Text="{Binding Employee.Name, Converter={StaticResource UpperCaseConverter}, StringFormat='MEDEWERKER {0} WIJZIGEN'}"
+                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
+            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0"
+                       VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
 
             <!-- Medewerkersgegevens -->
             <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
-            
+
             <Label Content="Voornaam" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
-            <TextBox HorizontalAlignment="Left"  Width="190" Grid.Row="3" Grid.Column="0"
+            <TextBox HorizontalAlignment="Left" Width="190" Grid.Row="3" Grid.Column="0"
                      Text="{Binding Path=Employee.Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-            
+
             <Label Content="Tussenv." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="220,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="100" Grid.Row="3" Grid.Column="0" Margin="220,0,0,0" 
+            <TextBox HorizontalAlignment="Left" Width="100" Grid.Row="3" Grid.Column="0" Margin="220,0,0,0"
                      Text="{Binding Path=Employee.Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-            
+
             <Label Content="Achternaam" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="350,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="195" Grid.Row="3" Grid.Column="0" Margin="350,0,0,0" 
+            <TextBox HorizontalAlignment="Left" Width="195" Grid.Row="3" Grid.Column="0" Margin="350,0,0,0"
                      Text="{Binding Path=Employee.Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
@@ -68,8 +70,7 @@
 
             <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
             <TextBox HorizontalAlignment="Left" Width="115" Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0"
-                     Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-            </TextBox>
+                     Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
             <TextBox Grid.Row="9" Grid.Column="0" Margin="0,0,55,0"
@@ -83,7 +84,7 @@
             <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
                       Text="{Binding Path=Employee.Address.Country}"
                       ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" />
-            
+
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
 
@@ -93,8 +94,7 @@
 
             <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
             <TextBox Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"
-                     Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-            </TextBox>
+                     Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding CancelCommand}"
@@ -104,17 +104,18 @@
                         Command="{Binding Path=SaveCommand}" />
             </StackPanel>
 
-            <Popup x:Name="DeleteWarning"  Placement="Center" AllowsTransparency="True">
+            <Popup x:Name="DeleteWarning" Placement="Center" AllowsTransparency="True">
                 <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
                     <StackPanel Orientation="Vertical" Background="White">
                         <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <TextBlock Text="MEDEWERKER VERWIJDEREN" Style="{DynamicResource Header}"/>
-                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+                            <TextBlock Text="MEDEWERKER VERWIJDEREN" Style="{DynamicResource Header}" />
+                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5"
+                                       Fill="#FF4A4A" />
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <Label Content="Verwijderen van een medewerker is definitief."/>
-                            <Label Content="Doorgaan?"/>
+                            <Label Content="Verwijderen van een medewerker is definitief." />
+                            <Label Content="Doorgaan?" />
                         </StackPanel>
 
                         <Grid>
@@ -123,10 +124,12 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Button HorizontalAlignment="Right" Content="Doorgaan" Command="{Binding RemoveEmployeeCommand}" Click="ContinueDeleteCheckPopUp"
-                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0"/>
-                            <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp"
-                                    Height="50" Width="185" Grid.Column="1"/>
+                            <Button HorizontalAlignment="Right" Content="Doorgaan"
+                                    Command="{Binding RemoveEmployeeCommand}" Click="ContinueDeleteCheckPopUp"
+                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
+                            <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
+                                    Click="StopDeleteCheckPopUp"
+                                    Height="50" Width="185" Grid.Column="1" />
                         </Grid>
 
                     </StackPanel>
