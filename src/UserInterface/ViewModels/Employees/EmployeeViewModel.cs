@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -15,17 +13,6 @@ namespace Festispec.UI.ViewModels.Employees
     {
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
-
-        public Employee Employee { get; }
-
-        public ICommand SaveCommand { get; }
-        public ICommand RemoveEmployeeCommand { get; set; }
-        public ICommand CancelCommand { get; }
-        public ICommand EditEmployeeCommand { get; }
-
-        public bool CanDeleteEmployee { get; }
-
-        public ICommand EditAccountCommand { get; set; }
 
         public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
@@ -53,7 +40,18 @@ namespace Festispec.UI.ViewModels.Employees
             NavigateBackCommand = new RelayCommand(NavigateBack);
         }
 
+        public Employee Employee { get; }
+
+        public ICommand SaveCommand { get; }
+        public ICommand RemoveEmployeeCommand { get; set; }
+        public ICommand CancelCommand { get; }
+        public ICommand EditEmployeeCommand { get; }
+
+        public ICommand EditAccountCommand { get; }
+
         public ICommand NavigateBackCommand { get; }
+
+        public bool CanDeleteEmployee { get; }
 
         private void NavigateToAccount()
         {
@@ -102,7 +100,7 @@ namespace Festispec.UI.ViewModels.Employees
             try
             {
                 valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);
-                
+
                 await _employeeService.CreateEmployeeAsync(
                     Employee.Name,
                     Employee.Iban,
