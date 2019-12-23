@@ -10,8 +10,8 @@ namespace Festispec.UI.ViewModels.Employees
 {
     public class CertificateViewModel : BaseValidationViewModel
     {
-        private readonly IFrameNavigationService _navigationService;
         private readonly IEmployeeService _employeeService;
+        private readonly IFrameNavigationService _navigationService;
 
         public CertificateViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
@@ -24,16 +24,16 @@ namespace Festispec.UI.ViewModels.Employees
                     SaveCommand = new RelayCommand(UpdateCertificate);
                     Certificate = _employeeService.GetCertificate(certificateId);
                     break;
-                
+
                 case Employee employee:
                     SaveCommand = new RelayCommand(CreateCertificate);
                     Certificate = new Certificate {Employee = employee};
                     break;
-                
+
                 default:
                     throw new InvalidNavigationException();
             }
-            
+
             EmployeeId = Certificate.Employee.Id;
             NavigateBackCommand = new RelayCommand(NavigateBack);
             RemoveCommand = new RelayCommand(RemoveCertificate);
@@ -89,13 +89,13 @@ namespace Festispec.UI.ViewModels.Employees
                 PopupIsOpen = true;
                 return;
             }
-            
+
             try
             {
                 // workaround for entity framework not having brain cells
                 // AcCoUnT iS ReQuIrEd
                 Certificate.Employee = _employeeService.GetEmployee(EmployeeId);
-                
+
                 await _employeeService.CreateCertificateAsync(Certificate);
                 NavigateBack();
             }

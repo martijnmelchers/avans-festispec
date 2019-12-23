@@ -18,7 +18,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             _navigationService = navigationService;
             _employeeService = employeeService;
-            
+
             if (navigationService.Parameter == null || !(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
 
@@ -38,7 +38,7 @@ namespace Festispec.UI.ViewModels.Employees
             _navigationService.NavigateTo("UpdateEmployee", Account.Id);
         }
 
-        public void SaveChanges(PasswordWithVerification passwordWithVerification)
+        private void SaveChanges(PasswordWithVerification passwordWithVerification)
         {
             if (!passwordWithVerification.BothEmpty())
             {
@@ -68,7 +68,7 @@ namespace Festispec.UI.ViewModels.Employees
                     passwordWithVerification.Dispose();
                 }
             }
-            
+
             if (!Account.Validate())
             {
                 ValidationError = "De ingevoerde data klopt niet of is involledig.";

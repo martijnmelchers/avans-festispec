@@ -133,10 +133,10 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Button HorizontalAlignment="Right" Content="Doorgaan"
-                                    Command="{Binding RemoveEmployeeCommand}" Click="ContinueDeleteCheckPopUp"
+                                    Command="{Binding RemoveEmployeeCommand}" Click="CloseDeleteCheckPopUp"
                                     Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
                             <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
-                                    Click="StopDeleteCheckPopUp"
+                                    Click="CloseDeleteCheckPopUp"
                                     Height="50" Width="185" Grid.Column="1" />
                         </Grid>
 

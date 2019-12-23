@@ -18,7 +18,7 @@ namespace Festispec.UI.ViewModels.Employees
         public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
             _navigationService = navigationService;
-            
+
             if (!(_navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
 
@@ -27,7 +27,7 @@ namespace Festispec.UI.ViewModels.Employees
             EditCertificateCommand = new RelayCommand<int>(NavigateToEditCertificate);
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
-            CertificateList = (CollectionView)CollectionViewSource.GetDefaultView(Employee.Certificates);
+            CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
         }
 

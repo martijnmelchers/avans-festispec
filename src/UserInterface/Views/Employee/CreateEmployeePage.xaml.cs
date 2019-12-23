@@ -1,18 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
+﻿using System.Windows;
 using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Employee
 {
-    /// <summary>
-    /// Interaction logic for EmployeePage.xaml
-    /// </summary>
-    public partial class CreateEmployeePage : Page
+    public partial class CreateEmployeePage
     {
         
         public CreateEmployeePage()

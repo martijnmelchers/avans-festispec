@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -106,7 +105,7 @@ namespace Festispec.UI.ViewModels.Employees
                     PopupIsOpen = true;
                     return;
                 }
-                
+
                 valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);
 
                 await _employeeService.CreateEmployeeAsync(

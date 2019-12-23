@@ -9,6 +9,12 @@ namespace Festispec.UI.ViewModels.Employees
         public SecureString Password { get; set; }
         public SecureString VerificationPassword { get; set; }
 
+        public void Dispose()
+        {
+            Password?.Dispose();
+            VerificationPassword?.Dispose();
+        }
+
         public bool Empty()
         {
             return Password.Length == 0 || VerificationPassword.Length == 0;
@@ -35,12 +41,6 @@ namespace Festispec.UI.ViewModels.Employees
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtrPassword);
                 Marshal.ZeroFreeGlobalAllocUnicode(valuePtrVerificationPassword);
             }
-        }
-
-        public void Dispose()
-        {
-            Password?.Dispose();
-            VerificationPassword?.Dispose();
         }
     }
 }

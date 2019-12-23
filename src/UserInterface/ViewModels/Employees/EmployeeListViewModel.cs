@@ -43,7 +43,7 @@ namespace Festispec.UI.ViewModels.Employees
             AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
-            EmployeeList = (CollectionView)CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
+            EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
             EmployeeList.Filter = Filter;
         }
 

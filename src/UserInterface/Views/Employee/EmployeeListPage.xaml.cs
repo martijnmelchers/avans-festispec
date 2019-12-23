@@ -1,13 +1,9 @@
-﻿using System.Windows.Controls;
-using Festispec.UI.ViewModels.Employees;
+﻿using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Employee
 {
-    /// <summary>
-    /// Interaction logic for EmployeeScreen.xaml
-    /// </summary>
-    public partial class EmployeeListPage : Page
+    public partial class EmployeeListPage
     {
         public EmployeeListPage()
         {
