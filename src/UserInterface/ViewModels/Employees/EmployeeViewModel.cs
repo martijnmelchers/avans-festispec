@@ -75,30 +75,30 @@ namespace Festispec.UI.ViewModels.Employees
 
         private async void AddEmployee(PasswordWithVerification passwordWithVerification)
         {
-            if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
-            {
-                ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                PopupIsOpen = true;
-                return;
-            }
-
-            if (passwordWithVerification.Password.Length < 5)
-            {
-                ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
-                PopupIsOpen = true;
-                return;
-            }
-
-            if (!Employee.Validate())
-            {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
-                return;
-            }
-
             IntPtr valuePtr = IntPtr.Zero;
             try
             {
+                if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
+                {
+                    ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
+                    PopupIsOpen = true;
+                    return;
+                }
+
+                if (passwordWithVerification.Password.Length < 5)
+                {
+                    ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
+                    PopupIsOpen = true;
+                    return;
+                }
+
+                if (!Employee.Validate())
+                {
+                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                    PopupIsOpen = true;
+                    return;
+                }
+                
                 valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);
 
                 await _employeeService.CreateEmployeeAsync(
