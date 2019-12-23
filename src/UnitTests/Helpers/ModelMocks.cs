@@ -180,7 +180,17 @@ namespace Festispec.UnitTests.Helpers
                     PhoneNumber = "+316123456789",
                     EmailAddress = "test@testing.com"
                 },
-                PlannedEvents = new List<PlannedEvent>()
+                PlannedEvents = new List<PlannedEvent>(),
+                Certificates = new List<Certificate>
+                {
+                    new Certificate
+                    {
+                        Id = 1,
+                        CertificateTitle = "Festispec Training Certificate",
+                        CertificationDate = new DateTime(2019, 11, 25),
+                        ExpirationDate = new DateTime(2025, 11, 25)
+                    }
+                }
             },
             new Employee
             {
@@ -216,13 +226,26 @@ namespace Festispec.UnitTests.Helpers
                         EndTime = new DateTime(2019, 11, 28, 03, 00, 00),
                         EventTitle = "Inspectie bij Q-BASE"
                     }
+                },
+                Certificates = new List<Certificate>
+                {
+                    new Certificate
+                    {
+                        Id = 2,
+                        CertificateTitle = "Festispec Training Certificate",
+                        CertificationDate = new DateTime(2020, 11, 25),
+                        ExpirationDate = new DateTime(2026, 11, 25)
+                    }
                 }
             }
         };
 
+        public List<Certificate> Certificates { get; }
+
         public ModelMocks()
         {
             Accounts = Employees.Select(e => e.Account).ToList();
+            Certificates = Employees.SelectMany(e => e.Certificates).ToList();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Festispec.DomainServices.Interfaces;
@@ -113,6 +114,38 @@ namespace Festispec.UnitTests
                 }
             }
         };
+        
+        public static IEnumerable<object[]> ValidCertificates = new[]
+        {
+            new object[]
+            {
+                "Test certificate",
+                new DateTime(2020, 10, 25),
+                new DateTime(2025, 10, 25)
+            },
+            new object[]
+            {
+                "Testing certificate",
+                new DateTime(2025, 12, 11),
+                new DateTime(2030, 12, 11),
+            }
+        };
+        
+        public static IEnumerable<object[]> InvalidCertificates = new[]
+        {
+            new object[]
+            {
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                new DateTime(2020, 10, 25),
+                new DateTime(2025, 10, 25)
+            },
+            new object[]
+            {
+                "Testing certificate",
+                new DateTime(2025, 12, 11),
+                new DateTime(2020, 12, 11),
+            }
+        };
 
         public EmployeeServiceTests()
         {
@@ -120,6 +153,7 @@ namespace Festispec.UnitTests
             _modelMocks = new ModelMocks();
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
             _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Accounts).Object);
+            _dbMock.Setup(x => x.Certificates).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Certificates).Object);
 
             _employeeService = new EmployeeService(_dbMock.Object, new AuthenticationService(_dbMock.Object));
         }
@@ -234,6 +268,81 @@ namespace Festispec.UnitTests
         {
             Assert.False(_employeeService.CanRemoveEmployee(_employeeService.GetEmployee(employeeId)));
             await Assert.ThrowsAsync<EmployeeHasPlannedEventsException>(() => _employeeService.RemoveEmployeeAsync(employeeId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+
+        [Theory]
+        [InlineData(9999)]
+        public void GetNonexistentCertificateThrowsException(int certificateId)
+        {
+            Assert.Throws<EntityNotFoundException>(() => _employeeService.GetCertificate(certificateId));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetCertificateReturnsCorrectCertificate(int certificateId)
+        {
+            Certificate expected = _dbMock.Object.Certificates.FirstOrDefault(c => c.Id == certificateId);
+            Assert.Equal(expected, _employeeService.GetCertificate(certificateId));
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidCertificates))]
+        public async void CreateCertificateAddsCertificate(string certificateTitle, DateTime certificationDate,
+            DateTime expirationDate)
+        {
+            Certificate certificate = new Certificate
+            {
+                CertificateTitle = certificateTitle,
+                CertificationDate = certificationDate,
+                ExpirationDate = expirationDate,
+                Employee = _dbMock.Object.Employees.FirstOrDefault()
+            };
+
+            Certificate createdCertificate = await _employeeService.CreateCertificateAsync(certificate);
+
+            Assert.Equal(certificateTitle, createdCertificate.CertificateTitle);
+            Assert.Equal(certificationDate, createdCertificate.CertificationDate);
+            Assert.Equal(expirationDate, createdCertificate.ExpirationDate);
+
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+
+            Certificate retrievedCertificate = _employeeService.GetCertificate(createdCertificate.Id);
+            Assert.Equal(createdCertificate, retrievedCertificate);
+        }
+        
+        [Theory]
+        [MemberData(nameof(InvalidCertificates))]
+        public async void CreateCertificateWithInvalidDataThrowsException(string certificateTitle, DateTime certificationDate,
+            DateTime expirationDate)
+        {
+            Certificate certificate = new Certificate
+            {
+                CertificateTitle = certificateTitle,
+                CertificationDate = certificationDate,
+                ExpirationDate = expirationDate,
+                Employee = _dbMock.Object.Employees.FirstOrDefault()
+            };
+            
+            await Assert.ThrowsAsync<InvalidDataException>(() => _employeeService.CreateCertificateAsync(certificate));
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async void RemoveCertificateRemovesCertificate(int certificateId)
+        {
+            await _employeeService.RemoveCertificateAsync(certificateId);
+            
+            Assert.Throws<EntityNotFoundException>(() => _employeeService.GetCertificate(certificateId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+        
+        [Theory]
+        [InlineData(99999)]
+        public async void RemoveNonexistentCertificateThrowsException(int certificateId)
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.RemoveCertificateAsync(certificateId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
     }

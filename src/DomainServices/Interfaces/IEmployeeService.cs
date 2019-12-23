@@ -20,5 +20,11 @@ namespace Festispec.DomainServices.Interfaces
         Task<int> SaveChangesAsync();
         bool CanRemoveEmployee(Employee employee);
         Account GetAccountForEmployee(int employeeId);
+        
+        #region Certificate code
+        Certificate GetCertificate(int certificateId);
+        Task<int> RemoveCertificateAsync(int certificateId);
+        Task<Certificate> CreateCertificateAsync(Certificate certificate);
+        #endregion
     }
 }

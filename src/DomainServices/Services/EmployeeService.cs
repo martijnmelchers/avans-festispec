@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -103,6 +102,41 @@ namespace Festispec.DomainServices.Services
 
             return await SaveChangesAsync();
         }
+
+        #region Certificate code
+
+        public async Task<Certificate> CreateCertificateAsync(Certificate certificate)
+        {
+            if (!certificate.Validate())
+                throw new InvalidDataException();
+
+            _db.Certificates.Add(certificate);
+
+            await SaveChangesAsync();
+
+            return certificate;
+        }
+
+        public Certificate GetCertificate(int certificateId)
+        {
+            Certificate certificate = _db.Certificates.FirstOrDefault(a => a.Id == certificateId);
+
+            if (certificate == null)
+                throw new EntityNotFoundException();
+
+            return certificate;
+        }
+        
+        public async Task<int> RemoveCertificateAsync(int certificateId)
+        {
+            Certificate certificate = GetCertificate(certificateId);
+            
+            _db.Certificates.Remove(certificate);
+
+            return await SaveChangesAsync();
+        }
+
+        #endregion
 
         public async Task<int> SaveChangesAsync()
         {
