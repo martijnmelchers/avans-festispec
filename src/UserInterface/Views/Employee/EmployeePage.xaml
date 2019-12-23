@@ -71,6 +71,9 @@
 
             <Label Content="Land" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
             <Label Content="{Binding Employee.Address.Country}" FontWeight="Light" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
+            
+            <Button Grid.Row="15" Grid.Column="0" HorizontalAlignment="Left" Content="Bekijk certificaten" Command="{Binding ViewCertificatesCommand}"
+                    Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />

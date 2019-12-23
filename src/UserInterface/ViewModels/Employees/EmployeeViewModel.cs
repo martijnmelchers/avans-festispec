@@ -18,6 +18,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
+            ViewCertificatesCommand = new RelayCommand(ViewCertificates);
 
             if (_navigationService.Parameter is int customerId)
             {
@@ -52,6 +53,13 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand NavigateBackCommand { get; }
 
         public bool CanDeleteEmployee { get; }
+
+        public ICommand ViewCertificatesCommand { get; }
+
+        private void ViewCertificates()
+        {
+            _navigationService.NavigateTo("CertificateList", Employee.Id);
+        }
 
         private void NavigateToAccount()
         {
