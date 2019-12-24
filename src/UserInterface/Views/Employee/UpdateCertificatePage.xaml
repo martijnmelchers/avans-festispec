@@ -35,7 +35,7 @@
             <TextBox Text="{Binding Certificate.CertificateTitle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
             
-            <Label Content="Startdatum" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="0" Margin="0,0,15,0" />
+            <Label Content="Afgiftedatum" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="0" Margin="0,0,15,0" />
             <DatePicker Grid.Row="6" Grid.Column="0" SelectedDate="{Binding Certificate.CertificationDate}" Margin="0,0,15,0" />
             
             <Label Content="Verloopdatum" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="1" Margin="15,0,0,0" />
