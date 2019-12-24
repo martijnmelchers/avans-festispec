@@ -61,15 +61,15 @@
                      Text="{Binding Path=Employee.Iban, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Postcode" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" />
-            <TextBox HorizontalAlignment="Left" Width="220" Grid.Row="7" Grid.Column="0"
+            <TextBox HorizontalAlignment="Left" Width="205" Grid.Row="7" Grid.Column="0"
                      Text="{Binding Path=Employee.Address.ZipCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="150" Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0"
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="235,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="150" Grid.Row="7" Grid.Column="0" Margin="235, 0, 0, 0"
                      Text="{Binding Path=Employee.Address.HouseNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="115" Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0"
+            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="415,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415, 0, 0, 0"
                      Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
