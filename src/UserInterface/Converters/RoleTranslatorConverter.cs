@@ -25,12 +25,15 @@ namespace Festispec.UI.Converters
                 if (!(value is string roleString))
                     return null;
 
-                return roleString switch
+                switch (roleString)
                 {
-                    "Medewerker" => Role.Employee,
-                    "Inspecteur" => Role.Inspector,
-                    _ => null
-                };
+                    case "Medewerker":
+                        return Role.Employee;
+                    case "Inspecteur":
+                        return Role.Inspector;
+                    default:
+                        return null;
+                }
             }
     }
 }
