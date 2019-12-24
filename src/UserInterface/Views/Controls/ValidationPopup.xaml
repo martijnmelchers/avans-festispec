@@ -23,16 +23,9 @@
                     <Label Content="{Binding ValidationError}" />
                     <Label Content="Controleer de ingevoerde data en probeer het opnieuw." />
                 </StackPanel>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                
                     <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
-                            Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
-                </Grid>
+                            Style="{DynamicResource ButtonGreen}" Height="50" Width="185" />
             </StackPanel>
         </Border>
     </Popup>

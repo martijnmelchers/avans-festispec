@@ -23,21 +23,15 @@
                     <Label Content="{Binding Subtext, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                     <Label Content="Doorgaan?" />
                 </StackPanel>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button HorizontalAlignment="Right" Content="Annuleren" Style="{DynamicResource ButtonRed}"
+                            Click="ClosePopup"
+                            Height="50" Width="185" Margin="0,0,10,0" />
                     <Button HorizontalAlignment="Right" Content="Doorgaan"
                             Command="{Binding DeleteCommand}" Click="ClosePopup"
-                            Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
-                    <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
-                            Click="ClosePopup"
-                            Height="50" Width="185" Grid.Column="1" />
-                </Grid>
-
+                            Style="{DynamicResource ButtonGreen}" Height="50" Width="185" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Popup>
