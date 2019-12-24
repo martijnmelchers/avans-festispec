@@ -92,8 +92,7 @@ namespace Festispec.UI.ViewModels.Employees
 
             try
             {
-                // workaround for entity framework not having brain cells
-                // AcCoUnT iS ReQuIrEd
+                // workaround for entity framework throwing an "Account is required" error
                 Certificate.Employee = _employeeService.GetEmployee(EmployeeId);
 
                 await _employeeService.CreateCertificateAsync(Certificate);
