@@ -59,6 +59,7 @@ namespace Festispec.UI.Services
         public void NavigateTo(string pageKey)
         {
             NavigateTo(pageKey, null);
+            MessageBox.Show(CurrentPageKey);
         }
 
         public virtual void NavigateTo(string pageKey, object parameter)
