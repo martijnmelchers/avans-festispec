@@ -3,7 +3,7 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -48,7 +48,7 @@ namespace Festispec.UI.ViewModels
 
         public void Navigate(string page)
         {
-            _navigationService.NavigateTo("MapPage");
+            _navigationService.NavigateTo(page);
         }
 
         public void Login(object passwordBox)

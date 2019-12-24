@@ -14,12 +14,15 @@ namespace Festispec.UI
         {
             var services = new ServiceCollection();
 
+
+            services.AddSingleton<MainViewModel>();
+
             //  Register Viewmodels here
-            services.AddTransient<MainViewModel>();
             services.AddTransient<GoogleTestViewModel>();
 
             #region Festival ViewModels
             services.AddTransient<FestivalViewModel>();
+
             services.AddTransient<CreateFestivalViewModel>();
             services.AddTransient<UpdateFestivalViewModel>();
             services.AddTransient<FestivalListViewModel>();
@@ -80,6 +83,8 @@ namespace Festispec.UI
             #region Home Routes
             navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
             #endregion
+
+
             navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
             navigationService.Configure("MapPage", new Uri("../Views/Map/MapPage.xaml", UriKind.Relative));
 

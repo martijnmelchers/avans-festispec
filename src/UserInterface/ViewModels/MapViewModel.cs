@@ -29,7 +29,6 @@ namespace Festispec.UI.ViewModels
         public SolidColorBrush DotColor { get; set; }
 
         public ICommand LabelCommand { get; set; }
-        public ICommand PointCommand { get; set; }
 
         public PointItem()
         {
@@ -83,6 +82,7 @@ namespace Festispec.UI.ViewModels
         private ICustomerService _customerService;
 
         public ICommand CheckboxCheckedCommand { get; set; }
+        public ICommand BackCommand { get; set; }
 
         public MapViewModel(
             IFrameNavigationService navigationService,
@@ -97,11 +97,16 @@ namespace Festispec.UI.ViewModels
             _customerService = customerService;
 
             CheckboxCheckedCommand = new RelayCommand(FilterPoints);
+            BackCommand = new RelayCommand(Back);
 
             LoadPoints();
             FilterPoints();
         }
 
+        private void Back()
+        {
+            _navigationService.NavigateTo("HomePage");
+        }
 
         private void LoadPoints()
         {
