@@ -19,11 +19,5 @@ namespace Festispec.UI.ViewModels
             get => _validationError;
             set { _validationError = value; RaisePropertyChanged(); }
         }
-
-        public string Caption
-        {
-            get => _caption;
-            set { _caption = value;  RaisePropertyChanged(); }
-        }
     }
 }
