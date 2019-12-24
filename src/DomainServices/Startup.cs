@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Factories;
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
@@ -16,6 +16,9 @@ namespace Festispec.DomainServices
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
             services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddScoped<IQuestionService, QuestionService>();
+
             services.AddScoped<GoogleMapsService>();
             services.AddScoped<FestispecContext>();
 

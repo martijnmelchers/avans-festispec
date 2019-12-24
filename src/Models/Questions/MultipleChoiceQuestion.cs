@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Festispec.Models.Questions
 {
-    public class MultipleChoiceQuestion : Question, IAnswerable<MultipleChoiceAnswer>
+    public class MultipleChoiceQuestion : Question
     {
         private static readonly string STRING_SEPERATOR = "~";
         public MultipleChoiceQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire) 
@@ -20,7 +20,6 @@ namespace Festispec.Models.Questions
         }
 
         public override GraphType GraphType => GraphType.Pie;
-        public new virtual ICollection<MultipleChoiceAnswer> Answers { get; set; }
         
         // This property contains the options comma seperated
         public string Options { get; set; }

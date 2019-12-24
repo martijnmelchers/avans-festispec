@@ -1,4 +1,4 @@
-﻿<Page x:Class="Festispec.UI.Views.FestivalPage"
+<Page x:Class="Festispec.UI.Views.FestivalPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -16,7 +16,7 @@
         <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
         <Rectangle Style="{DynamicResource ContentBox}" Margin="795,50,618,80" />
 
-        <TextBlock Text="{Binding Festival.FestivalName, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
+        <TextBlock Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='INFORMATIE {0}'}" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top"/>
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,180,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
 
         <Image Source="{StaticResource LocationGreen}" HorizontalAlignment="Left" Height="24" Margin="180,200,0,0" VerticalAlignment="Top" Width="20"/>
@@ -37,7 +37,7 @@
             <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
         </Label>
 
-        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="510,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}"/>
+        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="133,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}" RenderTransformOrigin="-1.516,0.568"/>
 
         <Grid>
             <Rectangle Style="{DynamicResource ContentBox}" Margin="1357,50,56,80" />
@@ -81,7 +81,7 @@
             <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
 
-        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
 
         <!-- POP UPS -->
@@ -137,6 +137,7 @@
                 </StackPanel>
             </Border>
         </Popup>
+        <Button Content="Rapport" HorizontalAlignment="Left" Margin="539,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding GenerateReportCommand}"/>
     </Grid>
 
 
