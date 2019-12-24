@@ -23,12 +23,12 @@
             <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3" />
 
             <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
-                <Label Content="Username:" VerticalAlignment="Center" />
+                <Label Content="Gebruikersnaam:" VerticalAlignment="Center" />
                 <TextBox Name="Username" Text="{Binding CurrentUsername}" Width="200" VerticalAlignment="Center" />
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="3" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" />
+                <Label Content="Wachtwoord:" VerticalAlignment="Center" />
                 <PasswordBox Name="Password" Width="200" VerticalAlignment="Center" />
             </StackPanel>
 
