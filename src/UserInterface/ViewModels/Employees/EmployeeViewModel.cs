@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
@@ -99,13 +100,6 @@ namespace Festispec.UI.ViewModels.Employees
                     return;
                 }
 
-                if (!Employee.Validate())
-                {
-                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                    PopupIsOpen = true;
-                    return;
-                }
-
                 valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);
 
                 await _employeeService.CreateEmployeeAsync(
@@ -117,6 +111,11 @@ namespace Festispec.UI.ViewModels.Employees
                     Employee.Address,
                     Employee.ContactDetails);
                 NavigateBack();
+            }
+            catch (InvalidDataException)
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
             }
             catch (Exception e)
             {
