@@ -102,13 +102,15 @@
                      Text="{Binding Path=Employee.Account.Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="55,0,0,0" />
-            <PasswordBox Name="Password" Grid.Column="1" Grid.Row="10" Margin="55,0,0,0" />
-            <PasswordBox Name="PasswordRepeat" Grid.Column="1" Grid.Row="11" Margin="55,0,0,0" />
+            <PasswordBox Name="Password" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="10" Margin="55,0,0,0" Width="257.5" />
+            
+            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="340,0,0,0" />
+            <PasswordBox Name="PasswordRepeat" Grid.Column="1" Grid.Row="10" Margin="340,0,0,0" Width="257.5" />
 
-            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="1" Grid.Row="12" Margin="55,0,0,0" />
+            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="1" Grid.Row="11" Margin="55,0,0,0" />
             <ComboBox ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
                       SelectedItem="{Binding Employee.Account.Role}"
-                      Grid.Column="1" Grid.Row="13" Margin="55,0,0,0">
+                      Grid.Column="1" Grid.Row="12" Margin="55,0,0,0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource RoleTranslatorConverter}}"/>

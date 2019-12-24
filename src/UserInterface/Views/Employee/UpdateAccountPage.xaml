@@ -9,14 +9,15 @@
       d:DataContext="{d:DesignInstance Type=customers:AccountViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="650" Height="540" />
-        <Grid Width="600" Height="510">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="650" Height="610" />
+        <Grid Width="600" Height="560">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="20" />
+                <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
@@ -36,9 +37,10 @@
             <Label Content="Wachtwoord Wijzigen" VerticalAlignment="Bottom" Grid.Row="5" />
             <Label Content="Laat beide velden leeg indien niet nodig." FontWeight="Light" VerticalAlignment="Center" Grid.Row="6" />
             <PasswordBox Name="Password" Grid.Row="7" />
-            <PasswordBox Name="PasswordRepeat" Grid.Row="8" />
+            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Row="8" FontWeight="Light" />
+            <PasswordBox Name="PasswordRepeat" Grid.Row="9" />
             
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="11">
                 <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Opslaan" Click="Continue_OnClick"
