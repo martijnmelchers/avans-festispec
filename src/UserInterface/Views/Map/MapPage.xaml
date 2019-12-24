@@ -11,9 +11,39 @@
 
 
     <Page.Resources>
+
+        <Style x:Key="PushpinItemStyle" TargetType="map:MapItem">
+            <Setter Property="map:MapPanel.Location" Value="{Binding Location}"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="map:MapItem">
+                        <map:Pushpin Content="{Binding Name}" Foreground="{TemplateBinding Foreground}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Panel.ZIndex" Value="1"/>
+                    <Setter Property="Foreground" Value="OrangeRed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style x:Key="PolylineItemStyle" TargetType="map:MapItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="map:MapItem">
+                        <map:MapPolyline Locations="{Binding Location}" Stroke="Red" StrokeThickness="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <Style x:Key="PointItemStyle" TargetType="map:MapItem">
-
-
             <!--<EventSetter Event="TouchDown" Handler="MapItemTouchDown"/>-->
             <Setter Property="map:MapPanel.Location" Value="{Binding Location}"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -27,7 +57,8 @@
                                     <VisualState x:Name="Disabled"/>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="labelBackground" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="labelBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="labelText" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -55,7 +86,7 @@
                             </Path>
                             <Grid Canvas.Left="15" Canvas.Top="-8">
                                 <Rectangle x:Name="labelBackground" Fill="White" Opacity="0"/>
-                                <Label Background="White" Foreground="Black" FontSize="15" Margin="1"  Content="{Binding Name}">
+                                <Label x:Name="labelText" Opacity="0" Background="White" Foreground="Black" FontSize="15" Margin="1"  Content="{Binding Name}">
                                     <Label.InputBindings>
                                         <MouseBinding Command="{Binding LabelCommand}" MouseAction="LeftClick" />
                                     </Label.InputBindings>
@@ -94,6 +125,31 @@
                                  SelectionMode="Extended"/>
         </map:Map>
         <Label Content="Filters" HorizontalAlignment="Left" Margin="217,148,0,0" VerticalAlignment="Top"/>
-            
+        <Label Content="Medewerkers" Margin="250,177,1515,0" VerticalAlignment="Top"/>
+        <Label Content="Festivals" Margin="250,206,1515,0" VerticalAlignment="Top"/>
+        <Label Content="Klanten" Margin="250,235,1515,0" VerticalAlignment="Top"/>
+        <CheckBox Command="{Binding CheckboxCheckedCommand}"  IsChecked="{Binding MedewerkerChecked}" RenderTransformOrigin="0.119,0.188" Margin="0,178,1675,0" HorizontalAlignment="Right" Height="24" VerticalAlignment="Top"/>
+        <CheckBox Command="{Binding CheckboxCheckedCommand}"  IsChecked="{Binding FestivalChecked}" RenderTransformOrigin="0.119,0.188" Margin="0,207,1675,0" HorizontalAlignment="Right" Height="24" VerticalAlignment="Top"/>
+        <CheckBox Command="{Binding CheckboxCheckedCommand}"  IsChecked="{Binding KlantChecked}" RenderTransformOrigin="0.119,0.188" Margin="0,236,1675,0" HorizontalAlignment="Right" Height="24" VerticalAlignment="Top"/>
+
+
+
+        <Path  StrokeThickness="2" Fill="Cyan" Margin="410,182,1494,0" Stroke="Gray" Stretch="Fill" Height="16" VerticalAlignment="Top">
+            <Path.Data>
+                <EllipseGeometry RadiusX="8" RadiusY="8"/>
+            </Path.Data>
+        </Path>
+        <Path  StrokeThickness="2" Fill="Red" Margin="0,211,1494,0" Stroke="Gray" Stretch="Fill" HorizontalAlignment="Right" Width="16" Height="16" VerticalAlignment="Top">
+            <Path.Data>
+                <EllipseGeometry RadiusX="8" RadiusY="8"/>
+            </Path.Data>
+        </Path>
+        <Path  StrokeThickness="2" Fill="Blue" Margin="0,240,1494,0" Stroke="Gray" Stretch="Fill" HorizontalAlignment="Right" Width="16" Height="16" VerticalAlignment="Top">
+            <Path.Data>
+                <EllipseGeometry RadiusX="8" RadiusY="8"/>
+            </Path.Data>
+        </Path>
+        <Button Content="Terug" Command="{Binding BackCommand}"
+                        Style="{DynamicResource ButtonGreen}" Width="100" Margin="278,0,1462,69" Height="50" VerticalAlignment="Bottom" />
     </Grid>
 </Page>

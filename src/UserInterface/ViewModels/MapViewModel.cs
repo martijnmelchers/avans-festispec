@@ -13,6 +13,7 @@ using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
+using System.Windows;
 
 namespace Festispec.UI.ViewModels
 {
@@ -28,6 +29,7 @@ namespace Festispec.UI.ViewModels
         public SolidColorBrush DotColor { get; set; }
 
         public ICommand LabelCommand { get; set; }
+        public ICommand PointCommand { get; set; }
 
         public PointItem()
         {
@@ -66,22 +68,49 @@ namespace Festispec.UI.ViewModels
     public class MapViewModel : ViewModelBase
     {
 
-        public ObservableCollection<PointItem> Points { get; } = new ObservableCollection<PointItem>();
+        public ObservableCollection<PointItem> Points { get; set; } = new ObservableCollection<PointItem>();
+        private List<PointItem> CachePoints = new List<PointItem>();
 
+        public bool InspecteurChecked { get; set; } = true;
+        public bool MedewerkerChecked { get; set; } = true;
+        public bool KlantChecked      { get; set; } = true;
+        public bool FestivalChecked   { get; set; } = true;
+
+        
         private GoogleMapsService _googleMapsService;
         private IFestivalService _festivalService;
         private IFrameNavigationService _navigationService;
+        private ICustomerService _customerService;
 
-        public MapViewModel(IFrameNavigationService navigationService, GoogleMapsService googleMapsService, IFestivalService festivalService) {
+        public ICommand CheckboxCheckedCommand { get; set; }
+
+        public MapViewModel(
+            IFrameNavigationService navigationService,
+            GoogleMapsService googleMapsService,
+            IFestivalService festivalService,
+            ICustomerService customerService
+        )
+        {
             _googleMapsService = googleMapsService;
             _festivalService = festivalService;
             _navigationService = navigationService;
+            _customerService = customerService;
 
+            CheckboxCheckedCommand = new RelayCommand(FilterPoints);
+
+            LoadPoints();
+            FilterPoints();
+        }
+
+
+        private void LoadPoints()
+        {
             var festivals = _festivalService.GetFestivals();
+            var customers = _customerService.GetAllCustomers();
 
-            foreach( var festival in festivals)
+            foreach (var festival in festivals)
             {
-                Points.Add(new PointItem()
+                CachePoints.Add(new PointItem()
                 {
                     Name = festival.FestivalName,
                     Location = new Location(festival.Address.Latitude, festival.Address.Longitude),
@@ -92,17 +121,50 @@ namespace Festispec.UI.ViewModels
                 });
             }
 
-        }
+            foreach(var customer in customers)
+            {
+                CachePoints.Add(new PointItem()
+                {
+                    Name = customer.CustomerName,
+                    Location = new Location(customer.Address.Latitude, customer.Address.Longitude),
+                    DestinationParameter = customer.Id,
+                    DestinationView = "EditCustomer",
+                    Parent = this,
+                    DotColor = new SolidColorBrush(Colors.Blue)
+                });
+            }
+        }    
+        
 
         public void Navigate(string DestinationView, object DestinationParameter)
         {
-            _navigationService.NavigateTo("FestivalInfo", 1);
+            _navigationService.NavigateTo(DestinationView, DestinationParameter);
         }
 
 
         private void FilterPoints()
         {
+            Points.Clear();
             // Check which items are checked and add them to the points list.
+            foreach(var point in CachePoints)
+            {
+                switch (point.DestinationView)
+                {
+                    case "EditCustomer":
+                        if (KlantChecked)
+                            Points.Add(point);
+                    break;
+
+                    case "FestivalInfo":
+                        if (FestivalChecked)
+                            Points.Add(point);
+                    break;
+
+                    default:
+                    break;
+                }
+            }
+
         }
 
     }
