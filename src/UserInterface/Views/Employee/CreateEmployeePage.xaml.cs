@@ -26,10 +26,5 @@ namespace Festispec.UI.Views.Employee
                 VerificationPassword = PasswordRepeat.SecurePassword.Copy()
             });
         }
-
-        private void ClosePopup(object sender, RoutedEventArgs e)
-        {
-            WarningPopup.IsOpen = false;
-        }
     }
 }

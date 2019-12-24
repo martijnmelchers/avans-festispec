@@ -15,17 +15,5 @@ namespace Festispec.UI.Views.Employee
 
             DataContext = scope.ServiceProvider.GetRequiredService<EmployeeViewModel>();
         }
-
-        private void OpenDeleteCheckPopUp(object sender, RoutedEventArgs e)
-        {
-            if (!DeleteWarning.IsOpen)
-                DeleteWarning.IsOpen = true;
-        }
-
-        private void CloseDeleteCheckPopUp(object sender, RoutedEventArgs e)
-        {
-            if (DeleteWarning.IsOpen)
-                DeleteWarning.IsOpen = false;
-        }
     }
 }

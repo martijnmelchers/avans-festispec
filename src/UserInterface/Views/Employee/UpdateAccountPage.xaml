@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Employees"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:AccountViewModel}">
@@ -46,34 +47,8 @@
                 <Button Content="Opslaan" Click="Continue_OnClick"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
-            
-            <Popup x:Name="WarningPopup" IsOpen="{Binding PopupIsOpen}" Placement="Center" AllowsTransparency="True">
-                <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
-                    <StackPanel Orientation="Vertical" Background="White">
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <TextBlock Text="ACCOUNT WIJZIGEN" Style="{DynamicResource Header}" />
-                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5"
-                                       Fill="#FF4A4A" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <Label Content="{Binding ValidationError}" />
-                            <Label Content="Controleer de ingevoerde data en probeer het opnieuw." />
-                        </StackPanel>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
-                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0" />
-                        </Grid>
-                    </StackPanel>
-                </Border>
-            </Popup>
-
         </Grid>
+        
+        <controls:ValidationPopup Caption="Account wijzigen" />
     </Grid>
 </Page>

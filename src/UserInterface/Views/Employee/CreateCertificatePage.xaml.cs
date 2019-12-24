@@ -15,10 +15,5 @@ namespace Festispec.UI.Views.Employee
 
             DataContext = scope.ServiceProvider.GetRequiredService<CertificateViewModel>();
         }
-        
-        private void ClosePopup(object sender, RoutedEventArgs e)
-        {
-            WarningPopup.IsOpen = false;
-        }
     }
 }

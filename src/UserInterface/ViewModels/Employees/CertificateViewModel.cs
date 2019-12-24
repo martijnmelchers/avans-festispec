@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Employees
 {
-    public class CertificateViewModel : BaseValidationViewModel
+    public class CertificateViewModel : BaseDeleteCheckViewModel
     {
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
@@ -37,6 +37,7 @@ namespace Festispec.UI.ViewModels.Employees
             EmployeeId = Certificate.Employee.Id;
             NavigateBackCommand = new RelayCommand(NavigateBack);
             RemoveCommand = new RelayCommand(RemoveCertificate);
+            OpenDeleteCheckCommand = new RelayCommand(OpenDeleteCheck);
         }
 
         public Certificate Certificate { get; }
@@ -48,6 +49,13 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand NavigateBackCommand { get; }
 
         public ICommand RemoveCommand { get; }
+        
+        public ICommand OpenDeleteCheckCommand { get; }
+        
+        private void OpenDeleteCheck()
+        {
+            DeletePopupIsOpen = true;
+        }
 
         private async void RemoveCertificate()
         {

@@ -9,7 +9,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Employees
 {
-    public class EmployeeViewModel : BaseValidationViewModel
+    public class EmployeeViewModel : BaseDeleteCheckViewModel
     {
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
@@ -25,13 +25,11 @@ namespace Festispec.UI.ViewModels.Employees
                 Employee = _employeeService.GetEmployee(customerId);
                 CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
-                Caption = "Medewerker Toevoegen";
             }
             else
             {
                 Employee = new Employee {Account = new Account()};
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
-                Caption = "Medewerker Wijzigen";
             }
 
             CancelCommand = new RelayCommand(NavigateToAccount);
@@ -39,6 +37,7 @@ namespace Festispec.UI.ViewModels.Employees
             EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
             EditAccountCommand = new RelayCommand(NavigateToEditAccount);
             NavigateBackCommand = new RelayCommand(NavigateBack);
+            OpenDeleteCheckCommand = new RelayCommand(OpenDeleteCheck);
         }
 
         public Employee Employee { get; }
@@ -55,6 +54,13 @@ namespace Festispec.UI.ViewModels.Employees
         public bool CanDeleteEmployee { get; }
 
         public ICommand ViewCertificatesCommand { get; }
+
+        public ICommand OpenDeleteCheckCommand { get; }
+
+        private void OpenDeleteCheck()
+        {
+            DeletePopupIsOpen = true;
+        }
 
         private void ViewCertificates()
         {
