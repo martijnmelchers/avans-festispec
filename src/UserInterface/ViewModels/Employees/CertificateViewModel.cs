@@ -36,7 +36,7 @@ namespace Festispec.UI.ViewModels.Employees
 
             EmployeeId = Certificate.Employee.Id;
             NavigateBackCommand = new RelayCommand(NavigateBack);
-            RemoveCommand = new RelayCommand(RemoveCertificate);
+            DeleteCommand = new RelayCommand(RemoveCertificate);
             OpenDeleteCheckCommand = new RelayCommand(OpenDeleteCheck);
         }
 
@@ -47,8 +47,6 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand SaveCommand { get; }
 
         public ICommand NavigateBackCommand { get; }
-
-        public ICommand RemoveCommand { get; }
         
         public ICommand OpenDeleteCheckCommand { get; }
         

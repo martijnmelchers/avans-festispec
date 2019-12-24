@@ -33,7 +33,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
 
             CancelCommand = new RelayCommand(NavigateToAccount);
-            RemoveEmployeeCommand = new RelayCommand(RemoveEmployee);
+            DeleteCommand = new RelayCommand(RemoveEmployee);
             EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
             EditAccountCommand = new RelayCommand(NavigateToEditAccount);
             NavigateBackCommand = new RelayCommand(NavigateBack);
@@ -43,7 +43,6 @@ namespace Festispec.UI.ViewModels.Employees
         public Employee Employee { get; }
 
         public ICommand SaveCommand { get; }
-        public ICommand RemoveEmployeeCommand { get; set; }
         public ICommand CancelCommand { get; }
         public ICommand EditEmployeeCommand { get; }
 
