@@ -6,7 +6,6 @@ namespace Festispec.UI.ViewModels
     {
         private bool _popupIsOpen;
         private string _validationError;
-        private string _caption;
 
         public bool PopupIsOpen
         {
