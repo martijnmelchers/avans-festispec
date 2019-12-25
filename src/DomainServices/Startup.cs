@@ -18,6 +18,7 @@ namespace Festispec.DomainServices
             services.AddScoped<ICustomerService, CustomerService>();
 
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<ISicknessService, SicknessService>();
 
             services.AddScoped<FestispecContext>();
 
