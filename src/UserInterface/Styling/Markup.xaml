@@ -83,6 +83,4 @@
         <Setter Property="FontSize" Value="30"/>
         <Setter Property="TextDecorations" Value="None" />
     </Style>
-
-
 </ResourceDictionary>
