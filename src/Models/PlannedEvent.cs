@@ -10,7 +10,6 @@ namespace Festispec.Models
         [Required]
         public DateTime StartTime { get; set; }
 
-        [Required]
         public DateTime EndTime { get; set; }
 
         [Required, MaxLength(45)]

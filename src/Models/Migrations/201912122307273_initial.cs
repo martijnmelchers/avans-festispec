@@ -66,7 +66,7 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         StartTime = c.DateTime(nullable: false),
-                        EndTime = c.DateTime(nullable: false),
+                        EndTime = c.DateTime(),
                         EventTitle = c.String(nullable: false, maxLength: 45),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
