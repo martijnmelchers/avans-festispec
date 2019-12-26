@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Log in";
+}
+
+@model Festispec.Models.Account
+
+    <html>
+    <head>
+        <title>FestiSpec Inloggen</title>
+        <link rel="stylesheet" href=@Url.Content("~/css/site.css")/>
+    </head>
+    <body id="inlog-body">
+
+        <div class="inlog-text">
+            <h1>Welkom!</h1>
+            <p>Om in te loggen, vul je gegevens in.</p>
+        </div>
+
+        @using (Html.BeginForm("Login", "Authentication", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <fieldset>
+                <div class="inlog-field">
+                    <label for="gebruikersnaam">Gebruikersnaam:</label>
+                    @Html.TextBoxFor(m => m.Username, new { id = "username", name = "gebruikersnaam" })
+                </div>
+                <div class="inlog-field">
+                    <label for="wachtwoord">Wachtwoord:</label>
+                    @Html.PasswordFor(m => m.Password, new { id = "password", name = "wachtwoord" })
+                    <input type="submit" value="Inloggen" id="inlogknop">
+                    <p id="login-error">@TempData["LoginError"]</p>
+                </div>
+            </fieldset>
+        }
+
+    </body>
+    </html>
+    
+    
+    
