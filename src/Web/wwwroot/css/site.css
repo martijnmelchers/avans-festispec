@@ -72,7 +72,17 @@ body {
 
 
 /* Styling voor login view */
+#festispec-logo-login {
+    width: 300px;
+    height: auto;
+    margin-bottom: 50px;
+
+    display: flex;
+    align-items: center;
+}
+
 .inlog-text {
+    margin-top: 20px;
     font-family: Montserrat;
     font: bold;
     color: #707070;
@@ -133,6 +143,7 @@ body {
     width: 250px;
     color: red;
     font-size: 15px;
+    margin-top: 15px;
 
     display: flex;
     text-align: center;
