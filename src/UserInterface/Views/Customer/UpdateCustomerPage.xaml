@@ -94,8 +94,8 @@
             <TextBox Grid.Column="2" Grid.Row="5"
                      Text="{Binding Customer.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
-                <Button Content="Annuleren" Command="{Binding CancelCommand}"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+                <Button Content="Annuleren" Command="{Binding NavigateToCustomerInfoCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
