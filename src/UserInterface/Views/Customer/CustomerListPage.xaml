@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:CustomerListViewModel}">
@@ -25,11 +26,14 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="KLANTEN ZOEKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
-            
-            <TextBox HorizontalAlignment="Right" FontSize="30" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466" Height="64" Grid.Row="0" Grid.Column="1"/>
-            <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}" Grid.Row="0" Grid.Column="1" Margin="0,0,10,0"/>
-            
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+
+            <TextBox HorizontalAlignment="Right" FontSize="30"
+                     Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466"
+                     Height="64" Grid.Row="0" Grid.Column="1" />
+            <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}"
+                   Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" />
+
             <ListView ItemsSource="{Binding CustomerList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

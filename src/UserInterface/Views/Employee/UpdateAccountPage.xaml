@@ -29,7 +29,7 @@
             
             <TextBlock Text="ACCOUNT WIJZIGEN"
                        Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
             <Label Content="{Binding Account.Employee.Name}" Grid.Row="1" />
 
             <Label Content="Gebruikersnaam" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
