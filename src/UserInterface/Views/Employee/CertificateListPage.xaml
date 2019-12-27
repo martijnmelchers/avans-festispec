@@ -69,7 +69,7 @@
             </ListView>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right">
-                <Button Content="Terug" Command="{Binding NavigateBackCommand}" Style="{DynamicResource ButtonRed}"
+                <Button Content="Terug" Command="{Binding NavigateToEmployeeInfoCommand}" Style="{DynamicResource ButtonRed}"
                         Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,10,0" />
                 <Button Content="Nieuw" Command="{Binding AddNewCertificateCommand}" Style="{DynamicResource ButtonGreen}"
                         Height="50" Width="185" HorizontalAlignment="Right" />
