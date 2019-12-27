@@ -8,8 +8,6 @@ using Festispec.Models;
 using System.Data.Entity;
 using System.Collections.Generic;
 using Festispec.Models.Answers;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -179,21 +177,19 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Answer> CreateAnswer(Answer answer)
         {
-            var existing = await _db.Answers.FirstOrDefaultAsync(x => x.Question.Id == answer.Question.Id && x.PlannedInspection.Id == answer.PlannedInspection.Id);
-
-            if (existing != null)
-                throw new EntityExistsException();
-
-
             if (!answer.Validate())
                 throw new InvalidDataException();
 
             _db.Answers.Add(answer);
 
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return answer;
+        }
+
+        List<Answer> IQuestionnaireService.getAnswers()
+        {
+            return _db.Answers.ToList();
         }
         #endregion
     }

@@ -1,0 +1,56 @@
+{
+  "_from": "responsive-sketchpad",
+  "_id": "responsive-sketchpad@0.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-IlCQ7rnB6xg7WpXkVI6i3kL+7oN5zdmxgUq73KX4doQGXjsuB1uaPFppx3GtRwC6getNZr90zvvB2FdVO4uOFQ==",
+  "_location": "/responsive-sketchpad",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "responsive-sketchpad",
+    "name": "responsive-sketchpad",
+    "escapedName": "responsive-sketchpad",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/responsive-sketchpad/-/responsive-sketchpad-0.2.1.tgz",
+  "_shasum": "8e5dd85f9ca073e320ab1489bafd82625ae84cdc",
+  "_spec": "responsive-sketchpad",
+  "_where": "C:\\Users\\Stijn Toemen\\OneDrive - Avans Hogeschool\\Stijn\\Blok 6\\avans-festispec\\src\\Web",
+  "author": {
+    "name": "Theisen Sanders"
+  },
+  "bugs": {
+    "url": "https://github.com/theisensanders-wf/responsive-sketchpad/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A completely responsive sketchpad based on HTML5 canvas",
+  "devDependencies": {
+    "jasmine": "^2.3.2"
+  },
+  "homepage": "https://github.com/theisensanders-wf/responsive-sketchpad#readme",
+  "keywords": [
+    "canvas",
+    "sketchpad",
+    "responsive",
+    "draw"
+  ],
+  "license": "MIT",
+  "main": "responsive-sketchpad.js",
+  "name": "responsive-sketchpad",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theisensanders-wf/responsive-sketchpad.git"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "version": "0.2.1"
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Responsive Sketchpad</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="assets/normalize.css">
+  <link rel="stylesheet" href="assets/skeleton.css">
+  <link rel="stylesheet" href="assets/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- Google Analytics
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-33670860-4', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <section class="text-center">
+      <h2>Responsive Sketchpad</h2>
+      <h5>A completely responsive, HTML5 canvas sketchpad for use on desktop and mobile browsers</h5>
+    </section>
+
+    <section>
+      <div class="row">
+        <div class="two-thirds column">
+          <div id="sketchpad"></div>
+          <em>Try resizing the window!</em>
+        </div>
+        <div class="one-third column">
+          <label for="line-color-input">Set Line Color</label>
+          <input class="u-full-width" type="text" value="#000000" id="line-color-input">
+          <label for="line-size-input">Set Line Size</label>
+          <input class="u-full-width" type="number" value="5" id="line-size-input">
+          <div class="row">
+            <div class="one-half column">
+              <button class="u-full-width" id="undo">Undo</button>
+            </div>
+            <div class="one-half column">
+              <button class="u-full-width" id="redo">Redo</button>
+            </div>
+            <button class="u-full-width" id="clear">Clear</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Basic Usage</h3>
+
+<pre><code>var Sketchpad = require('responsive-sketchpad');
+
+// Initialize Sketchpad
+var el = document.getElementById('sketchpad');
+var pad = new Sketchpad(el, {
+    line: {
+        color: '#f44335',
+        size: 5
+    }
+});
+
+// Set line color
+pad.setLineColor('#f44336');
+
+// Set line size
+pad.setLineSize(10);
+
+// Undo
+pad.undo();
+
+// Redo
+pad.redo();
+
+// Clear canvas
+pad.clear();
+
+// Resize canvase
+pad.resize(newWidth);
+</code></pre>
+    </section>
+  </div>
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="responsive-sketchpad.js"></script>
+  <script>
+    var el = document.getElementById('sketchpad');
+    var pad = new Sketchpad(el);
+
+    // setLineColor
+    function setLineColor(e) {
+        var color = e.target.value;
+        if (!color.startsWith('#')) {
+            color = '#' + color;
+        }
+        pad.setLineColor(color);
+    }
+    document.getElementById('line-color-input').oninput = setLineColor;
+
+    // setLineSize
+    function setLineSize(e) {
+        var size = e.target.value;
+        pad.setLineSize(size);
+    }
+    document.getElementById('line-size-input').oninput = setLineSize;
+
+    // undo
+    function undo() {
+        pad.undo();
+    }
+    document.getElementById('undo').onclick = undo;
+
+    // redo
+    function redo() {
+        pad.redo();
+    }
+    document.getElementById('redo').onclick = redo;
+
+    // clear
+    function clear() {
+        pad.clear();
+    }
+    document.getElementById('clear').onclick = clear;
+
+    // resize
+    window.onresize = function (e) {
+      pad.resize(el.offsetWidth);
+    }
+  </script>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

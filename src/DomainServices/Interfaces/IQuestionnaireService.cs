@@ -24,6 +24,6 @@ namespace Festispec.DomainServices.Interfaces
         void Save();
 
         List<Question> GetQuestionsFromQuestionnaire(int questionnaireId);
-
+        List<Answer> getAnswers();
     }
 }

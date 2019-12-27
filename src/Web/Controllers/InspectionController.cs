@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models.Answers;
+using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,90 +27,114 @@ namespace Festispec.Web.Controllers
         // GET: Inspection/Details/5
         public ActionResult Details(int id)
         {
-            return View(_questionnaireService.GetPlannedInspections(id));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Details(int id, List<Answer> answers )
-        {
-            foreach (var item in answers)
+            var plannedInspection = _questionnaireService.GetPlannedInspections(id);
+            var answers = new List<Answer>(plannedInspection.Answers);
+            foreach (var question in plannedInspection.Questionnaire.Questions)
             {
-                if (ModelState.IsValid)
+                //check if question exists
+                var question1 = question;
+                if (question is Festispec.Models.Questions.ReferenceQuestion)
                 {
-                    await _questionnaireService.CreateAnswer(item);
+                    question1 = (question as Festispec.Models.Questions.ReferenceQuestion).Question;
+                    question1.Id = question.Id;
+                    question1.Contents = question.Contents;
+                }
+
+                if (!question1.Answers.Any(e=> e.PlannedInspection.Id == plannedInspection.Id))
+                {
+                   
+                    
+                    switch (question1)
+                    {
+                        case Festispec.Models.Questions.NumericQuestion nq:
+                            answers.Add(new Festispec.Models.Answers.NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        case Festispec.Models.Questions.RatingQuestion rq:
+                            answers.Add(new Festispec.Models.Answers.NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        case Festispec.Models.Questions.MultipleChoiceQuestion mq:
+                            answers.Add(new Festispec.Models.Answers.MultipleChoiceAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        case Festispec.Models.Questions.StringQuestion sq:
+                            answers.Add(new Festispec.Models.Answers.StringAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        case Festispec.Models.Questions.DrawQuestion dq:
+                            answers.Add(new Festispec.Models.Answers.FileAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        case Festispec.Models.Questions.UploadPictureQuestion upq:
+                            answers.Add(new Festispec.Models.Answers.FileAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-            return View(_questionnaireService.GetPlannedInspections(id));
+            ViewBag.answers = answers;
+            return View(plannedInspection);
         }
 
-        // GET: Inspection/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Inspection/Create
+        //String answer
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> SaveStringAnswer(StringAnswer stringAnswer)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            int questionId = int.Parse(Request.Form["QuestionId"].ToString());
+            stringAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == stringAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            stringAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(stringAnswer.PlannedInspection.Id);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (stringAnswer.Id != 0)
+                (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == stringAnswer.Id) as StringAnswer).AnswerContents = stringAnswer.AnswerContents;
+            else await _questionnaireService.CreateAnswer(stringAnswer);
+            await _questionnaireService.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = stringAnswer.PlannedInspection.Id });
         }
-
-        // GET: Inspection/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Inspection/Edit/5
+        //file answer
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> SaveFileAnswer(IFormFile file)
         {
-            try
-            {
-                // TODO: Add update logic here
+            FileAnswer fileAnswer = new FileAnswer();
+            int questionId = int.Parse(Request.Form["QuestionId"].ToString());
+            fileAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
+            fileAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == fileAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            fileAnswer.UploadedFilePath = file.FileName;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (fileAnswer.Id != 0)
+                (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = fileAnswer.UploadedFilePath;
+            else await _questionnaireService.CreateAnswer(fileAnswer);
+            await _questionnaireService.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = fileAnswer.PlannedInspection.Id });
         }
 
-        // GET: Inspection/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Inspection/Delete/5
+        //MultipleChoice Answer
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> SaveMultipleChoiceAnswer(MultipleChoiceAnswer multipleChoiceAnswer)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            int questionId = int.Parse(Request.Form["QuestionId"].ToString());
+            multipleChoiceAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == multipleChoiceAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            multipleChoiceAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(multipleChoiceAnswer.PlannedInspection.Id);
+            if (multipleChoiceAnswer.Id != 0)
+                (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == multipleChoiceAnswer.Id) as MultipleChoiceAnswer).MultipleChoiceAnswerKey = multipleChoiceAnswer.MultipleChoiceAnswerKey;
+            else await _questionnaireService.CreateAnswer(multipleChoiceAnswer);
+            await _questionnaireService.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = multipleChoiceAnswer.PlannedInspection.Id });
         }
+
+        //Numeric Answer
+        [HttpPost]
+        public async Task<ActionResult> SaveNumericAnswer(NumericAnswer numericAnswer)
+        {
+            
+            int questionId = int.Parse(Request.Form["QuestionId"].ToString());
+            numericAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == numericAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            numericAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(numericAnswer.PlannedInspection.Id);
+            if (numericAnswer.Id != 0)
+            {
+                (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == numericAnswer.Id) as NumericAnswer).IntAnswer = numericAnswer.IntAnswer;
+                await _questionnaireService.SaveChangesAsync();
+            }
+            else await _questionnaireService.CreateAnswer(numericAnswer);
+            return RedirectToAction("Details", new { id = numericAnswer.PlannedInspection.Id });
+        }
+       
 
     }
 }

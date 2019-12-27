@@ -1,0 +1,7 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "devDependencies": {
+    "responsive-sketchpad": "^0.2.1"
+  }
+}

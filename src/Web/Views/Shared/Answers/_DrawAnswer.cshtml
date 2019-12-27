@@ -1,0 +1,12 @@
+﻿@model Festispec.Models.Answers.FileAnswer
+
+<h4>@Model.Question.Contents</h4>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.ActionLink("Tekenen", "Draw", "Draw", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    </div>
+</div>
