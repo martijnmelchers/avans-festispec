@@ -30,21 +30,52 @@ namespace Festispec.Models.Migrations
 
             try
             {
-                var employee = CreateEmployee(context);
+                var address = new Address
+                {
+                    Id = 1,
+                    StreetName = "Isolatorweg",
+                    HouseNumber = 36,
+                    ZipCode = "1014AS",
+                    City = "Amsterdam",
+                    Country = "Nederland",
+                    Latitude = 52.39399f,
+                    Longitude = 4.8507514f
+                };
+
+                var address2 = new Address
+                {
+                    Id = 2,
+                    Country = "Duitsland",
+                    StreetName = "Flughafen-Ring",
+                    HouseNumber = 16,
+                    City = "Weeze",
+                    ZipCode = "NW47652",
+                    Latitude = 51.5924149f,
+                    Longitude = 6.1545434f
+                };
+
+                var address3 = new Address
+                {
+                    Id = 3,
+                    City = "Utrecht",
+                    Country = "Nederland",
+                    HouseNumber = 59,
+                    StreetName = "Chopinstraat",
+                    ZipCode = "3533EL",
+                    Latitude = 52.0857048f,
+                    Longitude = 5.08541441f
+                };
+
+                context.Addresses.AddOrUpdate(address, address2, address3);
+
+                var employee = CreateEmployee(context, address3);
 
                 var customer = new Customer
                 {
                     Id = 1,
                     CustomerName = "Q-DANCE",
                     KvkNr = 34212891,
-                    Address = new Address
-                    {
-                        StreetName = "Isolatorweg",
-                        HouseNumber = 36,
-                        ZipCode = "1014AS",
-                        City = "Amsterdam",
-                        Country = "Nederland"
-                    },
+                    Address = address,
                     ContactDetails = new ContactDetails
                     {
                         EmailAddress = "info@q-dance.com",
@@ -88,14 +119,7 @@ namespace Festispec.Models.Migrations
                     FestivalName = "Q-BASE",
                     Customer = customer,
                     Description = "Nachtfestival over de grens",
-                    Address = new Address
-                    {
-                        Country = "Duitsland",
-                        StreetName = "Flughafen-Ring",
-                        HouseNumber = 16,
-                        City = "Weeze",
-                        ZipCode = "NW47652"
-                    },
+                    Address = address2,
                     OpeningHours = new OpeningHours
                     {
                         StartTime = new TimeSpan(18, 0, 0),
@@ -340,7 +364,7 @@ namespace Festispec.Models.Migrations
             }
         }
 
-        private static Employee CreateEmployee(FestispecContext context)
+        private static Employee CreateEmployee(FestispecContext context, Address address)
         {
             var employee = new Employee
             {
@@ -360,14 +384,7 @@ namespace Festispec.Models.Migrations
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
                     Role = Role.Inspector
                 },
-                Address = new Address
-                {
-                    City = "Utrecht",
-                    Country = "Nederland",
-                    HouseNumber = 59,
-                    StreetName = "Chopinstraat",
-                    ZipCode = "3533EL"
-                },
+                Address = address,
                 ContactDetails = new ContactDetails
                 {
                     EmailAddress = "hjanssen80@gmail.com",

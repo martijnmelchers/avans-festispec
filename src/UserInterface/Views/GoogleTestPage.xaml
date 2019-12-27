@@ -18,8 +18,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Rectangle Style="{DynamicResource InnerContextBox}" Height="50" HorizontalAlignment="Stretch" Grid.ColumnSpan="3"/>
-                        <Label Content="{Binding Description}" VerticalAlignment="Center" Padding="20,0,0,0" Grid.Column="0"/>
+                        <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="5"/>
+                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="500"   Padding="20,0,0,0" Grid.Column="0"/>
                         <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
                                 <Hyperlink Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource EyeGreen}" />
