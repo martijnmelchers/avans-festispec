@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
@@ -15,7 +15,7 @@ namespace Festispec.UI
             var services = new ServiceCollection();
 
             //  Register Viewmodels here
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             #region Festival ViewModels
             services.AddTransient<FestivalViewModel>();
@@ -32,11 +32,9 @@ namespace Festispec.UI
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
             #endregion
-
-            #region InspectionViewModels
             services.AddTransient<InspectionViewModel>();
-            
-            #endregion
+
+            services.AddTransient<RapportPreviewViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -60,6 +58,10 @@ namespace Festispec.UI
             navigationService.Configure("FestivalList", new Uri("../Views/Festival/FestivalListPage.xaml", UriKind.Relative));
             #endregion
 
+            #region inspection route
+            navigationService.Configure("Inspection", new Uri("../Views/Inspection/InspectionPage.xaml", UriKind.Relative));
+            #endregion
+
             #region Questionnaire Routes
             navigationService.Configure("Questionnaire", new Uri("../Views/Questionnaire/QuestionnairePage.xaml", UriKind.Relative));
             #endregion
@@ -70,9 +72,17 @@ namespace Festispec.UI
             navigationService.Configure("UpdateCustomer", new Uri("../Views/Customer/UpdateCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
-            #region plannedInspection   
-            navigationService.Configure("PlannedInspection", new Uri("../Views/InspectionPage.xaml", UriKind.Relative));
+
+            #region Login Routes
+            navigationService.Configure("LoginPageEmployee", new Uri("../Views/Login/LoginPageEmployee.xaml", UriKind.Relative));
             #endregion
+
+            #region Home Routes
+            navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
+            #endregion
+
+            navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+
             return navigationService;
         }
 

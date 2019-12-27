@@ -42,6 +42,7 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             _questionFactory = questionFactory;
 
+            
             Initialize((int)_navigationService.Parameter);
 
             _addedQuestions = new ObservableCollection<Question>();

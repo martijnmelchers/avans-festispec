@@ -1,4 +1,4 @@
-﻿using Festispec.Models.Interfaces;
+using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Answers
 {

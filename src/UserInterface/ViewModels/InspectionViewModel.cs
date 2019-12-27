@@ -284,7 +284,7 @@ namespace Festispec.UI.ViewModels
                 try
                 {
                     var plannedInspection = await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
-                    await _inspectionService.RemoveInspection(plannedInspection.Id);
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "test");
                 }
                 catch (Exception e)
                 {

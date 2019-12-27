@@ -12,8 +12,5 @@
     <Page Update="Styling\Icons.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\InspectionPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>

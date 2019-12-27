@@ -1,4 +1,4 @@
-﻿<Page x:Class="Festispec.UI.Views.FestivalPage"
+<Page x:Class="Festispec.UI.Views.FestivalPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -37,7 +37,7 @@
             <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
         </Label>
 
-        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="510,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}"/>
+        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="133,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}" RenderTransformOrigin="-1.516,0.568"/>
 
         <Grid>
             <Rectangle Style="{DynamicResource ContentBox}" Margin="1357,50,56,80" />
@@ -81,7 +81,7 @@
             <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
 
-        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="300,0,0,110" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
         <Grid Margin="800,100,625,100">
             <Grid.RowDefinitions>
@@ -185,6 +185,7 @@
                 </StackPanel>
             </Border>
         </Popup>
+        <Button Content="Rapport" HorizontalAlignment="Left" Margin="539,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding GenerateReportCommand}"/>
     </Grid>
 
 

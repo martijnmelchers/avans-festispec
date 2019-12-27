@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
@@ -37,6 +37,7 @@ namespace Festispec.UI.ViewModels
         public ICommand RemoveFestivalCommand { get; set; }
         public ICommand CreateQuestionnaireCommand { get; set; }
         public ICommand ConfirmDeleteQuestionnaireCommand { get; set; }
+        public ICommand GenerateReportCommand { get; set; }
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
 
@@ -58,6 +59,9 @@ namespace Festispec.UI.ViewModels
             CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire);
             ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
+            GenerateReportCommand = new RelayCommand(GenerateReport);
+
+
 
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
@@ -95,16 +99,16 @@ namespace Festispec.UI.ViewModels
 
         public void OpenPlannedInspection(PlannedInspection plannedInspection)
         {
-            _navigationService.NavigateTo("InspectionPage",new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1} );
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1} );
         }
 
         public void CreatePlannedInspection()
         {
-            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = -1, FestivalId = Festival.Id });
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = -1, FestivalId = Festival.Id });
         }
         public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
         {
-            _navigationService.NavigateTo("PlannedInspection", new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 });
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 });
 
         }
 
@@ -177,5 +181,10 @@ namespace Festispec.UI.ViewModels
             _deletetingQuestionnareId = id;
         }
 
+
+        private void GenerateReport()
+        {
+            _navigationService.NavigateTo("GenerateReport", Festival.Id);
+        }
     }
 }
