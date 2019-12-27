@@ -11,5 +11,6 @@ namespace Festispec.DomainServices.Interfaces
         Task AddAbsense(Employee employee, string reason, DateTime endDate);
         Task EndAbsense(int employeeId);
         bool IsSick(int employeeId);
+
     }
 }

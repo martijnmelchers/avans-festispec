@@ -32,7 +32,7 @@ namespace Festispec.DomainServices.Services
             if (!absense.Validate())
                 throw new InvalidDataException();
 
-            _db.Availabilities.Add(absense);
+            _db.PlannedEvents.Add(absense);
 
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
@@ -64,5 +64,9 @@ namespace Festispec.DomainServices.Services
 
             return absense != null;
         }
+
+        
+
+
     }
 }
