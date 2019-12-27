@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Customers
 {
-    public class CustomerViewModel
+    public class CustomerViewModel : BaseDeleteCheckViewModel
     {
         private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
@@ -71,9 +71,15 @@ namespace Festispec.UI.ViewModels.Customers
                 await _customerService.CreateCustomerAsync(Customer);
                 NavigateBack();
             }
+            catch (InvalidDataException)
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
+            }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while adding a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})";
+                PopupIsOpen = true;
             }
         }
 
@@ -84,9 +90,15 @@ namespace Festispec.UI.ViewModels.Customers
                 await _customerService.SaveChangesAsync();
                 _navigationService.NavigateTo("CustomerInfo", Customer.Id);
             }
+            catch (InvalidDataException)
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
+            }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while editing a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})";
+                PopupIsOpen = true;
             }
         }
 

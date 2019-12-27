@@ -29,22 +29,5 @@ namespace Festispec.UI.Views.Customer
             e.Handled = NumericOnlyRegex.IsMatch(e.Text);
         }
 
-        private void OpenDeleteCheckPopUp(object sender, RoutedEventArgs e)
-        {
-            if (!DeleteWarning.IsOpen)
-                DeleteWarning.IsOpen = true;
-        }
-
-        private void StopDeleteCheckPopUp(object sender, RoutedEventArgs e)
-        {
-            if (DeleteWarning.IsOpen)
-                DeleteWarning.IsOpen = false;
-        }
-
-        private void ContinueDeleteCheckPopUp(object sender, RoutedEventArgs e)
-        {
-            if (DeleteWarning.IsOpen)
-                DeleteWarning.IsOpen = false;
-        }
     }
 }
