@@ -6,7 +6,6 @@ namespace Festispec.UI.Views.Employee
 {
     public partial class CreateEmployeePage
     {
-        
         public CreateEmployeePage()
         {
             InitializeComponent();
