@@ -26,15 +26,15 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Availability avalabillity)
+        public async Task<IActionResult> Index(Availability avalability)
         {
-            _sicknessService.AddAbsense(avalabillity.Employee, avalabillity.Reason, avalabillity.EndTime);
-            return View();
+            await _sicknessService.AddAbsense(avalability.Employee.Id, avalability.Reason, avalability.EndTime);
+            return View("Better");
         }
 
-        public IActionResult Better()
+        public async Task<IActionResult> Better()
         {
-            _sicknessService.EndAbsense(1);
+            await _sicknessService.EndAbsense(1);
             return View("Index");
         }
     }

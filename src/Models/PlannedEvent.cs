@@ -10,7 +10,7 @@ namespace Festispec.Models
         [Required]
         public DateTime StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [Required, MaxLength(45)]
         public string EventTitle { get; set; }

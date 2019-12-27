@@ -17,8 +17,13 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public async Task AddAbsense(Employee employee, string reason, DateTime endTime)
+        public async Task AddAbsense(int employeeId, string reason, DateTime? endTime)
         {
+            if (endTime < DateTime.Now)
+                throw new DateHasPassedException();
+
+            var employee = _db.Employees.FirstOrDefault(e => e.Id == employeeId);
+
             var absense = new Availability()
             {
                 IsAvailable = false,
@@ -32,7 +37,7 @@ namespace Festispec.DomainServices.Services
             if (!absense.Validate())
                 throw new InvalidDataException();
 
-            _db.PlannedEvents.Add(absense);
+            _db.PlannedEvents.Add(absense);          
 
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
@@ -55,7 +60,7 @@ namespace Festispec.DomainServices.Services
         {
             return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId
             && a.EventTitle == "Afwezig wegens ziekte"
-            && a.EndTime <= DateTime.Now);
+            && (a.EndTime >= DateTime.Now || a.EndTime == null));
         }
 
         public bool IsSick(int employeeId)
