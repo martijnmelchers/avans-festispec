@@ -50,15 +50,18 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <Label Content="{Binding CertificateTitle}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <Label Content="{Binding CertificateTitle}" FontWeight="Bold"
+                                       VerticalAlignment="Center" />
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Geldig van " FontWeight="Light" VerticalAlignment="Center" />
-                                    <Label Content="{Binding CertificationDate}" FontWeight="Light" VerticalAlignment="Center" />
+                                    <Label Content="{Binding CertificationDate}" FontWeight="Light"
+                                           VerticalAlignment="Center" />
                                     <Label Content=" tot en met " FontWeight="Light" VerticalAlignment="Center" />
-                                    <Label Content="{Binding ExpirationDate}" FontWeight="Light" VerticalAlignment="Center" />
+                                    <Label Content="{Binding ExpirationDate}" FontWeight="Light"
+                                           VerticalAlignment="Center" />
                                 </StackPanel>
                             </StackPanel>
-                            
+
                             <Button Grid.Column="1" Content="Bewerken"
                                     Command="{Binding DataContext.EditCertificateCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                     CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}"
@@ -71,7 +74,8 @@
             <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right">
                 <Button Content="Terug" Command="{Binding NavigateToEmployeeInfoCommand}" Style="{DynamicResource ButtonRed}"
                         Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                <Button Content="Nieuw" Command="{Binding AddNewCertificateCommand}" Style="{DynamicResource ButtonGreen}"
+                <Button Content="Nieuw" Command="{Binding AddNewCertificateCommand}"
+                        Style="{DynamicResource ButtonGreen}"
                         Height="50" Width="185" HorizontalAlignment="Right" />
             </StackPanel>
         </Grid>

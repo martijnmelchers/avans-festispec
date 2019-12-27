@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Employees"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:EmployeeListViewModel}">
@@ -49,9 +50,11 @@
 
                             <StackPanel Grid.Column="0">
                                 <Label Content="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
-                                <Label Content="{Binding Account.Role, Converter={StaticResource RoleTranslatorConverter}}" FontWeight="Light" VerticalAlignment="Center" />
+                                <Label
+                                    Content="{Binding Account.Role, Converter={StaticResource RoleTranslatorConverter}}"
+                                    FontWeight="Light" VerticalAlignment="Center" />
                             </StackPanel>
-                            
+
 
                             <Button Grid.Column="1" Content="Weergeven"
                                     Command="{Binding DataContext.ViewEmployeeCommand, RelativeSource={RelativeSource AncestorType=Page}}"
