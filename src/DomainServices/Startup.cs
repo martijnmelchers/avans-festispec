@@ -1,9 +1,8 @@
-﻿using Festispec.DomainServices.Factories;
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
 
 namespace Festispec.DomainServices
 {
@@ -18,11 +17,17 @@ namespace Festispec.DomainServices
             services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<GoogleMapsService>();
+
+            services.AddScoped<IQuestionService, QuestionService>();
+
             services.AddScoped<FestispecContext>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
+            
+            // Database initialisation code below
+            using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
 
             return services;
         }

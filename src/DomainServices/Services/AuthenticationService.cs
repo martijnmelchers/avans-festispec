@@ -1,4 +1,4 @@
-﻿
+
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
@@ -17,6 +17,8 @@ namespace Festispec.DomainServices.Services
         public AuthenticationService(FestispecContext db) {
             _db = db;
         }
+
+
         public async Task<Account> Register(string username, string password, Role requiredRole)
         {
             var existing = _db.Accounts.FirstOrDefault(x => x.Username == username);

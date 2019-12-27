@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
 using System.Threading.Tasks;
@@ -6,6 +6,8 @@ using System.Linq;
 using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -103,7 +105,23 @@ namespace Festispec.DomainServices.Services
 
             return question;
         }
-        
+
+
+        public List<Question> GetQuestionsFromQuestionnaire(int questionnaireId)
+        {
+            var questions = _db.Questions.Include(x => x.Answers).Where(q => q.Questionnaire.Id == questionnaireId).ToList();
+
+            if (questions == null)
+                throw new EntityNotFoundException();
+
+            foreach (MultipleChoiceQuestion q in questions.OfType<MultipleChoiceQuestion>())
+                q.StringToObjects();
+
+
+            return questions;
+        }
+
+
         public async Task<Question> AddQuestion(int questionnaireId, Question question)
         {
             var questionnaire = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaireId);

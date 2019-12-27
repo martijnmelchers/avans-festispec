@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
@@ -36,6 +36,7 @@ namespace Festispec.UI.ViewModels
         public ICommand RemoveFestivalCommand { get; set; }
         public ICommand CreateQuestionnaireCommand { get; set; }
         public ICommand ConfirmDeleteQuestionnaireCommand { get; set; }
+        public ICommand GenerateReportCommand { get; set; }
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
 
@@ -51,6 +52,9 @@ namespace Festispec.UI.ViewModels
             CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire);
             ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
+            GenerateReportCommand = new RelayCommand(GenerateReport);
+
+
 
             Task.Run(async () => await Initialize((int)_navigationService.Parameter));
         }
@@ -123,5 +127,10 @@ namespace Festispec.UI.ViewModels
             _deletetingQuestionnareId = id;
         }
 
+
+        private void GenerateReport()
+        {
+            _navigationService.NavigateTo("GenerateReport", Festival.Id);
+        }
     }
 }

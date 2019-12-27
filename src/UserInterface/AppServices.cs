@@ -1,9 +1,10 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Microsoft.Extensions.DependencyInjection;
 using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using Festispec.UI.ViewModels.Customers;
 
 namespace Festispec.UI
 {
@@ -14,8 +15,8 @@ namespace Festispec.UI
             var services = new ServiceCollection();
 
             //  Register Viewmodels here
-            services.AddTransient<MainViewModel>();
             services.AddTransient<GoogleTestViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             #region Festival ViewModels
             services.AddTransient<FestivalViewModel>();
@@ -32,6 +33,9 @@ namespace Festispec.UI
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
             #endregion
+
+
+            services.AddTransient<RapportPreviewViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -62,11 +66,22 @@ namespace Festispec.UI
             #endregion
 
             #region Customer Routes
-            navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerScreen.xaml", UriKind.Relative));
-            navigationService.Configure("NewCustomer", new Uri("../Views/Customer/NewCustomerPage.xaml", UriKind.Relative));
-            navigationService.Configure("EditCustomer", new Uri("../Views/Customer/EditCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("CustomerList", new Uri("../Views/Customer/CustomerListPage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateCustomer", new Uri("../Views/Customer/CreateCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateCustomer", new Uri("../Views/Customer/UpdateCustomerPage.xaml", UriKind.Relative));
+            navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
-    
+
+            #region Login Routes
+            navigationService.Configure("LoginPageEmployee", new Uri("../Views/Login/LoginPageEmployee.xaml", UriKind.Relative));
+            #endregion
+
+            #region Home Routes
+            navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
+            #endregion
+
+            navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+
             return navigationService;
         }
 

@@ -1,8 +1,6 @@
 ﻿using Festispec.UI.ViewModels;
-using Festispec.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Festispec.UI
 {
@@ -12,6 +10,7 @@ namespace Festispec.UI
     public partial class MainWindow : Window
     {
         private readonly IServiceScope _scope;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,8 +18,13 @@ namespace Festispec.UI
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>(); 
+            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
+            ContentRendered += MainWindow_ContentRendered;
         }
 
+        private void MainWindow_ContentRendered(object sender, System.EventArgs e)
+        {
+            ((MainViewModel)DataContext).ShowLoginPageOnStartup();
+        }
     }
 }
