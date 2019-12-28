@@ -21,6 +21,11 @@ namespace Festispec.Web.Controllers
 
         public ActionResult Login()
         {
+            if (Request.Cookies["CurrentUser"] != null && Request.Cookies["CurrentUserId"] != null) { }
+            {
+                Response.Cookies.Delete("CurrentUser");
+                Response.Cookies.Delete("CurrentUserId");
+            }
             return View();
         }
 
@@ -32,7 +37,9 @@ namespace Festispec.Web.Controllers
 
             try
             {
-                var logAccount = _authenticationService.Login(account.Username, account.Password, account.Role);
+                var logAccount = _authenticationService.Login(account.Username, account.Password, account.Role);                
+                Response.Cookies.Append("CurrentUserId", logAccount.Id.ToString());
+                Response.Cookies.Append("CurrentUser", logAccount.Username.ToString());
                 return RedirectToAction("Index", "Home");
 
             }

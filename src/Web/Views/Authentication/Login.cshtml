@@ -13,7 +13,6 @@
     @using (Html.BeginForm("Login", "Authentication", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
     
         <fieldset>
             <div class="inlog-field">
