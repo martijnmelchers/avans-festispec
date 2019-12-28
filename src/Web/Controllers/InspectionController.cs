@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
@@ -95,7 +96,9 @@ namespace Festispec.Web.Controllers
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
             fileAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
             fileAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == fileAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
-            fileAnswer.UploadedFilePath = file.FileName;
+
+            var filePath = await UploadFile(file);
+            fileAnswer.UploadedFilePath = filePath;
 
             if (fileAnswer.Id != 0)
                 (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = fileAnswer.UploadedFilePath;
@@ -134,7 +137,20 @@ namespace Festispec.Web.Controllers
             else await _questionnaireService.CreateAnswer(numericAnswer);
             return RedirectToAction("Details", new { id = numericAnswer.PlannedInspection.Id });
         }
-       
 
+        private async Task<string> UploadFile(IFormFile ufile)
+        {
+            if (ufile != null && ufile.Length > 0)
+            {
+                var fileName = Path.GetFileName(ufile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ufile.CopyToAsync(fileStream);
+                }
+                return filePath;
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Festispec.Models.Answers.FileAnswer
+@model Festispec.Models.Answers.FileAnswer
 
 <h4>@Model.Question.Contents</h4>
 <hr />
@@ -10,6 +10,7 @@
             <input name="QuestionId" type="hidden" value="@Model.Question.Id" />
             <input name="PlannedInspectionId" type="hidden" value="@Model.PlannedInspection.Id" />
             <input name="file" type="file" />
+            <p>@Model.UploadedFilePath.</p>
             <div class="form-group">
                 <input asp-for="Id" class="form-control" type="hidden" value="@Model.Id" />
             </div>
