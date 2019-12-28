@@ -96,6 +96,6 @@
 
         </Grid>
 
-        <controls:ValidationPopup Caption="Klant wijzigen" />
+        <controls:ValidationPopup Caption="Klant toevoegen" />
     </Grid>
 </Page>
