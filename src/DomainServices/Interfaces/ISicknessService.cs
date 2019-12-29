@@ -8,7 +8,7 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface ISicknessService
     {
-        Task AddAbsense(int employeeId, string reason, DateTime? endDate);
+        Task<Availability> AddAbsense(int employeeId, string reason, DateTime? endDate);
         Task EndAbsense(int employeeId);
         bool IsSick(int employeeId);
 
