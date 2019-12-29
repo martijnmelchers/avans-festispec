@@ -22,6 +22,7 @@ namespace Festispec.UI.ViewModels
         public ICommand CheckBoxCommand { get; set; }
         public ICommand AddEmployee { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
         private IInspectionService _inspectionService;
         private IFrameNavigationService _navigationService;
         private IFestivalService _festivalService;
@@ -74,6 +75,7 @@ namespace Festispec.UI.ViewModels
             _festivalService = festivalService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
+            ReturnCommand = new RelayCommand(Return);
             AddEmployee = new RelayCommand(Save);
             
             _plannedInspections = new List<PlannedInspection>();
@@ -149,10 +151,18 @@ namespace Festispec.UI.ViewModels
             {
                 try
                 {
-                    string dateString = $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_startTime.Hour}:{_startTime.Minute}";
+                    _selectedDate = value;
                     DateTime outvar;
+                    //Set start time
+                    string dateString = $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_startTime.Hour}:{_startTime.Minute}";
                     bool isvalid = DateTime.TryParse(dateString, out outvar);
                     _startTime = outvar;
+                    //Set end time
+                     dateString = $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_endTime.Hour}:{_endTime.Minute}";
+                     isvalid = DateTime.TryParse(dateString, out outvar);
+                    _endTime = outvar;
+
+
                 }
                 catch (Exception)
                 {
@@ -268,15 +278,15 @@ namespace Festispec.UI.ViewModels
 
             foreach (Employee q in EmployeesToAdd)
             {
-                try
-                {
+                //try
+                //{
                     await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
                     
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
             }
             EmployeesToAdd.Clear();
             foreach (Employee q in EmployeesToRemove)
@@ -292,7 +302,12 @@ namespace Festispec.UI.ViewModels
                 }
             }
             EmployeesToRemove.Clear();
-            _navigationService.NavigateTo("UpdateFestival", Festival.Id);
+            await _inspectionService.SaveChanges();
+            _navigationService.NavigateTo("FestivalInfo", Festival.Id);
+        }
+        private void Return()
+        {
+            _navigationService.NavigateTo("FestivalInfo", Festival.Id);
         }
     }
 }

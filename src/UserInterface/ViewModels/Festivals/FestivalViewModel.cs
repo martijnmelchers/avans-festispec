@@ -6,8 +6,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -22,11 +20,13 @@ namespace Festispec.UI.ViewModels
         private readonly IInspectionService _inspectionService;
 
         private Festival _festival;
+
         public Festival Festival
         {
             get { return _festival; }
             set { _festival = value; RaisePropertyChanged(nameof(Festival)); }
         }
+
         public string FestivalLocation { get => Festival?.Address?.ToString() ?? "Laden..."; }
         public string FestivalData { get; set; }
         public string FestivalTimes { get; set; }
@@ -40,7 +40,6 @@ namespace Festispec.UI.ViewModels
         public ICommand GenerateReportCommand { get; set; }
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
-
 
         public ICommand DeletePlannedInspectionsCommand { get; set; }
         public ICommand EditPlannedInspectionCommand { get; set; }
@@ -61,8 +60,6 @@ namespace Festispec.UI.ViewModels
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
             GenerateReportCommand = new RelayCommand(GenerateReport);
 
-
-
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
             CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
@@ -71,6 +68,7 @@ namespace Festispec.UI.ViewModels
         }
 
         #region PlannedInspections
+
         public IEnumerable<IEnumerable<PlannedInspection>> PlannedInspections
         {
             get
@@ -89,6 +87,7 @@ namespace Festispec.UI.ViewModels
                 try
                 {
                     await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
+                    RaisePropertyChanged("PlannedInspections");
                 }
                 catch (Exception e)
                 {
@@ -99,20 +98,21 @@ namespace Festispec.UI.ViewModels
 
         public void OpenPlannedInspection(PlannedInspection plannedInspection)
         {
-            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1} );
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1 });
         }
 
         public void CreatePlannedInspection()
         {
             _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = -1, FestivalId = Festival.Id });
         }
+
         public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
         {
             _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 });
-
         }
 
-        #endregion
+        #endregion PlannedInspections
+
         public async Task Initialize(int id)
         {
             Festival = await _festivalService.GetFestivalAsync(id);
@@ -169,8 +169,8 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
-               
-            } catch(QuestionHasAnswersException e)
+            }
+            catch (QuestionHasAnswersException e)
             {
                 MessageBox.Show($"Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -180,7 +180,6 @@ namespace Festispec.UI.ViewModels
         {
             _deletetingQuestionnareId = id;
         }
-
 
         private void GenerateReport()
         {

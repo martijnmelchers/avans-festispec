@@ -1,5 +1,4 @@
-﻿using Festispec.DomainServices;
-using Festispec.DomainServices.Factories;
+﻿using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
@@ -11,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -25,6 +23,7 @@ namespace Festispec.UI.ViewModels
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
+        public ICommand DeleteQuestionaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
@@ -50,9 +49,16 @@ namespace Festispec.UI.ViewModels
 
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
+            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
             OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow,HasAnswers);
             AddOptionToQuestion = new RelayCommand<Question>(AddOption);
+        }
+
+        private void DeleteQuestionaire()
+        {
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
+            _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
         }
 
         public void AddQuestion()

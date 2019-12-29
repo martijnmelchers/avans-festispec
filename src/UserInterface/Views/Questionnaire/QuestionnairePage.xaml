@@ -28,15 +28,20 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition  Width="2*"/>
+                <ColumnDefinition  Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="5"/>
-            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0"  Margin="5">
-                <StackPanel>
-                    <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Name="Question">
-                        <ListView.ItemTemplate>
+
+                    <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="false"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Expander Header="Vraag" Width="630" IsExpanded="True">
+                                <Expander Header="Vraag" HorizontalAlignment="Stretch" IsExpanded="True">
                                     <StackPanel>
                                         <Label Content="Vraag"/>
                                         <TextBox Text="{Binding Contents}"  IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
@@ -48,7 +53,7 @@
                                                         <ListView ItemsSource="{Binding OptionCollection}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
+                                                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
@@ -94,11 +99,11 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
-            </ScrollViewer>
+
             <ComboBox Margin="10" ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" />
             <Button  Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
-            <Button  Margin="10" Content="Save Command" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
+            <Button  Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
+            <Button  Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionaireCommand}" Style="{DynamicResource ButtonRed}" Grid.Column="3" Grid.Row="2" />
         </Grid>
     </Grid>
 </Page>

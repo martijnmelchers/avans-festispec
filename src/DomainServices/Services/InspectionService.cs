@@ -57,16 +57,11 @@ namespace Festispec.DomainServices.Services
                 Employee = employee
             };
 
-            var test = _db.ChangeTracker.Entries().ToList();
-
-            test.ForEach(e => Debug.Print($"Object type : {e.Entity.GetType()}, State: {e.State}"));
-
+            
             if (!plannedInspection.Validate()) 
                 throw new InvalidDataException();
 
-            //_db.PlannedInspections.Add(plannedInspection);
             _db.PlannedInspections.Add(plannedInspection);
-            //festival.PlannedInspections.Add(plannedInspection);
 
             await _db.SaveChangesAsync();
 
@@ -122,16 +117,22 @@ namespace Festispec.DomainServices.Services
             return plannedInspections;
         }
 
-        public async Task RemoveInspection(int PlannedInspectionId)
+        public async Task RemoveInspection(int plannedInspectionId, string cancellationreason)
         {
-            var plannedInspection = await GetPlannedInspection(PlannedInspectionId);
+            var plannedInspection = await GetPlannedInspection(plannedInspectionId);
+            if (plannedInspection.Answers == null)
+                throw new System.Exception();
 
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
                 throw new QuestionHasAnswersException();
 
-            _db.PlannedInspections.Remove(plannedInspection);
             plannedInspection.IsCancelled = DateTime.Now;
+            plannedInspection.CancellationReason = cancellationreason;
+
+            //Check if cancellationreason is not longer than 250 characters
+            if (!plannedInspection.Validate())
+                throw new InvalidDataException();
 
             await _db.SaveChangesAsync();
         }

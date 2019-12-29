@@ -78,7 +78,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollViewer>
-            <Button Content="Terug" Style="{StaticResource ButtonBase}" Grid.Column="0" Grid.Row="9" />
+            <Button Content="Terug" Style="{StaticResource ButtonBase}" Grid.Column="0" Grid.Row="9" Command="{Binding ReturnCommand}" />
             <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Grid.Column="1" Grid.Row="9" Command="{Binding SaveCommand}" />
         </Grid>
     </Grid>
