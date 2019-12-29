@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Festispec.UI.ViewModels;
+using Festispec.UI.ViewModels.Customers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views

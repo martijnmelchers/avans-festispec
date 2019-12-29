@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Festispec.UI.ViewModels;
+using Festispec.UI.ViewModels.Customers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views
