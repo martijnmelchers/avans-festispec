@@ -45,7 +45,7 @@
 
 
             <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsNonActive}" Grid.Row="11">
-                <Label Content="Account non-actief." VerticalAlignment="Center" FontWeight="light"/>
+                <Label Content="Account non-actief" VerticalAlignment="Center" FontWeight="light"/>
             </CheckBox>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="14">
