@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Festispec.Models
 {
@@ -13,6 +14,8 @@ namespace Festispec.Models
         public string Password { get; set; }
 
         public virtual Employee Employee { get; set; }
+
+        public DateTime? IsNonActive { get; set; }
 
         [Required]
         public Role Role { get; set; }
