@@ -29,6 +29,16 @@ namespace Festispec.UI.ViewModels.Employees
 
         public Account Account { get; }
 
+        public bool IsNonActive
+        {
+            get => Account.IsNonActive != null;
+            set
+            {
+                if (value && IsNonActive) return;
+                Account.IsNonActive = value ? DateTime.Now : (DateTime?) null;
+            }
+        }
+
         public ICommand NavigateBackCommand { get; }
 
         public ICommand SaveCommand { get; }
