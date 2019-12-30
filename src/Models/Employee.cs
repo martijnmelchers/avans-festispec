@@ -5,6 +5,12 @@ namespace Festispec.Models
 {
     public class Employee : Entity
     {
+        public Employee()
+        {
+            Name = new FullName();
+            Address = new Address();
+            ContactDetails = new ContactDetails();
+        }
         public int Id { get; set; }
 
         public FullName Name { get; set; }
@@ -25,5 +31,16 @@ namespace Festispec.Models
         public virtual ICollection<PlannedEvent> PlannedEvents { get; set; }
 
         public virtual ICollection<Certificate> Certificates { get; set; }
+
+        public override bool Validate()
+        {
+            return base.Validate()
+                   && Name.Validate()
+                   && (Account.Password != null
+                       ? Account.Validate(Account.Password)
+                       : Account.Validate())
+                   && Address.Validate()
+                   && ContactDetails.Validate();
+        }
     }
 }

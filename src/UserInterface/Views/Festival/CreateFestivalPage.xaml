@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:val="clr-namespace:Festispec.UI.Validation"
+      xmlns:enums="clr-namespace:Festispec.UI.Enums"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="CreateFestivalPage">
@@ -87,7 +88,7 @@
         </TextBox>
 
         <Label Content="Land" Margin="300,770,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding CountryOptions}" SelectedIndex="0"  HorizontalAlignment="Left" Margin="300,800,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
+        <ComboBox Text="{Binding Festival.Address.Country, Mode=OneWayToSource}" ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" SelectedIndex="0"  HorizontalAlignment="Left" Margin="300,800,0,0" VerticalAlignment="Top" Width="500" Height="50"/>
 
         <Label Content="Begindatum (dd-mm-yyyy)" Margin="920,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Name="TextBoxStartDate" HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top" Height="50" Width="340">

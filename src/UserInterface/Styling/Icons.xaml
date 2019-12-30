@@ -50,6 +50,19 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+    <DrawingImage x:Key="TrashcanWhite">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                <DrawingGroup.Transform>
+                    <TranslateTransform X="0" Y="2.3884623168157759E-09" />
+                </DrawingGroup.Transform>
+                <GeometryDrawing
+                    Geometry="F1 M448,512z M0,0z M192,188L192,404C192,410.627,186.627,416,180,416L156,416C149.373,416,144,410.627,144,404L144,188C144,181.373,149.373,176,156,176L180,176C186.627,176,192,181.373,192,188z M292,176L268,176C261.373,176,256,181.373,256,188L256,404C256,410.627,261.373,416,268,416L292,416C298.627,416,304,410.627,304,404L304,188C304,181.373,298.627,176,292,176z M424,80C437.255,80,448,90.745,448,104L448,116C448,122.627,442.627,128,436,128L416,128 416,464C416,490.51,394.51,512,368,512L80,512C53.49,512,32,490.51,32,464L32,128 12,128C5.373,128,0,122.627,0,116L0,104C0,90.745,10.745,80,24,80L98.411,80 132.429,23.304A48,48,0,0,1,173.589,0L274.412,0A48,48,0,0,1,315.572,23.304L349.589,80 424,80z M154.389,80L293.612,80 276.16,50.913A6,6,0,0,0,271.015,48L176.987,48A6,6,0,0,0,171.842,50.913L154.389,80z M368,128L80,128 80,458A6,6,0,0,0,86,464L362,464A6,6,0,0,0,368,458L368,128z"
+                    Brush="White">
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
     <DrawingImage x:Key="CalendarGreen">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
