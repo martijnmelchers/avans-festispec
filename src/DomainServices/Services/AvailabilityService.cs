@@ -107,6 +107,9 @@ namespace Festispec.DomainServices.Services
         {
             var availability = _db.Availabilities.FirstOrDefault(a => a.Id == availabilityId);
 
+            if (availability == null)
+                throw new EntityNotFoundException();
+
             _db.PlannedEvents.Remove(availability);
 
             await _db.SaveChangesAsync();
