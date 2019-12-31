@@ -1,3 +1,4 @@
+using Festispec.DomainServices.Enums;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
@@ -20,7 +21,9 @@ namespace Festispec.DomainServices
 
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddScoped<FestispecContext>();
+            // TODO: Find a way to make it scoped again. Probably won't matter but should be possible.
+            services.AddTransient<FestispecContext>();
+            services.AddScoped(typeof(SyncService<>));
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());

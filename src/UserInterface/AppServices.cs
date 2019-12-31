@@ -4,6 +4,7 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using Festispec.DomainServices.Enums;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
 
@@ -50,6 +51,10 @@ namespace Festispec.UI
 
             // Services from DomainServices
             services.AddDomainServices();
+            
+            // Initialise the application directory structure for WPF.
+            // Make sure to add your custom paths here.
+            FestispecPaths.Setup();
 
             ServiceProvider = services.BuildServiceProvider();
         }
