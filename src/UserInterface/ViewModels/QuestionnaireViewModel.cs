@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices;
+using Festispec.DomainServices;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -10,7 +10,12 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -35,6 +40,7 @@ namespace Festispec.UI.ViewModels
         public List<string> QuestionType { get => _questionFactory.QuestionTypes.ToList(); }
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
+        private static string WEB_URL = "http://localhost:5000/Upload/UploadFile";
 
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService)
         {
@@ -118,10 +124,24 @@ namespace Festispec.UI.ViewModels
             return question.Answers.Count == 0;
         }
 
-        public void OpenFileWindow(Question question)
+        public async void OpenFileWindow(Question question)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.ShowDialog();
+
+            var dialog = fileDialog.ShowDialog();
+
+            // Check if a file has been selected.
+            if (dialog != null && dialog == true)
+            {
+                using (var stream = fileDialog.OpenFile())
+                {
+                    var response = await UploadImage(WEB_URL, stream, fileDialog.SafeFileName);
+                    var path = await response.Content.ReadAsStringAsync();
+                    var drawQuestion = (DrawQuestion)question;
+                    drawQuestion.PicturePath = path;
+                    MessageBox.Show("Het bestand is geupload.");
+                }
+            }
         }
 
         public void AddOption(Question question)
@@ -135,6 +155,28 @@ namespace Festispec.UI.ViewModels
         {
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
             _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+        }
+
+        private async Task<HttpResponseMessage> UploadImage(string url, Stream image, string fileName)
+        {
+            using (MemoryStream str = new MemoryStream())
+            using (var client = new HttpClient())
+            {
+
+                image.CopyTo(str);
+                byte[] byteArray = str.ToArray();
+                var requestContent = new MultipartFormDataContent();
+                //    here you can specify boundary if you need---^
+                var imageContent = new ByteArrayContent(byteArray);
+                imageContent.Headers.ContentType =
+                    MediaTypeHeaderValue.Parse("image/jpeg");
+
+                requestContent.Add(imageContent, "image", fileName);
+
+                var response =  await client.PostAsync(url, requestContent);
+
+                return response;
+            }
         }
     }
 }
