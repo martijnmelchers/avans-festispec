@@ -24,7 +24,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
             _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(_modelMocks.ContactPersons).Object);
 
-            _customerService = new CustomerService(_dbMock.Object);
+            _customerService = new CustomerService(_dbMock.Object, new SyncService<Customer>(_dbMock.Object));
         }
 
         [Fact]

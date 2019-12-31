@@ -12,15 +12,17 @@ namespace Festispec.DomainServices.Services
     public class CustomerService : ICustomerService
     {
         private readonly FestispecContext _db;
+        private readonly SyncService<Customer> _syncService;
 
-        public CustomerService(FestispecContext db)
+        public CustomerService(FestispecContext db, SyncService<Customer> syncService)
         {
             _db = db;
+            _syncService = syncService;
         }
 
         public List<Customer> GetAllCustomers()
         {
-            return _db.Customers.ToList();
+            return Sync();
         }
 
         public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails)
@@ -89,7 +91,24 @@ namespace Festispec.DomainServices.Services
 
         public async Task<int> SaveChangesAsync()
         {
-            return await _db.SaveChangesAsync();
+            int rowsChanged = await _db.SaveChangesAsync();
+
+            Sync();
+            
+            return rowsChanged;
+        }
+
+        private List<Customer> Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+
+            List<Customer> customers = db.Customers.Include(c => c.ContactPersons).ToList();
+            
+            _syncService.Flush();
+            _syncService.AddEntities(customers);
+            _syncService.SaveChanges();
+
+            return customers;
         }
     }
 }
