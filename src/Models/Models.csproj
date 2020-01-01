@@ -15,6 +15,9 @@
     <EmbeddedResource Update="Migrations\201911201708219_ChangedMultipleChoiceSeed.resx">
       <DependentUpon>201911201708219_ChangedMultipleChoiceSeed.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\202001011759540_test.resx">
+      <DependentUpon>202001011759540_test.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

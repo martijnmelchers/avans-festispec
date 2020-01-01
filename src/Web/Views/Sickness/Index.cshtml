@@ -1,19 +1,27 @@
 ﻿@model Festispec.Models.Availability
 @{
-    ViewData["Title"] = "Ziek Melden";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Ziek Melden</h1>
 <form asp-action="Index">
 
-    <div class="card">
-        <input asp-for="Employee.Id" type="hidden" value="1" />
-        <input asp-for="Reason" />
-        <input asp-for="EndTime" type="date" />
+    <input asp-for="Employee.Id" type="hidden" value="1" />
 
-        <input type="submit" value="Bevestigen" />
+    <div class="card">
+        <label class="control-label"> Reden:</label>
+        <input asp-for="Reason" title="Reden:" />
 
     </div>
-   
+    <br />
+    <div class="card">
+        <label class="control-label"> Verwachte eindtijd(optioneel):</label>
+        <input asp-for="EndTime" type="date" title="Verwachte eind tijd" />
+    </div>
+    <br />
+    <div class="card"> 
+        <input type="submit" value="Bevestigen" class="btn btn-primary"/>
+    </div>
+
 
 </form>
