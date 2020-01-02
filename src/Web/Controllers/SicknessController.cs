@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
@@ -28,7 +29,16 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(Availability avalability)
         {
-            await _sicknessService.AddAbsense(avalability.Employee.Id, avalability.Reason, avalability.EndTime);
+            try
+            {
+                await _sicknessService.AddAbsense(avalability.Employee.Id, avalability.Reason, avalability.EndTime);
+            }
+            catch (DateHasPassedException)
+            {
+                TempData["DateError"] = "Datum mag niet in het verleden zijn!";
+                return View("Index");
+            }
+           
             return View("Better");
         }
 

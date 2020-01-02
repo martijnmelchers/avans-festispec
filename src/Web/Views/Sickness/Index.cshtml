@@ -9,8 +9,8 @@
     @*Dit kan weg als inloggen wordt gepushed.*@
     <input asp-for="Employee.Id" type="hidden" value="1" />
 
-    @*Dit is voor als het inloggen wordt gepushed. 
-    <input asp-for="Employee.Id" type="hidden" value="ParseInt(Request.Cookies["CurrentUserID"])" />*@
+    @*Dit is voor als het inloggen wordt gepushed.
+        <input asp-for="Employee.Id" type="hidden" value="ParseInt(Request.Cookies["CurrentUserID"])" />*@
 
 
     <div class="card">
@@ -22,10 +22,12 @@
     <div class="card">
         <label class="control-label"> Verwachte eindtijd (optioneel):</label>
         <input asp-for="EndTime" type="date" title="Verwachte eind tijd" />
+        <p id="date-error" style="color : red ; font-weight: bold">@TempData["DateError"]</p>
     </div>
     <br />
     <div class="card">
-        <input type="submit" value="Bevestigen" class="btn btn-primary" />
+        <input type="submit" value="Bevestigen" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
     </div>
+    
 
 </form>
