@@ -43,24 +43,13 @@ namespace Festispec.Web.Controllers
                 return RedirectToAction("Index", "Home");
 
             }
-            catch(Exception ex)
+            catch(AuthenticationException ex)
+            {                
+                TempData["LoginError"] = "Onjuiste gebruikersnaam en/of wachtwoord";             
+            }
+            catch (NotAuthorizedException ex)
             {
-                String errorMessage = ex.GetType().ToString();
-
-                switch (ex.GetType().ToString())
-                {
-                    case "Festispec.Models.Exception.AuthenticationException":
-                        errorMessage = "Onjuiste gebruikersnaam en/of wachtwoord";
-                        break;
-                    case "Festispec.Models.Exception.NotAuthorizedException":
-                        errorMessage = "Dit account is niet geautoriseerd om hier in te loggen";
-                        break;
-                    default:
-                        errorMessage = "Er ging iets fout: " + ex.GetType().ToString() + '"';
-                        break;
-                }
-
-                TempData["LoginError"] = errorMessage;             
+                TempData["LoginError"] = "Dit account is niet geautoriseerd om hier in te loggen";
             }
             
             return View();
