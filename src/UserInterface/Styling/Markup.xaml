@@ -12,6 +12,18 @@
         </Setter>
     </Style>
 
+    <Style x:Key="DefaultText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+
     <Style TargetType="Label">
         <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -63,5 +75,12 @@
                 </TextDecorationCollection>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="NoStyles" TargetType="Hyperlink">
+        <Setter Property="Foreground" Value="#707070"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="TextDecorations" Value="None" />
     </Style>
 </ResourceDictionary>

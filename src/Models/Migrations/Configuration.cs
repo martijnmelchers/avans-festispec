@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
@@ -98,8 +98,10 @@ namespace Festispec.Models.Migrations
                     },
                     OpeningHours = new OpeningHours
                     {
-                        StartTime = new DateTime(2020, 9, 5, 18, 0, 0),
-                        EndTime = new DateTime(2020, 9, 6, 8, 0, 0)
+                        StartTime = new TimeSpan(18, 0, 0),
+                        EndTime = new TimeSpan(8, 0, 0),
+                        StartDate = new DateTime(2020, 9, 5),
+                        EndDate = new DateTime(2020, 9, 6)
                     }
                 };
 
@@ -116,12 +118,15 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Name = "Tester",
-                    Festival = festival
+                    Festival = festival,
                 };
+
+                context.Questionnaires.AddOrUpdate(questionnaire);
+
 
                 var plannedInspection = new PlannedInspection
                 {
-                    Id = 2,
+                    Id = 1,
                     Employee = employee,
                     Festival = festival,
                     EventTitle = "Inspection " + festival.FestivalName,
@@ -140,6 +145,8 @@ namespace Festispec.Models.Migrations
 
                 context.QuestionCategories.AddOrUpdate(questionCategory);
 
+
+                #region DrawQuestion
                 var drawQuestion = new DrawQuestion
                 {
                     Id = 1,
@@ -147,47 +154,55 @@ namespace Festispec.Models.Migrations
                     PicturePath = "/drawings/map_defqon.png",
                     Questionnaire = questionnaire,
                     Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
-                    Answers = new List<FileAnswer>
-                {
-                    new FileAnswer
-                    {
-                        Id = 1,
-                        UploadedFilePath = "/uploads/drawing_map_defqon_inspector_1.png",
-                        PlannedInspection = plannedInspection
-                    }
-                }
                 };
 
+                var drawQuestionAnswer = new FileAnswer
+                {
+                    Id = 1,
+                    Question = drawQuestion,
+                    UploadedFilePath = "/uploads/drawing_map_defqon_inspector_1.png",
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(drawQuestionAnswer);
+                context.Questions.AddOrUpdate(drawQuestion);
+                #endregion
+
+                #region MultipleChoiceQuestion
                 var multipleChoiceQuestion = new MultipleChoiceQuestion
                 {
                     Id = 2,
                     Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
-                    Options = "Ja,Nee",
+                    Options = "Ja~Nee",
                     OptionCollection = new ObservableCollection<StringObject>()
                     {
                         new StringObject("Option1")
                     },
-                    Questionnaire = questionnaire,
-                    Answers = new List<MultipleChoiceAnswer>
-                {
-                    new MultipleChoiceAnswer
-                    {
-                        Id = 2,
-                        MultipleChoiceAnswerKey = 0,
-                        PlannedInspection = plannedInspection,
-                        Attachments = new List<Attachment>
-                        {
-                            new Attachment
-                            {
-                                Id = 1,
-                                FilePath = "/attachments/1.png"
-                            }
-                        }
-                    }
-                }
+                    Questionnaire = questionnaire
                 };
 
+                var multipleChoiceQuestionAnswer = new MultipleChoiceAnswer
+                {
+                    Id = 2,
+                    MultipleChoiceAnswerKey = 0,
+                    PlannedInspection = plannedInspection,
+                    Question = multipleChoiceQuestion,
+                    Attachments = new List<Attachment>
+                    {
+                        new Attachment
+                        {
+                            Id = 1,
+                            FilePath = "/attachments/1.png"
+                        }
+                    }
+                };
+
+                context.Answers.AddOrUpdate(multipleChoiceQuestionAnswer);
+                context.Questions.AddOrUpdate(multipleChoiceQuestion);
+                #endregion
+
+                #region NumericQuestion
                 var numericQuestion = new NumericQuestion
                 {
                     Id = 3,
@@ -196,17 +211,22 @@ namespace Festispec.Models.Migrations
                     Minimum = 0,
                     Maximum = 99,
                     Questionnaire = questionnaire,
-                    Answers = new List<NumericAnswer>
-                {
-                    new NumericAnswer
-                    {
-                        Id = 3,
-                        IntAnswer = 10,
-                        PlannedInspection = plannedInspection
-                    }
-                }
+
                 };
 
+                var numericQuestionAnswer = new NumericAnswer
+                {
+                    Id = 3,
+                    Question = numericQuestion,
+                    IntAnswer = 3,
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(numericQuestionAnswer);
+                context.Questions.AddOrUpdate(numericQuestion);
+                #endregion
+
+                #region RatingQuestion
                 var ratingQuestion = new RatingQuestion
                 {
                     Id = 4,
@@ -215,17 +235,22 @@ namespace Festispec.Models.Migrations
                     HighRatingDescription = "Er is veel beveiliging",
                     LowRatingDescription = "Er is amper beveiliging",
                     Questionnaire = questionnaire,
-                    Answers = new List<NumericAnswer>
-                {
-                    new NumericAnswer
-                    {
-                        Id = 4,
-                        IntAnswer = 3,
-                        PlannedInspection = plannedInspection
-                    }
-                }
                 };
 
+                var ratingQuestionAnswer = new NumericAnswer
+                {
+                    Id = 3,
+                    Question = numericQuestion,
+                    IntAnswer = 4,
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(ratingQuestionAnswer);
+                context.Questions.AddOrUpdate(ratingQuestion);
+
+                #endregion
+
+                #region StringQuestion
                 var stringQuestion = new StringQuestion
                 {
                     Id = 5,
@@ -233,61 +258,64 @@ namespace Festispec.Models.Migrations
                     Contents = "Geef een korte samenvatting van het vluchtplan.",
                     IsMultiline = true,
                     Questionnaire = questionnaire,
-                    Answers = new List<StringAnswer>
-                {
-                    new StringAnswer
-                    {
-                        Id = 5,
-                        AnswerContents = "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
-                        PlannedInspection = plannedInspection
-                    }
-                }
                 };
 
+                var stringQuestionAnswer = new StringAnswer
+                {
+                    Id = 5,
+                    Question = stringQuestion,
+                    AnswerContents = "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(stringQuestionAnswer);
+                context.Questions.AddOrUpdate(stringQuestion);
+
+                #endregion
+
+                #region PictureQuestion
                 var pictureQuestion = new UploadPictureQuestion
                 {
                     Id = 6,
                     Category = questionCategory,
                     Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
                     Questionnaire = questionnaire,
-                    Answers = new List<FileAnswer>
-                {
-                    new FileAnswer
-                    {
-                        Id = 6,
-                        UploadedFilePath = "/uploads/inspection_adsfadfs.png",
-                        PlannedInspection = plannedInspection
-                    }
-                }
                 };
 
+                var pictureQuestionAnswer = new FileAnswer
+                {
+                    Id = 6,
+                    Question = pictureQuestion,
+                    UploadedFilePath = "/uploads/inspection_adsfadfs.png",
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(pictureQuestionAnswer);
+                context.Questions.AddOrUpdate(pictureQuestion);
+
+                #endregion
+
+                #region ReferenceQuestion
                 var referenceQuestion = new ReferenceQuestion
                 {
                     Id = 7,
                     Category = questionCategory,
                     Question = pictureQuestion,
                     Contents = pictureQuestion.Contents,
-                    Questionnaire = questionnaire,
-                    Answers = new List<Answer>
-                {
-                    new FileAnswer
-                    {
-                        Id = 7,
-                        UploadedFilePath = "/uploads/inspection_eruwioeiruwoio.png",
-                        PlannedInspection = plannedInspection
-                    }
-                }
+                    Questionnaire = questionnaire
                 };
 
-                context.Questions.AddOrUpdate(
-                    drawQuestion,
-                    multipleChoiceQuestion,
-                    numericQuestion,
-                    ratingQuestion,
-                    stringQuestion,
-                    pictureQuestion,
-                    referenceQuestion
-                );
+                var referenceQuestionAnswer = new FileAnswer
+                {
+                    Id = 7,
+                    Question = referenceQuestion,
+                    UploadedFilePath = "/uploads/inspection_eruwioeiruwoio.png",
+                    PlannedInspection = plannedInspection
+                };
+
+                context.Answers.AddOrUpdate(referenceQuestionAnswer);
+                context.Questions.AddOrUpdate(referenceQuestion);
+                #endregion
 
                 var report = new Report
                 {
@@ -353,7 +381,7 @@ namespace Festispec.Models.Migrations
                     // Voorletter + Achternaam + geboortejaar
                     Username = "HJanssen80",
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
-                    Role = Role.Inspector
+                    Role = Role.Employee
                 },
                 Address = new Address
                 {

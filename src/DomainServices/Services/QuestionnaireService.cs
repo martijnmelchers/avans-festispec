@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Questions;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using Festispec.Models.Exception;
 using Festispec.Models;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Festispec.DomainServices.Services
 {
@@ -18,6 +19,8 @@ namespace Festispec.DomainServices.Services
         {
             _db = db;
         }
+
+        #region Questionnaire Management
         public Questionnaire GetQuestionnaire(int questionnaireId)
         {
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
@@ -31,9 +34,19 @@ namespace Festispec.DomainServices.Services
             return questionnaire;
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _db.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return _db.SaveChanges();
+        }
+
         public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
         {
-            var existing = _db.Questionnaires.Include(x => x.Festival).FirstOrDefault(x => x.Name == name && x.Festival.Id == festival.Id);
+            var existing = await _db.Questionnaires.Include(x => x.Festival).FirstOrDefaultAsync(x => x.Name == name && x.Festival.Id == festival.Id);
 
             if (existing != null)
                 throw new EntityExistsException();
@@ -64,6 +77,24 @@ namespace Festispec.DomainServices.Services
                 throw new NoRowsChangedException();
         }
 
+        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
+        {
+            Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
+
+            var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
+
+            oldQuestionnaire.Questions.ToList().ForEach(async e => await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
+
+            if (await _db.SaveChangesAsync() == 0)
+                throw new NoRowsChangedException();
+
+            return newQuestionnaire;
+        }
+
+        #endregion
+
+        #region Question Management
+
         public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
@@ -74,7 +105,23 @@ namespace Festispec.DomainServices.Services
 
             return question;
         }
-        
+
+
+        public List<Question> GetQuestionsFromQuestionnaire(int questionnaireId)
+        {
+            var questions = _db.Questions.Include(x => x.Answers).Where(q => q.Questionnaire.Id == questionnaireId).ToList();
+
+            if (questions == null)
+                throw new EntityNotFoundException();
+
+            foreach (MultipleChoiceQuestion q in questions.OfType<MultipleChoiceQuestion>())
+                q.StringToObjects();
+
+
+            return questions;
+        }
+
+
         public async Task<Question> AddQuestion(int questionnaireId, Question question)
         {
             var questionnaire = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaireId);
@@ -107,19 +154,6 @@ namespace Festispec.DomainServices.Services
 
             return await _db.SaveChangesAsync() > 1;
         }
-
-        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
-        {
-            Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
-
-            var newQuestionnaire = await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
-
-            oldQuestionnaire.Questions.ToList().ForEach(async e =>  await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
-
-            return newQuestionnaire;
-        }
+        #endregion
     }
 }
