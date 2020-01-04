@@ -15,8 +15,8 @@ namespace Festispec.DomainServices.Services
     public class SyncService<T> where T : Entity
     {
         private readonly FestispecContext _db;
-        private JObject _jsonObject;
         private readonly string _jsonFile;
+        private JObject _jsonObject;
 
         public SyncService(FestispecContext db)
         {

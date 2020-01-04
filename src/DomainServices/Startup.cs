@@ -28,6 +28,7 @@ namespace Festispec.DomainServices
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
+            services.AddSingleton<OfflineService>();
             
             // Database initialisation code below
             using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
