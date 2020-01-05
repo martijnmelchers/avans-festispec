@@ -2,6 +2,7 @@ using System;
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Exceptions;
 using Festispec.UI.Interfaces;
@@ -15,12 +16,14 @@ namespace Festispec.UI.ViewModels.Employees
 
         private string _search;
 
-        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _navigationService = navigationService;
 
             if (!(_navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
+
+            CanEditCertificates = offlineService.IsOnline;
 
             Employee = employeeService.GetEmployee(employeeId);
             AddNewCertificateCommand = new RelayCommand(NavigateToAddNewCertificate);
@@ -30,6 +33,8 @@ namespace Festispec.UI.ViewModels.Employees
             CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
         }
+
+        public bool CanEditCertificates { get; }
 
         public CollectionView CertificateList { get; }
 

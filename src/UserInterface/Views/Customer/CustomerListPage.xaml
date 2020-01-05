@@ -61,7 +61,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}"
+            <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}" IsEnabled="{Binding CanEditCustomers}"
                     Height="50" Width="185" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Margin="40,0,0,0" />
         </Grid>
     </Grid>

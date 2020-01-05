@@ -14,7 +14,7 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
 
-        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
@@ -32,6 +32,7 @@ namespace Festispec.UI.ViewModels.Employees
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
             }
 
+            CanEditEmployee = offlineService.IsOnline;
             CancelCommand = new RelayCommand(NavigateToAccount);
             DeleteCommand = new RelayCommand(RemoveEmployee);
             EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
@@ -51,6 +52,8 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand NavigateBackCommand { get; }
 
         public bool CanDeleteEmployee { get; }
+
+        public bool CanEditEmployee { get; }
 
         public ICommand ViewCertificatesCommand { get; }
 

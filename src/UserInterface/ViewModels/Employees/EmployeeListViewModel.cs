@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -36,7 +37,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _navigationService = navigationService;
 
@@ -45,7 +46,11 @@ namespace Festispec.UI.ViewModels.Employees
 
             EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
             EmployeeList.Filter = Filter;
+
+            CanEditEmployees = offlineService.IsOnline;
         }
+
+        public bool CanEditEmployees { get; }
 
         private void NavigateToViewEmployee(int employeeId)
         {

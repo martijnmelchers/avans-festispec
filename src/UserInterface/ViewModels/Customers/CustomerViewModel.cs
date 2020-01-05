@@ -24,7 +24,7 @@ namespace Festispec.UI.ViewModels.Customers
 
         public ICommand AddFestivalCommand { get; }
 
-        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
@@ -42,11 +42,14 @@ namespace Festispec.UI.ViewModels.Customers
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
+            CanEditCustomer = offlineService.IsOnline;
             CancelCommand = new RelayCommand(NavigateBack);
             RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
             EditCustomerCommand = new RelayCommand(NavigateToEditCustomer);
             AddFestivalCommand = new RelayCommand(NavigateToAddFestival);
         }
+
+        public bool CanEditCustomer { get; }
 
         private void NavigateToAddFestival()
         {

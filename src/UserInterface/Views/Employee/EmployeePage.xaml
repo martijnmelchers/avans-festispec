@@ -99,7 +99,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
                 <Button Content="Terug" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
-                <Button Content="Wijzigen" Command="{Binding EditEmployeeCommand}"
+                <Button Content="Wijzigen" Command="{Binding EditEmployeeCommand}" IsEnabled="{Binding CanEditEmployee}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
         </Grid>

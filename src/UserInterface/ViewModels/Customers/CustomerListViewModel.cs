@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -34,7 +35,7 @@ namespace Festispec.UI.ViewModels.Customers
 
         
 
-        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _navigationService = navigationService;
 
@@ -44,7 +45,11 @@ namespace Festispec.UI.ViewModels.Customers
 
             CustomerList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
             CustomerList.Filter = Filter;
+
+            CanEditCustomers = offlineService.IsOnline;
         }
+
+        public bool CanEditCustomers { get; }
 
         private void NavigateToViewCustomer(int customerId)
         {
