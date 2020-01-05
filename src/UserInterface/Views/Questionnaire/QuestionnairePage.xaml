@@ -26,14 +26,14 @@
                 <RowDefinition  Height="60"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition  Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition  Width="450" />
+                <ColumnDefinition Width="450"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="5"/>
 
-                    <ListView ItemsSource="{Binding Questions}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                <ListView ItemsSource="{Binding Questions}"  BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Focusable" Value="false"/>
@@ -41,7 +41,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Expander Header="Vraag" HorizontalAlignment="Stretch" IsExpanded="True">
+                                <Expander Header="Vraag" Width="750" IsExpanded="True">
                                     <StackPanel>
                                         <Label Content="Vraag"/>
                                         <TextBox Text="{Binding Contents}"  IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
@@ -53,7 +53,7 @@
                                                         <ListView ItemsSource="{Binding OptionCollection}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBox HorizontalAlignment="Stretch" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
+                                                                    <TextBox Width="720" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
@@ -84,9 +84,9 @@
                                                 <DataTemplate DataType="{x:Type Models:ReferenceQuestion}">
                                                     <StackPanel>
                                                         <Label Content="Vragenlijst"/>
-                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                                                <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" ItemsSource="{Binding DataContext.Questionnaires, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" DisplayMemberPath="Name" SelectedValue="{Binding DataContext.Search, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedValuePath="Id" />
                                                         <Label Content="Vraag"/>
-                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" ItemsSource="{Binding DataContext.QuestionList, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" DisplayMemberPath="Contents" SelectedValue="{Binding Question}"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:StringQuestion}" />
