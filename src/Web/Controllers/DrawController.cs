@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models.Answers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,85 +12,48 @@ namespace Festispec.Web.Controllers
 {
     public class DrawController : Controller
     {
-        // GET: Draw
-        public ActionResult Index()
+        IQuestionnaireService _questionnaireService;
+        public DrawController(IQuestionnaireService questionnaireService)
         {
-            return View();
+            _questionnaireService = questionnaireService;
         }
+      
 
-        // GET: Draw/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Draw/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Draw/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Draw/Edit/5
+        // GET: Draw/Draw/5
         public ActionResult Draw(int id)
         {
-            return View();
+            FileAnswer answer = _questionnaireService.getAnswers().FirstOrDefault(e=> e.Id == id) as FileAnswer;
+            return View(answer);
         }
 
-        // POST: Draw/Edit/5
+        // POST: Draw/Draw/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Draw(string imageData)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var request = Request.Form;
+            FileAnswer fileAnswer = _questionnaireService.getAnswers().FirstOrDefault(e => e.Id == 1) as FileAnswer;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            var path = "test";
+
+            string fileNameWitPath = path + DateTime.Now.ToString().Replace("/", "-").Replace(" ", "- ").Replace(":", "") + ".png";
+            using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
             {
-                return View();
+                using (BinaryWriter bw = new BinaryWriter(fs))
+                {
+                    byte[] data = Convert.FromBase64String(imageData);
+                    bw.Write(data);
+                    bw.Close();
+                }
             }
+
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { V = "test" });
         }
 
-        // GET: Draw/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: Draw/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
