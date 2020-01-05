@@ -157,41 +157,7 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static Questionnaire QuestionnaireLowlands = new Questionnaire
-        {
-            Id = 4,
-            Name = "Lowlands DinsdagOchtend",
-            Festival = festivalLowlands,
-            Questions = new List<Question>()
-            {
-                new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireLowlands)
-                {
-                    Id = 1
-                },
-                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireLowlands)
-                {
-                    Id = 2
-                }
-            }
-        };
-
-        public static Account InspectorAccount = new Account()
-        {
-            Username = "EricKuipers",
-            Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
-            Role = Role.Inspector
-        };
-
-        public List<Account> Accounts = new List<Account>()
-        {
-            new Account()
-            {
-                Username = "JohnDoe",
-                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
-                Role = Role.Employee
-            },
-            InspectorAccount
-        };
+        public List<Account> Accounts { get; set; }
 
         public List<Question> Questions = Questionnaire4.Questions.ToList();
 
@@ -367,5 +333,101 @@ namespace Festispec.UnitTests.Helpers
         };
         
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();
+        
+        public List<Employee> Employees = new List<Employee>
+        {
+            new Employee
+            {
+                Id = 1,
+                Name = new FullName {First = "Dit", Middle = "is", Last = "Een Test"},
+                Iban = "NL01ABCD1234567890",
+                Account = new Account()
+                {
+                    Id = 1,
+                    Username = "JohnDoe",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                    Role = Role.Employee
+                },
+                Address = new Address
+                {
+                    ZipCode = "1234AB",
+                    StreetName = "Teststraat",
+                    HouseNumber = 123,
+                    Suffix = "a",
+                    City = "Teststad",
+                    Country = "Nederland"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    PhoneNumber = "+316123456789",
+                    EmailAddress = "test@testing.com"
+                },
+                PlannedEvents = new List<PlannedEvent>(),
+                Certificates = new List<Certificate>
+                {
+                    new Certificate
+                    {
+                        Id = 1,
+                        CertificateTitle = "Festispec Training Certificate",
+                        CertificationDate = new DateTime(2019, 11, 25),
+                        ExpirationDate = new DateTime(2025, 11, 25)
+                    }
+                }
+            },
+            new Employee
+            {
+                Id = 2,
+                Name = new FullName{First = "Test", Last = "Ing"},
+                Iban = "NL02DBCA0987654321",
+                Account = new Account
+                {
+                    Id = 2,
+                    Username = "EricKuipers",
+                    Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                    Role = Role.Inspector
+                },
+                Address = new Address
+                {
+                    ZipCode = "3734AB",
+                    StreetName = "Hermelijnlaan",
+                    HouseNumber = 12,
+                    City = "Den Dolder",
+                    Country = "Nederland"
+                },
+                ContactDetails = new ContactDetails
+                {
+                    PhoneNumber = "+316314253647",
+                    EmailAddress = "tester@testing.com"
+                },
+                PlannedEvents = new List<PlannedEvent>
+                {
+                    new PlannedEvent
+                    {
+                        Id = 1,
+                        StartTime = new DateTime(2019, 11, 27, 17, 00, 00),
+                        EndTime = new DateTime(2019, 11, 28, 03, 00, 00),
+                        EventTitle = "Inspectie bij Q-BASE"
+                    }
+                },
+                Certificates = new List<Certificate>
+                {
+                    new Certificate
+                    {
+                        Id = 2,
+                        CertificateTitle = "Festispec Training Certificate",
+                        CertificationDate = new DateTime(2020, 11, 25),
+                        ExpirationDate = new DateTime(2026, 11, 25)
+                    }
+                }
+            }
+        };
+
+        public List<Certificate> Certificates { get; }
+
+        public ModelMocks()
+        {
+            Accounts = Employees.Select(e => e.Account).ToList();
+            Certificates = Employees.SelectMany(e => e.Certificates).ToList();
+        }
     }
 }

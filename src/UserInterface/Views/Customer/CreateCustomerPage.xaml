@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
+      xmlns:enums="clr-namespace:Festispec.UI.Enums"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:CustomerViewModel}">
@@ -69,7 +70,9 @@
             <TextBox Text="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
 
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
+            <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
+                      Text="{Binding Path=Customer.Address.Country, Mode=TwoWay}"
+                      ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" SelectedIndex="0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
