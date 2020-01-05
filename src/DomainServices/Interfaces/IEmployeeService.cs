@@ -4,7 +4,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IEmployeeService
+    public interface IEmployeeService : ISyncable
     {
         List<Employee> GetAllEmployees();
         

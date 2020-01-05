@@ -22,7 +22,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Customer> GetAllCustomers()
         {
-            return Sync();
+            return _db.Customers.ToList();
         }
 
         public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails)
@@ -91,24 +91,26 @@ namespace Festispec.DomainServices.Services
 
         public async Task<int> SaveChangesAsync()
         {
-            int rowsChanged = await _db.SaveChangesAsync();
-
-            Sync();
-            
-            return rowsChanged;
+            return await _db.SaveChangesAsync();
         }
 
-        private List<Customer> Sync()
+        public bool CanDeleteCustomer(Customer customer)
+        {
+            return customer.Festivals.Count == 0
+                   && customer.ContactPersons.Count == 0;
+        }
+
+        public void Sync()
         {
             FestispecContext db = _syncService.GetSyncContext();
-
-            List<Customer> customers = db.Customers.Include(c => c.ContactPersons).ToList();
+        
+            List<Customer> customers = db.Customers
+                .Include(c => c.ContactPersons)
+                .Include(c => c.Festivals).ToList();
             
             _syncService.Flush();
             _syncService.AddEntities(customers);
             _syncService.SaveChanges();
-
-            return customers;
         }
     }
 }

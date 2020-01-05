@@ -13,11 +13,13 @@ namespace Festispec.DomainServices.Services
     {
         private readonly FestispecContext _db;
         private readonly IAuthenticationService _authenticationService;
+        private readonly SyncService<Employee> _employeeSyncService;
 
-        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService)
+        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, SyncService<Employee> employeeSyncService)
         {
             _db = db;
             _authenticationService = authenticationService;
+            _employeeSyncService = employeeSyncService;
         }
 
         public List<Employee> GetAllEmployees()
@@ -141,6 +143,21 @@ namespace Festispec.DomainServices.Services
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _employeeSyncService.GetSyncContext();
+        
+            List<Employee> employees = db.Employees
+                .Include(e => e.Certificates)
+                .Include(e => e.Account).ToList();
+
+            employees.ForEach(e => e.Account.ToSafeAccount());
+            
+            _employeeSyncService.Flush();
+            _employeeSyncService.AddEntities(employees);
+            _employeeSyncService.SaveChanges();
         }
     }
 }
