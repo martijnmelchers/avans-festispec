@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
@@ -118,6 +119,7 @@ namespace Festispec.UI.ViewModels.Employees
                     Employee.Account.Role,
                     Employee.Address,
                     Employee.ContactDetails);
+                _employeeService.Sync();
                 NavigateBack();
             }
             catch (InvalidDataException)
@@ -142,6 +144,7 @@ namespace Festispec.UI.ViewModels.Employees
             try
             {
                 await _employeeService.SaveChangesAsync();
+                _employeeService.Sync();
                 _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
             }
             catch (Exception e)

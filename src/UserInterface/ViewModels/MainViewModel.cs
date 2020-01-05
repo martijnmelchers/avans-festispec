@@ -60,6 +60,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
+                _authenticationService.Sync();
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException)

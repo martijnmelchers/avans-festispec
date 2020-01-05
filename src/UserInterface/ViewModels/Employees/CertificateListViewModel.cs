@@ -32,6 +32,8 @@ namespace Festispec.UI.ViewModels.Employees
 
             CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
+            
+            employeeService.Sync();
         }
 
         public bool CanEditCertificates { get; }

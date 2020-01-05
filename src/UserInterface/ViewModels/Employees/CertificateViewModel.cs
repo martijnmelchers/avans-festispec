@@ -78,6 +78,7 @@ namespace Festispec.UI.ViewModels.Employees
             try
             {
                 await _employeeService.SaveChangesAsync();
+                _employeeService.Sync();
                 NavigateBack();
             }
             catch (Exception e)
@@ -102,6 +103,7 @@ namespace Festispec.UI.ViewModels.Employees
                 Certificate.Employee = _employeeService.GetEmployee(EmployeeId);
 
                 await _employeeService.CreateCertificateAsync(Certificate);
+                _employeeService.Sync();
                 NavigateBack();
             }
             catch (Exception e)

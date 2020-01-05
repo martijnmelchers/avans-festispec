@@ -53,6 +53,8 @@ namespace Festispec.UI.ViewModels
             OpenFestivalCommand = new RelayCommand<Festival>(OpenFestival);
             Festivals = (CollectionView)CollectionViewSource.GetDefaultView(_festivalService.GetFestivals());
             Festivals.Filter = new Predicate<object>(Filter);
+            
+            festivalService.Sync();
         }
 
         private void OpenFestival(Festival festival)

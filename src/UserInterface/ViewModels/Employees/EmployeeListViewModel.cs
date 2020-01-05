@@ -48,6 +48,8 @@ namespace Festispec.UI.ViewModels.Employees
             EmployeeList.Filter = Filter;
 
             CanEditEmployees = offlineService.IsOnline;
+            
+            employeeService.Sync();
         }
 
         public bool CanEditEmployees { get; }

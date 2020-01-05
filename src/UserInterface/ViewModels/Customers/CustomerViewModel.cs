@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -72,6 +73,7 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
+                _customerService.Sync();
                 NavigateBack();
             }
             catch (Exception e)
@@ -85,6 +87,7 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.SaveChangesAsync();
+                _customerService.Sync();
                 _navigationService.NavigateTo("CustomerInfo", Customer.Id);
             }
             catch (Exception e)

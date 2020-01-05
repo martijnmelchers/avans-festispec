@@ -99,6 +99,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 var questionnaire = await _questionnaireService.CreateQuestionnaire(QuestionnaireName, Festival);
+                _festivalService.Sync();
                 OpenQuestionnaire(questionnaire.Id);
             }
             catch (Exception e)
@@ -115,6 +116,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
+                _festivalService.Sync();
                
             } catch(QuestionHasAnswersException e)
             {

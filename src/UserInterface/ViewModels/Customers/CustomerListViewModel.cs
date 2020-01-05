@@ -47,6 +47,8 @@ namespace Festispec.UI.ViewModels.Customers
             CustomerList.Filter = Filter;
 
             CanEditCustomers = offlineService.IsOnline;
+            
+            customerService.Sync();
         }
 
         public bool CanEditCustomers { get; }
