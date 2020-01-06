@@ -157,7 +157,41 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public List<Account> Accounts { get; set; }
+        public static Questionnaire QuestionnaireLowlands = new Questionnaire
+        {
+            Id = 4,
+            Name = "Lowlands DinsdagOchtend",
+            Festival = festivalLowlands,
+            Questions = new List<Question>()
+            {
+                new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireLowlands)
+                {
+                    Id = 1
+                },
+                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireLowlands)
+                {
+                    Id = 2
+                }
+            }
+        };
+
+        public static Account InspectorAccount = new Account()
+        {
+            Username = "EricKuipers",
+            Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+            Role = Role.Inspector
+        };
+
+        public List<Account> Accounts = new List<Account>()
+        {
+            new Account()
+            {
+                Username = "JohnDoe",
+                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                Role = Role.Employee
+            },
+            InspectorAccount
+        };
 
         public List<Question> Questions = Questionnaire4.Questions.ToList();
 
