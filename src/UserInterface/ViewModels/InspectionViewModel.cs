@@ -30,7 +30,14 @@ namespace Festispec.UI.ViewModels
         private DateTime _originalStartTime { get; set; }
 
         private bool Filter(object item)
-        {
+        {            
+
+            foreach(PlannedEvent p in (item as Employee).PlannedEvents)
+            {
+                if (p.StartTime.Date == SelectedDate.Date)
+                    return false;
+            }
+
             if (String.IsNullOrEmpty(Search))
                 return true;
             else
@@ -294,11 +301,11 @@ namespace Festispec.UI.ViewModels
                 try
                 {
                     var plannedInspection = await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
-                    await _inspectionService.RemoveInspection(plannedInspection.Id, "test");
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An error occured while removing a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             EmployeesToRemove.Clear();
