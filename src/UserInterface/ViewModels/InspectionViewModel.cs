@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -62,12 +61,11 @@ namespace Festispec.UI.ViewModels
                 {
                     //check if starttime is before item start and endtime is before start         or       starttime is after item starttime and endtime is after item endttime
                     if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks)){
-
+                        //checked next one
                     }
                     else
-                    {
                         return false;
-                    }
+                    
 
                 }
             }
@@ -80,28 +78,18 @@ namespace Festispec.UI.ViewModels
 
         public ICollectionView Employees
         {
-            get
-            {
-                return _employees;
-            }
-            set
-            {
-                _employees = value;
-            }
+            get =>_employees;
+            set => _employees = value;
         }
 
         private string _search { get; set; }
 
         public string Search
         {
-            get
-            {
-                return _search;
-            }
+            get => _search;
             set
             {
                 _search = value;
-
                 Employees.Filter += Filter;
             }
         }
@@ -142,14 +130,10 @@ namespace Festispec.UI.ViewModels
                 //RaisePropertyChanged(nameof(EmployeesAdded));
             }
             else if(parameter.FestivalId > 0)
-            {
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
-            }
 
             if (Festival == null)
-            {
                 throw new System.Exception();
-            }
 
             _originalStartTime = _startTime;
                 RaisePropertyChanged(nameof(Festival));
@@ -288,14 +272,10 @@ namespace Festispec.UI.ViewModels
 
         public Questionnaire Questionnaire
         {
-            get
-            {
-                return _questionnaire;
-            }
-            set
-            {
-                _questionnaire = value;
-            }
+            get =>  _questionnaire;
+           
+            set => _questionnaire = value;
+
         }
 
         public async void Save()
