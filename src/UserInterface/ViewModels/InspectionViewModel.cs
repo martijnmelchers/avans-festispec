@@ -32,20 +32,15 @@ namespace Festispec.UI.ViewModels
 
         private bool Filter(object item)
         {
-
-            //if needs to be shown return true
-
-
-
-            //if (( employeeIsAvailable(item as Employee) || !employeeHasPlannedInspections(item as Employee)))
-
-            //else
-            //    return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
-
-
-            if (employeeIsAvailable(item as Employee))
-                return true;
+            if (employeeHasNoPlannedInspection(item as Employee)&& employeeIsAvailable(item as Employee))
+            {
+                if (String.IsNullOrEmpty(Search))
+                    return true;
+                else
+                    return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
             return false;
+                
         }
 
         private bool employeeIsAvailable(Employee employee)
@@ -53,24 +48,31 @@ namespace Festispec.UI.ViewModels
             foreach (var item in employee.PlannedEvents)
             {
                 if (item is Availability && item.StartTime.Ticks <= _startTime.Ticks && item.EndTime.Ticks >= _endTime.Ticks)
-                {
                     return true;
-                }
             }
             return false;
         }
 
-        private bool employeeHasPlannedInspections(Employee employee)
+        private bool employeeHasNoPlannedInspection(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
-                if (item is PlannedInspection && item.StartTime.Ticks >= _startTime.Ticks && item.EndTime.Ticks <= _endTime.Ticks)
+                //Check type
+                if (item is PlannedInspection)
                 {
-                    return true;
+                    //check if starttime is before item start and endtime is before start         or       starttime is after item starttime and endtime is after item endttime
+                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks)){
+
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
             }
 
-            return false;
+            return true;
         }
 
         private ICollectionView _employees { get; set; }
@@ -271,19 +273,6 @@ namespace Festispec.UI.ViewModels
 
         public void CheckBox(Employee employee)
         {
-            //if (!Festival.PlannedInspections.Any(e => e.Employee == employee) || !EmployeesToAdd.Contains(employee))
-            //{
-            //    EmployeesToAdd.Add(employee);
-            //}
-            //else if (EmployeesToAdd.Contains(employee))
-            //{
-            //    EmployeesToAdd.Remove(employee);
-            //}
-            //else if (Festival.PlannedInspections.Any(e => e.Employee == employee))
-            //{
-            //    EmployeesToRemove.Add(employee);
-            //}
-
             if (!EmployeesToAdd.Any(e => e.Id == employee.Id) && !EmployeesAdded.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Add(employee);
             else if (EmployeesToAdd.Any(e => e.Id == employee.Id))
@@ -320,16 +309,16 @@ namespace Festispec.UI.ViewModels
 
             foreach (Employee q in EmployeesToAdd)
             {
-                //try
-                //{
+                try
+                {
                     await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
-                    
-                //}
-                //catch (Exception e)
-                //{
-                //    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
+
             }
+                catch (Exception e)
+            {
+                MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
             EmployeesToAdd.Clear();
             foreach (Employee q in EmployeesToRemove)
             {
