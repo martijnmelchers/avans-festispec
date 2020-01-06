@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
@@ -27,6 +28,7 @@ namespace Festispec.UI.ViewModels
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
@@ -36,12 +38,11 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
-
             
             Initialize((int)_navigationService.Parameter);
 
@@ -53,7 +54,12 @@ namespace Festispec.UI.ViewModels
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
             OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow,HasAnswers);
             AddOptionToQuestion = new RelayCommand<Question>(AddOption);
+            ReturnCommand = new RelayCommand(NavigateToFestivalInfo);
+
+            CanEdit = offlineService.IsOnline;
         }
+
+        public bool CanEdit { get; }
 
         public void AddQuestion()
         {
@@ -74,6 +80,11 @@ namespace Festispec.UI.ViewModels
             else
                 _removedQuestions.Add(item);
             Questions.Remove(item);
+        }
+
+        public void NavigateToFestivalInfo()
+        {
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
 
         public async void SaveQuestionnaire()

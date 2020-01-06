@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -44,7 +45,9 @@ namespace Festispec.UI.ViewModels
 
         private IFrameNavigationService _navigationService;
 
-        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
+        public bool CanEdit { get; }
+
+        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, OfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
@@ -53,6 +56,8 @@ namespace Festispec.UI.ViewModels
             OpenFestivalCommand = new RelayCommand<Festival>(OpenFestival);
             Festivals = (CollectionView)CollectionViewSource.GetDefaultView(_festivalService.GetFestivals());
             Festivals.Filter = new Predicate<object>(Filter);
+
+            CanEdit = offlineService.IsOnline;
             
             festivalService.Sync();
         }

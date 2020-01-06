@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
@@ -40,7 +41,9 @@ namespace Festispec.UI.ViewModels
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
 
-        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService)
+        public bool CanEdit { get; }
+
+        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, OfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
@@ -54,7 +57,7 @@ namespace Festispec.UI.ViewModels
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
             GenerateReportCommand = new RelayCommand(GenerateReport);
 
-
+            CanEdit = offlineService.IsOnline;
 
             Task.Run(async () => await Initialize((int)_navigationService.Parameter));
         }

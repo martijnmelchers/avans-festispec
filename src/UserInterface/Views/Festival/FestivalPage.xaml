@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="FestivalPage">
+      Title="FestivalPage"
+      d:DataContext="{d:DesignInstance Type=viewModels:FestivalViewModel}">
     <Page.Resources>
         <Converters:HasQuestionsConverter x:Key="HasQuestionsConverter"/>
         <Converters:TextTrimmerConverter x:Key="TextTrimmerConverter"/>
@@ -62,7 +64,7 @@
                                 </Hyperlink>
                             </TextBlock>
                             <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}}" Grid.Column="3"  Padding="0,0,20,0"  VerticalAlignment="Center">
-                                <Hyperlink Click="ToggleDeleteQuestionnairePopUp" Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
+                                <Hyperlink IsEnabled="{Binding CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" Click="ToggleDeleteQuestionnairePopUp" Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
                                     <Image Height="25" Source="{StaticResource TrashcanRed}" />
                                 </Hyperlink>
                             </TextBlock>

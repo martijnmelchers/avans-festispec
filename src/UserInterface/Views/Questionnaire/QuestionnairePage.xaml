@@ -6,8 +6,10 @@
       xmlns:Models="clr-namespace:Festispec.Models.Questions;assembly=Models"
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
-      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
+      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
+      d:DataContext="{d:DesignInstance Type=viewModels:QuestionnaireViewModel}">
     <Page.Resources>
         <Converters:HasAnswerConverter x:Key="HasAnswerConverter"/>
     </Page.Resources>
@@ -39,7 +41,7 @@
                                 <Expander Header="Vraag" Width="630" IsExpanded="True">
                                     <StackPanel>
                                         <Label Content="Vraag"/>
-                                        <TextBox Text="{Binding Contents}"  IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                        <TextBox Text="{Binding Contents}" IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                         <ContentControl Content="{Binding}">
                                             <ContentControl.Resources>
                                                 <DataTemplate DataType="{x:Type Models:MultipleChoiceQuestion}">
@@ -48,47 +50,56 @@
                                                         <ListView ItemsSource="{Binding OptionCollection}">
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"/>
+                                                                    <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2}}"
+                                                                             IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
-                                                        <Button Style="{DynamicResource ButtonGreen}" Content="Add option" Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" />
+                                                        <Button Style="{DynamicResource ButtonGreen}" Content="Add option" Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" 
+                                                                IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:DrawQuestion}">
-                                                    <Button Content="Selecteer bestand" Command="{Binding DataContext.OpenFileWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  CommandParameter="{Binding}"/>
+                                                    <Button Content="Selecteer bestand" Command="{Binding DataContext.OpenFileWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  CommandParameter="{Binding}"
+                                                            IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:NumericQuestion}" >
                                                     <StackPanel>
                                                         <Label Content="Minimale waarde"/>
-                                                        <TextBox Text="{Binding Minimum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                                                        <TextBox Text="{Binding Minimum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" 
+                                                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                         <Label Content="Maximale waarde"/>
-                                                        <TextBox Text="{Binding Maximum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                        <TextBox Text="{Binding Maximum}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                                                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                     </StackPanel>
                                                     
-
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:RatingQuestion}" >
                                                     <StackPanel>
                                                         <Label Content="Laag omschrijving"/>
-                                                        <TextBox Text="{Binding LowRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                        <TextBox Text="{Binding LowRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                                                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                         <Label Content="Hoog omschrijving"/>
-                                                        <TextBox Text="{Binding HighRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                        <TextBox Text="{Binding HighRatingDescription}" IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                                                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:ReferenceQuestion}">
                                                     <StackPanel>
                                                         <Label Content="Vragenlijst"/>
-                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" 
+                                                                  IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                         <Label Content="Vraag"/>
-                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                        <ComboBox IsReadOnly="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                                                                  IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type Models:StringQuestion}" />
 
                                             </ContentControl.Resources>
                                         </ContentControl>
-                                        <Button Content="Verwijderen" Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="230" Height="45" Margin="10"/>
+                                        <Button Content="Verwijderen" Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="230" Height="45" Margin="10"
+                                                IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
                                     </StackPanel>
                                 </Expander>
                             </DataTemplate>
@@ -96,9 +107,22 @@
                     </ListView>
                 </StackPanel>
             </ScrollViewer>
-            <ComboBox Margin="10" ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" />
-            <Button  Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
-            <Button  Margin="10" Content="Save Command" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                <ComboBox Margin="10" Width="400"
+                          ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                          SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                          IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
+                <Button Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}"
+                        Style="{DynamicResource ButtonGreen}"
+                        IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="10" Content="Terug" Command="{Binding ReturnCommand}"
+                        Style="{DynamicResource ButtonRed}" />
+                <Button Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}"
+                        Style="{DynamicResource ButtonGreen}"
+                        IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
