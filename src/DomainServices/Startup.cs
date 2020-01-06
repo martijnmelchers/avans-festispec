@@ -34,7 +34,7 @@ namespace Festispec.DomainServices
             else
             {
                 services.AddScoped<IAuthenticationService, OfflineAuthenticationService>();
-                services.AddScoped<IQuestionnaireService, QuestionnaireService>(); // TODO
+                services.AddScoped<IQuestionnaireService, OfflineQuestionnaireService>();
                 services.AddScoped<IFestivalService, OfflineFestivalService>();
                 services.AddScoped<ICustomerService, OfflineCustomerService>();
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
