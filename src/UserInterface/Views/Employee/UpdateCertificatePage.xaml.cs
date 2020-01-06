@@ -1,4 +1,3 @@
-using System.Windows;
 using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
