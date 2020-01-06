@@ -26,22 +26,51 @@ namespace Festispec.UI.ViewModels
         private IInspectionService _inspectionService;
         private IFrameNavigationService _navigationService;
         private IFestivalService _festivalService;
+        private IEmployeeService _employeeService;
 
         private DateTime _originalStartTime { get; set; }
 
         private bool Filter(object item)
-        {            
+        {
 
-            foreach(PlannedEvent p in (item as Employee).PlannedEvents)
+            //if needs to be shown return true
+
+
+
+            //if (( employeeIsAvailable(item as Employee) || !employeeHasPlannedInspections(item as Employee)))
+
+            //else
+            //    return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
+
+
+            if (employeeIsAvailable(item as Employee))
+                return true;
+            return false;
+        }
+
+        private bool employeeIsAvailable(Employee employee)
+        {
+            foreach (var item in employee.PlannedEvents)
             {
-                if (p.StartTime.Date == SelectedDate.Date)
-                    return false;
+                if (item is Availability && item.StartTime.Ticks <= _startTime.Ticks && item.EndTime.Ticks >= _endTime.Ticks)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool employeeHasPlannedInspections(Employee employee)
+        {
+            foreach (var item in employee.PlannedEvents)
+            {
+                if (item is PlannedInspection && item.StartTime.Ticks >= _startTime.Ticks && item.EndTime.Ticks <= _endTime.Ticks)
+                {
+                    return true;
+                }
             }
 
-            if (String.IsNullOrEmpty(Search))
-                return true;
-            else
-                return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
+            return false;
         }
 
         private ICollectionView _employees { get; set; }
@@ -75,11 +104,12 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService)
+        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService, IEmployeeService employeeService)
         {
             _inspectionService = inspectionService;
             _navigationService = navigationService;
             _festivalService = festivalService;
+            _employeeService = employeeService;
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(Return);
@@ -91,6 +121,7 @@ namespace Festispec.UI.ViewModels
             EmployeesToRemove = new ObservableCollection<Employee>();
             EmployeesAdded = new ObservableCollection<Employee>(); 
             Task.Run(async () => await Initialize(_navigationService.Parameter));
+            
         }
 
         private async Task Initialize(dynamic parameter)
@@ -126,9 +157,10 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged(nameof(EndTime));
                 RaisePropertyChanged(nameof(SelectedDate));
                 RaisePropertyChanged(nameof(CheckBox));
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_inspectionService.GetEmployees());
+            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_employeeService.GetAllEmployees());
                 RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
+            Employees.Filter += Filter;
         }
 
         public List<DateTime> GetDateOptions
@@ -168,6 +200,7 @@ namespace Festispec.UI.ViewModels
                      dateString = $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_endTime.Hour}:{_endTime.Minute}";
                      isvalid = DateTime.TryParse(dateString, out outvar);
                     _endTime = outvar;
+                    Employees.Filter += Filter;
 
 
                 }
@@ -200,6 +233,7 @@ namespace Festispec.UI.ViewModels
                     DateTime outvar;
                     bool isvalid = DateTime.TryParse(dateString, out outvar);
                     _startTime = outvar;
+                    Employees.Filter += Filter;
                 }
                 catch (Exception)
                 {
@@ -223,6 +257,7 @@ namespace Festispec.UI.ViewModels
                     DateTime outvar;
                     bool isvalid = DateTime.TryParse(dateString, out outvar);
                     _endTime = outvar;
+                    Employees.Filter += Filter;
                 }
                 catch (Exception)
                 {
