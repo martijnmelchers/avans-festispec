@@ -27,6 +27,7 @@ namespace Festispec.Web.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 

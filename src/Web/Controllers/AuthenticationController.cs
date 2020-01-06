@@ -43,11 +43,11 @@ namespace Festispec.Web.Controllers
                 return RedirectToAction("Index", "Home");
 
             }
-            catch(AuthenticationException ex)
+            catch(AuthenticationException)
             {                
                 TempData["LoginError"] = "Onjuiste gebruikersnaam en/of wachtwoord";             
             }
-            catch (NotAuthorizedException ex)
+            catch (NotAuthorizedException)
             {
                 TempData["LoginError"] = "Dit account is niet geautoriseerd om hier in te loggen";
             }
