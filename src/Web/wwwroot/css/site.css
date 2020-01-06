@@ -81,7 +81,7 @@ body {
     align-items: center;
 }
 
-.inlog-text {
+.login-text {
     margin-top: 20px;
     font-family: Montserrat;
     font: bold;
@@ -92,21 +92,20 @@ body {
     align-items: center;
 }
 
-.inlog-field {
+.login-field {
     font-family: Montserrat;
     color: #707070;
     font-size: 23px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.inlog-field label {
+.login-field label {
     margin-bottom: 1px;
     margin-top: 10px;
 }
 
-#username, #password {
+.forum-input-box {
     width: 250px;
     padding: 11px 15px 11px 15px;
     margin-top: 1px;
@@ -122,20 +121,14 @@ body {
     font-size: 23px;
 }
 
-#password {
-    /*increase size of password dots*/
-}
-
-#inlogknop {
+#login-button {
     margin-top: 30px;
     background-color: #00D68D;
     border-width: 0px;
     border-radius: 35px;
     padding: 10px 34px 10px 34px;
     width: 200px;
-
     font-family: Montserrat;
-    font: bold;
     color: #FFFFFF;
 }
 

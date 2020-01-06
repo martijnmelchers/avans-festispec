@@ -4,7 +4,7 @@
 
 @model Festispec.Models.Account
        
-    <div class="inlog-text">
+    <div class="login-text">
         <img id="festispec-logo-login" src="~/Images/festispec logo.png" />
         <h1>Welkom!</h1>
         <p>Om in te loggen, vul je gegevens in.</p>
@@ -15,14 +15,14 @@
         @Html.AntiForgeryToken()
     
         <fieldset>
-            <div class="inlog-field">
-                <label for="gebruikersnaam">Gebruikersnaam:</label>
-                @Html.TextBoxFor(m => m.Username, new { id = "username", name = "gebruikersnaam" })
+            <div class="login-field">
+                <label>Gebruikersnaam:</label>
+                @Html.TextBoxFor(m => m.Username, new { Class = "forum-input-box" })
             </div>
-            <div class="inlog-field">
-                <label for="wachtwoord">Wachtwoord:</label>
-                @Html.PasswordFor(m => m.Password, new { id = "password", name = "wachtwoord" })
-                <input type="submit" value="Inloggen" id="inlogknop">
+            <div class="login-field">
+                <label>Wachtwoord:</label>
+                @Html.PasswordFor(m => m.Password, new { Class = "forum-input-box" })
+                <input type="submit" value="Inloggen" id="login-button">
                 <p id="login-error">@TempData["LoginError"]</p>
             </div>
         </fieldset>
