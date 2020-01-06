@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using GalaSoft.MvvmLight;
 
 namespace Festispec.UI.ViewModels
 {

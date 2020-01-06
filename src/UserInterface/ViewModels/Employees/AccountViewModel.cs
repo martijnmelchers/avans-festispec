@@ -40,7 +40,6 @@ namespace Festispec.UI.ViewModels.Employees
         }
 
         public ICommand NavigateBackCommand { get; }
-
         public ICommand SaveCommand { get; }
 
         private void NavigateBack()
