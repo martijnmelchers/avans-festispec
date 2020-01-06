@@ -145,7 +145,7 @@ namespace Festispec.UI.ViewModels
         {
             get
             {
-                return _selectedDate;
+                return GetDateOptions.FirstOrDefault(e => e.Year == _startTime.Year && e.Month == _startTime.Month && e.Day == _startTime.Day);
             }
             set
             {

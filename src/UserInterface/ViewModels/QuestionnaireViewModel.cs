@@ -28,6 +28,8 @@ namespace Festispec.UI.ViewModels
         public ICommand DeleteQuestionaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
+        public ICommand SelectReferenceQuestionCommand { get; set; }
+        public ICommand SetReferenceQuestionCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
@@ -43,7 +45,7 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             _questionFactory = questionFactory;
             _festivalService = festivalService;
-            
+
             Initialize((int)_navigationService.Parameter);
 
             _addedQuestions = new ObservableCollection<Question>();
@@ -53,13 +55,31 @@ namespace Festispec.UI.ViewModels
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
-            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow,HasAnswers);
+            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
             AddOptionToQuestion = new RelayCommand<Question>(AddOption);
+            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion);
+            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion);
 
 
             QuestionList = (CollectionView)CollectionViewSource.GetDefaultView(_allQuestions());
             QuestionList.Filter = Filter;
 
+        }
+
+
+        private ReferenceQuestion _selectedReferenceQuestion;
+        private void SelectReferenceQuestion(ReferenceQuestion referenceQuestion)
+        {
+            _selectedReferenceQuestion = referenceQuestion;
+            IsOpen = true;
+        }
+
+        private void SetReferenceQuestion(Question question)
+        {
+            _selectedReferenceQuestion.Question = question;
+            IsOpen = false;
+            RaisePropertyChanged("Questions");
+            
         }
 
         private List<Question> _allQuestions()
@@ -75,9 +95,9 @@ namespace Festispec.UI.ViewModels
             return temp;
 
         }
-    
 
-    private void DeleteQuestionaire()
+
+        private void DeleteQuestionaire()
         {
             _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
             _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
@@ -87,7 +107,7 @@ namespace Festispec.UI.ViewModels
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
             _addedQuestions.Add(tempQuestion);
-             _questions.Add(tempQuestion);
+            _questions.Add(tempQuestion);
         }
 
         public bool CanAddQuestion()
@@ -129,7 +149,8 @@ namespace Festispec.UI.ViewModels
 
             foreach (Question q in _removedQuestions)
             {
-                try {
+                try
+                {
                     await _questionnaireService.RemoveQuestion(q.Id);
 
                 }
@@ -183,11 +204,24 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public List<Questionnaire> Questionnaires {
+        public List<Questionnaire> Questionnaires
+        {
             get
             {
-                return _festivalService.GetFestival(Questionnaire.Festival.Id).Questionnaires.Where(e=> e.Id != Questionnaire.Id).ToList();
+                return _festivalService.GetFestival(Questionnaire.Festival.Id).Questionnaires.Where(e => e.Id != Questionnaire.Id).ToList();
             }
-         }
+        }
+
+        private bool _isOpen;
+        public bool IsOpen
+        {
+            get { return _isOpen; }
+            set
+            {
+                if (_isOpen == value) return;
+                _isOpen = value;
+                RaisePropertyChanged("IsOpen");
+            }
+        }
     }
 }
