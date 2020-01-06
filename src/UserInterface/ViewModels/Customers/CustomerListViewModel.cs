@@ -12,16 +12,26 @@ namespace Festispec.UI.ViewModels.Customers
     public class CustomerListViewModel
     {
         private readonly IFrameNavigationService _navigationService;
+        private string _search;
+
+        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        {
+            _navigationService = navigationService;
+
+            AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer);
+            ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
+
+            CustomerList = (CollectionView) CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
+            CustomerList.Filter = Filter;
+        }
 
         public CollectionView CustomerList { get; }
 
         public ICommand AddNewCustomerCommand { get; }
-        public ICommand EditCustomerCommand { get; }
         public ICommand ViewCustomerCommand { get; }
-
-        private bool Filter(object item) => string.IsNullOrEmpty(Search) || ((Customer)item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-
-        private string _search;
+        
+        private void NavigateToAddCustomer() => _navigationService.NavigateTo("CreateCustomer");
+        private void NavigateToViewCustomer(int customerId) => _navigationService.NavigateTo("CustomerInfo", customerId);
 
         public string Search
         {
@@ -33,39 +43,8 @@ namespace Festispec.UI.ViewModels.Customers
             }
         }
 
-        
-
-        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService, OfflineService offlineService)
-        {
-            _navigationService = navigationService;
-
-            AddNewCustomerCommand = new RelayCommand(NavigateToAddNewCustomer);
-            EditCustomerCommand = new RelayCommand<int>(NavigateToEditCustomer);
-            ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
-
-            CustomerList = (CollectionView)CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
-            CustomerList.Filter = Filter;
-
-            CanEditCustomers = offlineService.IsOnline;
-            
-            customerService.Sync();
-        }
-
-        public bool CanEditCustomers { get; }
-
-        private void NavigateToViewCustomer(int customerId)
-        {
-            _navigationService.NavigateTo("CustomerInfo", customerId);
-        }
-
-        private void NavigateToEditCustomer(int customerId)
-        {
-            _navigationService.NavigateTo("UpdateCustomer", customerId);
-        }
-
-        private void NavigateToAddNewCustomer()
-        {
-            _navigationService.NavigateTo("CreateCustomer");
-        }
+        private bool Filter(object item) =>
+            string.IsNullOrEmpty(Search) ||
+            ((Customer) item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 }

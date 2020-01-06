@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:employees="clr-namespace:Festispec.UI.ViewModels.Employees"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=employees:CertificateListViewModel}">
@@ -24,13 +25,16 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="CERTIFICATEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
-            
-            <TextBox HorizontalAlignment="Right" FontSize="30" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466" Height="64" Grid.Row="0" Grid.Column="1"/>
-            <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}" Grid.Row="0" Grid.Column="1" Margin="0,0,10,0"/>
-            
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+
+            <TextBox HorizontalAlignment="Right" FontSize="30"
+                     Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466"
+                     Height="64" Grid.Row="0" Grid.Column="1" />
+            <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}"
+                   Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" />
+
             <Label Content="{Binding Employee.Name}" Grid.Row="1" Grid.Column="0" />
-            
+
             <ListView ItemsSource="{Binding CertificateList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -46,12 +50,15 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <Label Content="{Binding CertificateTitle}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <Label Content="{Binding CertificateTitle}" FontWeight="Bold"
+                                       VerticalAlignment="Center" />
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Geldig van " FontWeight="Light" VerticalAlignment="Center" />
-                                    <Label Content="{Binding CertificationDate}" FontWeight="Light" VerticalAlignment="Center" />
+                                    <Label Content="{Binding CertificationDate}" FontWeight="Light"
+                                           VerticalAlignment="Center" />
                                     <Label Content=" tot en met " FontWeight="Light" VerticalAlignment="Center" />
-                                    <Label Content="{Binding ExpirationDate}" FontWeight="Light" VerticalAlignment="Center" />
+                                    <Label Content="{Binding ExpirationDate}" FontWeight="Light"
+                                           VerticalAlignment="Center" />
                                 </StackPanel>
                             </StackPanel>
                             
@@ -65,7 +72,7 @@
             </ListView>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right">
-                <Button Content="Terug" Command="{Binding NavigateBackCommand}" Style="{DynamicResource ButtonRed}"
+                <Button Content="Terug" Command="{Binding NavigateToEmployeeInfoCommand}" Style="{DynamicResource ButtonRed}"
                         Height="50" Width="185" HorizontalAlignment="Right" Margin="0,0,10,0" />
                 <Button Content="Nieuw" Command="{Binding AddNewCertificateCommand}" Style="{DynamicResource ButtonGreen}"
                         Height="50" Width="185" HorizontalAlignment="Right" IsEnabled="{Binding CanEditCertificates}" />

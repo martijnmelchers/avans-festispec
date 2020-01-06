@@ -12,30 +12,7 @@ namespace Festispec.UI.ViewModels.Employees
     public class EmployeeListViewModel
     {
         private readonly IFrameNavigationService _navigationService;
-
-        public CollectionView EmployeeList { get; }
-
-        public ICommand AddNewEmployeeCommand { get; }
-        public ICommand ViewEmployeeCommand { get; }
-
-        private bool Filter(object item)
-        {
-            if (string.IsNullOrEmpty(Search)) return true;
-
-            return ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
         private string _search;
-
-        public string Search
-        {
-            get => _search;
-            set
-            {
-                _search = value;
-                EmployeeList.Filter += Filter;
-            }
-        }
 
         public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
@@ -52,16 +29,28 @@ namespace Festispec.UI.ViewModels.Employees
             employeeService.Sync();
         }
 
+        public CollectionView EmployeeList { get; }
+        
         public bool CanEditEmployees { get; }
 
-        private void NavigateToViewEmployee(int employeeId)
+        public ICommand AddNewEmployeeCommand { get; }
+        public ICommand ViewEmployeeCommand { get; }
+
+        private void NavigateToAddNewEmployee() => _navigationService.NavigateTo("CreateEmployee");
+        private void NavigateToViewEmployee(int employeeId) => _navigationService.NavigateTo("EmployeeInfo", employeeId);
+
+        public string Search
         {
-            _navigationService.NavigateTo("EmployeeInfo", employeeId);
+            get => _search;
+            set
+            {
+                _search = value;
+                EmployeeList.Filter += Filter;
+            }
         }
 
-        private void NavigateToAddNewEmployee()
-        {
-            _navigationService.NavigateTo("CreateEmployee");
-        }
+        private bool Filter(object item) =>
+            string.IsNullOrEmpty(Search) ||
+            ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 }

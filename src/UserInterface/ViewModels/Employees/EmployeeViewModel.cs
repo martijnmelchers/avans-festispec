@@ -34,55 +34,30 @@ namespace Festispec.UI.ViewModels.Employees
             }
 
             CanEditEmployee = offlineService.IsOnline;
-            CancelCommand = new RelayCommand(NavigateToAccount);
-            DeleteCommand = new RelayCommand(RemoveEmployee);
-            EditEmployeeCommand = new RelayCommand(NavigateToEditEmployee);
-            EditAccountCommand = new RelayCommand(NavigateToEditAccount);
+            CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id));
+            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id));
+            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id));
             NavigateBackCommand = new RelayCommand(NavigateBack);
-            OpenDeleteCheckCommand = new RelayCommand(OpenDeleteCheck);
+
+            DeleteCommand = new RelayCommand(RemoveEmployee);
+            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteEmployee);
         }
 
         public Employee Employee { get; }
+        private bool CanDeleteEmployee { get; }
+        public bool CanEditEmployee { get; }
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand EditEmployeeCommand { get; }
-
         public ICommand EditAccountCommand { get; }
-
         public ICommand NavigateBackCommand { get; }
-
-        public bool CanDeleteEmployee { get; }
-
-        public bool CanEditEmployee { get; }
-
         public ICommand ViewCertificatesCommand { get; }
-
         public ICommand OpenDeleteCheckCommand { get; }
-
-        private void OpenDeleteCheck()
-        {
-            DeletePopupIsOpen = true;
-        }
 
         private void ViewCertificates()
         {
             _navigationService.NavigateTo("CertificateList", Employee.Id);
-        }
-
-        private void NavigateToAccount()
-        {
-            _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
-        }
-
-        private void NavigateToEditAccount()
-        {
-            _navigationService.NavigateTo("UpdateAccount", Employee.Id);
-        }
-
-        private void NavigateToEditEmployee()
-        {
-            _navigationService.NavigateTo("UpdateEmployee", Employee.Id);
         }
 
         private void NavigateBack()
@@ -157,7 +132,7 @@ namespace Festispec.UI.ViewModels.Employees
         private async void RemoveEmployee()
         {
             if (!CanDeleteEmployee)
-                throw new InvalidOperationException("Cannot remove this customer");
+                throw new InvalidOperationException("Cannot remove this employee");
 
             await _employeeService.RemoveEmployeeAsync(Employee.Id);
             NavigateBack();
