@@ -135,6 +135,7 @@ namespace Festispec.UI.ViewModels
         {
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
             _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+            _questionnaireService.Sync();
         }
     }
 }
