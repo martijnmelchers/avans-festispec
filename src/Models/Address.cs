@@ -23,9 +23,10 @@ namespace Festispec.Models
         [Required, MinLength(1), MaxLength(75)]
         public string Country { get; set; }
 
-        // TODO: MAKE REQUIRED
+        [Required]
         public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        [Required]
+        public float Longitude { get; set; }    
 
         public override string ToString()
         {

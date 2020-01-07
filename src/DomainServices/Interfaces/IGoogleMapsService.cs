@@ -11,5 +11,6 @@ namespace Festispec.DomainServices.Interfaces
     {
         Task<List<Prediction>> GetSuggestions(string input);
         Task<Address> GetAddress(string placeId);
+        Task<double> CalculateDistance(Address origin, Address destination);
     }
 }

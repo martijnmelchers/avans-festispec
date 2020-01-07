@@ -16,11 +16,6 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public Task RemoveAddress(Address address)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<Address> SaveAddress(Address address)
         {
             if (!address.Validate())
@@ -37,6 +32,14 @@ namespace Festispec.DomainServices.Services
             return address;
         }
 
-        // TODO: Add distance calculation :)
+        public async Task RemoveAddress(Address address)
+        {
+            var existing = await _db.Addresses.CountAsync(a => a.Latitude == address.Latitude && a.Longitude == a.Longitude);
+
+            if (existing == 0)
+                _db.Addresses.Remove(address);
+
+            await _db.SaveChangesAsync();
+        }
     }
 }
