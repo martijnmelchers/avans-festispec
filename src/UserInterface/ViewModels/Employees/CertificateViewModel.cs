@@ -37,7 +37,7 @@ namespace Festispec.UI.ViewModels.Employees
             EmployeeId = Certificate.Employee.Id;
             NavigateBackCommand = new RelayCommand(NavigateBack);
             DeleteCommand = new RelayCommand(RemoveCertificate);
-            OpenDeleteCheckCommand = new RelayCommand(OpenDeleteCheck);
+            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true);
         }
 
         public Certificate Certificate { get; }
@@ -47,13 +47,8 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand SaveCommand { get; }
 
         public ICommand NavigateBackCommand { get; }
-        
+
         public ICommand OpenDeleteCheckCommand { get; }
-        
-        private void OpenDeleteCheck()
-        {
-            DeletePopupIsOpen = true;
-        }
 
         private async void RemoveCertificate()
         {

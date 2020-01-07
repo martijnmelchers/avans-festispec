@@ -12,29 +12,35 @@ namespace Festispec.UI.ViewModels.Employees
     public class CertificateListViewModel
     {
         private readonly IFrameNavigationService _navigationService;
-
         private string _search;
 
         public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
         {
-            _navigationService = navigationService;
-
-            if (!(_navigationService.Parameter is int employeeId))
+            if (!(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
+
+            _navigationService = navigationService;
 
             Employee = employeeService.GetEmployee(employeeId);
             AddNewCertificateCommand = new RelayCommand(NavigateToAddNewCertificate);
+            NavigateToEmployeeInfoCommand = new RelayCommand(NavigateToEmployeeInfo);
             EditCertificateCommand = new RelayCommand<int>(NavigateToEditCertificate);
-            NavigateBackCommand = new RelayCommand(NavigateBack);
 
             CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
         }
 
+        public Employee Employee { get; }
+
         public CollectionView CertificateList { get; }
 
         public ICommand AddNewCertificateCommand { get; }
         public ICommand EditCertificateCommand { get; }
+        public ICommand NavigateToEmployeeInfoCommand { get; }
+        
+        private void NavigateToAddNewCertificate() => _navigationService.NavigateTo("CreateCertificate", Employee);
+        private void NavigateToEmployeeInfo() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
+        private void NavigateToEditCertificate(int certificateId) => _navigationService.NavigateTo("UpdateCertificate", certificateId);
 
         public string Search
         {
@@ -46,27 +52,8 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public ICommand NavigateBackCommand { get; }
-
-        public Employee Employee { get; }
-
         private bool Filter(object item) =>
             string.IsNullOrEmpty(Search) ||
             ((Certificate) item).CertificateTitle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-
-        private void NavigateBack()
-        {
-            _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
-        }
-
-        private void NavigateToEditCertificate(int certificateId)
-        {
-            _navigationService.NavigateTo("UpdateCertificate", certificateId);
-        }
-
-        private void NavigateToAddNewCertificate()
-        {
-            _navigationService.NavigateTo("CreateCertificate", Employee);
-        }
     }
 }

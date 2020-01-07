@@ -1,28 +1,17 @@
 using System;
-using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Customers
 {
-    public class CustomerViewModel
+    public class CustomerViewModel : BaseDeleteCheckViewModel
     {
         private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
-
-        public Customer Customer { get; }
-
-        public ICommand SaveCommand { get; }
-        public ICommand RemoveCustomerCommand { get; set; }
-        public ICommand CancelCommand { get; }
-        public ICommand EditCustomerCommand { get; }
-
-        public bool CanDeleteCustomer { get; }
-
-        public ICommand AddFestivalCommand { get; }
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
         {
@@ -42,38 +31,44 @@ namespace Festispec.UI.ViewModels.Customers
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
-            CancelCommand = new RelayCommand(NavigateBack);
-            RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
-            EditCustomerCommand = new RelayCommand(NavigateToEditCustomer);
-            AddFestivalCommand = new RelayCommand(NavigateToAddFestival);
+            EditCustomerCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateCustomer", Customer.Id));
+            AddFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("CreateFestival", Customer.Id));
+            NavigateToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
+            NavigateToCustomerInfoCommand = new RelayCommand(NavigateToCustomerInfo);
+
+            DeleteCommand = new RelayCommand(RemoveCustomer);
+            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
         }
 
-        private void NavigateToAddFestival()
-        {
-            _navigationService.NavigateTo("CreateFestival", Customer.Id);
-        }
+        public Customer Customer { get; }
+        private bool CanDeleteCustomer { get; }
 
-        private void NavigateToEditCustomer()
-        {
-            _navigationService.NavigateTo("UpdateCustomer", Customer.Id);
-        }
+        public ICommand SaveCommand { get; }
+        public ICommand NavigateToCustomerListCommand { get; }
+        public ICommand EditCustomerCommand { get; }
+        public ICommand OpenDeleteCheckCommand { get; }
+        public ICommand NavigateToCustomerInfoCommand { get; }
+        public ICommand AddFestivalCommand { get; }
 
-
-        private void NavigateBack()
-        {
-            _navigationService.NavigateTo("CustomerList");
-        }
+        private void NavigateToCustomerInfo() => _navigationService.NavigateTo("CustomerInfo", Customer.Id);
+        private void NavigateToCustomerList() => _navigationService.NavigateTo("CustomerList");
 
         private async void AddCustomer()
         {
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
-                NavigateBack();
+                NavigateToCustomerList();
+            }
+            catch (InvalidDataException)
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while adding a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})";
+                PopupIsOpen = true;
             }
         }
 
@@ -82,11 +77,17 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.SaveChangesAsync();
-                _navigationService.NavigateTo("CustomerInfo", Customer.Id);
+                NavigateToCustomerInfo();
+            }
+            catch (InvalidDataException)
+            {
+                ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                PopupIsOpen = true;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"An error occured while editing a customer. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                ValidationError = $"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})";
+                PopupIsOpen = true;
             }
         }
 
@@ -96,7 +97,7 @@ namespace Festispec.UI.ViewModels.Customers
                 throw new InvalidOperationException("Cannot remove this customer");
 
             await _customerService.RemoveCustomerAsync(Customer.Id);
-            NavigateBack();
+            NavigateToCustomerList();
         }
     }
 }
