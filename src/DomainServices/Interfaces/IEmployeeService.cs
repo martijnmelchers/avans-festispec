@@ -8,6 +8,8 @@ namespace Festispec.DomainServices.Interfaces
     {
         List<Employee> GetAllEmployees();
         
+        List<Employee> GetAllEmployeesActiveAndNonActive();
+        
         Employee GetEmployee(int employeeId);
         Task<Employee> GetEmployeeAsync(int employeeId);
         
