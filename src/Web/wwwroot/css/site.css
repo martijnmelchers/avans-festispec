@@ -59,8 +59,8 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;
@@ -68,4 +68,75 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* Styling voor login view */
+#festispec-logo-login {
+    width: 300px;
+    height: auto;
+    margin-bottom: 50px;
+
+    display: flex;
+    align-items: center;
+}
+
+.login-text {
+    margin-top: 20px;
+    font-family: Montserrat;
+    color: #707070;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-field {
+    font-family: Montserrat;
+    color: #707070;
+    font-size: 23px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-field label {
+    margin-bottom: 1px;
+    margin-top: 10px;
+}
+
+.forum-input-box {
+    width: 250px;
+    padding: 11px 15px 11px 15px;
+    margin-top: 1px;
+
+    background-color: #F7F6F6;
+    border-width: 1px;
+    border-color: #CFCFCF;
+    border-style: solid;
+    border-radius: 8px;
+
+    font-family: Montserrat;
+    color: #707070;
+    font-size: 23px;
+}
+
+#login-button {
+    margin-top: 30px;
+    background-color: #00D68D;
+    border-width: 0px;
+    border-radius: 35px;
+    padding: 10px 34px 10px 34px;
+    width: 200px;
+    font-family: Montserrat;
+    color: #FFFFFF;
+}
+
+#login-error {
+    width: 250px;
+    color: red;
+    font-size: 15px;
+    margin-top: 15px;
+
+    display: flex;
+    text-align: center;
 }
