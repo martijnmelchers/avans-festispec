@@ -40,7 +40,8 @@ namespace Festispec.UI.ViewModels
                 else
                     return (employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
             }
-            return false;
+                return false;
+
         }
 
         private bool EmployeeIsAvailable(Employee employee)
@@ -56,7 +57,6 @@ namespace Festispec.UI.ViewModels
                     else
                         return false;
                 }
-                
             }
             return true;
         }
@@ -65,13 +65,11 @@ namespace Festispec.UI.ViewModels
         {
             foreach (var item in employee.PlannedEvents)
             {
-
                 if (item is PlannedInspection)
                 {
                     // check if new or edit
-                    if (_originalStartTime == _startTime && _originalStartTime.Year>100)
+                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
                         return true;
-                    
                     else
                     {
                         if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
@@ -126,7 +124,7 @@ namespace Festispec.UI.ViewModels
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
             EmployeesAdded = new ObservableCollection<Employee>();
-            Task.Run(async () => await Initialize(_navigationService.Parameter));
+            Task.Run(() => Initialize(_navigationService.Parameter)).Wait();
         }
 
         private async Task Initialize(dynamic parameter)
@@ -142,7 +140,6 @@ namespace Festispec.UI.ViewModels
 
                 _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
                 _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
-                //RaisePropertyChanged(nameof(EmployeesAdded));
             }
             else if (parameter.FestivalId > 0)
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
@@ -161,16 +158,16 @@ namespace Festispec.UI.ViewModels
 
             var employees = _employeeService.GetAllEmployees();
             var advancedEmployees = new List<AdvancedEmployee>();
-            foreach(Employee employee in employees)
+            foreach (Employee employee in employees)
             {
-                advancedEmployees.Add(new AdvancedEmployee()
-                {
-                    Employee = employee,
-                    Distance = await _googleService.CalculateDistance(Festival.Address, employee.Address)
-                });
-            }
 
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
+                    var distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
+
+                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km" });
+
+            }
+            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
+
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
