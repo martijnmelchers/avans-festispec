@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Festispec.Models.Google
+﻿namespace Festispec.Models.Google
 {
     public static class GoogleStatusCodes
     {

@@ -62,8 +62,8 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
-                                <Label Content="{Binding Name}" Grid.Column="0"/>
-                                <Label Content="{Binding Address.City}" Grid.Column="1"/>
+                                <Label Content="{Binding Employee.Name}" Grid.Column="0"/>
+                                <Label Content="{Binding Employee.Address.City}" Grid.Column="1"/>
                                 <CheckBox Grid.Column="2" Command="{Binding DataContext.CheckBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}">
                                     <CheckBox.IsChecked>
                                         <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay" >
