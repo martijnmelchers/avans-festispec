@@ -14,7 +14,6 @@ namespace Festispec.DomainServices.Services
 {
     public class InspectionService : IInspectionService
     {
-
         private readonly FestispecContext _db;
 
         public InspectionService(FestispecContext db)
@@ -24,7 +23,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> CreatePlannedInspection(Festival festival)
         {
-            var plannedInspection = new PlannedInspection {Festival = festival};
+            var plannedInspection = new PlannedInspection { Festival = festival };
 
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
@@ -36,20 +35,20 @@ namespace Festispec.DomainServices.Services
         }
 
         public async Task<PlannedInspection> CreatePlannedInspection(
-            Festival festival, 
-            Questionnaire questionnaire, 
+            Festival festival,
+            Questionnaire questionnaire,
             DateTime startTime,
-            DateTime endTime, 
-            string eventTitle, 
+            DateTime endTime,
+            string eventTitle,
             Employee employee)
         {
-
             var existing = _db.PlannedInspections.FirstOrDefault(x => x.Questionnaire.Id == questionnaire.Id && x.Festival.Id == festival.Id && x.Employee.Id == employee.Id && x.StartTime.Equals(startTime) && x.IsCancelled == null);
 
             if (existing != null)
                 throw new EntityExistsException();
 
-            var plannedInspection = new PlannedInspection {
+            var plannedInspection = new PlannedInspection
+            {
                 Festival = festival,
                 Questionnaire = questionnaire,
                 StartTime = startTime,
@@ -62,12 +61,10 @@ namespace Festispec.DomainServices.Services
 
             test.ForEach(e => Debug.Print($"Object type : {e.Entity.GetType()}, State: {e.State}"));
 
-            if (!plannedInspection.Validate()) 
+            if (!plannedInspection.Validate())
                 throw new InvalidDataException();
 
-            //_db.PlannedInspections.Add(plannedInspection);
             _db.PlannedInspections.Add(plannedInspection);
-            //festival.PlannedInspections.Add(plannedInspection);
 
             await _db.SaveChangesAsync();
 
@@ -76,7 +73,6 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
-
             var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
 
             if (plannedInspection == null)
@@ -87,7 +83,6 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
         {
-
             var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
 
             if (plannedInspection == null)
@@ -98,7 +93,6 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
         {
-
             var plannedInspections = await _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
 
             if (plannedInspections == null)
@@ -111,7 +105,6 @@ namespace Festispec.DomainServices.Services
         {
             var plannedInspections = await _db.PlannedInspections.Include(e => e.Employee).Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) == EntityFunctions.TruncateTime(DateTime.Now)).ToListAsync();
 
-
             if (plannedInspections.Count < 1)
                 throw new EntityNotFoundException();
 
@@ -120,15 +113,12 @@ namespace Festispec.DomainServices.Services
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-
             var plannedInspections = _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)
                 .Select(grp => grp.ToList())
                 .ToList();
-
-
         }
 
         public async Task RemoveInspection(int PlannedInspectionId)
@@ -149,6 +139,5 @@ namespace Festispec.DomainServices.Services
         {
             await _db.SaveChangesAsync();
         }
-        
     }
 }

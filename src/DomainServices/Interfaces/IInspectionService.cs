@@ -10,9 +10,6 @@ namespace Festispec.DomainServices.Interfaces
     public interface IInspectionService
     {
         #region planned Event
-        //PlannedInspection GetPlannedInspection(int plannedInspectionId);
-        //PlannedInspection GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime);
-        //List<PlannedInspection> GetPlannedInspections(Festival festival, DateTime StartTime);
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
         Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime);
         Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime);
