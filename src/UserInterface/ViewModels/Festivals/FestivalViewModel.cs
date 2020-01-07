@@ -6,8 +6,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -20,13 +18,16 @@ namespace Festispec.UI.ViewModels
         private readonly IFestivalService _festivalService;
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IInspectionService _inspectionService;
 
         private Festival _festival;
+
         public Festival Festival
         {
             get { return _festival; }
             set { _festival = value; RaisePropertyChanged(nameof(Festival)); }
         }
+
         public string FestivalLocation { get => Festival?.Address?.ToString() ?? "Laden..."; }
         public string FestivalData { get; set; }
         public string FestivalTimes { get; set; }
@@ -41,13 +42,18 @@ namespace Festispec.UI.ViewModels
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
 
+        public ICommand DeletePlannedInspectionsCommand { get; set; }
+        public ICommand EditPlannedInspectionCommand { get; set; }
+        public ICommand CreatePlannedInspectionCommand { get; set; }
+
         public bool CanEdit { get; }
 
-        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IOfflineService offlineService)
+        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
             _questionnaireService = questionnaireService;
+            _inspectionService = inspectionService;
 
             RemoveFestivalCommand = new RelayCommand(RemoveFestival);
             EditFestivalCommand = new RelayCommand(EditFestival);
@@ -56,11 +62,60 @@ namespace Festispec.UI.ViewModels
             ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
             DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
             GenerateReportCommand = new RelayCommand(GenerateReport);
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
+            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
 
             CanEdit = offlineService.IsOnline;
 
             Task.Run(async () => await Initialize((int)_navigationService.Parameter));
         }
+
+        #region PlannedInspections
+
+        public IEnumerable<IEnumerable<PlannedInspection>> PlannedInspections
+        {
+            get
+            {
+                if (Festival != null)
+                    return _inspectionService.GetPlannedInspectionsGrouped(Festival);
+                else
+                    return new List<List<PlannedInspection>>();
+            }
+        }
+
+        public async void DeletePlannedInspection(List<PlannedInspection> plannedInspections)
+        {
+            foreach (var plannedInspection in plannedInspections)
+            {
+                try
+                {
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
+                    RaisePropertyChanged("PlannedInspections");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"An error occured while removing festival with the id: {plannedInspection.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        public void OpenPlannedInspection(PlannedInspection plannedInspection)
+        {
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspection.Id, FestivalId = -1 });
+        }
+
+        public void CreatePlannedInspection()
+        {
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = -1, FestivalId = Festival.Id });
+        }
+
+        public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
+        {
+            _navigationService.NavigateTo("Inspection", new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 });
+        }
+
+        #endregion PlannedInspections
 
         public async Task Initialize(int id)
         {
@@ -68,10 +123,10 @@ namespace Festispec.UI.ViewModels
 
             FestivalData = Festival.OpeningHours.StartDate.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndDate.ToString("dd/MM/yyyy");
             FestivalTimes = Festival.OpeningHours.StartTime.ToString(@"hh\:mm") + " - " + Festival.OpeningHours.EndTime.ToString(@"hh\:mm");
-
             RaisePropertyChanged(nameof(FestivalData));
             RaisePropertyChanged(nameof(FestivalLocation));
             RaisePropertyChanged(nameof(FestivalTimes));
+            RaisePropertyChanged(nameof(PlannedInspections));
         }
 
         public void EditFestival()
@@ -120,8 +175,8 @@ namespace Festispec.UI.ViewModels
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
                 _festivalService.Sync();
-               
-            } catch(QuestionHasAnswersException e)
+            }
+            catch(QuestionHasAnswersException e)
             {
                 MessageBox.Show($"Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -131,7 +186,6 @@ namespace Festispec.UI.ViewModels
         {
             _deletetingQuestionnareId = id;
         }
-
 
         private void GenerateReport()
         {

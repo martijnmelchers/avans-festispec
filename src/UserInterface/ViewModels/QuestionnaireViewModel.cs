@@ -1,5 +1,4 @@
-﻿using Festispec.DomainServices;
-using Festispec.DomainServices.Factories;
+﻿using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
@@ -11,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Services;
 
@@ -21,14 +20,18 @@ namespace Festispec.UI.ViewModels
     class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
     {
         private readonly IQuestionnaireService _questionnaireService;
+        private readonly IFestivalService _festivalService;
         private readonly QuestionFactory _questionFactory;
         private readonly IFrameNavigationService _navigationService;
         public Questionnaire Questionnaire { get; set; }
         public ICommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
+        public ICommand DeleteQuestionaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand SelectReferenceQuestionCommand { get; set; }
+        public ICommand SetReferenceQuestionCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
@@ -38,12 +41,15 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IOfflineService offlineService)
+        public bool CanEdit { get; }
+
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
-            
+            _festivalService = festivalService;
+
             Initialize((int)_navigationService.Parameter);
 
             _addedQuestions = new ObservableCollection<Question>();
@@ -51,21 +57,62 @@ namespace Festispec.UI.ViewModels
 
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
+            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
-            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow,HasAnswers);
+            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
             AddOptionToQuestion = new RelayCommand<Question>(AddOption);
             ReturnCommand = new RelayCommand(NavigateToFestivalInfo);
+            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion);
+            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion);
 
             CanEdit = offlineService.IsOnline;
+
+            QuestionList = (CollectionView)CollectionViewSource.GetDefaultView(_allQuestions());
+            QuestionList.Filter = Filter;
         }
 
-        public bool CanEdit { get; }
+
+        private ReferenceQuestion _selectedReferenceQuestion;
+        private void SelectReferenceQuestion(ReferenceQuestion referenceQuestion)
+        {
+            _selectedReferenceQuestion = referenceQuestion;
+            IsOpen = true;
+        }
+
+        private void SetReferenceQuestion(Question question)
+        {
+            _selectedReferenceQuestion.Question = question;
+            IsOpen = false;
+            RaisePropertyChanged("Questions");
+            
+        }
+
+        private List<Question> _allQuestions()
+        {
+            List<Question> temp = new List<Question>();
+            foreach (var item in Questionnaire.Festival.Questionnaires)
+            {
+                foreach (var item2 in item.Questions)
+                {
+                    temp.Add(item2);
+                }
+            }
+            return temp;
+
+        }
+
+
+        private void DeleteQuestionaire()
+        {
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
+            _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
+        }
 
         public void AddQuestion()
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
             _addedQuestions.Add(tempQuestion);
-             _questions.Add(tempQuestion);
+            _questions.Add(tempQuestion);
         }
 
         public bool CanAddQuestion()
@@ -112,7 +159,8 @@ namespace Festispec.UI.ViewModels
 
             foreach (Question q in _removedQuestions)
             {
-                try {
+                try
+                {
                     await _questionnaireService.RemoveQuestion(q.Id);
 
                 }
@@ -122,6 +170,7 @@ namespace Festispec.UI.ViewModels
                 }
             }
             _removedQuestions.Clear();
+
         }
 
         public bool HasAnswers(Question question)
@@ -147,6 +196,43 @@ namespace Festispec.UI.ViewModels
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
             _questions = new ObservableCollection<Question>(Questionnaire.Questions);
             _questionnaireService.Sync();
+        }
+
+
+        public CollectionView QuestionList { get; }
+
+        private bool Filter(object item) => Search <= 0 || ((Question)item).Questionnaire.Id == Search;
+
+        private int _search;
+
+        public int Search
+        {
+            get => _search;
+            set
+            {
+                _search = value;
+                QuestionList.Filter += Filter;
+            }
+        }
+
+        public List<Questionnaire> Questionnaires
+        {
+            get
+            {
+                return _festivalService.GetFestival(Questionnaire.Festival.Id).Questionnaires.Where(e => e.Id != Questionnaire.Id).ToList();
+            }
+        }
+
+        private bool _isOpen;
+        public bool IsOpen
+        {
+            get { return _isOpen; }
+            set
+            {
+                if (_isOpen == value) return;
+                _isOpen = value;
+                RaisePropertyChanged("IsOpen");
+            }
         }
     }
 }

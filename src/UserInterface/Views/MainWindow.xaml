@@ -28,10 +28,6 @@
                     <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="FestivalList" Content="Festivals" />
                 </TextBlock>
 
-                <TextBlock VerticalAlignment="Center" Width="203">
-                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Questionnaire" Content="Inspecties" />
-                </TextBlock>
-
                 <TextBlock VerticalAlignment="Center" Width="257">
                     <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="EmployeeList" Content="Medewerkers" />
                 </TextBlock>

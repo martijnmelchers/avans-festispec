@@ -24,7 +24,7 @@ namespace Festispec.DomainServices.Services
 
         public IEnumerable<Employee> GetAllEmployees()
         {
-            return _db.Employees.ToList();
+            return _db.Employees.Include(e=> e.PlannedEvents).ToList();
         }
 
         public async Task<Employee> CreateEmployeeAsync(FullName name, string iban, string username, string password,

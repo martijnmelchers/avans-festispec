@@ -27,6 +27,7 @@ namespace Festispec.DomainServices
                 services.AddScoped<ICustomerService, CustomerService>();
                 services.AddScoped<IEmployeeService, EmployeeService>();
                 services.AddScoped<IQuestionService, QuestionService>();
+                services.AddScoped<IInspectionService, InspectionService>();
                 
                 // Database initialisation code below
                 using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
@@ -39,6 +40,7 @@ namespace Festispec.DomainServices
                 services.AddScoped<ICustomerService, OfflineCustomerService>();
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
                 services.AddScoped<IQuestionService, QuestionService>(); // TODO
+                services.AddScoped<IInspectionService, InspectionService>(); // TODO
             }
 
             // Register all your factories here

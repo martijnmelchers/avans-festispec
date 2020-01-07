@@ -33,7 +33,9 @@ namespace Festispec.UI
             #region Customer ViewModels
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
+            services.AddTransient<InspectionViewModel>();
             #endregion
+
             
             #region Employee ViewModels
             services.AddTransient<EmployeeViewModel>();
@@ -70,6 +72,10 @@ namespace Festispec.UI
             navigationService.Configure("CreateFestival", new Uri("../Views/Festival/CreateFestivalPage.xaml", UriKind.Relative));
             navigationService.Configure("UpdateFestival", new Uri("../Views/Festival/UpdateFestivalPage.xaml", UriKind.Relative));
             navigationService.Configure("FestivalList", new Uri("../Views/Festival/FestivalListPage.xaml", UriKind.Relative));
+            #endregion
+
+            #region inspection route
+            navigationService.Configure("Inspection", new Uri("../Views/Inspection/InspectionPage.xaml", UriKind.Relative));
             #endregion
 
             #region Questionnaire Routes
