@@ -3,11 +3,11 @@ using Festispec.Models.EntityMapping;
 
 namespace Festispec.DomainServices.Services
 {
-    public class OfflineService
+    public class DbPollOfflineService : IOfflineService
     {
         public bool IsOnline { get; }
         
-        public OfflineService(FestispecContext context)
+        public DbPollOfflineService(FestispecContext context)
         {
             try
             {
