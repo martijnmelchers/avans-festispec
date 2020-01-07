@@ -45,26 +45,40 @@ namespace Festispec.UI.ViewModels
         {
             foreach (var item in employee.PlannedEvents)
             {
-                if (item is Availability && item.StartTime.Ticks <= _startTime.Ticks && item.EndTime.Ticks >= _endTime.Ticks)
-                    return true;
+                if (item is Availability)
+                {
+                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                    {
+                        //check next one
+                    }
+                    else
+                        return false;
+                }
+                
             }
-            return false;
+            return true;
         }
 
         private bool employeeHasNoPlannedInspection(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
-                //Check type
+
                 if (item is PlannedInspection)
                 {
-                    //check if starttime is before item start and endtime is before start         or       starttime is after item starttime and endtime is after item endttime
-                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
-                    {
-                        //checked next one
-                    }
+                    // check if new or edit
+                    if (_originalStartTime == _startTime && _originalStartTime.Year>100)
+                        return true;
+                    
                     else
-                        return false;
+                    {
+                        if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                        {
+                            //checked next one
+                        }
+                        else
+                            return false;
+                    }
                 }
             }
 
