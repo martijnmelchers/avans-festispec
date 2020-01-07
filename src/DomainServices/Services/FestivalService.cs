@@ -83,7 +83,8 @@ namespace Festispec.DomainServices.Services
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
-            
+
+            await _addressService.RemoveAddress(festival.Address);
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();

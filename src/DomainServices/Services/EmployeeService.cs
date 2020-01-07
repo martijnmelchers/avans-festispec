@@ -103,7 +103,8 @@ namespace Festispec.DomainServices.Services
 
             if (employee.PlannedEvents.ToList().Count > 0)
                 throw new EmployeeHasPlannedEventsException();
-            
+
+            await _addressService.RemoveAddress(employee.Address);
             _db.Accounts.Remove(employee.Account);
             _db.Employees.Remove(employee);
 

@@ -34,7 +34,10 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveAddress(Address address)
         {
-            var existing = await _db.Addresses.CountAsync(a => a.Latitude == address.Latitude && a.Longitude == a.Longitude);
+            int existing = 0;
+            existing += await _db.Festivals.Include(f => f.Address).CountAsync(a => a.Address.Id == address.Id);
+            existing += await _db.Employees.Include(e => e.Address).CountAsync(e => e.Address.Id == address.Id);
+            existing += await _db.Customers.Include(c => c.Address).CountAsync(c => c.Address.Id == address.Id);
 
             if (existing == 0)
                 _db.Addresses.Remove(address);
