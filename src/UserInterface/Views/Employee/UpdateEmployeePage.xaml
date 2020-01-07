@@ -32,15 +32,15 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="545" />
             </Grid.ColumnDefinitions>
 
             <TextBlock
                 Text="{Binding Employee.Name, Converter={StaticResource UpperCaseConverter}, StringFormat='MEDEWERKER {0} WIJZIGEN'}"
-                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0"
-                       VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
+                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="3" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Medewerkersgegevens -->
             <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
@@ -58,7 +58,7 @@
                      Text="{Binding Path=Employee.Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Grid.Row="5" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="5" Grid.Column="0"
                      Text="{Binding Path=Employee.Iban, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Postcode" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" />
@@ -70,42 +70,40 @@
                      Text="{Binding Path=Employee.Address.HouseNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="415,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415, 0, 0, 0"
+            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415,0,0,0"
                      Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <TextBox Grid.Row="9" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="9" Grid.Column="0"
                      Text="{Binding Path=Employee.Address.StreetName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Plaats" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <TextBox Grid.Row="11" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="11" Grid.Column="0"
                      Text="{Binding Path=Employee.Address.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
-                      Text="{Binding Path=Employee.Address.Country}"
-                      ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" />
-            
+            <ComboBox Grid.Row="13" Grid.Column="0" ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}"
+                      Text="{Binding Path=Employee.Address.Country}" />
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="15">
                 <Button Content="Verwijder" Style="{DynamicResource ButtonRed}"
-                        IsEnabled="{Binding CanDeleteEmployee}" Margin="0,0,10,0"
                         Command="{Binding OpenDeleteCheckCommand}" Height="50" Width="185" />
                 <Button Content="Wijzig account" Command="{Binding EditAccountCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
 
             <!-- Contactgegevens -->
-            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
-            <TextBox Grid.Column="1" Grid.Row="3" Margin="55,0,0,0"
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
+            <TextBox Grid.Column="2" Grid.Row="3"
                      Text="{Binding Path=Employee.ContactDetails.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
-            <TextBox Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
+            <TextBox Grid.Column="2" Grid.Row="5"
                      Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding CancelCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Wijzigingen opslaan"
@@ -113,9 +111,10 @@
                         Command="{Binding Path=SaveCommand}" />
             </StackPanel>
         </Grid>
-        
-        <controls:DeleteCheckPopup Subtext="Verwijderen van een medewerker is definitief." Caption="Medewerker verwijderen" />
+
+        <controls:DeleteCheckPopup Subtext="Verwijderen van een medewerker is definitief."
+                                   Caption="Medewerker verwijderen" />
         <controls:ValidationPopup Caption="Medewerker wijzigen" />
     </Grid>
-    
+
 </Page>

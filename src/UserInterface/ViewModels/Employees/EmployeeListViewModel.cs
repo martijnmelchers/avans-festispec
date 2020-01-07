@@ -11,20 +11,25 @@ namespace Festispec.UI.ViewModels.Employees
     public class EmployeeListViewModel
     {
         private readonly IFrameNavigationService _navigationService;
+        private string _search;
+
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
+            ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
+
+            EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
+            EmployeeList.Filter = Filter;
+        }
 
         public CollectionView EmployeeList { get; }
 
         public ICommand AddNewEmployeeCommand { get; }
         public ICommand ViewEmployeeCommand { get; }
 
-        private bool Filter(object item)
-        {
-            if (string.IsNullOrEmpty(Search)) return true;
-
-            return ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        private string _search;
+        private void NavigateToAddNewEmployee() => _navigationService.NavigateTo("CreateEmployee");
+        private void NavigateToViewEmployee(int employeeId) => _navigationService.NavigateTo("EmployeeInfo", employeeId);
 
         public string Search
         {
@@ -36,25 +41,8 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
-        {
-            _navigationService = navigationService;
-
-            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
-            ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
-
-            EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployees());
-            EmployeeList.Filter = Filter;
-        }
-
-        private void NavigateToViewEmployee(int employeeId)
-        {
-            _navigationService.NavigateTo("EmployeeInfo", employeeId);
-        }
-
-        private void NavigateToAddNewEmployee()
-        {
-            _navigationService.NavigateTo("CreateEmployee");
-        }
+        private bool Filter(object item) =>
+            string.IsNullOrEmpty(Search) ||
+            ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 }

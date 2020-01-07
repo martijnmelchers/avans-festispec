@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Festispec.UI.ViewModels.Employees;
+﻿using Festispec.UI.ViewModels.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Employee
