@@ -31,7 +31,7 @@ namespace Festispec.DomainServices
             // Database initialisation code below
             using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
 
-            return services;
+            return services; 
         }
     }
 }
