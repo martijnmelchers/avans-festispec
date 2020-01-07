@@ -1,17 +1,22 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
+using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Customers
 {
-    public class CustomerViewModel
+    public class CustomerViewModel : ViewModelBase
     {
         private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IGoogleMapsService _googleService;
 
         public Customer Customer { get; }
 
@@ -19,12 +24,14 @@ namespace Festispec.UI.ViewModels.Customers
         public ICommand RemoveCustomerCommand { get; set; }
         public ICommand CancelCommand { get; }
         public ICommand EditCustomerCommand { get; }
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
 
         public bool CanDeleteCustomer { get; }
 
         public ICommand AddFestivalCommand { get; }
 
-        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
@@ -46,6 +53,12 @@ namespace Festispec.UI.ViewModels.Customers
             RemoveCustomerCommand = new RelayCommand(RemoveCustomer);
             EditCustomerCommand = new RelayCommand(NavigateToEditCustomer);
             AddFestivalCommand = new RelayCommand(NavigateToAddFestival);
+
+            #region Google Search
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            #endregion
         }
 
         private void NavigateToAddFestival()
@@ -98,5 +111,39 @@ namespace Festispec.UI.ViewModels.Customers
             await _customerService.RemoveCustomerAsync(Customer.Id);
             NavigateBack();
         }
+
+        #region Google Search
+        public ObservableCollection<Prediction> Suggestions { get; set; }
+        public string SearchQuery { get; set; }
+
+        public async void Search()
+        {
+            try
+            {
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery));
+            }
+            catch (GoogleMapsApiException)
+            {
+                MessageBox.Show("ERROR!");
+            }
+
+            RaisePropertyChanged(nameof(Suggestions));
+
+        }
+
+        public async void Select(string id)
+        {
+            try
+            {
+                var address = await _googleService.GetAddress(id);
+                Customer.Address = address;
+            }
+            catch (GoogleMapsApiException)
+            {
+                MessageBox.Show("Error fetching place, try again!");
+            }
+        }
+
+        #endregion
     }
 }

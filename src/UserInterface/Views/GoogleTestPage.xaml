@@ -9,7 +9,7 @@
       Title="GoogleTestPage">
 
     <Grid Margin="0,0,0,0">
-        <ListView VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="89,120,0,0" ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="264" Width="622">
+        <ListView VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="89,0,0,0" ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="264" Width="622">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -19,7 +19,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="5"/>
-                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="500"   Padding="20,0,0,0" Grid.Column="0"/>
+                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="500"   Padding="20,10,0,10" Grid.Column="0"/>
                         <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
                                 <Hyperlink Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource EyeGreen}" />
@@ -28,9 +28,14 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
-        <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken" HorizontalAlignment="Left" Margin="531,34,0,0" VerticalAlignment="Top" Height="52" Width="125"/>
-        <TextBox HorizontalAlignment="Left" Margin="89,34,0,0" Text="{Binding SearchQuery}" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" Height="52"/>
+        <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken" HorizontalAlignment="Left" Margin="531,34,0,0" VerticalAlignment="Top" Height="46" Width="125"/>
+        <TextBox HorizontalAlignment="Left" Margin="89,34,0,0" Text="{Binding SearchQuery}" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" Height="46"/>
         <Rectangle Style="{DynamicResource ContentBox}" HorizontalAlignment="Left" Height="228" Margin="942,38,0,0" VerticalAlignment="Top" Width="324"/>
         <TextBlock  Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="974,56,0,0" Text="PLACE" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.46,0.792"/>
 

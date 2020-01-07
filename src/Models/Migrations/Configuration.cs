@@ -405,7 +405,7 @@ namespace Festispec.Models.Migrations
                     // Voorletter + Achternaam + geboortejaar
                     Username = "HJanssen80",
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
-                    Role = Role.Employee
+                    Role = Role.Employee,
                 },
                 Address = address,
                 ContactDetails = new ContactDetails
