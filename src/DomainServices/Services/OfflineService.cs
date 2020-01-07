@@ -1,4 +1,3 @@
-using System.Data.Entity;
 using System.Data.SqlClient;
 using Festispec.Models.EntityMapping;
 

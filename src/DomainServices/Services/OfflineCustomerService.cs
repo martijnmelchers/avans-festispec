@@ -8,14 +8,14 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineCustomerService : ICustomerService
     {
-        private readonly SyncService<Customer> _syncService;
+        private readonly ISyncService<Customer> _syncService;
 
-        public OfflineCustomerService(SyncService<Customer> syncService)
+        public OfflineCustomerService(ISyncService<Customer> syncService)
         {
             _syncService = syncService;
         }
         
-        public List<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers()
         {
             return _syncService.GetAll().ToList();
         }

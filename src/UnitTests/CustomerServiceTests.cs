@@ -32,7 +32,7 @@ namespace Festispec.UnitTests
         {
             List<Customer> expected = _modelMocks.Customers;
             
-            List<Customer> actual = _customerService.GetAllCustomers();
+            List<Customer> actual = _customerService.GetAllCustomers().ToList();
             Assert.Equal(expected, actual);
         }
 

@@ -13,9 +13,9 @@ namespace Festispec.DomainServices.Services
     public class FestivalService : IFestivalService
     {
         private readonly FestispecContext _db;
-        private readonly SyncService<Festival> _syncService;
+        private readonly ISyncService<Festival> _syncService;
 
-        public FestivalService(FestispecContext db, SyncService<Festival> syncService)
+        public FestivalService(FestispecContext db, ISyncService<Festival> syncService)
         {
             _db = db;
             _syncService = syncService;

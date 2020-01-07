@@ -13,16 +13,16 @@ namespace Festispec.DomainServices.Services
     {
         private readonly FestispecContext _db;
         private readonly IAuthenticationService _authenticationService;
-        private readonly SyncService<Employee> _employeeSyncService;
+        private readonly ISyncService<Employee> _employeeSyncService;
 
-        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, SyncService<Employee> employeeSyncService)
+        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, ISyncService<Employee> employeeSyncService)
         {
             _db = db;
             _authenticationService = authenticationService;
             _employeeSyncService = employeeSyncService;
         }
 
-        public List<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAllEmployees()
         {
             return _db.Employees.ToList();
         }

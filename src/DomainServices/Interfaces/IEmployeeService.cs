@@ -6,8 +6,8 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface IEmployeeService : ISyncable
     {
-        List<Employee> GetAllEmployees();
-        
+        IEnumerable<Employee> GetAllEmployees();
+
         Employee GetEmployee(int employeeId);
         Task<Employee> GetEmployeeAsync(int employeeId);
         

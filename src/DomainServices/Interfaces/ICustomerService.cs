@@ -6,8 +6,8 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface ICustomerService : ISyncable
     {
-        List<Customer> GetAllCustomers();
-        
+        IEnumerable<Customer> GetAllCustomers();
+
         Customer GetCustomer(int customerId);
         Task<Customer> GetCustomerAsync(int customerId);
         

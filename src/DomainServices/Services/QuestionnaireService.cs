@@ -13,9 +13,9 @@ namespace Festispec.DomainServices.Services
     public class QuestionnaireService : IQuestionnaireService
     {
         private readonly FestispecContext _db;
-        private readonly SyncService<Questionnaire> _syncService;
+        private readonly ISyncService<Questionnaire> _syncService;
 
-        public QuestionnaireService(FestispecContext db, SyncService<Questionnaire> syncService)
+        public QuestionnaireService(FestispecContext db, ISyncService<Questionnaire> syncService)
         {
             _db = db;
             _syncService = syncService;

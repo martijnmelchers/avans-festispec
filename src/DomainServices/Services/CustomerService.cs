@@ -12,15 +12,15 @@ namespace Festispec.DomainServices.Services
     public class CustomerService : ICustomerService
     {
         private readonly FestispecContext _db;
-        private readonly SyncService<Customer> _syncService;
+        private readonly ISyncService<Customer> _syncService;
 
-        public CustomerService(FestispecContext db, SyncService<Customer> syncService)
+        public CustomerService(FestispecContext db, ISyncService<Customer> syncService)
         {
             _db = db;
             _syncService = syncService;
         }
 
-        public List<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers()
         {
             return _db.Customers.ToList();
         }

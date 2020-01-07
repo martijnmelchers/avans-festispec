@@ -9,13 +9,13 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineEmployeeService : IEmployeeService
     {
-        private readonly SyncService<Employee> _employeeSyncService;
+        private readonly ISyncService<Employee> _employeeSyncService;
 
-        public OfflineEmployeeService(SyncService<Employee> employeeSyncService)
+        public OfflineEmployeeService(ISyncService<Employee> employeeSyncService)
         {
             _employeeSyncService = employeeSyncService;
         }
-        public List<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAllEmployees()
         {
             return _employeeSyncService.GetAll().ToList();
         }

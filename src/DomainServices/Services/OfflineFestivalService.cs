@@ -8,9 +8,9 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineFestivalService : IFestivalService
     {
-        private readonly SyncService<Festival> _syncService;
+        private readonly ISyncService<Festival> _syncService;
 
-        public OfflineFestivalService(SyncService<Festival> syncService)
+        public OfflineFestivalService(ISyncService<Festival> syncService)
         {
             _syncService = syncService;
         }

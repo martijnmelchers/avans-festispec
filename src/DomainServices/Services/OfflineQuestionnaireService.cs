@@ -10,9 +10,9 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineQuestionnaireService : IQuestionnaireService
     {
-        private readonly SyncService<Questionnaire> _syncService;
+        private readonly ISyncService<Questionnaire> _syncService;
 
-        public OfflineQuestionnaireService(SyncService<Questionnaire> syncService)
+        public OfflineQuestionnaireService(ISyncService<Questionnaire> syncService)
         {
             _syncService = syncService;
         }

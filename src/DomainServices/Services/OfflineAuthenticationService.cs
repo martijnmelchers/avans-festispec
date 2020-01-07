@@ -8,9 +8,9 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineAuthenticationService : IAuthenticationService
     {
-        private readonly SyncService<Account> _syncService;
+        private readonly ISyncService<Account> _syncService;
 
-        public OfflineAuthenticationService(SyncService<Account> syncService)
+        public OfflineAuthenticationService(ISyncService<Account> syncService)
         {
             _syncService = syncService;
         }

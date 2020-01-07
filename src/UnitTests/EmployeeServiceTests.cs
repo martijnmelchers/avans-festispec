@@ -165,7 +165,7 @@ namespace Festispec.UnitTests
         {
             List<Employee> expected = _modelMocks.Employees;
             
-            List<Employee> actual = _employeeService.GetAllEmployees();
+            List<Employee> actual = _employeeService.GetAllEmployees().ToList();
             Assert.Equal(expected, actual);
         }
 

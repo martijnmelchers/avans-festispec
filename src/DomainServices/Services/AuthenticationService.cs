@@ -11,11 +11,11 @@ namespace Festispec.DomainServices.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly FestispecContext _db;
-        private readonly SyncService<Account> _syncService;
+        private readonly ISyncService<Account> _syncService;
 
         public Account LoggedIn { get; private set; }
 
-        public AuthenticationService(FestispecContext db, SyncService<Account> syncService)
+        public AuthenticationService(FestispecContext db, ISyncService<Account> syncService)
         {
             _db = db;
             _syncService = syncService;
