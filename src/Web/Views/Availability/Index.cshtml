@@ -5,30 +5,32 @@
 
 <h1>Index</h1>
 <form asp-action="Index">
-
     <script>
-        $('#datetimepicker').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            keepOpen: true,
-            format: 'YYYY-MM-DD hh:mm A'
+        $( document ).ready(function() {
+            $('#sandbox-container div').datepicker({
+    
+            });
         });
+   
     </script>
 
-    <input type='text' class="form-control" id="datetimepicker" name="when" placeholder="When" required autofocus />
-    
-    <div id="background-availability">
-        <h1 id="availability-title">Beschikbaarheid</h1>
-        <div class="legend-item">
-            <div id="blue-circle"></div> <p>Beschikbaar</p>
+    <div class="span5 col-md-5" id="sandbox-container">
+        <div>
         </div>
-        <div class="legend-item">
-            <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
-        </div>
-
-
-        <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
-        <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
     </div>
+
+            <div id="background-availability">
+                <h1 id="availability-title">Beschikbaarheid</h1>
+                <div class="legend-item">
+                    <div id="blue-circle"></div> <p>Beschikbaar</p>
+                </div>
+                <div class="legend-item">
+                    <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
+                </div>
+
+
+                <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
+                <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
+            </div>
 </form>
 
