@@ -25,14 +25,6 @@ namespace Festispec.DomainServices.Services
             
             // disable lazy loading on this specific context to avoid pulling in our entire database as json.
             _db.Configuration.LazyLoadingEnabled = false;
-
-            if (!File.Exists(_jsonFile))
-            {
-                using (FileStream fileStream = File.Create(_jsonFile)) fileStream.Close();
-                Flush();
-            }
-
-            ReadFile();
             
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
                 {
@@ -42,20 +34,43 @@ namespace Festispec.DomainServices.Services
                 };
         }
 
+        private JObject JsonObject
+        {
+            get
+            {
+                if (_jsonObject == null)
+                    Initialise();
+                
+                return _jsonObject;
+            }
+            set => _jsonObject = value;
+        }
+
+        private void Initialise()
+        {
+            if (!File.Exists(_jsonFile))
+            {
+                using (FileStream fileStream = File.Create(_jsonFile)) fileStream.Dispose();
+                Flush();
+            }
+
+            ReadFile();
+        }
+
         private void ReadFile()
         {
-            _jsonObject = JObject.Parse(File.ReadAllText(_jsonFile));
+            JsonObject = JObject.Parse(File.ReadAllText(_jsonFile));
         }
 
         public IEnumerable<T> GetAll()
         {
-            return ((JArray) _jsonObject["items"]).Select(i =>
+            return ((JArray) JsonObject["items"]).Select(i =>
                 JsonConvert.DeserializeObject<T>(i.ToString()));
         }
 
         public T GetEntity(int entityId)
         {
-            var jObject = (JObject) ((JArray) _jsonObject["items"])
+            var jObject = (JObject) ((JArray) JsonObject["items"])
                 .First(j => j is JObject jO 
                             && jO.ContainsKey("Id") 
                             && (long) ((JValue) jO["Id"]).Value == entityId);
@@ -68,7 +83,7 @@ namespace Festispec.DomainServices.Services
 
         public void AddEntity(T entity)
         {
-            var jArray = (JArray) _jsonObject["items"];
+            var jArray = (JArray) JsonObject["items"];
             jArray.Add(JObject.Parse(JsonConvert.SerializeObject(entity)));
         }
 
@@ -79,14 +94,14 @@ namespace Festispec.DomainServices.Services
 
         public void SaveChanges()
         {
-            _jsonObject["updatedAt"] = new JValue(DateTime.Now);
-            File.WriteAllText(_jsonFile, _jsonObject.ToString());
+            JsonObject["updatedAt"] = new JValue(DateTime.Now);
+            File.WriteAllText(_jsonFile, JsonObject.ToString());
         }
 
         public async void SaveChangesAsync()
         {
-            _jsonObject["updatedAt"] = new JValue(DateTime.Now);
-            await File.WriteAllTextAsync(_jsonFile, _jsonObject.ToString());
+            JsonObject["updatedAt"] = new JValue(DateTime.Now);
+            await File.WriteAllTextAsync(_jsonFile, JsonObject.ToString());
         }
 
         public FestispecContext GetSyncContext() => _db;
