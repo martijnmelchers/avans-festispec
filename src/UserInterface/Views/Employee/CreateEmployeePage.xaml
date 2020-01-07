@@ -32,13 +32,14 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="545" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="NIEUWE MEDEWERKER AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0"
-                       VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
+            <TextBlock Text="NIEUWE MEDEWERKER AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="2" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Medewerkersgegevens -->
             <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
@@ -56,7 +57,7 @@
                      Text="{Binding Path=Employee.Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Grid.Row="5" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="5" Grid.Column="0"
                      Text="{Binding Path=Employee.Iban, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Postcode" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" />
@@ -68,58 +69,56 @@
                      Text="{Binding Path=Employee.Address.HouseNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="415,0,0,0" />
-            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415, 0, 0, 0"
+            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415,0,0,0"
                      Text="{Binding Path=Employee.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <TextBox Grid.Row="9" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="9" Grid.Column="0"
                      Text="{Binding Path=Employee.Address.StreetName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Plaats" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <TextBox Grid.Row="11" Grid.Column="0" Margin="0,0,55,0"
+            <TextBox Grid.Row="11" Grid.Column="0"
                      Text="{Binding Path=Employee.Address.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
-                     Text="{Binding Path=Employee.Address.Country, Mode=TwoWay}"
-                     ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" SelectedIndex="0" />
+            <ComboBox Grid.Row="13" Grid.Column="0" ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}"
+                      Text="{Binding Path=Employee.Address.Country}" SelectedIndex="0" />
 
             <!-- Contactgegevens -->
-            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
-            <TextBox Grid.Column="1" Grid.Row="3" Margin="55,0,0,0"
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
+            <TextBox Grid.Column="2" Grid.Row="3"
                      Text="{Binding Path=Employee.ContactDetails.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
-            <TextBox Grid.Column="1" Grid.Row="5" Margin="55,0,0,0"
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
+            <TextBox Grid.Column="2" Grid.Row="5"
                      Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <!-- Accountgegevens -->
-            <Label Content="Accountgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6" Margin="55,0,0,0" />
+            <Label Content="Accountgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" />
 
-            <Label Content="Gebruikersnaam" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" Margin="55,0,0,0" />
-            <TextBox Grid.Column="1" Grid.Row="8" Margin="55,0,0,0"
-                     Text="{Binding Path=Employee.Account.Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Label Content="Gebruikersnaam" VerticalAlignment="Center" Grid.Column="2" Grid.Row="7" />
+            <TextBox Grid.Column="2" Grid.Row="8"
+                     Text="{Binding Path=Employee.Account.Username, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="55,0,0,0" />
-            <PasswordBox Name="Password" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="10" Margin="55,0,0,0" Width="257.5" />
-            
-            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" Margin="340,0,0,0" />
-            <PasswordBox Name="PasswordRepeat" Grid.Column="1" Grid.Row="10" Margin="340,0,0,0" Width="257.5" />
+            <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" />
+            <PasswordBox Name="Password" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="10" Width="257.5" />
 
-            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="1" Grid.Row="11" Margin="55,0,0,0" />
-            <ComboBox ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
-                      SelectedItem="{Binding Employee.Account.Role}"
-                      Grid.Column="1" Grid.Row="12" Margin="55,0,0,0">
+            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" Margin="340,0,0,0" />
+            <PasswordBox Name="PasswordRepeat" Grid.Column="2" Grid.Row="10" Margin="340,0,0,0" Width="257.5" />
+
+            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="2" Grid.Row="11" />
+            <ComboBox Grid.Column="2" Grid.Row="12" ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
+                      SelectedItem="{Binding Employee.Account.Role}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource RoleTranslatorConverter}}"/>
+                        <TextBlock Text="{Binding Converter={StaticResource RoleTranslatorConverter}}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
 
@@ -127,7 +126,7 @@
                         Style="{DynamicResource ButtonGreen}" />
             </StackPanel>
         </Grid>
-        
+
         <controls:ValidationPopup Caption="Medewerker toevoegen" />
     </Grid>
 </Page>

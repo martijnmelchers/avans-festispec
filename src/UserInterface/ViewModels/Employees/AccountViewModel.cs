@@ -28,9 +28,7 @@ namespace Festispec.UI.ViewModels.Employees
         }
 
         public Account Account { get; }
-
         public ICommand NavigateBackCommand { get; }
-
         public ICommand SaveCommand { get; }
 
         private void NavigateBack()

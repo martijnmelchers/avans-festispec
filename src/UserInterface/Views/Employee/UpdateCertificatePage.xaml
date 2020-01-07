@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=employees:CertificateViewModel}">
-<Grid>
+    <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="650" Height="420" />
         <Grid Width="600" Height="390">
             <Grid.RowDefinitions>
@@ -26,23 +26,28 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <TextBlock Text="CERTIFICAAT WIJZIGEN"
                        Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
-            <Label Content="{Binding Certificate.Employee.Name, StringFormat='Medewerker: {0}'}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+            <Label Content="{Binding Certificate.Employee.Name, StringFormat='Medewerker: {0}'}" Grid.Row="1"
+                   Grid.Column="0" Grid.ColumnSpan="2" />
 
             <Label Content="Titel" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
-            <TextBox Text="{Binding Certificate.CertificateTitle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                     Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
-            
+            <TextBox
+                Text="{Binding Certificate.CertificateTitle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+
             <Label Content="Afgiftedatum" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="0" Margin="0,0,15,0" />
-            <DatePicker Grid.Row="6" Grid.Column="0" SelectedDate="{Binding Certificate.CertificationDate}" Margin="0,0,15,0" />
-            
+            <DatePicker Grid.Row="6" Grid.Column="0" SelectedDate="{Binding Certificate.CertificationDate}"
+                        Margin="0,0,15,0" />
+
             <Label Content="Verloopdatum" VerticalAlignment="Bottom" Grid.Row="5" Grid.Column="1" Margin="15,0,0,0" />
-            <DatePicker Grid.Row="6" Grid.Column="1" SelectedDate="{Binding Certificate.ExpirationDate}" Margin="15,0,0,0" />
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
+            <DatePicker Grid.Row="6" Grid.Column="1" SelectedDate="{Binding Certificate.ExpirationDate}"
+                        Margin="15,0,0,0" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="8" Grid.Column="0"
+                        Grid.ColumnSpan="2">
                 <Button Command="{Binding OpenDeleteCheckCommand}"
                         Style="{DynamicResource ButtonRed}" MinWidth="50" Width="50" Height="50" Margin="0,0,10,0">
                     <Button.Content>
@@ -55,8 +60,9 @@
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
         </Grid>
-        
-        <controls:DeleteCheckPopup Subtext="Verwijderen van een certificaat is definitief." Caption="Certificaat verwijderen" />
+
+        <controls:DeleteCheckPopup Subtext="Verwijderen van een certificaat is definitief."
+                                   Caption="Certificaat verwijderen" />
         <controls:ValidationPopup Caption="Certificaat wijzigen" />
     </Grid>
 </Page>
