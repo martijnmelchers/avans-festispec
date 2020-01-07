@@ -16,10 +16,12 @@ namespace Festispec.DomainServices
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
             services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
             services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddScoped<FestispecContext>();
+            services.AddScoped<IInspectionService, InspectionService>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());

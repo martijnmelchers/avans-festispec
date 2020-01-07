@@ -21,6 +21,23 @@
         </Setter>
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Padding" Value="10" />
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <!-- This gets rid of the double-border when a validation error has occurred. -->
+                    <AdornedElementPlaceholder/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource Red}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
         <Style.Resources>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="CornerRadius" Value="5" />
@@ -284,6 +301,130 @@
             </Setter.Value>
 
         </Setter>
+
+    </Style>
+    
+    <Style TargetType="DatePicker">
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"></Setter>
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="15"></Setter>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource Gray}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource DarkGray}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <!-- This gets rid of the double-border when a validation error has occurred. -->
+                    <AdornedElementPlaceholder/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource Red}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <!-- Adapted from https://stackoverflow.com/questions/45056411/wpf-datepicker-inner-border-deactivate -->
+            <Style TargetType="DatePickerTextBox">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+                            <Grid>
+                                <Grid.Resources>
+                                    <SolidColorBrush x:Key="WatermarkBrush" Color="{DynamicResource Gray}" />
+                                </Grid.Resources>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition GeneratedDuration="0" />
+                                            <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver" />
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="WatermarkStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition GeneratedDuration="0" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Unwatermarked" />
+                                        <VisualState x:Name="Watermarked">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="0"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 Storyboard.TargetName="ContentElement" />
+                                                <DoubleAnimation Duration="0" To="1"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 Storyboard.TargetName="PART_Watermark" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition GeneratedDuration="0" />
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Unfocused" />
+                                        <VisualState x:Name="Focused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Opacity="1"
+                                        Padding="{TemplateBinding Padding}">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{DynamicResource Gray}" />
+                                    </Border.Background>
+                                    <Grid x:Name="WatermarkContent"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <Border x:Name="ContentElement" BorderThickness="1">
+                                            <Border.BorderBrush>
+                                                <SolidColorBrush Color="{DynamicResource Gray}" />
+                                            </Border.BorderBrush>
+                                        </Border>
+                                        <Border x:Name="watermark_decorator"
+                                                BorderThickness="1">
+                                            <Border.BorderBrush>
+                                                <SolidColorBrush Color="{DynamicResource Gray}" />
+                                            </Border.BorderBrush>
+                                            <ContentControl x:Name="PART_Watermark" Focusable="False"
+                                                            IsHitTestVisible="False" Opacity="0" Padding="2" />
+                                        </Border>
+                                        <ScrollViewer x:Name="PART_ContentHost"
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="0"
+                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
 
     </Style>
 </ResourceDictionary>
