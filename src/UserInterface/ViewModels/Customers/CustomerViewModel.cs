@@ -27,7 +27,7 @@ namespace Festispec.UI.ViewModels.Customers
                 Customer = _customerService.GetCustomer(customerId);
                 CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
-                CurrentAddress = $"Huidige adres: {Customer.Address.ToString()}";
+                CurrentAddress = $"Huidige adres: {Customer.Address}";
 
             }
             else
@@ -130,7 +130,7 @@ namespace Festispec.UI.ViewModels.Customers
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
                 PopupIsOpen = true;
             }
 
@@ -143,12 +143,12 @@ namespace Festispec.UI.ViewModels.Customers
             {
                 var address = await _googleService.GetAddress(id);
                 Customer.Address = address;
-                CurrentAddress = $"Geselecteerde adres: {Customer.Address.ToString()}";
+                CurrentAddress = $"Geselecteerde adres: {Customer.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
                 PopupIsOpen = true;
             }
         }

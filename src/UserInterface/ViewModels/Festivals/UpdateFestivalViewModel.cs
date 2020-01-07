@@ -20,6 +20,9 @@ namespace Festispec.UI.ViewModels
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
+
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
         public UpdateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IGoogleMapsService googleMapsService)
         {
             _festivalService = festivalService;
@@ -27,6 +30,12 @@ namespace Festispec.UI.ViewModels
             _googleService = googleMapsService;
             Festival = _festivalService.GetFestival((int)_navigationService.Parameter);
             UpdateFestivalCommand = new RelayCommand(UpdateFestival);
+
+            #region Google Search
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            #endregion
         }
         public async void UpdateFestival()
         {            

@@ -45,6 +45,12 @@ namespace Festispec.UI.ViewModels
             
             Festival.Customer = _customerService.GetCustomer(customerId);
             CreateFestivalCommand = new RelayCommand(CreateFestival);
+
+            #region Google Search
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            #endregion
         }
         public async void CreateFestival()
         {
