@@ -170,7 +170,7 @@ namespace Festispec.DomainServices.Services
             return answer;
         }
 
-        public List<Answer> getAnswers()
+        public List<Answer> GetAnswers()
         {
             return _db.Answers.ToList();
         }

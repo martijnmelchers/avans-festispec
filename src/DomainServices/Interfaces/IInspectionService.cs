@@ -1,8 +1,6 @@
 ﻿using Festispec.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
@@ -18,7 +16,7 @@ namespace Festispec.DomainServices.Interfaces
         Task<PlannedInspection> CreatePlannedInspection(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
             DateTime endTime, string eventTitle, Employee employee);
-        Task RemoveInspection(int PlannedInspectionId, string cancellationreason);
+        Task RemoveInspection(int plannedInspectionId, string cancellationreason);
         Task SaveChanges();
         #endregion
     }
