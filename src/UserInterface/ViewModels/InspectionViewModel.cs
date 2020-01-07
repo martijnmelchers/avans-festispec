@@ -22,26 +22,28 @@ namespace Festispec.UI.ViewModels
         public ICommand AddEmployee { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
-        private IInspectionService _inspectionService;
-        private IFrameNavigationService _navigationService;
-        private IFestivalService _festivalService;
-        private IEmployeeService _employeeService;
+        private readonly IInspectionService _inspectionService;
+        private readonly IFrameNavigationService _navigationService;
+        private readonly IFestivalService _festivalService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IGoogleMapsService _googleService;
 
         private DateTime _originalStartTime { get; set; }
 
         private bool Filter(object item)
         {
-            if (employeeHasNoPlannedInspection(item as Employee) && employeeIsAvailable(item as Employee))
+            var employee = (item as AdvancedEmployee).Employee;
+            if (EmployeeHasNoPlannedInspection(employee) && EmployeeIsAvailable(employee))
             {
-                if (String.IsNullOrEmpty(Search))
+                if (string.IsNullOrEmpty(Search))
                     return true;
                 else
-                    return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
+                    return (employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
             }
             return false;
         }
 
-        private bool employeeIsAvailable(Employee employee)
+        private bool EmployeeIsAvailable(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
@@ -51,7 +53,7 @@ namespace Festispec.UI.ViewModels
             return false;
         }
 
-        private bool employeeHasNoPlannedInspection(Employee employee)
+        private bool EmployeeHasNoPlannedInspection(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
@@ -92,12 +94,14 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService, IEmployeeService employeeService)
+        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService, IEmployeeService employeeService, IGoogleMapsService googleService)
         {
             _inspectionService = inspectionService;
             _navigationService = navigationService;
             _festivalService = festivalService;
             _employeeService = employeeService;
+            _googleService = googleService;
+
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(Return);
@@ -116,7 +120,7 @@ namespace Festispec.UI.ViewModels
             if (parameter.PlannedInspectionId > 0)
             {
                 PlannedInspection temp = await _inspectionService.GetPlannedInspection(parameter.PlannedInspectionId);
-                Festival = temp.Festival;
+                Festival = await _festivalService.GetFestivalAsync(temp.Festival.Id);
                 _startTime = temp.StartTime;
                 _endTime = temp.EndTime;
                 Questionnaire = temp.Questionnaire;
@@ -130,7 +134,7 @@ namespace Festispec.UI.ViewModels
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
 
             if (Festival == null)
-                throw new System.Exception();
+                throw new Exception();
 
             _originalStartTime = _startTime;
             RaisePropertyChanged(nameof(Festival));
@@ -140,7 +144,19 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(EndTime));
             RaisePropertyChanged(nameof(SelectedDate));
             RaisePropertyChanged(nameof(CheckBox));
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_employeeService.GetAllEmployees());
+
+            var employees = _employeeService.GetAllEmployees();
+            var advancedEmployees = new List<AdvancedEmployee>();
+            foreach(Employee employee in employees)
+            {
+                advancedEmployees.Add(new AdvancedEmployee()
+                {
+                    Employee = employee,
+                    Distance = await _googleService.CalculateDistance(Festival.Address, employee.Address)
+                });
+            }
+
+            Employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
