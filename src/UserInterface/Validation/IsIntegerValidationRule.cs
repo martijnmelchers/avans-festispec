@@ -9,12 +9,9 @@ namespace Festispec.UI.Validation
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
-            var input = value as string;
-            int integer;
-            var canParse = int.TryParse(input, out integer);
-            if (!canParse)
-                return new ValidationResult(false, "Field must be an Integer");
-            return new ValidationResult(true, null);
+            return !int.TryParse(value as string, out int _) 
+                ? new ValidationResult(false, "Field must be an Integer") 
+                : new ValidationResult(true, null);
         }
     }
 }

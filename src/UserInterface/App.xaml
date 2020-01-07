@@ -21,6 +21,7 @@
             
             <!-- Global converters below -->
             <converters:UpperCaseStringConverter x:Key="UpperCaseConverter" />
+            <converters:RoleTranslatorConverter x:Key="RoleTranslatorConverter" />
         </ResourceDictionary>
        
     </Application.Resources>

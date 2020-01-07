@@ -4,10 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
+      xmlns:enums="clr-namespace:Festispec.UI.Enums"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920" Background="#EFEFEF" Title="EditCustomerPage"
       d:DataContext="{d:DesignInstance Type=customers:CustomerViewModel}">
-    
+
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="870" />
         <Grid Width="1200" Height="820">
@@ -30,98 +32,77 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="545" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Customer.CustomerName, Converter={StaticResource UpperCaseConverter}, StringFormat='KLANT {0} WIJZIGEN'}"
-                       Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+            <TextBlock
+                Text="{Binding Customer.CustomerName, Converter={StaticResource UpperCaseConverter}, StringFormat='KLANT {0} WIJZIGEN'}"
+                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="3" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Bedrijfsgegevens -->
             <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
 
             <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox Grid.Row="3" Grid.Column="0"
+                     Text="{Binding Customer.CustomerName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="KvK-nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.KvkNr}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
-                     Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox Grid.Row="5" Grid.Column="0"
+                     Text="{Binding Customer.KvkNr, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
-                   Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.ZipCode}" Width="220" 
-                     HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
+            <Label Content="Postcode" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" />
+            <TextBox HorizontalAlignment="Left" Width="205" Grid.Row="7" Grid.Column="0"
+                     Text="{Binding Path=Customer.Address.ZipCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.HouseNumber}"
-                     PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="150" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
+            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="235,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="150" Grid.Row="7" Grid.Column="0" Margin="235, 0, 0, 0"
+                     Text="{Binding Path=Customer.Address.HouseNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.Suffix}"
-                     Width="115" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
+            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="415,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="130" Grid.Row="7" Grid.Column="0" Margin="415, 0, 0, 0"
+                     Text="{Binding Path=Customer.Address.Suffix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox Grid.Row="9" Grid.Column="0"
+                     Text="{Binding Customer.Address.StreetName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="Stad" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox
+                Text="{Binding Customer.Address.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Grid.Row="11" Grid.Column="0" />
 
             <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />
+            <ComboBox Grid.Row="13" Grid.Column="0"
+                      SelectedItem="{Binding Path=Customer.Address.Country, Mode=TwoWay}"
+                      ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" />
 
-            <Button Content="Verwijder" HorizontalAlignment="Left" Style="{DynamicResource ButtonRed}" IsEnabled="{Binding CanDeleteCustomer}"
-                    Click="OpenDeleteCheckPopUp" Height="50" Width="185" Grid.Column="0" Grid.Row="15" />
+            <Button Height="50" Width="185" Grid.Column="0" Grid.Row="15" Content="Verwijder"
+                    HorizontalAlignment="Left" Style="{DynamicResource ButtonRed}"
+                    Command="{Binding OpenDeleteCheckCommand}" />
 
             <!-- Contactgegevens -->
-            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
-            <TextBox Text="{Binding Customer.ContactDetails.EmailAddress}" Grid.Column="1" Grid.Row="3"
-                     Margin="55,0,0,0" />
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
+            <TextBox Grid.Column="2" Grid.Row="3"
+                     Text="{Binding Customer.ContactDetails.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
-            <TextBox Text="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
-                     Margin="55,0,0,0" />
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
+            <TextBox Grid.Column="2" Grid.Row="5"
+                     Text="{Binding Customer.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
-                <Button Content="Annuleren" Command="{Binding CancelCommand}"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+                <Button Content="Annuleren" Command="{Binding NavigateToCustomerInfoCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Wijzigingen opslaan" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
-
-            <Popup x:Name="DeleteWarning"  Placement="Center" AllowsTransparency="True" Width="550">
-                <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
-                    <StackPanel Orientation="Vertical" Background="White">
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <TextBlock Text="KLANT VERWIJDEREN" Style="{DynamicResource Header}"/>
-                            <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                            <Label Content="Verwijderen van een klant is definitief."/>
-                            <Label Content="Doorgaan?"/>
-                        </StackPanel>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button HorizontalAlignment="Right" Content="Doorgaan" Command="{Binding RemoveCustomerCommand}" Click="ContinueDeleteCheckPopUp"
-                                    Style="{DynamicResource ButtonGreen}" Height="50" Width="185" Grid.Column="0"/>
-                            <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}" Click="StopDeleteCheckPopUp"
-                                    Height="50" Width="185" Grid.Column="1"/>
-                        </Grid>
-
-                    </StackPanel>
-                </Border>
-            </Popup>
-
         </Grid>
+
+        <controls:ValidationPopup Caption="Klant wijzigen" />
+        <controls:DeleteCheckPopup Caption="Klant verwijderen" Subtext="Verwijderen van een klant is definitief." />
     </Grid>
 </Page>

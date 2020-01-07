@@ -8,6 +8,7 @@ using Festispec.Models;
 using System.Data.Entity;
 using System.Collections.Generic;
 using Festispec.Models.Answers;
+using System;
 
 namespace Festispec.DomainServices.Services
 {
@@ -93,7 +94,7 @@ namespace Festispec.DomainServices.Services
 
         #endregion
 
-        #region Question Management
+        #region Question Management 
 
         public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
@@ -155,21 +156,6 @@ namespace Festispec.DomainServices.Services
             return await _db.SaveChangesAsync() > 1;
         }
 
-        public List<PlannedInspection> GetPlannedInspections()
-        {
-            return _db.PlannedInspections.ToList();
-        }
-
-        public PlannedInspection GetPlannedInspections(int id)
-        {
-            var plannedInspection =  _db.PlannedInspections.FirstOrDefault(e => e.Id == id);
-
-            if (plannedInspection == null)
-                throw new EntityNotFoundException();
-
-            return plannedInspection;
-        }
-
         public void Save()
         {
             _db.SaveChanges();
@@ -187,9 +173,14 @@ namespace Festispec.DomainServices.Services
             return answer;
         }
 
-        List<Answer> IQuestionnaireService.getAnswers()
+        public List<Answer> getAnswers()
         {
             return _db.Answers.ToList();
+        }
+
+        public async Task<Question> GetQuestion(int questionId)
+        {
+            return await _db.Questions.FirstOrDefaultAsync(e => e.Id == questionId);
         }
         #endregion
     }

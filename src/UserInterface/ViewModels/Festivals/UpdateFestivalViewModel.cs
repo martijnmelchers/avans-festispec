@@ -16,18 +16,6 @@ namespace Festispec.UI.ViewModels
         public Festival Festival { get; set; }
         public ICommand UpdateFestivalCommand { get; set; }
         public string Suffix { get; set; }
-        public List<string> CountryOptions
-        {
-            get
-            {
-                return new List<string>()
-                {
-                    "Nederland",
-                    "België",
-                    "Duitsland"
-                };
-            }
-        }
         private IFrameNavigationService _navigationService;
         public UpdateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
         {

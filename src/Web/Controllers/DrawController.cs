@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
 using Festispec.Models.Answers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,11 @@ namespace Festispec.Web.Controllers
     public class DrawController : Controller
     {
         IQuestionnaireService _questionnaireService;
-        public DrawController(IQuestionnaireService questionnaireService)
+        IInspectionService _inspectionService;
+        public DrawController(IQuestionnaireService questionnaireService, IInspectionService inspectionService)
         {
             _questionnaireService = questionnaireService;
+            _inspectionService = inspectionService;
         }
       
 
@@ -35,8 +38,7 @@ namespace Festispec.Web.Controllers
             int questionId = int.Parse(j["QuestionId"].ToString());
             FileAnswer fileAnswer = _questionnaireService.getAnswers().FirstOrDefault(e => e.Id == questionId) as FileAnswer;
 
-            fileAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == fileAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
-            fileAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(fileAnswer.PlannedInspection.Id);
+            fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
 
             imageData = j["ImageData"].ToString();
 
@@ -68,8 +70,8 @@ namespace Festispec.Web.Controllers
         {
             FileAnswer fileAnswer = new FileAnswer();
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            fileAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
-            fileAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == fileAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            fileAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
+            fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
 
             var filePath = await UploadFile(file);
             fileAnswer.UploadedFilePath = filePath;

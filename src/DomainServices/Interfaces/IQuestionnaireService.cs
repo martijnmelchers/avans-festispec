@@ -16,10 +16,10 @@ namespace Festispec.DomainServices.Interfaces
         Task RemoveQuestionnaire(int questionnaireId);
         Task<Questionnaire> CopyQuestionnaire(int questionnaireId);
 
-        //TODO: remove
-        List<PlannedInspection> GetPlannedInspections();
-        PlannedInspection GetPlannedInspections(int id);
-
+        ////TODO: remove
+        //List<PlannedInspection> GetPlannedInspections();
+        //PlannedInspection GetPlannedInspections(int id);
+        Task<Question> GetQuestion(int questionId);
         Task<Answer> CreateAnswer(Answer answer);
         void Save();
 

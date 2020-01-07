@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
 using Festispec.Models.Answers;
 using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
@@ -15,21 +16,54 @@ namespace Festispec.Web.Controllers
     public class InspectionController : Controller
     {
         private IQuestionnaireService _questionnaireService { get; set; }
-        public InspectionController(IQuestionnaireService questionnaireService)
+        private IInspectionService _inspectionService { get; set; }
+        public InspectionController(IQuestionnaireService questionnaireService, IInspectionService inspectionService)
         {
             _questionnaireService = questionnaireService;
+            _inspectionService = inspectionService;
         }
         // GET: Inspection
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_questionnaireService.GetPlannedInspections());
+            List<PlannedInspection> plannedInspections;
+            try
+            {
+                plannedInspections = await _inspectionService.GetPlannedInspections(int.Parse(Request.Cookies["CurrentUserId"]));
+            }
+            catch (Exception e)
+            {
+                if (Request.Cookies["CurrentUserId"] != null)
+                {
+                    plannedInspections = new List<PlannedInspection>();
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Authentication");
+                }
+            }
+            return View(plannedInspections);
         }
 
         // GET: Inspection/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var plannedInspection = _questionnaireService.GetPlannedInspections(id);
-            var answers = new List<Answer>(plannedInspection.Answers);
+            var plannedInspection = await _inspectionService.GetPlannedInspection(id);
+            List<Answer> answers;
+            try
+            {
+                answers = new List<Answer>(plannedInspection.Answers.Where(e=> e.PlannedInspection.Employee.Id == int.Parse(Request.Cookies["CurrentUserId"])));
+            }
+            catch (Exception)
+            {
+
+                if (Request.Cookies["CurrentUserId"] == null)
+                {
+                    return RedirectToAction("Login", "Authentication");
+                }
+                answers = new List<Answer>();
+                
+            }
+
             foreach (var question in plannedInspection.Questionnaire.Questions)
             {
                 //check if question exists
@@ -78,9 +112,12 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveStringAnswer(StringAnswer stringAnswer)
         {
+
+            
+
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            stringAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == stringAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
-            stringAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(stringAnswer.PlannedInspection.Id);
+            stringAnswer.Question = await _questionnaireService.GetQuestion(questionId);
+            stringAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(stringAnswer.PlannedInspection.Id);
 
             if (stringAnswer.Id != 0)
                 (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == stringAnswer.Id) as StringAnswer).AnswerContents = stringAnswer.AnswerContents;
@@ -94,8 +131,8 @@ namespace Festispec.Web.Controllers
         {
             FileAnswer fileAnswer = new FileAnswer();
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            fileAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
-            fileAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == fileAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
+            fileAnswer.Question = await _questionnaireService.GetQuestion(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
+            fileAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
 
             var filePath = await UploadFile(file);
             fileAnswer.UploadedFilePath = filePath;
@@ -112,8 +149,8 @@ namespace Festispec.Web.Controllers
         public async Task<ActionResult> SaveMultipleChoiceAnswer(MultipleChoiceAnswer multipleChoiceAnswer)
         {
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            multipleChoiceAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == multipleChoiceAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
-            multipleChoiceAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(multipleChoiceAnswer.PlannedInspection.Id);
+            multipleChoiceAnswer.Question = await _questionnaireService.GetQuestion(questionId);
+            multipleChoiceAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(multipleChoiceAnswer.PlannedInspection.Id);
             if (multipleChoiceAnswer.Id != 0)
                 (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == multipleChoiceAnswer.Id) as MultipleChoiceAnswer).MultipleChoiceAnswerKey = multipleChoiceAnswer.MultipleChoiceAnswerKey;
             else await _questionnaireService.CreateAnswer(multipleChoiceAnswer);
@@ -127,8 +164,8 @@ namespace Festispec.Web.Controllers
         {
             
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            numericAnswer.Question = _questionnaireService.GetPlannedInspections().FirstOrDefault(e => e.Id == numericAnswer.PlannedInspection.Id).Questionnaire.Questions.FirstOrDefault(e => e.Id == questionId);
-            numericAnswer.PlannedInspection = _questionnaireService.GetPlannedInspections(numericAnswer.PlannedInspection.Id);
+            numericAnswer.Question = await _questionnaireService.GetQuestion(questionId);
+            numericAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(numericAnswer.PlannedInspection.Id);
             if (numericAnswer.Id != 0)
             {
                 (_questionnaireService.getAnswers().FirstOrDefault(e => e.Id == numericAnswer.Id) as NumericAnswer).IntAnswer = numericAnswer.IntAnswer;

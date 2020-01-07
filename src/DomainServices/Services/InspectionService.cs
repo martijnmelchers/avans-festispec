@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,11 +74,6 @@ namespace Festispec.DomainServices.Services
             return null;
         }
 
-        public async Task SaveChanges()
-        {
-            await _db.SaveChangesAsync();
-        }
-
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
 
@@ -87,6 +83,39 @@ namespace Festispec.DomainServices.Services
                 throw new EntityNotFoundException();
 
             return plannedInspection;
+        }
+
+        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+        {
+
+            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
+
+            if (plannedInspection == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspection;
+        }
+
+        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
+        {
+
+            var plannedInspections = await _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
+
+            if (plannedInspections == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspections;
+        }
+
+        public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
+        {
+            var plannedInspections = await _db.PlannedInspections.Include(e => e.Employee).Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) == EntityFunctions.TruncateTime(DateTime.Now)).ToListAsync();
+
+
+            if (plannedInspections.Count < 1)
+                throw new EntityNotFoundException();
+
+            return plannedInspections;
         }
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
@@ -100,26 +129,6 @@ namespace Festispec.DomainServices.Services
                 .ToList();
 
 
-        }
-        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
-        {
-
-            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
-
-            if (plannedInspection == null)
-                throw new EntityNotFoundException();
-
-            return plannedInspection;
-        }
-        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
-        {
-
-            var plannedInspections = await _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
-
-            if (plannedInspections == null)
-                throw new EntityNotFoundException();
-
-            return plannedInspections;
         }
 
         public async Task RemoveInspection(int PlannedInspectionId)
@@ -136,24 +145,10 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-
-        #warning temp till medwerkers beheren is made
-        public List<Employee> GetEmployees()
+        public async Task SaveChanges()
         {
-            var employees = _db.Employees.ToList();
-            if (employees == null)
-                throw new EntityNotFoundException();
-            return employees;
-
+            await _db.SaveChangesAsync();
         }
-        #warning temp till festival beheren is made
-        public Festival GetFestival(int id)
-        {
-            var employees = _db.Festivals.FirstOrDefault(e=> e.Id == id);
-            if (employees == null)
-                throw new EntityNotFoundException();
-            return employees;
-
-        }
+        
     }
 }
