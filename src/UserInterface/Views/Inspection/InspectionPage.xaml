@@ -25,7 +25,7 @@
                 <RowDefinition Height="30" />
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="75"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -78,8 +78,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollViewer>
-            <Button Content="Terug" Style="{StaticResource ButtonBase}" Grid.Column="0" Grid.Row="9" Command="{Binding ReturnCommand}" />
-            <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Grid.Column="1" Grid.Row="9" Command="{Binding SaveCommand}" />
+            <Button Content="Terug" Style="{StaticResource ButtonBase}" Height="50" Width="200" Grid.Column="0" Grid.Row="9" Command="{Binding ReturnCommand}" />
+            <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1" Grid.Row="9" Command="{Binding SaveCommand}" />
         </Grid>
     </Grid>
 </Page>

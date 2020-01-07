@@ -17,7 +17,7 @@ namespace Festispec.DomainServices.Interfaces
         Task<PlannedInspection> CreatePlannedInspection(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
             DateTime endTime, string eventTitle, Employee employee);
-        Task RemoveInspection(int PlannedInspectionId, String CancellationReason);
+        Task RemoveInspection(int plannedInspectionId, string cancellationReason);
         Task SaveChanges();
         #endregion
     }

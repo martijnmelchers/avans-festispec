@@ -60,7 +60,7 @@ namespace Festispec.Models.EntityMapping
                 if (entity.State == EntityState.Added)
                     ((Entity)entity.Entity).CreatedAt = DateTime.UtcNow;
 
-                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow; 
+                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
             }
         }
     }
