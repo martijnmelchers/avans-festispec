@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Enums;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
@@ -13,7 +14,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Festispec.DomainServices.Services
 {
-    public class SyncService<T> where T : Entity
+    public class SyncService<T> : ISyncService<T> where T : Entity
     {
         private readonly FestispecContext _db;
         private readonly string _jsonFile;
@@ -67,6 +68,11 @@ namespace Festispec.DomainServices.Services
         {
             return ((JArray) JsonObject["items"]).Select(i =>
                 JsonConvert.DeserializeObject<T>(i.ToString()));
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await Task.Run(GetAll);
         }
 
         public T GetEntity(int entityId)
