@@ -156,8 +156,8 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Certificates).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Certificates).Object);
 
             _employeeService = new EmployeeService(_dbMock.Object,
-                new Mock<AuthenticationService>(_dbMock.Object, new SyncService<Account>(_dbMock.Object)).Object,
-                new SyncService<Employee>(_dbMock.Object));
+                new Mock<AuthenticationService>(_dbMock.Object, new JsonSyncService<Account>(_dbMock.Object)).Object,
+                new JsonSyncService<Employee>(_dbMock.Object));
         }
 
         [Fact]

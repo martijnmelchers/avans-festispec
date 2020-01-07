@@ -29,7 +29,7 @@ namespace Festispec.UnitTests
 
             _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
 
-            _questionnaireService = new QuestionnaireService(_dbMock.Object, new SyncService<Questionnaire>(_dbMock.Object));
+            _questionnaireService = new QuestionnaireService(_dbMock.Object, new JsonSyncService<Questionnaire>(_dbMock.Object));
         }
 
         [Theory]

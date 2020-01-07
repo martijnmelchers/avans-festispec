@@ -14,13 +14,13 @@ using Newtonsoft.Json.Serialization;
 
 namespace Festispec.DomainServices.Services
 {
-    public class SyncService<T> : ISyncService<T> where T : Entity
+    public class JsonSyncService<T> : ISyncService<T> where T : Entity
     {
         private readonly FestispecContext _db;
         private readonly string _jsonFile;
         private JObject _jsonObject;
 
-        public SyncService(FestispecContext db)
+        public JsonSyncService(FestispecContext db)
         {
             _db = db;
             _jsonFile = FestispecPaths.FestispecOfflineStoragePath + "\\" + typeof(T).Name + ".json";

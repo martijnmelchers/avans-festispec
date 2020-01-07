@@ -12,7 +12,7 @@ namespace Festispec.DomainServices
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             services.AddTransient<FestispecContext>();
-            services.AddScoped(typeof(ISyncService<>), typeof(SyncService<>));
+            services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
             services.AddSingleton<OfflineService>();
             
             // Register services for *both* online and offline here
