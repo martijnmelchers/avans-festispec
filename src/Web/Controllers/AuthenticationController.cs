@@ -32,14 +32,12 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Account account)
-        {
-            account.Role = Role.Inspector;
-
+        {           
             try
             {
-                var logAccount = _authenticationService.Login(account.Username, account.Password, account.Role);                
+                var logAccount = _authenticationService.Login(account.Username, account.Password, Role.Inspector);                
                 Response.Cookies.Append("CurrentUserId", logAccount.Id.ToString());
-                Response.Cookies.Append("CurrentUser", logAccount.Username.ToString());
+                Response.Cookies.Append("CurrentUser", logAccount.Username);
                 return RedirectToAction("Index", "Home");
 
             }
