@@ -47,7 +47,7 @@ namespace Festispec.UI.ViewModels
 
         public bool CanEdit { get; }
 
-        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, OfflineService offlineService)
+        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;

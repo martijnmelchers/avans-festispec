@@ -38,7 +38,7 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, OfflineService offlineService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;

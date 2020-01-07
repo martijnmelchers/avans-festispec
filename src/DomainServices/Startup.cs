@@ -13,13 +13,13 @@ namespace Festispec.DomainServices
         {
             services.AddTransient<FestispecContext>();
             services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
-            services.AddSingleton<OfflineService>();
+            services.AddSingleton<IOfflineService, DbPollOfflineService>();
             
             // Register services for *both* online and offline here
             services.AddScoped<IExampleService, ExampleService>();
             
             // Register all your online services here
-            if (services.BuildServiceProvider().GetRequiredService<OfflineService>().IsOnline)
+            if (services.BuildServiceProvider().GetRequiredService<DbPollOfflineService>().IsOnline)
             {
                 services.AddScoped<IAuthenticationService, AuthenticationService>();
                 services.AddScoped<IQuestionnaireService, QuestionnaireService>();

@@ -14,7 +14,7 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
 

@@ -15,7 +15,7 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, OfflineService offlineService)
+        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
             if (!(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();

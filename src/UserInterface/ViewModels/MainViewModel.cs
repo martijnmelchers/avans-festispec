@@ -41,7 +41,7 @@ namespace Festispec.UI.ViewModels
         
         public Visibility IsOffline { get; set; }
 
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, OfflineService offlineService)
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
