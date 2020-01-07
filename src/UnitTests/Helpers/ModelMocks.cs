@@ -34,7 +34,7 @@ namespace Festispec.UnitTests.Helpers
             EndTime = new TimeSpan(1, 0, 0)
         };
 
-        public static Customer CustomerPinkPop = new Customer()
+        public static Customer Customer1 = new Customer()
         {
             Id = 1,
             KvkNr = 12345678,
@@ -52,7 +52,7 @@ namespace Festispec.UnitTests.Helpers
             Description = "Placeholder for description",
             Address = Address,
             OpeningHours = OpeningHours,
-            Customer = CustomerPinkPop
+            Customer = Customer1
         };
         
         public static Customer Customer2 = new Customer()
@@ -69,17 +69,14 @@ namespace Festispec.UnitTests.Helpers
             ContactPersons = new List<ContactPerson>()
         };
 
-        public static Questionnaire Questionnaire1 = new Questionnaire {
-            Id = 1,
-            Name = "PinkPop Ochtend",
-            Festival = FestivalPinkPop
+        public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", FestivalPinkPop)
+        {        
+            Id = 1
         };
 
-        public static Questionnaire Questionnaire2 = new Questionnaire
+        public static Questionnaire Questionnaire2 = new Questionnaire("PinkPop Middag", FestivalPinkPop)
         {
-            Id = 2,
-            Name = "PinkPop Middag",
-            Festival = FestivalPinkPop
+            Id = 2
         };
 
         public static RatingQuestion RatingQuestion = new RatingQuestion("Hoe druk is het bij de toiletten", Questionnaire1, "rustig", "druk");
@@ -113,19 +110,15 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static Questionnaire Questionnaire3 = new Questionnaire
+        public static Questionnaire Questionnaire3 = new Questionnaire("PinkPop MaandagAvond", FestivalPinkPop)
         {
             Id = 3,
-            Name = "PinkPop MaandagAvond",
-            Festival = FestivalPinkPop,
             Questions = QuestionsWithReference
         };
 
-        public static Questionnaire Questionnaire4 = new Questionnaire
+        public static Questionnaire Questionnaire4 = new Questionnaire("PinkPop DinsdagOchtend", FestivalPinkPop)
         {
             Id = 4,
-            Name = "PinkPop DinsdagOchtend",
-            Festival = FestivalPinkPop,
             Questions = new List<Question>()
             {
                 new StringQuestion("Beschrijf de sfeer bij het evenement", Questionnaire4)
@@ -139,59 +132,19 @@ namespace Festispec.UnitTests.Helpers
             }
         };
 
-        public static Questionnaire QuestionnaireThunderDome = new Questionnaire
+        public static Questionnaire QuestionnaireThunderDome = new Questionnaire("Thunderdome DinsdagOchtend", festivalThunderDome)
         {
-            Id = 4,
-            Name = "Thunderdome DinsdagOchtend",
-            Festival = festivalThunderDome,
+            Id = 5,
             Questions = new List<Question>()
             {
                 new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireThunderDome)
                 {
-                    Id = 1
-                },
-                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireThunderDome)
-                {
-                    Id = 2
+                    Id = 3
                 }
             }
-        };
+        };               
 
-        public static Questionnaire QuestionnaireLowlands = new Questionnaire
-        {
-            Id = 4,
-            Name = "Lowlands DinsdagOchtend",
-            Festival = festivalLowlands,
-            Questions = new List<Question>()
-            {
-                new StringQuestion("Beschrijf de sfeer bij het evenement", QuestionnaireLowlands)
-                {
-                    Id = 1
-                },
-                new StringQuestion("Beschrijf de sfeer in de rij", QuestionnaireLowlands)
-                {
-                    Id = 2
-                }
-            }
-        };
-
-        public static Account InspectorAccount = new Account()
-        {
-            Username = "EricKuipers",
-            Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
-            Role = Role.Inspector
-        };
-
-        public List<Account> Accounts = new List<Account>()
-        {
-            new Account()
-            {
-                Username = "JohnDoe",
-                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
-                Role = Role.Employee
-            },
-            InspectorAccount
-        };
+        public List<Account> Accounts { get; set; }
 
         public List<Question> Questions = Questionnaire4.Questions.ToList();
 
@@ -200,14 +153,20 @@ namespace Festispec.UnitTests.Helpers
             Questionnaire1,
             Questionnaire2,
             Questionnaire3,
-            Questionnaire4
+            Questionnaire4,
+            QuestionnaireThunderDome
         };
 
         public static Employee Employee = new Employee()
         {            
             Iban = "NL91ABNA0417164300",
 
-            Account = InspectorAccount
+            Account = new Account
+            {
+                Username = "EricKuipers",
+                Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                Role = Role.Inspector
+            }
         };
 
         public static StringAnswer StringAnswer = new StringAnswer()
@@ -225,6 +184,7 @@ namespace Festispec.UnitTests.Helpers
 
         public static Customer CustomerThunderDome = new Customer()
         {
+            Id = 4,
             KvkNr = 12345678,
             CustomerName = "ThunderDome"
         };
@@ -250,35 +210,7 @@ namespace Festispec.UnitTests.Helpers
 
                 EndDate = new DateTime(2019, 12, 14)
             }
-        };
-
-        public static Customer CustomerLowlands = new Customer()
-        {
-            KvkNr = 16348472,
-            CustomerName = "Lowlands"
-        };        
-
-        public static Festival festivalLowlands = new Festival()
-        {
-            FestivalName = "Lowlands",
-
-            Description = "Elk jaar in augustus strijken in Biddinghuizen duizenden Lowlanders neer voor A Campingflight to Lowlands Paradise",
-
-            Customer = CustomerLowlands,
-
-            Address = Address2,
-
-            OpeningHours = new OpeningHours()
-            {
-                StartTime = new TimeSpan(10, 0, 0),
-
-                EndTime = new TimeSpan(2, 0, 0),
-
-                StartDate = new DateTime(2020, 7, 15),
-
-                EndDate = new DateTime(2020, 7, 18)
-            }
-        };
+        };  
 
         public static PlannedInspection PlannedInspectionPinkpop = new PlannedInspection()
         {
@@ -324,45 +256,21 @@ namespace Festispec.UnitTests.Helpers
                 {
                     PlannedInspection = PlannedInspectionThunderDome,
 
-                    Question = new StringQuestion("Geef een indruk van de sfeer impressie bij de eetgelegenheden", QuestionnaireThunderDome)
+                    Question = QuestionnaireThunderDome.Questions.FirstOrDefault()
                 }                      
-            }
-        };
-
-        public static PlannedInspection PlannedInspectionLowlands = new PlannedInspection()
-        {
-            Id = 3,
-
-            StartTime = new DateTime(2020, 8, 11, 13, 0, 0),
-
-            EndTime = new DateTime(2020, 8, 15, 20, 30, 0),
-
-            EventTitle = "Lowlands",
-
-            Employee = Employee,
-
-            Questionnaire = QuestionnaireLowlands,
-
-            Festival = festivalLowlands,
-
-            Answers = new List<Answer>()
-            {
-                
             }
         };
 
         public List<PlannedInspection> plannedInspections = new List<PlannedInspection>()
         {
             PlannedInspectionPinkpop,
-            PlannedInspectionThunderDome,
-            PlannedInspectionLowlands
+            PlannedInspectionThunderDome
         };
         
         public List<Customer> Customers = new List<Customer>
         {
-            CustomerPinkPop,
+            Customer1,
             Customer2,
-            CustomerLowlands,
             CustomerThunderDome
         };
         

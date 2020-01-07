@@ -7,6 +7,15 @@ namespace Festispec.Models
 {
     public class Questionnaire : Entity
     {
+        public Questionnaire(string name, Festival festival)
+        {
+            Name = name;
+            Festival = festival;
+            Questions = new List<Question>();
+        }
+        public Questionnaire() { }
+
+
         [Required, MinLength(5), MaxLength(45)]
         public virtual string Name { get; set; }
 
