@@ -21,6 +21,7 @@ namespace Festispec.DomainServices
 
 
             services.AddScoped<FestispecContext>();
+            services.AddScoped<IInspectionService, InspectionService>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());

@@ -39,13 +39,18 @@ namespace Festispec.UnitTests
         [Fact]
         public async void InvalidDataShouldThrowError()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _inspectionService.CreatePlannedInspection(
-                ModelMocks.FestivalPinkPop,
-                ModelMocks.Questionnaire4,
-                new DateTime(2020, 3, 4, 13, 40, 0),
-                new DateTime(2020, 3, 4, 17, 0, 0),
-                null,
-                ModelMocks.Employee));
+            PlannedInspection plannedInspection = ModelMocks.PlannedInspectionThunderDome;
+            string eventTitle = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. " +
+                "Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque " +
+                "penatibus et magnis dis parturient montes,";
+
+            await Assert.ThrowsAsync<InvalidDataException>(() => _inspectionService.CreatePlannedInspection(
+                plannedInspection.Festival,
+                plannedInspection.Questionnaire,
+                new DateTime(2019, 12, 10, 12, 30, 0),
+                new DateTime(2019, 12, 10, 19, 0, 0),
+                eventTitle,
+                plannedInspection.Employee));
         }
 
         [Fact]
@@ -66,9 +71,21 @@ namespace Festispec.UnitTests
         [Fact]
         public async void RemovingInspectionWithAnswersShouldthrowError() 
         {
-            await Assert.ThrowsAsync<QuestionHasAnswersException>(() => _inspectionService.RemoveInspection(ModelMocks.PlannedInspection2.Id));
+            await Assert.ThrowsAsync<QuestionHasAnswersException>(() => _inspectionService.RemoveInspection(ModelMocks.PlannedInspectionThunderDome.Id, "slecht weer"));
         }
 
+        [Fact]
+        public async void InvalidCancellationReasonShouldThrowError()
+        {
+            String cancellationReason = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo" +
+                " ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis " +
+                "parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, " +
+                "pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec " +
+                "pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, " +
+                "rhoncus ut, imperdiet";
+
+            await Assert.ThrowsAsync<InvalidDataException>(() => _inspectionService.RemoveInspection(ModelMocks.PlannedInspectionPinkpop.Id, cancellationReason));
+        }
         #endregion
 
     }
