@@ -22,7 +22,6 @@
                     <DockPanel Width="1270">
                         <Label HorizontalAlignment="Left" FontSize="30" Height="50" Content="{Binding FestivalName}"/>
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Button Command="{Binding DataContext.EditFestivalCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding DataContext , RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Style="{DynamicResource ButtonBase}" Width="200" Height="50">Wijzigen</Button>
                             <Button Command="{Binding DataContext.OpenFestivalCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding DataContext , RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Style="{DynamicResource ButtonGreen}" Width="200" Height="50">Openen</Button>
                         </StackPanel>
                     </DockPanel>
