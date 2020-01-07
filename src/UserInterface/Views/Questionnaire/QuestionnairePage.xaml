@@ -57,7 +57,7 @@
                                                 <ListView ItemsSource="{Binding OptionCollection}" MinHeight="50">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Width="720" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource CanEditQuestionConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                                                            <TextBox Width="720" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext , Converter={StaticResource CanEditQuestionConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, AncestorLevel=2}}"/>
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>
                                                 </ListView>

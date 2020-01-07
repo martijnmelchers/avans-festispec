@@ -159,7 +159,7 @@ namespace Festispec.UI.ViewModels
                 }
             }
             _removedQuestions.Clear();
-
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
 
         public bool HasAnswers(Question question)
