@@ -1,5 +1,5 @@
 ﻿@model Festispec.Models.Answers.FileAnswer
-    <button id="btnUpload"></button>
+    <button class="btn btn-success" id="btnUpload">Opslaan</button>
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -28,18 +28,12 @@ $("#btnUpload").on("click", function(e) {
     e.preventDefault();
 
     var file = canvas.canvas.toDataURL("image/png");
- 
-    $.ajax({
-        url: '@Url.Action("Draw", "Draw")',
-        method: "post",
-        data: file,
-        cache: false,
-        contentType: false,
-        processData: false
-    })
-    .then(function(result) {
-        alert("test");
-    });
+    dataUrl = file.replace('data:image/png;base64,', '');
+    var obj = { QuestionId: 1, ImageData: dataUrl};
+    
+    $.post("/Draw/Draw", { imageData: JSON.stringify(obj) });
+    
+    window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
 });
 
 </script>
