@@ -136,25 +136,5 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
-
-
-        #warning temp till medwerkers beheren is made
-        public List<Employee> GetEmployees()
-        {
-            var employees = _db.Employees.ToList();
-            if (employees == null)
-                throw new EntityNotFoundException();
-            return employees;
-
-        }
-        #warning temp till festival beheren is made
-        public Festival GetFestival(int id)
-        {
-            var employees = _db.Festivals.FirstOrDefault(e=> e.Id == id);
-            if (employees == null)
-                throw new EntityNotFoundException();
-            return employees;
-
-        }
     }
 }
