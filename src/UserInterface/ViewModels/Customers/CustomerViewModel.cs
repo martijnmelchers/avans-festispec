@@ -17,18 +17,6 @@ namespace Festispec.UI.ViewModels.Customers
         private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
 
-        public Customer Customer { get; }
-        private bool CanDeleteCustomer { get; }
-
-        public ICommand SaveCommand { get; }
-        public ICommand NavigateToCustomerListCommand { get; }
-        public ICommand EditCustomerCommand { get; }
-        public ICommand OpenDeleteCheckCommand { get; }
-        public ICommand NavigateToCustomerInfoCommand { get; }
-        public ICommand AddFestivalCommand { get; }
-        public ICommand SearchCommand { get; }
-        public RelayCommand<string> SelectCommand { get; }
-
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService)
         {
             _customerService = customerService;
@@ -39,6 +27,8 @@ namespace Festispec.UI.ViewModels.Customers
                 Customer = _customerService.GetCustomer(customerId);
                 CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
+                CurrentAddress = $"Huidige adres: {Customer.Address.ToString()}";
+
             }
             else
             {
@@ -62,6 +52,18 @@ namespace Festispec.UI.ViewModels.Customers
             #endregion
 
         }
+
+        public Customer Customer { get; }
+        private bool CanDeleteCustomer { get; }
+
+        public ICommand SaveCommand { get; }
+        public ICommand NavigateToCustomerListCommand { get; }
+        public ICommand EditCustomerCommand { get; }
+        public ICommand OpenDeleteCheckCommand { get; }
+        public ICommand NavigateToCustomerInfoCommand { get; }
+        public ICommand AddFestivalCommand { get; }
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
 
 
         private void NavigateToCustomerInfo() => _navigationService.NavigateTo("CustomerInfo", Customer.Id);
@@ -90,7 +92,7 @@ namespace Festispec.UI.ViewModels.Customers
         {
             try
             {
-                await _customerService.SaveChangesAsync();
+                await _customerService.UpdateCustomerAsync(Customer);
                 NavigateToCustomerInfo();
             }
             catch (InvalidDataException)
@@ -117,19 +119,21 @@ namespace Festispec.UI.ViewModels.Customers
         #region Google Search
         public ObservableCollection<Prediction> Suggestions { get; set; }
         public string SearchQuery { get; set; }
+        public string CurrentAddress { get; set; }
 
         public async void Search()
         {
             try
             {
                 Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery));
+                RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show("ERROR!");
+                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
             }
 
-            RaisePropertyChanged(nameof(Suggestions));
 
         }
 
@@ -139,10 +143,13 @@ namespace Festispec.UI.ViewModels.Customers
             {
                 var address = await _googleService.GetAddress(id);
                 Customer.Address = address;
+                CurrentAddress = $"Geselecteerde adres: {Customer.Address.ToString()}";
+                RaisePropertyChanged(nameof(CurrentAddress));
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show("Error fetching place, try again!");
+                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
             }
         }
 

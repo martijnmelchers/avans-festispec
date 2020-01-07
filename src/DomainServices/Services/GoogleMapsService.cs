@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
@@ -45,7 +46,8 @@ namespace Festispec.DomainServices.Services
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
                 throw new GoogleMapsApiException();
 
-            int.TryParse(GetComponent(result.Place, "street_number")?.LongName, out int houseNumber);
+            int.TryParse(Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, "[^.0-9]", ""), out int houseNumber);
+
             return new Address
             {
                 City = GetComponent(result.Place, "locality")?.LongName,
@@ -53,7 +55,7 @@ namespace Festispec.DomainServices.Services
                 HouseNumber = houseNumber,
                 Country = GetComponent(result.Place, "country")?.LongName,
                 StreetName = GetComponent(result.Place, "route")?.LongName,
-                Suffix = "",
+                Suffix = Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, @"[\d-]", string.Empty),
                 Latitude = result.Place.Geometry.Location.Latitude,
                 Longitude = result.Place.Geometry.Location.Longitude
             };

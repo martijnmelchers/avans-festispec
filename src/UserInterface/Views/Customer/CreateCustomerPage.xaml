@@ -54,11 +54,13 @@
             <Label Content="Adres" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
             <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken" 
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="370,0,0,0"/>
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="365,0,0,0"/>
             <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap" 
                      VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350"/>
 
-            <ListView VerticalAlignment="Center" HorizontalAlignment="Center"  ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5" Height="250" Width="600">
+            <TextBlock Text="{Binding CurrentAddress}" Grid.Row="8" Grid.Column="0" Style="{DynamicResource DefaultText}" TextWrapping="Wrap"/>
+
+            <ListView VerticalAlignment="Center" HorizontalAlignment="Center"  ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5" Height="250" Width="545">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -67,11 +69,11 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="5"/>
-                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="500"   Padding="20,10,0,10" Grid.Column="0"/>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="3"/>
+                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="450"   Padding="20,10,20,10" Grid.Column="0"/>
                             <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
                                 <Hyperlink Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
-                                    <Image Height="30" Source="{StaticResource EyeGreen}" />
+                                    <Image Height="30" Source="{StaticResource SelectLocationGreen}" />
                                 </Hyperlink>
                             </TextBlock>
                         </Grid>
@@ -83,30 +85,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <!--<Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
-                   Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.ZipCode}" Width="220" 
-                     HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
-
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.HouseNumber, Mode=OneWayToSource}"
-                     PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="150" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
-
-            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.Suffix}"
-                     Width="115" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
-
-            <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
-
-            <Label Content="Stad" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
-
-            <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.Country}" Grid.Row="13" Grid.Column="0" Margin="0,0,55,0" />-->
-
+            
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 

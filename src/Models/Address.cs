@@ -29,6 +29,12 @@ namespace Festispec.Models
 
         public override string ToString()
         {
+            if (HouseNumber == 0 && (StreetName == null || StreetName.Length == 0))
+                return $"{City} {Country}";
+
+            if (HouseNumber == 0)
+                return $"{StreetName}, {City} {Country}";
+
             return $"{StreetName} {HouseNumber}{Suffix}, {City} {Country}";
         }
     }

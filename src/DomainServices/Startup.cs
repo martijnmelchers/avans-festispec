@@ -19,7 +19,6 @@ namespace Festispec.DomainServices
             services.AddScoped<IGoogleMapsService, GoogleMapsService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
-
             services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddScoped<FestispecContext>();

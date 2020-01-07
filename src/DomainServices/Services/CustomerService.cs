@@ -89,8 +89,19 @@ namespace Festispec.DomainServices.Services
             
             _db.ContactPersons.RemoveRange(customer.ContactPersons);
             _db.Customers.Remove(customer);
+            await _addressService.RemoveAddress(customer.Address);
 
             return await SaveChangesAsync();
+        }
+
+        public async Task UpdateCustomerAsync(Customer customer)
+        {
+            if (!customer.Validate() || !customer.Address.Validate() || !customer.ContactDetails.Validate())
+                throw new InvalidDataException();
+
+            customer.Address = await _addressService.SaveAddress(customer.Address);
+
+            await SaveChangesAsync();
         }
 
         public async Task<int> SaveChangesAsync()
