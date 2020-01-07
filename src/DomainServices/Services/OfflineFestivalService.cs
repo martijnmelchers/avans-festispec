@@ -22,7 +22,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> GetFestivalAsync(int festivalId)
         {
-            return _syncService.GetEntity(festivalId);
+            return await _syncService.GetEntityAsync(festivalId);
         }
 
         public Festival GetFestival(int festivalId)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Festispec.DomainServices.Enums;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
@@ -80,6 +81,11 @@ namespace Festispec.DomainServices.Services
 
             return JsonConvert.DeserializeObject<T>(jObject.ToString());
         }
+
+        public async Task<T> GetEntityAsync(int entityId)
+        {
+            return await Task.Run(() => GetEntity(entityId));
+        } 
 
         public void AddEntity(T entity)
         {

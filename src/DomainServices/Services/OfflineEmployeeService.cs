@@ -27,7 +27,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            return _employeeSyncService.GetEntity(employeeId);
+            return await _employeeSyncService.GetEntityAsync(employeeId);
         }
 
         public Task<int> RemoveEmployeeAsync(int employeeId)
