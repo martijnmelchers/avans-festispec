@@ -345,6 +345,51 @@ namespace Festispec.Models.Migrations
 
                 context.Reports.AddOrUpdate(report);
 
+                var employeeInspector = new Employee
+                {
+                    Id = 2,
+                    Iban = "NL01RABO12789410",
+                    Name = new FullName
+                    {
+                        First = "Jan",
+                        Last = "Dirksen"
+                    },
+                    Account = new Account
+                    {
+                        Id = 1,
+
+                        // Voorletter + Achternaam + geboortejaar
+                        Username = "JDirksen89",
+                        Password = BCrypt.Net.BCrypt.HashPassword("TestWachtwoord"),
+                        Role = Role.Inspector
+                    },
+                    Address = new Address
+                    {
+                        City = "Amsterdam",
+                        Country = "Nederland",
+                        HouseNumber = 14,
+                        StreetName = "Lutmastraat",
+                        ZipCode = "1072JL"
+                    },
+                    ContactDetails = new ContactDetails
+                    {
+                        EmailAddress = "jdirksen89@gmail.com",
+                        PhoneNumber = "+31987654321"
+                    },
+                    Certificates = new List<Certificate>
+                    {
+                        new Certificate
+                        {
+                            Id = 2,
+                            CertificateTitle = "Inspection Certificate",
+                            CertificationDate = new DateTime(2019, 3, 4, 00, 00, 00),
+                            ExpirationDate = new DateTime(2021, 3, 4, 00, 00, 00)
+                        }
+                    }
+                };
+
+                context.Employees.AddOrUpdate(employeeInspector);
+
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)

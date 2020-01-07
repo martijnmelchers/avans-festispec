@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Festispec.Web.Models;
+using Festispec.Models;
 
 namespace Festispec.Web.Controllers
 {
@@ -19,12 +20,14 @@ namespace Festispec.Web.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
+        {            
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
+            return View();            
         }
 
         public IActionResult Privacy()
         {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 
