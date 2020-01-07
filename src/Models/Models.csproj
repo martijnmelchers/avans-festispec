@@ -29,5 +29,9 @@
       <DependentUpon>202001071621587_AddDistanceResult.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+    <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
+      <DependentUpon>202001061200392_INotify.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>
