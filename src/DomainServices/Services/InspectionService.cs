@@ -126,6 +126,7 @@ namespace Festispec.DomainServices.Services
         public async Task RemoveInspection(int plannedInspectionId, string cancellationreason)
         {
             var plannedInspection = await GetPlannedInspection(plannedInspectionId);
+            plannedInspection.CancellationReason = cancellationreason;
             if (plannedInspection.Answers == null)
                 throw new System.Exception();
 
@@ -134,7 +135,11 @@ namespace Festispec.DomainServices.Services
             if (plannedInspection.Answers.Count > 0)
                 throw new QuestionHasAnswersException();
 
-            _db.PlannedInspections.Remove(plannedInspection);
+            //Check if cancellationreason is not longer than 250 characters
+            if (!plannedInspection.Validate())
+                throw new InvalidDataException();
+
+            //_db.PlannedInspections.Remove(plannedInspection);
             plannedInspection.IsCancelled = DateTime.Now;
 
             await _db.SaveChangesAsync();
