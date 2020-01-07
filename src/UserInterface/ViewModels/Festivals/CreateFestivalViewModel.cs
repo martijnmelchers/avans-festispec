@@ -20,7 +20,6 @@ namespace Festispec.UI.ViewModels
         private IFestivalService _festivalService;
         public Festival Festival { get; set; }
         public ICommand CreateFestivalCommand { get; set; }
-        public string Suffix { get; set; }
 
         private readonly IFrameNavigationService _navigationService;
         private readonly ICustomerService _customerService;
@@ -54,8 +53,11 @@ namespace Festispec.UI.ViewModels
         }
         public async void CreateFestival()
         {
-            if (!string.IsNullOrEmpty(Suffix))
-                Festival.Address.Suffix = Suffix;
+            if (String.IsNullOrEmpty(CurrentAddress))
+            {
+                MessageBox.Show("Please select an address");
+                return;
+            }
 
             try
             {
@@ -77,7 +79,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery));
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)

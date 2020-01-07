@@ -186,7 +186,8 @@ namespace Festispec.UnitTests.Helpers
         {
             Id = 4,
             KvkNr = 12345678,
-            CustomerName = "ThunderDome"
+            CustomerName = "ThunderDome",
+            Address = new Address()
         };
 
         public static Festival festivalThunderDome = new Festival()

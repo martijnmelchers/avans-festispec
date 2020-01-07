@@ -153,7 +153,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             try
             {
-                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery));
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)
