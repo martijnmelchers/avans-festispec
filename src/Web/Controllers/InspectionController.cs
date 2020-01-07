@@ -1,15 +1,14 @@
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.Answers;
+using Festispec.Models.Questions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.Answers;
-using Festispec.Models.Interfaces;
-using Festispec.Models.Questions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Festispec.Web.Controllers
 {
@@ -17,11 +16,13 @@ namespace Festispec.Web.Controllers
     {
         private IQuestionnaireService _questionnaireService { get; set; }
         private IInspectionService _inspectionService { get; set; }
+
         public InspectionController(IQuestionnaireService questionnaireService, IInspectionService inspectionService)
         {
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
         }
+
         // GET: Inspection
         public async Task<ActionResult> Index()
         {
@@ -51,17 +52,15 @@ namespace Festispec.Web.Controllers
             List<Answer> answers;
             try
             {
-                answers = new List<Answer>(plannedInspection.Answers.Where(e=> e.PlannedInspection.Employee.Id == int.Parse(Request.Cookies["CurrentUserId"])));
+                answers = new List<Answer>(plannedInspection.Answers.Where(e => e.PlannedInspection.Employee.Id == int.Parse(Request.Cookies["CurrentUserId"])));
             }
             catch (Exception)
             {
-
                 if (Request.Cookies["CurrentUserId"] == null)
                 {
                     return RedirectToAction("Login", "Authentication");
                 }
                 answers = new List<Answer>();
-                
             }
 
             foreach (var question in plannedInspection.Questionnaire.Questions)
@@ -75,30 +74,34 @@ namespace Festispec.Web.Controllers
                     question1.Contents = question.Contents;
                 }
 
-                if (!question1.Answers.Any(e=> e.PlannedInspection.Id == plannedInspection.Id))
+                if (!question1.Answers.Any(e => e.PlannedInspection.Id == plannedInspection.Id))
                 {
-                   
-                    
                     switch (question1)
                     {
-                        case Festispec.Models.Questions.NumericQuestion nq:
+                        case Festispec.Models.Questions.NumericQuestion _:
                             answers.Add(new NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
-                        case Festispec.Models.Questions.RatingQuestion rq:
+
+                        case Festispec.Models.Questions.RatingQuestion _:
                             answers.Add(new NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
-                        case Festispec.Models.Questions.MultipleChoiceQuestion mq:
+
+                        case Festispec.Models.Questions.MultipleChoiceQuestion _:
                             answers.Add(new MultipleChoiceAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
-                        case StringQuestion sq:
+
+                        case StringQuestion _:
                             answers.Add(new StringAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
-                        case DrawQuestion dq:
+
+                        case DrawQuestion _:
                             answers.Add(new FileAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
-                        case UploadPictureQuestion upq:
+
+                        case UploadPictureQuestion _:
                             answers.Add(new FileAnswer() { Question = question, PlannedInspection = plannedInspection });
                             break;
+
                         default:
                             break;
                     }
@@ -112,9 +115,6 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveStringAnswer(StringAnswer stringAnswer)
         {
-
-            
-
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
             stringAnswer.Question = await _questionnaireService.GetQuestion(questionId);
             stringAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(stringAnswer.PlannedInspection.Id);
@@ -125,6 +125,7 @@ namespace Festispec.Web.Controllers
             await _questionnaireService.SaveChangesAsync();
             return RedirectToAction("Details", new { id = stringAnswer.PlannedInspection.Id });
         }
+
         //file answer
         [HttpPost]
         public async Task<ActionResult> SaveFileAnswer(IFormFile file)
@@ -162,7 +163,6 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveNumericAnswer(NumericAnswer numericAnswer)
         {
-            
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
             numericAnswer.Question = await _questionnaireService.GetQuestion(questionId);
             numericAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(numericAnswer.PlannedInspection.Id);
@@ -179,13 +179,12 @@ namespace Festispec.Web.Controllers
         {
             if (ufile == null || ufile.Length <= 0) return null;
             var fileName = Path.GetFileName(ufile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await ufile.CopyToAsync(fileStream);
-                }
-                return filePath;
-
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", fileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await ufile.CopyToAsync(fileStream);
+            }
+            return filePath;
         }
     }
 }
