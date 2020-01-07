@@ -1,7 +1,21 @@
-﻿
+﻿@model Festispec.Models.Availability
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+<form asp-action="Index">
 
+    <script>
+        $('#datetimepicker').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            keepOpen: true,
+            format: 'YYYY-MM-DD hh:mm A'
+        });
+    </script>
+
+    <input type='text' class="form-control" id="datetimepicker" name="when" placeholder="When" required autofocus />
+    
+
+</form>
