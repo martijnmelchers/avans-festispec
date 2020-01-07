@@ -14,18 +14,21 @@ namespace Festispec.UI.ViewModels.Customers
         private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService, OfflineService offlineService)
         {
             _navigationService = navigationService;
 
             AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer);
             ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
 
+            CanEditCustomers = offlineService.IsOnline;
             CustomerList = (CollectionView) CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
             CustomerList.Filter = Filter;
+            customerService.Sync();
         }
 
         public CollectionView CustomerList { get; }
+        public bool CanEditCustomers { get; set; }
 
         public ICommand AddNewCustomerCommand { get; }
         public ICommand ViewCustomerCommand { get; }

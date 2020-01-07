@@ -40,6 +40,8 @@ namespace Festispec.UI.ViewModels.Customers
 
             DeleteCommand = new RelayCommand(RemoveCustomer);
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
+            
+            customerService.Sync();
         }
 
         public Customer Customer { get; }
