@@ -1,5 +1,6 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models.Answers;
+using Festispec.Models.Questions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
@@ -21,10 +22,10 @@ namespace Festispec.Web.Controllers
         }
 
         // GET: Draw/Draw/5
-        public ActionResult Draw(int id)
+        public async Task<ActionResult> Draw(int id)
         {
-            FileAnswer answer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == id) as FileAnswer;
-            return View(answer);
+            DrawQuestion question = await  _questionnaireService.GetQuestion(id) as DrawQuestion;
+            return View(question);
         }
 
         // POST: Draw/Draw/5

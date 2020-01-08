@@ -123,7 +123,7 @@ namespace Festispec.Models.Migrations
                 };
 
                 context.ContactPersonNotes.AddOrUpdate(note);
-
+                var now = DateTime.Now;
                 var festival = new Festival
                 {
                     Id = 1,
@@ -133,9 +133,9 @@ namespace Festispec.Models.Migrations
                     Address = address2,
                     OpeningHours = new OpeningHours
                     {
-                        StartTime = new TimeSpan(18, 0, 0),
+                        StartTime = new TimeSpan(now.Hour, now.Minute, now.Second),
                         EndTime = new TimeSpan(8, 0, 0),
-                        StartDate = new DateTime(2020, 9, 5),
+                        StartDate = new DateTime(2020, 1, 1),
                         EndDate = new DateTime(2020, 9, 6)
                     }
                 };
@@ -158,16 +158,51 @@ namespace Festispec.Models.Migrations
 
                 context.Questionnaires.AddOrUpdate(questionnaire);
 
+                var employeeInspector = new Employee
+                {
+                    Id = 2,
+                    Iban = "NL01RABO12789410",
+                    Name = new FullName
+                    {
+                        First = "Jan",
+                        Last = "Dirksen"
+                    },
+                    Account = new Account
+                    {
+                        Id = 1,
+
+                        // Voorletter + Achternaam + geboortejaar
+                        Username = "JDirksen89",
+                        Password = BCrypt.Net.BCrypt.HashPassword("TestWachtwoord"),
+                        Role = Role.Inspector
+                    },
+                    Address = address4,
+                    ContactDetails = new ContactDetails
+                    {
+                        EmailAddress = "jdirksen89@gmail.com",
+                        PhoneNumber = "+31987654321"
+                    },
+                    Certificates = new List<Certificate>
+                    {
+                        new Certificate
+                        {
+                            Id = 2,
+                            CertificateTitle = "Inspection Certificate",
+                            CertificationDate = new DateTime(2019, 3, 4, 00, 00, 00),
+                            ExpirationDate = new DateTime(2021, 3, 4, 00, 00, 00)
+                        }
+                    }
+                };
 
                 var plannedInspection = new PlannedInspection
                 {
                     Id = 1,
-                    Employee = employee,
+                    Employee = employeeInspector,
                     Festival = festival,
                     EventTitle = "Inspection " + festival.FestivalName,
-                    StartTime = new DateTime(2020, 7, 28, 20, 00, 00),
+                    StartTime = DateTime.Now,
                     EndTime = new DateTime(2020, 7, 29, 5, 00, 00),
-                    Questionnaire = questionnaire
+                    Questionnaire = questionnaire,
                 };
 
                 context.PlannedInspections.AddOrUpdate(plannedInspection);
@@ -186,7 +221,7 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Category = questionCategory,
-                    PicturePath = "/drawings/map_defqon.png",
+                    PicturePath = "/Uploads/grasso.png",
                     Questionnaire = questionnaire,
                     Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
                 };
@@ -195,7 +230,7 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Question = drawQuestion,
-                    UploadedFilePath = "/uploads/drawing_map_defqon_inspector_1.png",
+                    UploadedFilePath = "/Uploads/inspection_adsfadfs.png",
                     PlannedInspection = plannedInspection
                 };
 
@@ -380,41 +415,7 @@ namespace Festispec.Models.Migrations
 
                 context.Reports.AddOrUpdate(report);
 
-                var employeeInspector = new Employee
-                {
-                    Id = 2,
-                    Iban = "NL01RABO12789410",
-                    Name = new FullName
-                    {
-                        First = "Jan",
-                        Last = "Dirksen"
-                    },
-                    Account = new Account
-                    {
-                        Id = 1,
-
-                        // Voorletter + Achternaam + geboortejaar
-                        Username = "JDirksen89",
-                        Password = BCrypt.Net.BCrypt.HashPassword("TestWachtwoord"),
-                        Role = Role.Inspector
-                    },
-                    Address = address4,
-                    ContactDetails = new ContactDetails
-                    {
-                        EmailAddress = "jdirksen89@gmail.com",
-                        PhoneNumber = "+31987654321"
-                    },
-                    Certificates = new List<Certificate>
-                    {
-                        new Certificate
-                        {
-                            Id = 2,
-                            CertificateTitle = "Inspection Certificate",
-                            CertificationDate = new DateTime(2019, 3, 4, 00, 00, 00),
-                            ExpirationDate = new DateTime(2021, 3, 4, 00, 00, 00)
-                        }
-                    }
-                };
+           
 
                 context.Employees.AddOrUpdate(employeeInspector);
 
@@ -479,7 +480,7 @@ namespace Festispec.Models.Migrations
             var availability = new Availability
             {
                 Id = 1,
-                StartTime = new DateTime(2019, 12, 27, 00, 00, 00),
+                StartTime = DateTime.Now,
                 EndTime = new DateTime(2019, 12, 27, 23, 59, 59),
                 Employee = employee,
                 EventTitle = "Henk beschikbaar",
