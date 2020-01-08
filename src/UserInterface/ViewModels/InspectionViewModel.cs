@@ -273,7 +273,7 @@ namespace Festispec.UI.ViewModels
                 double distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
 
                 advancedEmployees.Add(new AdvancedEmployee
-                    {Employee = employee, Distance = $"{distance} Km", DoubleDistance = distance});
+                    {Employee = employee, Distance = $"{distance} km", DoubleDistance = distance});
             }
 
             _employees =
