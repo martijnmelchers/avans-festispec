@@ -1,5 +1,6 @@
 ﻿using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -114,7 +115,7 @@ namespace Festispec.UI.ViewModels
             _employeeService = employeeService;
             _googleService = googleService;
 
-            CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
+            CheckBoxCommand = new RelayCommand<AdvancedEmployee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(Return);
             AddEmployee = new RelayCommand(Save);
@@ -156,18 +157,17 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(SelectedDate));
             RaisePropertyChanged(nameof(CheckBox));
 
-            var employees = _employeeService.GetAllEmployees();
+            var employees = _employeeService.GetAllInspectors();
             var advancedEmployees = new List<AdvancedEmployee>();
             foreach (Employee employee in employees)
             {
 
                     var distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
 
-                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km" });
+                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km", DDistance = distance });
 
             }
-            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
-
+            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees.OrderBy(e => e.DDistance));
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
@@ -278,8 +278,9 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Employee> EmployeesToRemove { get; set; }
         public ObservableCollection<Employee> EmployeesAdded { get; set; }
 
-        public void CheckBox(Employee employee)
+        public void CheckBox(AdvancedEmployee advemployee)
         {
+            var employee = advemployee.Employee;
             if (!EmployeesToAdd.Any(e => e.Id == employee.Id) && !EmployeesAdded.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Add(employee);
             else if (EmployeesToAdd.Any(e => e.Id == employee.Id))
@@ -315,9 +316,17 @@ namespace Festispec.UI.ViewModels
                 {
                     await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime, "test", q);
                 }
-                catch (Exception e)
+                catch (EntityExistsException)
                 {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Kan de medewerker niet inplannen omdat deze al ingepland is.", $"Medewerker is al ingepland.", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidDataException)
+                {
+                    MessageBox.Show($"Kan de medewerker niet inplannen omdat de ingevulde gegevens niet voldoen.", $"Gegevens zijn niet geldig.", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show($"Kan de medewerker niet inplannen omdat de ingevulde gegevens niet voldoen.", $"Gegevens zijn niet geldig.", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             EmployeesToAdd.Clear();
@@ -326,11 +335,15 @@ namespace Festispec.UI.ViewModels
                 try
                 {
                     var plannedInspection = await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
-                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Niet meer nodig");
                 }
-                catch (Exception e)
+                catch (QuestionHasAnswersException)
                 {
-                    MessageBox.Show($"An error occured while removing a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidDataException)
+                {
+                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             EmployeesToRemove.Clear();

@@ -53,9 +53,13 @@ namespace Festispec.UI.ViewModels
                 await _festivalService.UpdateFestival(Festival);
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-            catch (Exception e)
+            catch (QuestionHasAnswersException)
             {
-                MessageBox.Show($"An error occured while adding festival. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.","Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidDataException)
+            {
+                MessageBox.Show($"De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.","Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

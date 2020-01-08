@@ -73,7 +73,7 @@
                                         <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay">
                                             <Binding Path="DataContext.EmployeesToAdd" RelativeSource="{RelativeSource AncestorType=Page}" />
                                             <Binding Path="DataContext.EmployeesAdded" RelativeSource="{RelativeSource AncestorType=Page}" />
-                                            <Binding Path="." UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" />
+                                            <Binding Path="Employee" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" />
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>
