@@ -46,6 +46,8 @@ namespace Festispec.UI.ViewModels
         public ICommand EditPlannedInspectionCommand { get; set; }
         public ICommand CreatePlannedInspectionCommand { get; set; }
 
+        public bool CanEdit { get; set; }
+
         public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
@@ -63,6 +65,8 @@ namespace Festispec.UI.ViewModels
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline);
             CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline);
+
+            CanEdit = offlineService.IsOnline;
 
             Task.Run(async () => Initialize((int)_navigationService.Parameter));
         }
