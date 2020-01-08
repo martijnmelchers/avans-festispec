@@ -48,6 +48,9 @@ namespace Festispec.DomainServices.Services
 
             if (account.Role != requiredRole)
                 throw new NotAuthorizedException();
+
+            if(account.IsNonActive != null)
+                throw new NotAuthorizedException();
             
             return account.ToSafeAccount();
         }

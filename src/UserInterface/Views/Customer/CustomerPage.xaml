@@ -10,8 +10,8 @@
       d:DataContext="{d:DesignInstance Type=customers:CustomerViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="870" />
-        <Grid Width="1200" Height="820">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1200" Height="620" />
+        <Grid Width="1150" Height="570">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
                 <RowDefinition Height="50" />
@@ -24,16 +24,11 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="520" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="520" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="3"
@@ -49,27 +44,10 @@
             <Label Content="KvK-nummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
             <Label Content="{Binding Customer.KvkNr}" FontWeight="Light" Grid.Row="5" Grid.Column="0" />
 
-            <Label Content="Postcode" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
+            <Label Content="Adres" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
                    Grid.Row="6" Grid.Column="0" />
-            <Label Content="{Binding Customer.Address.ZipCode}" FontWeight="Light" Width="220"
-                   HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
-
-            <Label Content="Huisnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <Label Content="{Binding Customer.Address.HouseNumber}" FontWeight="Light" Width="150"
-                   HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
-
-            <Label Content="Toevoeging" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
-            <Label Content="{Binding Customer.Address.Suffix}" FontWeight="Light" Width="115"
-                   HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
-
-            <Label Content="Straatnaam" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <Label Content="{Binding Customer.Address.StreetName}" FontWeight="Light" Grid.Row="9" Grid.Column="0" />
-
-            <Label Content="Stad" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <Label Content="{Binding Customer.Address.City}" FontWeight="Light" Grid.Row="11" Grid.Column="0" />
-
-            <Label Content="Land" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <Label Content="{Binding Customer.Address.Country}" FontWeight="Light" Grid.Row="13" Grid.Column="0" />
+            <TextBlock Text="{Binding Customer.Address}" Style="{StaticResource DefaultText}" FontWeight="Light" TextWrapping="Wrap"
+                   HorizontalAlignment="Left" Grid.Row="7" Grid.RowSpan="2" Grid.Column="0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
@@ -80,12 +58,12 @@
             <Label Content="Telefoonnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
             <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" FontWeight="Light" Grid.Column="2" Grid.Row="5" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="10">
                 <Button Content="Festival toevoegen" Command="{Binding AddFestivalCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="10">
                 <Button Content="Terug" Command="{Binding NavigateToCustomerListCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}"

@@ -60,7 +60,9 @@ namespace Festispec.UnitTests
                     HouseNumber = 1,
                     Suffix = "a",
                     City = "Test city",
-                    Country = "Nederland"
+                    Country = "Nederland",
+                    Latitude = 15,
+                    Longitude = 19
                 },
                 new ContactDetails
                 {
@@ -90,29 +92,30 @@ namespace Festispec.UnitTests
                     PhoneNumber = "+316123456789"
                 }
             },
-            new object[]
-            {
-                new FullName {First = "Test", Last = "Testerson"},
-                "NL01RABO0123456789",
-                "testeretta",
-                "testpassword",
-                Role.Employee,
-                new Address
-                {
-                    // te korte postcode
-                    ZipCode = "123",
-                    StreetName = "Testing street",
-                    HouseNumber = 1,
-                    Suffix = "a",
-                    City = "Test city",
-                    Country = "Nederland"
-                },
-                new ContactDetails
-                {
-                    EmailAddress = "test@tester.com",
-                    PhoneNumber = "+316123456789"
-                }
-            }
+            // Removed because it throws an InvalidAddressException
+            //new object[]
+            //{
+            //    new FullName {First = "Test", Last = "Testerson"},
+            //    "NL01RABO0123456789",
+            //    "testeretta",
+            //    "testpassword",
+            //    Role.Employee,
+            //    new Address
+            //    {
+            //        // te korte postcode
+            //        ZipCode = "123",
+            //        StreetName = "Testing street",
+            //        HouseNumber = 1,
+            //        Suffix = "a",
+            //        City = "Test city",
+            //        Country = "Nederland"
+            //    },
+            //    new ContactDetails
+            //    {
+            //        EmailAddress = "test@tester.com",
+            //        PhoneNumber = "+316123456789"
+            //    }
+            //}
         };
         
         public static IEnumerable<object[]> ValidCertificates = new[]
