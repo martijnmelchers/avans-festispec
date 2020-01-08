@@ -38,7 +38,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="NIEUWE MEDEWERKER AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"
-                       Grid.ColumnSpan="2" />
+                       Grid.ColumnSpan="3" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Medewerkersgegevens -->
@@ -116,8 +116,8 @@
             <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" />
             <PasswordBox Name="Password" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="10" Width="257.5" />
 
-            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" Margin="340,0,0,0" />
-            <PasswordBox Name="PasswordRepeat" Grid.Column="2" Grid.Row="10" Margin="340,0,0,0" Width="257.5" />
+            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" Margin="287.5,0,0,0" />
+            <PasswordBox Name="PasswordRepeat" Grid.Column="2" Grid.Row="10" Margin="287.5,0,0,0" Width="257.5" />
 
             <Label Content="Rol" VerticalAlignment="Center" Grid.Column="2" Grid.Row="11" />
             <ComboBox Grid.Column="2" Grid.Row="12" ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
