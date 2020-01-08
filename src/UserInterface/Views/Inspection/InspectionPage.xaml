@@ -19,24 +19,24 @@
 
         <Grid Width="700">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75" />
+                <RowDefinition Height="100" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="30" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="30" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="75" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Festival.FestivalName}" Style="{StaticResource Header}" Grid.ColumnSpan="2"
+            <TextBlock Text="{Binding Festival.FestivalName}" Style="{StaticResource Header}" Grid.ColumnSpan="2" Margin="0,20,0,0"
                        Grid.Row="0" />
-            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" Margin="0,20,0,0" />
             
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
                 <Label Content="{Binding Festival.Address.StreetName}" />
@@ -50,20 +50,22 @@
             <Label Content="Vragenlijst" Grid.Column="1" Grid.Row="2" Margin="25,0,0,0" />
             <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Festival.Questionnaires}"
                       SelectedValue="{Binding Questionnaire}" DisplayMemberPath="Name" Margin="25,0,0,0" />
-            <Label Content="Begin tijd" Grid.Column="0" Grid.Row="4" />
+            <Label Content="Begin tijd" Grid.Column="0" Grid.Row="4" Margin="0,10,0,0" />
             <TextBox Text="{Binding  StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                      Grid.Row="5" Grid.Column="0" Margin="0,0,25,0" />
-            <Label Content="Eindtijd" Grid.Column="1" Grid.Row="4" Margin="25,0,0,0" />
+            <Label Content="Eindtijd" Grid.Column="1" Grid.Row="4" Margin="25,10,0,0" />
             <TextBox Text="{Binding  EndTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                      Grid.Row="5" Grid.Column="1" Margin="25,0,0,0" />
-            <Label Content="Beschikbare inspecteurs" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" />
+            <Label Content="Beschikbare inspecteurs" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,0" />
             <TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="0"
                      Grid.ColumnSpan="2" />
+            <Image HorizontalAlignment="Right" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Source="{StaticResource SearchGreen}"
+                    Margin="0,0,10,0" Height="25" />
             <ScrollViewer Grid.Row="8" Grid.Column=" 0" Grid.ColumnSpan="2" Margin="0,10,0,0">
                 <ListView ItemsSource="{Binding Employees}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="675">
+                            <Grid Width="650">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -99,9 +101,9 @@
                 </ListView>
             </ScrollViewer>
             <Button Content="Terug" Style="{StaticResource ButtonBase}" Height="50" Width="200" Grid.Column="0"
-                    Grid.Row="9" Command="{Binding ReturnCommand}" />
+                    Grid.Row="9" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" />
             <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1"
-                    Grid.Row="9" Command="{Binding SaveCommand}" />
+                    Grid.Row="9" Command="{Binding SaveCommand}" HorizontalAlignment="Right" />
         </Grid>
        
     </Grid>
