@@ -65,22 +65,25 @@
                 <ListView ItemsSource="{Binding Employees}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="650">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="50" />
                                 </Grid.RowDefinitions>
-                                <Label Content="{Binding Employee.Name}" Grid.Column="0" VerticalAlignment="Center" />
+                                <Rectangle Style="{DynamicResource InnerContextBox}" Height="50"
+                                       HorizontalAlignment="Stretch" Grid.ColumnSpan="4" />
+                                
+                                <Label Content="{Binding Employee.Name}" Grid.Column="0" VerticalAlignment="Center" Padding="20,0,0,0" />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Image Margin="0,0,20,0" Height="30" Source="{DynamicResource LocationGreen}" />
+                                    <Image Margin="0,0,5,0" Height="25" Source="{DynamicResource LocationGreen}" />
                                     <Label Content="{Binding Distance}" VerticalAlignment="Center" />
                                 </StackPanel>
 
-                                <CheckBox Grid.Column="2"
+                                <CheckBox Grid.Column="2" Margin="0,0,20,0"
                                           Command="{Binding DataContext.CheckBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                                           CommandParameter="{Binding}" VerticalAlignment="Center">
                                     <CheckBox.IsChecked>
@@ -98,6 +101,11 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </ScrollViewer>
             <Button Content="Terug" Style="{StaticResource ButtonBase}" Height="50" Width="200" Grid.Column="0"

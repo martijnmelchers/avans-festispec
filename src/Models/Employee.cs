@@ -8,7 +8,6 @@ namespace Festispec.Models
         public Employee()
         {
             Name = new FullName();
-            Address = new Address();
             ContactDetails = new ContactDetails();
         }
 

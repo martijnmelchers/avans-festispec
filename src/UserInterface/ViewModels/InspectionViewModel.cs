@@ -22,9 +22,13 @@ namespace Festispec.UI.ViewModels
         private readonly IInspectionService _inspectionService;
         private readonly IFrameNavigationService _navigationService;
 
-        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService,
-            IFrameNavigationService navigationService, IEmployeeService employeeService,
-            IGoogleMapsService googleService)
+        public InspectionViewModel(
+            IInspectionService inspectionService, 
+            IFestivalService festivalService,
+            IFrameNavigationService navigationService,
+            IEmployeeService employeeService,
+            IGoogleMapsService googleService
+            )
         {
             _inspectionService = inspectionService;
             _navigationService = navigationService;
@@ -42,6 +46,7 @@ namespace Festispec.UI.ViewModels
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
             EmployeesAdded = new ObservableCollection<Employee>();
+
             Task.Run(() => Initialize(_navigationService.Parameter)).Wait();
         }
 
@@ -98,25 +103,18 @@ namespace Festispec.UI.ViewModels
             }
             set
             {
-                try
-                {
-                    _selectedDate = value;
-                    DateTime outvar;
-                    //Set start time
-                    string dateString =
-                        $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_startTime.Hour}:{_startTime.Minute}";
-                    bool isvalid = DateTime.TryParse(dateString, out outvar);
-                    _startTime = outvar;
-                    //Set end time
-                    dateString =
-                        $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_endTime.Hour}:{_endTime.Minute}";
-                    isvalid = DateTime.TryParse(dateString, out outvar);
-                    _endTime = outvar;
-                    Employees.Filter += Filter;
-                }
-                catch (Exception)
-                {
-                }
+                _selectedDate = value;
+                //Set start time
+                string dateString =
+                    $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_startTime.Hour}:{_startTime.Minute}";
+                bool isValid = DateTime.TryParse(dateString, out DateTime outvar);
+                _startTime = outvar;
+                //Set end time
+                dateString =
+                    $"{_selectedDate.Day}/{_selectedDate.Month}/{_selectedDate.Year} {_endTime.Hour}:{_endTime.Minute}";
+                isValid = DateTime.TryParse(dateString, out outvar);
+                _endTime = outvar;
+                Employees.Filter += Filter;
             }
         }
 
@@ -130,18 +128,12 @@ namespace Festispec.UI.ViewModels
                 _startTime.Minute.ToString().PadLeft(2, '0'));
             set
             {
-                try
-                {
-                    string dateString =
+                string dateString =
                         $"{_startTime.Day}/{_startTime.Month}/{_startTime.Year} {int.Parse(value.Substring(0, 2))}:{int.Parse(value.Substring(3, 2))}";
-                    DateTime outvar;
-                    bool isvalid = DateTime.TryParse(dateString, out outvar);
-                    _startTime = outvar;
-                    Employees.Filter += Filter;
-                }
-                catch (Exception)
-                {
-                }
+                DateTime outvar;
+                bool isvalid = DateTime.TryParse(dateString, out outvar);
+                _startTime = outvar;
+                Employees.Filter += Filter;
             }
         }
 
@@ -153,18 +145,10 @@ namespace Festispec.UI.ViewModels
                 _endTime.Minute.ToString().PadLeft(2, '0'));
             set
             {
-                try
-                {
-                    string dateString =
-                        $"{_endTime.Day}/{_endTime.Month}/{_endTime.Year} {int.Parse(value.Substring(0, 2))}:{int.Parse(value.Substring(3, 2))}";
-                    DateTime outvar;
-                    bool isvalid = DateTime.TryParse(dateString, out outvar);
-                    _endTime = outvar;
-                    Employees.Filter += Filter;
-                }
-                catch (Exception)
-                {
-                }
+                string dateString = $"{_endTime.Day}/{_endTime.Month}/{_endTime.Year} {int.Parse(value.Substring(0, 2))}:{int.Parse(value.Substring(3, 2))}";
+                bool isvalid = DateTime.TryParse(dateString, out DateTime outvar);
+                _endTime = outvar;
+                Employees.Filter += Filter;
             }
         }
 
@@ -177,7 +161,6 @@ namespace Festispec.UI.ViewModels
         public Questionnaire Questionnaire
         {
             get => _questionnaire;
-
             set => _questionnaire = value;
         }
 
@@ -199,15 +182,9 @@ namespace Festispec.UI.ViewModels
             foreach (PlannedEvent item in employee.PlannedEvents)
                 if (item is Availability)
                 {
-                    if (_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks ||
-                        _startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks)
-                    {
-                        //check next one
-                    }
-                    else
-                    {
+                    if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
+                        (_startTime.Ticks <= item.EndTime.Ticks || _endTime.Ticks <= item.EndTime.Ticks))
                         return false;
-                    }
                 }
 
             return true;
@@ -219,17 +196,13 @@ namespace Festispec.UI.ViewModels
                 if (item is PlannedInspection)
                 {
                     // check if new or edit
-                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100) return true;
+                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
+                        return true;
 
-                    if (_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks ||
-                        _startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks)
-                    {
-                        //checked next one
-                    }
-                    else
-                    {
+                    if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
+                        (_startTime.Ticks <= item.EndTime.Ticks || _endTime.Ticks <= item.EndTime.Ticks))
                         return false;
-                    }
+
                 }
 
             return true;
