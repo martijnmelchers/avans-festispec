@@ -1,6 +1,5 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -28,7 +27,6 @@ namespace Festispec.UI.ViewModels.Customers
                 CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
                 CurrentAddress = $"Huidige adres: {Customer.Address}";
-
             }
             else
             {
@@ -50,7 +48,6 @@ namespace Festispec.UI.ViewModels.Customers
             SearchCommand = new RelayCommand(Search);
             SelectCommand = new RelayCommand<string>(Select);
             #endregion
-
         }
 
         public Customer Customer { get; }
