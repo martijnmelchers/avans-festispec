@@ -15,7 +15,7 @@ namespace Festispec.Models.Questions
         }
         public ReferenceQuestion() : base() { }
 
-        private Question _question { get; set; }
+        private Question _question;
         public Question Question
         {
             get

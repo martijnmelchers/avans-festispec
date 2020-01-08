@@ -22,49 +22,63 @@ namespace Festispec.UI.ViewModels
         public ICommand AddEmployee { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
-        private IInspectionService _inspectionService;
-        private IFrameNavigationService _navigationService;
-        private IFestivalService _festivalService;
-        private IEmployeeService _employeeService;
+        private readonly IInspectionService _inspectionService;
+        private readonly IFrameNavigationService _navigationService;
+        private readonly IFestivalService _festivalService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IGoogleMapsService _googleService;
 
         private DateTime _originalStartTime { get; set; }
 
         private bool Filter(object item)
         {
-            if (employeeHasNoPlannedInspection(item as Employee) && employeeIsAvailable(item as Employee))
+            var employee = (item as AdvancedEmployee).Employee;
+            if (EmployeeHasNoPlannedInspection(employee) && EmployeeIsAvailable(employee))
             {
-                if (String.IsNullOrEmpty(Search))
+                if (string.IsNullOrEmpty(Search))
                     return true;
                 else
-                    return ((item as Employee).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
+                    return (employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
             }
-            return false;
+                return false;
+
         }
 
-        private bool employeeIsAvailable(Employee employee)
+        private bool EmployeeIsAvailable(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
-                if (item is Availability && item.StartTime.Ticks <= _startTime.Ticks && item.EndTime.Ticks >= _endTime.Ticks)
-                    return true;
-            }
-            return false;
-        }
-
-        private bool employeeHasNoPlannedInspection(Employee employee)
-        {
-            foreach (var item in employee.PlannedEvents)
-            {
-                //Check type
-                if (item is PlannedInspection)
+                if (item is Availability)
                 {
-                    //check if starttime is before item start and endtime is before start         or       starttime is after item starttime and endtime is after item endttime
                     if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
                     {
-                        //checked next one
+                        //check next one
                     }
                     else
                         return false;
+                }
+            }
+            return true;
+        }
+
+        private bool EmployeeHasNoPlannedInspection(Employee employee)
+        {
+            foreach (var item in employee.PlannedEvents)
+            {
+                if (item is PlannedInspection)
+                {
+                    // check if new or edit
+                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
+                        return true;
+                    else
+                    {
+                        if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                        {
+                            //checked next one
+                        }
+                        else
+                            return false;
+                    }
                 }
             }
 
@@ -92,12 +106,14 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService, IEmployeeService employeeService)
+        public InspectionViewModel(IInspectionService inspectionService, IFestivalService festivalService, IFrameNavigationService navigationService, IEmployeeService employeeService, IGoogleMapsService googleService)
         {
             _inspectionService = inspectionService;
             _navigationService = navigationService;
             _festivalService = festivalService;
             _employeeService = employeeService;
+            _googleService = googleService;
+
             CheckBoxCommand = new RelayCommand<Employee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(Return);
@@ -108,7 +124,7 @@ namespace Festispec.UI.ViewModels
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
             EmployeesAdded = new ObservableCollection<Employee>();
-            Task.Run(async () => await Initialize(_navigationService.Parameter));
+            Task.Run(() => Initialize(_navigationService.Parameter)).Wait();
         }
 
         private async Task Initialize(dynamic parameter)
@@ -116,7 +132,7 @@ namespace Festispec.UI.ViewModels
             if (parameter.PlannedInspectionId > 0)
             {
                 PlannedInspection temp = await _inspectionService.GetPlannedInspection(parameter.PlannedInspectionId);
-                Festival = temp.Festival;
+                Festival = await _festivalService.GetFestivalAsync(temp.Festival.Id);
                 _startTime = temp.StartTime;
                 _endTime = temp.EndTime;
                 Questionnaire = temp.Questionnaire;
@@ -124,13 +140,12 @@ namespace Festispec.UI.ViewModels
 
                 _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
                 _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
-                //RaisePropertyChanged(nameof(EmployeesAdded));
             }
             else if (parameter.FestivalId > 0)
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
 
             if (Festival == null)
-                throw new System.Exception();
+                throw new Exception();
 
             _originalStartTime = _startTime;
             RaisePropertyChanged(nameof(Festival));
@@ -140,7 +155,19 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(EndTime));
             RaisePropertyChanged(nameof(SelectedDate));
             RaisePropertyChanged(nameof(CheckBox));
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(_employeeService.GetAllEmployees());
+
+            var employees = _employeeService.GetAllEmployees();
+            var advancedEmployees = new List<AdvancedEmployee>();
+            foreach (Employee employee in employees)
+            {
+
+                    var distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
+
+                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km" });
+
+            }
+            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
+
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;

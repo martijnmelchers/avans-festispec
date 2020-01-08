@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    public class FestivalViewModel : ViewModelBase, IAsyncActivateable<int>
+    public class FestivalViewModel : ViewModelBase
     {
         private readonly IFestivalService _festivalService;
         private readonly IQuestionnaireService _questionnaireService;
@@ -64,7 +64,7 @@ namespace Festispec.UI.ViewModels
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
             CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
 
-            Task.Run(async () => await Initialize((int)_navigationService.Parameter));
+            Initialize((int)_navigationService.Parameter);
         }
 
         #region PlannedInspections
@@ -113,9 +113,9 @@ namespace Festispec.UI.ViewModels
 
         #endregion PlannedInspections
 
-        public async Task Initialize(int id)
+        public void Initialize(int id)
         {
-            Festival = await _festivalService.GetFestivalAsync(id);
+            Festival = _festivalService.GetFestival(id);
 
             FestivalData = Festival.OpeningHours.StartDate.ToString("dd/MM/yyyy") + " - " + Festival.OpeningHours.EndDate.ToString("dd/MM/yyyy");
             FestivalTimes = Festival.OpeningHours.StartTime.ToString(@"hh\:mm") + " - " + Festival.OpeningHours.EndTime.ToString(@"hh\:mm");
@@ -137,9 +137,9 @@ namespace Festispec.UI.ViewModels
                 await _festivalService.RemoveFestival(Festival.Id);
                 _navigationService.NavigateTo("FestivalList");
             }
-            catch (Exception e)
+            catch (FestivalHasQuestionnairesException e)
             {
-                MessageBox.Show($"An error occured while removing festival with the id: {Festival.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Dit festival kan niet worden verwijderd omdat er al vragenlijsten zijn aangemaakt.", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
