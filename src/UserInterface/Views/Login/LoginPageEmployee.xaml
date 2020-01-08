@@ -10,35 +10,35 @@
       d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="800" Height="550" />
-        <Grid Width="750" Height="500">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="400" Height="475" />
+        <Grid Width="350" Height="425">
             <Grid.RowDefinitions>
-                <RowDefinition Height="150" />
-                <RowDefinition Height="100" />
                 <RowDefinition Height="75" />
-                <RowDefinition Height="75" />
-                <RowDefinition Height="100" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Welkom!" Style="{DynamicResource Header}" HorizontalAlignment="Center"
+            <TextBlock Text="INLOGGEN" Style="{DynamicResource Header}" HorizontalAlignment="Left"
                        VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
-            <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Top"
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" Padding="0,5,0,0" />
+
+            <Label Content="Vul je inloggegevens in." HorizontalAlignment="Left" VerticalAlignment="Top"
                    Grid.Row="1" Grid.ColumnSpan="3" />
 
-            <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
-                <Label Content="Gebruikersnaam:" VerticalAlignment="Center" />
-                <TextBox Name="Username" Text="{Binding CurrentUsername}" Width="200" VerticalAlignment="Center" />
-            </StackPanel>
+            <Label Content="Gebruikersnaam:" VerticalAlignment="Center" Grid.Row="2"/>
+            <TextBox Name="Username" Text="{Binding CurrentUsername}" Width="350" HorizontalAlignment="Left" Grid.Row="3" />
 
-            <StackPanel Orientation="Vertical" Grid.Row="3" HorizontalAlignment="Center">
-                <Label Content="Wachtwoord:" VerticalAlignment="Center" />
-                <PasswordBox Name="Password" Width="200" VerticalAlignment="Center" />
-            </StackPanel>
+            <Label Content="Wachtwoord:" VerticalAlignment="Center" Grid.Row="4"/>
+            <PasswordBox Name="Password" Width="350" HorizontalAlignment="Left" Grid.Row="5" />
 
             <Button Content="Inloggen" Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName = Password}"
-                    Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Grid.Row="4" />
+                    Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" Grid.Row="7" />
         </Grid>
         <controls:ValidationPopup Caption="Login niet gelukt" />
     </Grid>
