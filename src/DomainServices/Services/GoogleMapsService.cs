@@ -102,10 +102,5 @@ namespace Festispec.DomainServices.Services
         {
             return place.AddressComponents.FirstOrDefault(x => x.Types.Contains(name));
         }
-
-        private string CreateMarker(string latitude, string longitude, string label, string color)
-        {
-            return String.Format("color:{0}|label:{1}|{2},{3}",color, label, latitude, longitude);
-        }
     }
 }
