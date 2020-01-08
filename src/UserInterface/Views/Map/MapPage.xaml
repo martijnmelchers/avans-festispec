@@ -114,12 +114,6 @@
             <map:BingMapsTileLayer Mode="Road"  >
             </map:BingMapsTileLayer>
 
-
-            <map:Pushpin map:MapPanel.Location="65,-18" Content="Iceland"/>
-            <map:Pushpin map:MapPanel.Location="71,25" Content="Norway"/>
-            <map:Pushpin map:MapPanel.Location="35,33" Content="Cyprus"/>
-            <map:Pushpin map:MapPanel.Location="28.25,-16.5" Content="Tenerife"/>
-
             <map:MapItemsControl ItemsSource="{Binding Points}"
                                  ItemContainerStyle="{StaticResource PointItemStyle}"
                                  SelectionMode="Extended"/>

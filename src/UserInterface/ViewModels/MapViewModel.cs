@@ -10,53 +10,6 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-
-    public class PointItem : ViewModelBase
-    {
-        public MapViewModel Parent;
-
-        public string DestinationView { get; set; }
-
-        public object DestinationParameter { get; set; }
-
-        public SolidColorBrush DotColor { get; set; }
-
-        public ICommand LabelCommand { get; set; }
-
-        public PointItem()
-        {
-            LabelCommand = new RelayCommand(Navigate);
-        }
-
-        private void Navigate()
-        {
-            Parent.Navigate(DestinationView, DestinationParameter);
-        }
-
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                RaisePropertyChanged(nameof(Name));
-            }
-        }
-
-        private Location location;
-        public Location Location
-        {
-            get { return location; }
-            set
-            {
-                location = value;
-                RaisePropertyChanged(nameof(Location));
-            }
-        }
-    }
-
-
     public class MapViewModel : ViewModelBase
     {
 
@@ -102,16 +55,10 @@ namespace Festispec.UI.ViewModels
 
         private void LoadPoints()
         {
-
             LoadCustomers();
             LoadFestivals();
             LoadEmployees();
-
-
-
-
         }    
-
 
 
         private void LoadCustomers()
@@ -125,7 +72,7 @@ namespace Festispec.UI.ViewModels
                     Name = customer.CustomerName,
                     Location = new Location(customer.Address.Latitude, customer.Address.Longitude),
                     DestinationParameter = customer.Id,
-                    DestinationView = "EditCustomer",
+                    DestinationView = "CustomerInfo",
                     Parent = this,
                     DotColor = new SolidColorBrush(Colors.Blue)
                 });
