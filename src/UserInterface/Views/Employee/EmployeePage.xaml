@@ -10,8 +10,8 @@
       d:DataContext="{d:DesignInstance Type=customers:EmployeeViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="870" />
-        <Grid Width="1200" Height="820">
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1200" Height="720" />
+        <Grid Width="1150" Height="670">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
                 <RowDefinition Height="50" />
@@ -26,19 +26,16 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="520" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="520" />
             </Grid.ColumnDefinitions>
 
             <TextBlock
                 Text="{Binding Employee.Name, Converter={StaticResource UpperCaseConverter}, StringFormat='MEDEWERKERSGEGEVENS {0}'}"
-                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="2" />
+                Style="{DynamicResource Header}" Grid.Row="0" Grid.ColumnSpan="3" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Bedrijfsgegevens -->
@@ -52,36 +49,10 @@
             <Label Content="{Binding Employee.Iban}" FontWeight="Light" Grid.Row="5"
                    Grid.Column="0" />
 
-            <Label Content="Postcode" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Grid.Row="6"
-                   Grid.Column="0" />
-            <Label Content="{Binding Employee.Address.ZipCode}" FontWeight="Light" Width="220"
-                   HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
-
-            <Label Content="Huisnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0"
-                   Margin="250,0,0,0" />
-            <Label Content="{Binding Employee.Address.HouseNumber}" FontWeight="Light"
-                   Width="150" HorizontalAlignment="Left"
-                   Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
-
-            <Label Content="Toevoeging" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0"
-                   Margin="430,0,0,0" />
-            <Label Content="{Binding Employee.Address.Suffix}" FontWeight="Light"
-                   Width="115" HorizontalAlignment="Left"
-                   Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
-
-            <Label Content="Straatnaam" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <Label Content="{Binding Employee.Address.StreetName}" FontWeight="Light" Grid.Row="9" Grid.Column="0" />
-
-            <Label Content="Stad" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <Label Content="{Binding Employee.Address.City}" FontWeight="Light" Grid.Row="11" Grid.Column="0" />
-
-            <Label Content="Land" FontWeight="Bold" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <Label Content="{Binding Employee.Address.Country}" FontWeight="Light" Grid.Row="13" Grid.Column="0" />
-
-            <Button Grid.Row="15" Grid.Column="0" HorizontalAlignment="Left" Content="Bekijk certificaten"
-                    Command="{Binding ViewCertificatesCommand}"
-                    Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
+            <Label Content="Adres" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
+                   Grid.Row="6" Grid.Column="0" />
+            <TextBlock Text="{Binding Employee.Address}" Style="{StaticResource DefaultText}" FontWeight="Light" TextWrapping="Wrap"
+                       HorizontalAlignment="Left" Grid.Row="7" Grid.RowSpan="2" Grid.Column="0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
@@ -102,8 +73,12 @@
             <Label Content="Rol" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" />
             <Label Content="{Binding Employee.Account.Role, Converter={StaticResource RoleTranslatorConverter}}"
                    FontWeight="Light" Grid.Column="2" Grid.Row="10" />
+            
+            <Button Grid.Row="12" Grid.Column="0" HorizontalAlignment="Left" Content="Bekijk certificaten"
+                    Command="{Binding ViewCertificatesCommand}"
+                    Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="12">
                 <Button Content="Terug" Command="{Binding NavigateBackCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
                 <Button Content="Wijzigen" Command="{Binding EditEmployeeCommand}" IsEnabled="{Binding CanEditEmployee}"

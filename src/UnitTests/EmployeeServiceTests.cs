@@ -154,10 +154,14 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
             _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Accounts).Object);
             _dbMock.Setup(x => x.Certificates).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Certificates).Object);
+            _dbMock.Setup(x => x.Addresses).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Addresses).Object);
+            _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
+            _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
 
             _employeeService = new EmployeeService(_dbMock.Object,
                 new Mock<AuthenticationService>(_dbMock.Object, new JsonSyncService<Account>(_dbMock.Object)).Object,
-                new JsonSyncService<Employee>(_dbMock.Object));
+                new JsonSyncService<Employee>(_dbMock.Object),
+                new AddressService(_dbMock.Object));
         }
 
         [Fact]
@@ -232,7 +236,8 @@ namespace Festispec.UnitTests
              Assert.Equal(username, createdEmployee.Account.Username);
              Assert.True(BCrypt.Net.BCrypt.Verify(password, createdEmployee.Account.Password));
 
-             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+             // once for the employee, once for the address
+             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
 
              Employee customer = await _employeeService.GetEmployeeAsync(createdEmployee.Id);
              Assert.Equal(createdEmployee, customer);
@@ -253,7 +258,8 @@ namespace Festispec.UnitTests
             await _employeeService.RemoveEmployeeAsync(employeeId);
             
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(employeeId));
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            // once for the address, another for the employee
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [Theory]

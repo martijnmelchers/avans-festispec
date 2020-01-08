@@ -1,9 +1,11 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
+using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
@@ -13,8 +15,9 @@ namespace Festispec.UI.ViewModels.Customers
     {
         private readonly ICustomerService _customerService;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IGoogleMapsService _googleService;
 
-        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IOfflineService offlineService)
+        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
@@ -24,6 +27,7 @@ namespace Festispec.UI.ViewModels.Customers
                 Customer = _customerService.GetCustomer(customerId);
                 CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
                 SaveCommand = new RelayCommand(UpdateCustomer);
+                CurrentAddress = $"Huidige adres: {Customer.Address}";
             }
             else
             {
@@ -42,6 +46,12 @@ namespace Festispec.UI.ViewModels.Customers
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
             
             customerService.Sync();
+
+            #region Google Search
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            #endregion
         }
 
         public Customer Customer { get; }
@@ -54,6 +64,9 @@ namespace Festispec.UI.ViewModels.Customers
         public ICommand OpenDeleteCheckCommand { get; }
         public ICommand NavigateToCustomerInfoCommand { get; }
         public ICommand AddFestivalCommand { get; }
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
+
 
         private void NavigateToCustomerInfo() => _navigationService.NavigateTo("CustomerInfo", Customer.Id);
         private void NavigateToCustomerList() => _navigationService.NavigateTo("CustomerList");
@@ -82,7 +95,7 @@ namespace Festispec.UI.ViewModels.Customers
         {
             try
             {
-                await _customerService.SaveChangesAsync();
+                await _customerService.UpdateCustomerAsync(Customer);
                 _customerService.Sync();
                 NavigateToCustomerInfo();
             }
@@ -106,5 +119,44 @@ namespace Festispec.UI.ViewModels.Customers
             await _customerService.RemoveCustomerAsync(Customer.Id);
             NavigateToCustomerList();
         }
+
+        #region Google Search
+        public ObservableCollection<Prediction> Suggestions { get; set; }
+        public string SearchQuery { get; set; }
+        public string CurrentAddress { get; set; }
+
+        public async void Search()
+        {
+            try
+            {
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
+                RaisePropertyChanged(nameof(Suggestions));
+            }
+            catch (GoogleMapsApiException)
+            {
+                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
+            }
+
+
+        }
+
+        public async void Select(string id)
+        {
+            try
+            {
+                var address = await _googleService.GetAddress(id);
+                Customer.Address = address;
+                CurrentAddress = $"Geselecteerde adres: {Customer.Address}";
+                RaisePropertyChanged(nameof(CurrentAddress));
+            }
+            catch (GoogleMapsApiException)
+            {
+                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
+            }
+        }
+
+        #endregion
     }
 }

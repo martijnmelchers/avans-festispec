@@ -15,7 +15,9 @@ namespace Festispec.DomainServices.Interfaces
         
         Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails);
         Task<Customer> CreateCustomerAsync(Customer customer);
-        
+
+        Task UpdateCustomerAsync(Customer customer);
+
         Task<int> SaveChangesAsync();
         public bool CanDeleteCustomer(Customer customer);
     }

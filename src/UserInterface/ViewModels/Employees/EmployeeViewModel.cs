@@ -1,10 +1,12 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
+using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
@@ -14,6 +16,7 @@ namespace Festispec.UI.ViewModels.Employees
     {
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IGoogleMapsService _googleService;
 
         public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
@@ -26,6 +29,7 @@ namespace Festispec.UI.ViewModels.Employees
                 Employee = _employeeService.GetEmployee(customerId);
                 CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
+                CurrentAddress = $"Huidige adres: {Employee.Address.ToString()}";
             }
             else
             {
@@ -41,6 +45,12 @@ namespace Festispec.UI.ViewModels.Employees
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteEmployee);
+
+            #region Google Search
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            #endregion
         }
 
         public Employee Employee { get; }
@@ -54,6 +64,8 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand NavigateBackCommand { get; }
         public ICommand ViewCertificatesCommand { get; }
         public ICommand OpenDeleteCheckCommand { get; }
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
 
         private void ViewCertificates()
         {
@@ -118,7 +130,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             try
             {
-                await _employeeService.SaveChangesAsync();
+                await _employeeService.UpdateEmployee(Employee);
                 _employeeService.Sync();
                 _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
             }
@@ -137,5 +149,44 @@ namespace Festispec.UI.ViewModels.Employees
             await _employeeService.RemoveEmployeeAsync(Employee.Id);
             NavigateBack();
         }
+
+        #region Google Search
+        public ObservableCollection<Prediction> Suggestions { get; set; }
+        public string SearchQuery { get; set; }
+        public string CurrentAddress { get; set; }
+
+        public async void Search()
+        {
+            try
+            {
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
+                RaisePropertyChanged(nameof(Suggestions));
+            }
+            catch (GoogleMapsApiException)
+            {
+                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
+            }
+
+
+        }
+
+        public async void Select(string id)
+        {
+            try
+            {
+                var address = await _googleService.GetAddress(id);
+                Employee.Address = address;
+                CurrentAddress = $"Geselecteerde adres: {Employee.Address.ToString()}";
+                RaisePropertyChanged(nameof(CurrentAddress));
+            }
+            catch (GoogleMapsApiException)
+            {
+                ValidationError = $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
+            }
+        }
+
+        #endregion
     }
 }

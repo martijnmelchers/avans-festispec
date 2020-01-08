@@ -9,7 +9,7 @@
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=employees:CertificateListViewModel}">
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="200,50,200,50" />
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1370" Height="800" />
         <Grid Width="1320" Height="750">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />

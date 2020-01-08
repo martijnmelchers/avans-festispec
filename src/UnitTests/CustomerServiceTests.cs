@@ -23,8 +23,11 @@ namespace Festispec.UnitTests
             _modelMocks = new ModelMocks();
             _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
             _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(_modelMocks.ContactPersons).Object);
+            _dbMock.Setup(x => x.Addresses).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Addresses).Object);
+            _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
+            _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
 
-            _customerService = new CustomerService(_dbMock.Object, new JsonSyncService<Customer>(_dbMock.Object));
+            _customerService = new CustomerService(_dbMock.Object, new JsonSyncService<Customer>(_dbMock.Object), new AddressService(_dbMock.Object));
         }
 
         [Fact]
@@ -90,7 +93,8 @@ namespace Festispec.UnitTests
             Assert.Equal(createdCustomer.Address, address);
             Assert.Equal(createdCustomer.ContactDetails, contactDetails);
 
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            // once for the address, once for the customer
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
 
             Customer customer = await _customerService.GetCustomerAsync(createdCustomer.Id);
             Assert.Equal(createdCustomer, customer);
@@ -122,7 +126,9 @@ namespace Festispec.UnitTests
             await _customerService.RemoveCustomerAsync(customerId);
             
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            
+            // once for the address, another for the customer
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [Theory]

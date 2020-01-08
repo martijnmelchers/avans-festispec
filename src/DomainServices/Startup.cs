@@ -28,6 +28,8 @@ namespace Festispec.DomainServices
                 services.AddScoped<IEmployeeService, EmployeeService>();
                 services.AddScoped<IQuestionService, QuestionService>();
                 services.AddScoped<IInspectionService, InspectionService>();
+                services.AddScoped<IAddressService, AddressService>();
+                services.AddScoped<IGoogleMapsService, GoogleMapsService>();
                 
                 // Database initialisation code below
                 using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
@@ -41,13 +43,15 @@ namespace Festispec.DomainServices
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
                 services.AddScoped<IQuestionService, QuestionService>(); // TODO
                 services.AddScoped<IInspectionService, InspectionService>(); // TODO
+                services.AddScoped<IAddressService, AddressService>(); // TODO
+                services.AddScoped<IGoogleMapsService, GoogleMapsService>(); // TODO
             }
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
 
-            return services;
+            return services; 
         }
     }
 }
