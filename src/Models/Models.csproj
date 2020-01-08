@@ -6,9 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
-      <PackageReference Include="EntityFramework" Version="6.3.0" />
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,21 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Migrations\202001011759540_test.resx">
       <DependentUpon>202001011759540_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912132346428_AddLatLng.resx">
+      <DependentUpon>201912132346428_AddLatLng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912261037448_AddressToSeperateTable.resx">
+      <DependentUpon>201912261037448_AddressToSeperateTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\202001071621587_AddDistanceResult.resx">
+      <DependentUpon>202001071621587_AddDistanceResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912301434056_AccountActive.resx">
+      <DependentUpon>201912301434056_AccountActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
+      <DependentUpon>202001061200392_INotify.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

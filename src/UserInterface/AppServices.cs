@@ -5,6 +5,7 @@ using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
 using Festispec.UI.ViewModels.Customers;
+using Festispec.UI.ViewModels.Employees;
 
 namespace Festispec.UI
 {
@@ -31,6 +32,16 @@ namespace Festispec.UI
             #region Customer ViewModels
             services.AddTransient<CustomerViewModel>();
             services.AddTransient<CustomerListViewModel>();
+            services.AddTransient<InspectionViewModel>();
+            #endregion
+
+            
+            #region Employee ViewModels
+            services.AddTransient<EmployeeViewModel>();
+            services.AddTransient<EmployeeListViewModel>();
+            services.AddTransient<AccountViewModel>();
+            services.AddTransient<CertificateListViewModel>();
+            services.AddTransient<CertificateViewModel>();
             #endregion
 
 
@@ -58,6 +69,10 @@ namespace Festispec.UI
             navigationService.Configure("FestivalList", new Uri("../Views/Festival/FestivalListPage.xaml", UriKind.Relative));
             #endregion
 
+            #region inspection route
+            navigationService.Configure("Inspection", new Uri("../Views/Inspection/InspectionPage.xaml", UriKind.Relative));
+            #endregion
+
             #region Questionnaire Routes
             navigationService.Configure("Questionnaire", new Uri("../Views/Questionnaire/QuestionnairePage.xaml", UriKind.Relative));
             #endregion
@@ -68,6 +83,20 @@ namespace Festispec.UI
             navigationService.Configure("UpdateCustomer", new Uri("../Views/Customer/UpdateCustomerPage.xaml", UriKind.Relative));
             navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
+            
+            #region Employee Routes
+            navigationService.Configure("EmployeeInfo", new Uri("../Views/Employee/EmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateEmployee", new Uri("../Views/Employee/CreateEmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateEmployee", new Uri("../Views/Employee/UpdateEmployeePage.xaml", UriKind.Relative));
+            navigationService.Configure("EmployeeList", new Uri("../Views/Employee/EmployeeListPage.xaml", UriKind.Relative));
+            
+            navigationService.Configure("UpdateAccount", new Uri("../Views/Employee/UpdateAccountPage.xaml", UriKind.Relative));
+            
+            navigationService.Configure("CertificateList", new Uri("../Views/Employee/CertificateListPage.xaml", UriKind.Relative));
+            navigationService.Configure("UpdateCertificate", new Uri("../Views/Employee/UpdateCertificatePage.xaml", UriKind.Relative));
+            navigationService.Configure("CreateCertificate", new Uri("../Views/Employee/CreateCertificatePage.xaml", UriKind.Relative));
+            #endregion
+    
 
             #region Login Routes
             navigationService.Configure("LoginPageEmployee", new Uri("../Views/Login/LoginPageEmployee.xaml", UriKind.Relative));

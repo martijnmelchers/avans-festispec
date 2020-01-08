@@ -15,7 +15,7 @@ namespace Festispec.UI.Converters
         {
             var question = value as Question;
 
-            return question.AnswerCount != 0;
+            return question.AnswerCount == 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

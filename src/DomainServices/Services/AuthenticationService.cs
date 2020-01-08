@@ -19,7 +19,7 @@ namespace Festispec.DomainServices.Services
         }
 
 
-        public async Task<Account> Register(string username, string password, Role requiredRole)
+        public Account AssembleAccount(string username, string password, Role requiredRole)
         {
             var existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
@@ -36,10 +36,7 @@ namespace Festispec.DomainServices.Services
             if (!account.Validate(password))
                 throw new InvalidDataException();
 
-            _db.Accounts.Add(account);
-            await _db.SaveChangesAsync();
-
-            return account.ToSafeAccount();
+            return account;
         }
 
         public Account Login(string username, string password, Role requiredRole)
@@ -50,6 +47,9 @@ namespace Festispec.DomainServices.Services
                 throw new AuthenticationException("Username or password are incorrect");
 
             if (account.Role != requiredRole)
+                throw new NotAuthorizedException();
+
+            if(account.IsNonActive != null)
                 throw new NotAuthorizedException();
             
             return account.ToSafeAccount();
