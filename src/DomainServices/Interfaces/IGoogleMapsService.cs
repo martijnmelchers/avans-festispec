@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IGoogleMapsService
+    public interface IGoogleMapsService : ISyncable
     {
         Task<List<Prediction>> GetSuggestions(string input);
         Task<Address> GetAddress(string placeId);

@@ -27,7 +27,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
 
-            _customerService = new CustomerService(_dbMock.Object, new AddressService(_dbMock.Object));
+            _customerService = new CustomerService(_dbMock.Object, new JsonSyncService<Customer>(_dbMock.Object), new AddressService(_dbMock.Object));
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Festispec.UnitTests
         {
             List<Customer> expected = _modelMocks.Customers;
             
-            List<Customer> actual = _customerService.GetAllCustomers();
+            List<Customer> actual = _customerService.GetAllCustomers().ToList();
             Assert.Equal(expected, actual);
         }
 

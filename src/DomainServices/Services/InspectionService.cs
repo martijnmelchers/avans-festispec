@@ -5,7 +5,6 @@ using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Linq;
@@ -16,10 +15,12 @@ namespace Festispec.DomainServices.Services
     public class InspectionService : IInspectionService
     {
         private readonly FestispecContext _db;
+        private readonly ISyncService<PlannedInspection> _syncService;
 
-        public InspectionService(FestispecContext db)
+        public InspectionService(FestispecContext db, ISyncService<PlannedInspection> syncService)
         {
             _db = db;
+            _syncService = syncService;
         }
 
         public async Task<PlannedInspection> CreatePlannedInspection(Festival festival)
@@ -127,8 +128,6 @@ namespace Festispec.DomainServices.Services
         {
             var plannedInspection = await GetPlannedInspection(plannedInspectionId);
 
-
-
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
                 throw new QuestionHasAnswersException();
@@ -143,5 +142,18 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+            
+            List<PlannedInspection> plannedInspections = db.PlannedInspections
+                .Include(i => i.Festival)
+                .Include(i => i.Employee)
+                .Include(i => i.Employee.Address).ToList();
+
+            _syncService.Flush();
+            _syncService.AddEntities(plannedInspections);
+            _syncService.SaveChanges();
+        }
     }
 }

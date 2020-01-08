@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -13,15 +14,16 @@ namespace Festispec.UI.ViewModels.Customers
         private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService)
+        public CustomerListViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
 
-            AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer);
+            AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer, () => offlineService.IsOnline);
             ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
 
             CustomerList = (CollectionView) CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
             CustomerList.Filter = Filter;
+            customerService.Sync();
         }
 
         public CollectionView CustomerList { get; }

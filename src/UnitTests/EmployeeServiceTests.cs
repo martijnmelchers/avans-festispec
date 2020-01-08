@@ -161,7 +161,10 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
             _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
 
-            _employeeService = new EmployeeService(_dbMock.Object, new AuthenticationService(_dbMock.Object), new AddressService(_dbMock.Object));
+            _employeeService = new EmployeeService(_dbMock.Object,
+                new Mock<AuthenticationService>(_dbMock.Object, new JsonSyncService<Account>(_dbMock.Object)).Object,
+                new JsonSyncService<Employee>(_dbMock.Object),
+                new AddressService(_dbMock.Object));
         }
 
         [Fact]
@@ -169,7 +172,7 @@ namespace Festispec.UnitTests
         {
             List<Employee> expected = _modelMocks.Employees;
             
-            List<Employee> actual = _employeeService.GetAllEmployees();
+            List<Employee> actual = _employeeService.GetAllEmployees().ToList();
             Assert.Equal(expected, actual);
         }
 

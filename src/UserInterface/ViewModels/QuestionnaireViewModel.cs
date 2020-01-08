@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
@@ -20,6 +21,7 @@ namespace Festispec.UI.ViewModels
     {
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IFestivalService _festivalService;
+        private readonly IOfflineService _offlineService;
         private readonly QuestionFactory _questionFactory;
         private readonly IFrameNavigationService _navigationService;
         public Questionnaire Questionnaire { get; set; }
@@ -28,6 +30,7 @@ namespace Festispec.UI.ViewModels
         public ICommand DeleteQuestionaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
         public ICommand SelectReferenceQuestionCommand { get; set; }
         public ICommand SetReferenceQuestionCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
@@ -39,31 +42,32 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IFestivalService festivalService)
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
             _festivalService = festivalService;
+            _offlineService = offlineService;
 
             Initialize((int)_navigationService.Parameter);
 
             AddedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
 
-            AddQuestionCommand = new RelayCommand(AddQuestion);
-            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
-            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
-            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
-            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
-            AddOptionToQuestion = new RelayCommand<Question>(AddOption);
-            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion);
-            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion);
 
+            AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
+            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline);
+            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire, () => offlineService.IsOnline);
+            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline);
+            OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
+            AddOptionToQuestion = new RelayCommand<Question>(AddOption, _ => offlineService.IsOnline);
+            ReturnCommand = new RelayCommand(NavigateToFestivalInfo);
+            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion, _ => offlineService.IsOnline);
+            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion, _ => offlineService.IsOnline);
 
             QuestionList = (CollectionView)CollectionViewSource.GetDefaultView(_allQuestions());
             QuestionList.Filter = Filter;
-
         }
 
 
@@ -129,6 +133,11 @@ namespace Festispec.UI.ViewModels
             Questions.Remove(item);
         }
 
+        public void NavigateToFestivalInfo()
+        {
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
+        }
+
         public async void SaveQuestionnaire()
         {
             var multipleChoiceQuestions = new List<MultipleChoiceQuestion>();
@@ -172,7 +181,7 @@ namespace Festispec.UI.ViewModels
 
         public bool HasAnswers(Question question)
         {
-            return question.Answers.Count == 0;
+            return question.Answers.Count == 0 && _offlineService.IsOnline;
         }
 
         public void OpenFileWindow(Question question)
@@ -192,6 +201,7 @@ namespace Festispec.UI.ViewModels
         {
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
             _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+            _questionnaireService.Sync();
         }
 
 

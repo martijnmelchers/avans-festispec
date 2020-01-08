@@ -17,7 +17,9 @@
     </Page.Resources>
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" />
+
         <controls:ValidationPopup Caption="Vragenlijst" />
+
         <Grid HorizontalAlignment="Center" Width="1200">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
