@@ -16,9 +16,10 @@
     <Grid Margin="50">
         <controls:ValidationPopup Caption="Inplannen" />
         <Rectangle Style="{DynamicResource ContentBox}" Width="800" />
+
         <Grid Width="700">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
+                <RowDefinition Height="75" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="50" />
@@ -36,7 +37,7 @@
             <TextBlock Text="{Binding Festival.FestivalName}" Style="{StaticResource Header}" Grid.ColumnSpan="2"
                        Grid.Row="0" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
-
+            
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
                 <Label Content="{Binding Festival.Address.StreetName}" />
                 <Label Content=" " />
@@ -102,5 +103,6 @@
             <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1"
                     Grid.Row="9" Command="{Binding SaveCommand}" />
         </Grid>
+       
     </Grid>
 </Page>
