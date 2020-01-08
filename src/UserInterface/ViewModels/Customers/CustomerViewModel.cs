@@ -76,6 +76,11 @@ namespace Festispec.UI.ViewModels.Customers
                 await _customerService.CreateCustomerAsync(Customer);
                 NavigateToCustomerList();
             }
+            catch (InvalidAddressException)
+            {
+                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
+                PopupIsOpen = true;
+            }
             catch (InvalidDataException)
             {
                 ValidationError = "De ingevoerde data klopt niet of is involledig.";
@@ -94,6 +99,11 @@ namespace Festispec.UI.ViewModels.Customers
             {
                 await _customerService.UpdateCustomerAsync(Customer);
                 NavigateToCustomerInfo();
+            }
+            catch (InvalidAddressException)
+            {
+                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
+                PopupIsOpen = true;
             }
             catch (InvalidDataException)
             {
@@ -131,6 +141,11 @@ namespace Festispec.UI.ViewModels.Customers
             catch (GoogleMapsApiException)
             {
                 ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                PopupIsOpen = true;
+            }
+            catch (GoogleZeroResultsException)
+            {
+                ValidationError = "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.";
                 PopupIsOpen = true;
             }
 
