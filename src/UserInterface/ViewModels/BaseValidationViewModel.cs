@@ -26,5 +26,11 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public void OpenPopup(string message)
+        {
+            ValidationError = message;
+            PopupIsOpen = true;
+        }
     }
 }

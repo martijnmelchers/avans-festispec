@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Festispec.Models;
 using Festispec.Models.GraphConverters;
 using Festispec.Models.Interfaces;
 
-namespace Festispec.Models.Questions
+namespace Festispec.DomainServices.Factories
 {
     public class GraphSelectorFactory
     {
@@ -10,11 +11,13 @@ namespace Festispec.Models.Questions
 
         public GraphSelectorFactory()
         {
-            _converters = new Dictionary<GraphType, IGraphable>();
-            _converters[GraphType.Pie] = new ChartGraphable();
-            _converters[GraphType.Line] = new LineGraphable();
-            _converters[GraphType.Column] = new ColumnGraphable();
-            _converters[GraphType.None] = null;
+            _converters = new Dictionary<GraphType, IGraphable>
+            {
+                [GraphType.Pie] = new ChartGraphable(),
+                [GraphType.Line] = new LineGraphable(),
+                [GraphType.Column] = new ColumnGraphable(),
+                [GraphType.None] = null
+            };
         }
 
 

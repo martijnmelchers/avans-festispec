@@ -44,7 +44,6 @@ namespace Festispec.UI
 
             #endregion
 
-
             #region Employee ViewModels
 
             services.AddTransient<EmployeeViewModel>();

@@ -35,7 +35,8 @@
 
             <Label Content="{Binding Employee.Name}" Grid.Row="1" Grid.Column="0" />
 
-            <ListView ItemsSource="{Binding CertificateList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <ListView ItemsSource="{Binding CertificateList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  BorderBrush="{x:Null}"
+                      Background="{x:Null}" Foreground="{x:Null}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

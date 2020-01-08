@@ -18,7 +18,6 @@ namespace Festispec.DomainServices.Services
     {
         private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
         private readonly HttpClient _client;
-        private readonly HttpClient _clientStatic;
         private readonly FestispecContext _db;
         private readonly string _sessionToken;
 
@@ -33,7 +32,6 @@ namespace Festispec.DomainServices.Services
 
             _sessionToken = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
                 .Select(s => s[new Random().Next(s.Length)]).ToArray());
-            _db = db;
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
@@ -80,8 +78,8 @@ namespace Festispec.DomainServices.Services
 
         public async Task<double> CalculateDistance(Address origin, Address destination)
         {
-            DistanceResult existing = await _db.DistanceResults.FirstOrDefaultAsync(x =>
-                x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
+            DistanceResult existing = await _db.DistanceResults
+                .FirstOrDefaultAsync(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
 
             if (existing != null)
                 return existing.Distance;
