@@ -1,4 +1,4 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
@@ -24,7 +24,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Employee> GetAllEmployees() //returns all active accounts.
         {
-            return _db.Employees.Where(e => e.Account.IsNonActive == null).ToList();
+            return _db.Employees.Where(e => e.Account.IsNonActive == null).Include(e => e.Address).ToList();
         }
 
         public List<Employee> GetAllEmployeesActiveAndNonActive()

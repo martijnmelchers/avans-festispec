@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -14,6 +14,7 @@
                         Id = c.Int(nullable: false),
                         Username = c.String(nullable: false, maxLength: 45),
                         Password = c.String(nullable: false, maxLength: 100),
+                        IsNonActive = c.DateTime(),
                         Role = c.Int(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
@@ -31,16 +32,29 @@
                         Name_Middle = c.String(maxLength: 40),
                         Name_Last = c.String(nullable: false, maxLength: 40),
                         Iban = c.String(nullable: false, maxLength: 30),
-                        Address_ZipCode = c.String(nullable: false, maxLength: 10),
-                        Address_StreetName = c.String(nullable: false, maxLength: 50),
-                        Address_HouseNumber = c.Int(),
-                        Address_Suffix = c.String(maxLength: 10),
-                        Address_City = c.String(nullable: false, maxLength: 200),
-                        Address_Country = c.String(nullable: false, maxLength: 75),
                         ContactDetails_PhoneNumber = c.String(maxLength: 50),
                         ContactDetails_EmailAddress = c.String(maxLength: 50),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
+                        Address_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Address_Id)
+                .Index(t => t.Address_Id);
+            
+            CreateTable(
+                "dbo.Addresses",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ZipCode = c.String(nullable: false, maxLength: 10),
+                        StreetName = c.String(nullable: false, maxLength: 50),
+                        HouseNumber = c.Int(),
+                        Suffix = c.String(maxLength: 10),
+                        City = c.String(nullable: false, maxLength: 200),
+                        Country = c.String(nullable: false, maxLength: 75),
+                        Latitude = c.Single(nullable: false),
+                        Longitude = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -186,22 +200,19 @@
                         Id = c.Int(nullable: false, identity: true),
                         FestivalName = c.String(nullable: false, maxLength: 45),
                         Description = c.String(nullable: false, maxLength: 250),
-                        Address_ZipCode = c.String(nullable: false, maxLength: 10),
-                        Address_StreetName = c.String(nullable: false, maxLength: 50),
-                        Address_HouseNumber = c.Int(),
-                        Address_Suffix = c.String(maxLength: 10),
-                        Address_City = c.String(nullable: false, maxLength: 200),
-                        Address_Country = c.String(nullable: false, maxLength: 75),
                         OpeningHours_StartTime = c.Time(nullable: false, precision: 7),
                         OpeningHours_EndTime = c.Time(nullable: false, precision: 7),
                         OpeningHours_StartDate = c.DateTime(nullable: false),
                         OpeningHours_EndDate = c.DateTime(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
+                        Address_Id = c.Int(nullable: false),
                         Customer_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Address_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Customers", t => t.Customer_Id, cascadeDelete: true)
+                .Index(t => t.Address_Id)
                 .Index(t => t.Customer_Id);
             
             CreateTable(
@@ -211,18 +222,15 @@
                         Id = c.Int(nullable: false, identity: true),
                         KvkNr = c.Int(nullable: false),
                         CustomerName = c.String(nullable: false, maxLength: 20),
-                        Address_ZipCode = c.String(nullable: false, maxLength: 10),
-                        Address_StreetName = c.String(nullable: false, maxLength: 50),
-                        Address_HouseNumber = c.Int(),
-                        Address_Suffix = c.String(maxLength: 10),
-                        Address_City = c.String(nullable: false, maxLength: 200),
-                        Address_Country = c.String(nullable: false, maxLength: 75),
                         ContactDetails_PhoneNumber = c.String(maxLength: 50),
                         ContactDetails_EmailAddress = c.String(maxLength: 50),
                         CreatedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
+                        Address_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Address_Id)
+                .Index(t => t.Address_Id);
             
             CreateTable(
                 "dbo.ContactPersons",
@@ -292,10 +300,29 @@
                 .Index(t => t.Id)
                 .Index(t => t.Report_Id);
             
+            CreateTable(
+                "dbo.DistanceResults",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Distance = c.Double(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        Destination_Id = c.Int(nullable: false),
+                        Origin_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Addresses", t => t.Destination_Id)
+                .ForeignKey("dbo.Addresses", t => t.Origin_Id)
+                .Index(t => t.Destination_Id)
+                .Index(t => t.Origin_Id);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.DistanceResults", "Origin_Id", "dbo.Addresses");
+            DropForeignKey("dbo.DistanceResults", "Destination_Id", "dbo.Addresses");
             DropForeignKey("dbo.Accounts", "Id", "dbo.Employees");
             DropForeignKey("dbo.PlannedEvents", "Employee_Id", "dbo.Employees");
             DropForeignKey("dbo.PlannedEvents", "Questionnaire_Id", "dbo.Questionnaires");
@@ -310,16 +337,23 @@
             DropForeignKey("dbo.Festivals", "Customer_Id", "dbo.Customers");
             DropForeignKey("dbo.ContactPersonNotes", "ContactPerson_Id", "dbo.ContactPersons");
             DropForeignKey("dbo.ContactPersons", "Customer_Id", "dbo.Customers");
+            DropForeignKey("dbo.Customers", "Address_Id", "dbo.Addresses");
+            DropForeignKey("dbo.Festivals", "Address_Id", "dbo.Addresses");
             DropForeignKey("dbo.Questions", "Category_Id", "dbo.QuestionCategories");
             DropForeignKey("dbo.Answers", "PlannedInspection_Id", "dbo.PlannedEvents");
             DropForeignKey("dbo.Attachments", "Answer_Id", "dbo.Answers");
             DropForeignKey("dbo.Certificates", "Employee_Id", "dbo.Employees");
+            DropForeignKey("dbo.Employees", "Address_Id", "dbo.Addresses");
+            DropIndex("dbo.DistanceResults", new[] { "Origin_Id" });
+            DropIndex("dbo.DistanceResults", new[] { "Destination_Id" });
             DropIndex("dbo.ReportEntries", new[] { "Report_Id" });
             DropIndex("dbo.ReportEntries", new[] { "Id" });
             DropIndex("dbo.Reports", new[] { "Id" });
             DropIndex("dbo.ContactPersonNotes", new[] { "ContactPerson_Id" });
             DropIndex("dbo.ContactPersons", new[] { "Customer_Id" });
+            DropIndex("dbo.Customers", new[] { "Address_Id" });
             DropIndex("dbo.Festivals", new[] { "Customer_Id" });
+            DropIndex("dbo.Festivals", new[] { "Address_Id" });
             DropIndex("dbo.Questionnaires", new[] { "Festival_Id" });
             DropIndex("dbo.Questions", new[] { "Question_Id" });
             DropIndex("dbo.Questions", new[] { "Questionnaire_Id" });
@@ -331,7 +365,9 @@
             DropIndex("dbo.PlannedEvents", new[] { "Questionnaire_Id" });
             DropIndex("dbo.PlannedEvents", new[] { "Festival_Id" });
             DropIndex("dbo.Certificates", new[] { "Employee_Id" });
+            DropIndex("dbo.Employees", new[] { "Address_Id" });
             DropIndex("dbo.Accounts", new[] { "Id" });
+            DropTable("dbo.DistanceResults");
             DropTable("dbo.ReportEntries");
             DropTable("dbo.Reports");
             DropTable("dbo.ContactPersonNotes");
@@ -345,6 +381,7 @@
             DropTable("dbo.Answers");
             DropTable("dbo.PlannedEvents");
             DropTable("dbo.Certificates");
+            DropTable("dbo.Addresses");
             DropTable("dbo.Employees");
             DropTable("dbo.Accounts");
         }

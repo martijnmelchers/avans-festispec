@@ -12,26 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-namespace Festispec.UI.Views.Home
+using MapControl;
+namespace Festispec.UI.Views.Map
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for MapPage.xaml
     /// </summary>
-    public partial class HomePage : Page
+    public partial class MapPage : Page
     {
-
         private readonly IServiceScope _scope;
 
-        public HomePage()
+        public MapPage()
         {
-
             InitializeComponent();
 
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
+            DataContext = _scope.ServiceProvider.GetRequiredService<MapViewModel>();
         }
     }
 }

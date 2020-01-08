@@ -46,6 +46,7 @@ namespace Festispec.UI
 
 
             services.AddTransient<RapportPreviewViewModel>();
+            services.AddTransient<MapViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -84,7 +85,7 @@ namespace Festispec.UI
             navigationService.Configure("CustomerInfo", new Uri("../Views/Customer/CustomerPage.xaml", UriKind.Relative));
             #endregion
             
-            #region Employee Routes
+           #region Employee Routes
             navigationService.Configure("EmployeeInfo", new Uri("../Views/Employee/EmployeePage.xaml", UriKind.Relative));
             navigationService.Configure("CreateEmployee", new Uri("../Views/Employee/CreateEmployeePage.xaml", UriKind.Relative));
             navigationService.Configure("UpdateEmployee", new Uri("../Views/Employee/UpdateEmployeePage.xaml", UriKind.Relative));
@@ -106,7 +107,10 @@ namespace Festispec.UI
             navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
             #endregion
 
+
             navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+            navigationService.Configure("MapPage", new Uri("../Views/Map/MapPage.xaml", UriKind.Relative));
+
 
             return navigationService;
         }
