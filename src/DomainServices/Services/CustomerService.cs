@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace Festispec.DomainServices.Services
 
         public IEnumerable<Customer> GetAllCustomers()
         {
-            return _db.Customers.ToList();
+            return _db.Customers.Include(c => c.Address).ToList();
         }
 
         public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address, ContactDetails contactDetails)

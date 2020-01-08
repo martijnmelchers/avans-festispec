@@ -1,8 +1,9 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
+using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,17 +12,20 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService : IGoogleMapsService
     {
         private readonly HttpClient _client;
-        private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
+        private readonly HttpClient _clientStatic;
+        private const string API_KEY = "AIzaSyDqy_DxcI0571BKIoakNuOj-eWQ6S_B3NM";
         private readonly string _sessionToken;
         private readonly FestispecContext _db;
         public GoogleMapsService(FestispecContext db)
         {
+
+            _db = db;
+
             _client = new HttpClient
             {
                 BaseAddress = new Uri("https://maps.googleapis.com/maps/api/")

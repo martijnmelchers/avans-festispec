@@ -67,7 +67,7 @@ namespace Festispec.DomainServices.Services
 
         public ICollection<Festival> GetFestivals()
         {
-            return _db.Festivals.ToList();
+            return _db.Festivals.Include(f => f.Address).ToList();
         }
 
         public async Task UpdateFestival(Festival festival)
