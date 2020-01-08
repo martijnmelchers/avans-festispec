@@ -1,21 +1,29 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
     public class MainViewModel : BaseValidationViewModel
     {
-        public RelayCommand<string> NavigateCommand { get; set; }
-        private readonly IFrameNavigationService _navigationService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IFrameNavigationService _navigationService;
         private Account _currentAccount;
+
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
+        {
+            _navigationService = navigationService;
+            _authenticationService = authenticationService;
+            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
+            LoginCommand = new RelayCommand<object>(Login);
+        }
+
+        public RelayCommand<string> NavigateCommand { get; set; }
 
         public ICommand LoginCommand { get; set; }
         public bool IsLoggedIn => CurrentAccount != null;
@@ -36,15 +44,8 @@ namespace Festispec.UI.ViewModels
         public string CurrentUsername { get; set; }
         public string CurrentName => IsLoggedIn ? CurrentAccount.Employee.Name.First : "Gast";
 
-        public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
-
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
-        {
-            _navigationService = navigationService;
-            _authenticationService = authenticationService;
-            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
-            LoginCommand = new RelayCommand<object>(Login);
-        }
+        public Visibility HideNavbar =>
+            !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
 
         public void Navigate(string page)
         {
@@ -55,7 +56,8 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
+                CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox) passwordBox).Password,
+                    Role.Employee);
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException a)

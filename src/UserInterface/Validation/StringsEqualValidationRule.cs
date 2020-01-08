@@ -12,7 +12,7 @@ namespace Festispec.UI.Validation
             if (!(value is string stringValue))
                 return new ValidationResult(false, "Value is not an string.");
 
-            return stringValue != StringToMatch 
+            return stringValue != StringToMatch
                 ? new ValidationResult(false, "Strings do not match.")
                 : new ValidationResult(true, null);
         }

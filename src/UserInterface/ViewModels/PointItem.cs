@@ -1,17 +1,21 @@
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MapControl;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels
 {
     public class PointItem : ViewModelBase
     {
+        private Location location;
+
+        private string name;
         public MapViewModel Parent;
+
+        public PointItem()
+        {
+            LabelCommand = new RelayCommand(Navigate);
+        }
 
         public string DestinationView { get; set; }
 
@@ -21,20 +25,9 @@ namespace Festispec.UI.ViewModels
 
         public ICommand LabelCommand { get; set; }
 
-        public PointItem()
-        {
-            LabelCommand = new RelayCommand(Navigate);
-        }
-
-        private void Navigate()
-        {
-            Parent.Navigate(DestinationView, DestinationParameter);
-        }
-
-        private string name;
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 name = value;
@@ -42,15 +35,19 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        private Location location;
         public Location Location
         {
-            get { return location; }
+            get => location;
             set
             {
                 location = value;
                 RaisePropertyChanged(nameof(Location));
             }
+        }
+
+        private void Navigate()
+        {
+            Parent.Navigate(DestinationView, DestinationParameter);
         }
     }
 }

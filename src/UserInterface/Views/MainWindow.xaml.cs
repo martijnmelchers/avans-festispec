@@ -1,11 +1,12 @@
-﻿using Festispec.UI.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
 using System.Windows;
+using Festispec.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -22,9 +23,9 @@ namespace Festispec.UI
             ContentRendered += MainWindow_ContentRendered;
         }
 
-        private void MainWindow_ContentRendered(object sender, System.EventArgs e)
+        private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
-            ((MainViewModel)DataContext).ShowLoginPageOnStartup();
+            ((MainViewModel) DataContext).ShowLoginPageOnStartup();
         }
     }
 }

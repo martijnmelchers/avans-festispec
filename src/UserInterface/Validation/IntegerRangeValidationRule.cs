@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Windows.Controls;
 
@@ -12,7 +11,7 @@ namespace Festispec.UI.Validation
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             int intValue;
-            
+
             switch (value)
             {
                 case string stringValue:
@@ -21,11 +20,11 @@ namespace Festispec.UI.Validation
                         return new ValidationResult(false, "Value is not an integer.");
                     break;
                 }
-                
+
                 case int integerValue:
                     intValue = integerValue;
                     break;
-                
+
                 default:
                     return new ValidationResult(false, "Value is not an integer.");
             }

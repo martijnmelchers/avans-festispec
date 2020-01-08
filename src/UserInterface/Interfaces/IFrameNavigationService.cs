@@ -1,5 +1,5 @@
-﻿using GalaSoft.MvvmLight.Views;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GalaSoft.MvvmLight.Views;
 
 namespace Festispec.UI.Interfaces
 {

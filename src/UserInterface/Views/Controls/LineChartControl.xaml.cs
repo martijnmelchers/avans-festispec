@@ -1,23 +1,17 @@
+using System.Collections.Generic;
+using System.Windows.Controls;
 using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
-using System.Collections.Generic;
-using System.Windows.Controls;
-
+using Separator = LiveCharts.Wpf.Separator;
 
 namespace Festispec.UI.Views.Controls
 {
     /// <summary>
-    /// Interaction logic for LineChartControl.xaml
+    ///     Interaction logic for LineChartControl.xaml
     /// </summary>
     public partial class LineChartControl : UserControl
     {
-
-        public string[] Labels { get; set; }
-        public AxesCollection YFormatter { get; set; }
-        public AxesCollection XFormatter { get; set; }
-
-        public SeriesCollection SeriesCollection { get; set; }
         public LineChartControl(List<GraphableSeries> values)
         {
             InitializeComponent();
@@ -29,7 +23,7 @@ namespace Festispec.UI.Views.Controls
             YFormatter.Add(new Axis
             {
                 IsMerged = true,
-                Separator = new LiveCharts.Wpf.Separator
+                Separator = new Separator
                 {
                     Step = 1,
                     IsEnabled = true
@@ -39,28 +33,31 @@ namespace Festispec.UI.Views.Controls
             XFormatter.Add(new Axis
             {
                 IsMerged = true,
-                Separator = new LiveCharts.Wpf.Separator
+                Separator = new Separator
                 {
                     Step = 1,
                     IsEnabled = true
                 }
             });
 
-            foreach (var GraphableSeries in values)
-                {
-                    SeriesCollection.Add(
-                     new LineSeries
-                     {
+            foreach (GraphableSeries GraphableSeries in values)
+                SeriesCollection.Add(
+                    new LineSeries
+                    {
                         Title = GraphableSeries.Title,
                         Values = GraphableSeries.Values,
-                        PointGeometry = null,
-                        
-                     });
-                }
+                        PointGeometry = null
+                    });
 
 
             Chart.LegendLocation = LegendLocation.Bottom;
             DataContext = this;
         }
+
+        public string[] Labels { get; set; }
+        public AxesCollection YFormatter { get; set; }
+        public AxesCollection XFormatter { get; set; }
+
+        public SeriesCollection SeriesCollection { get; set; }
     }
 }

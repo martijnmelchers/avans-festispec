@@ -1,28 +1,38 @@
 ﻿<Page x:Class="Festispec.UI.Views.FestivalListPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Festispec.UI.Views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalListPage">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Margin="200,50,200,50" />
-        <TextBlock Text="FESTIVAL ZOEKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top"/>
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+        <TextBlock Text="FESTIVAL ZOEKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left"
+                   Margin="300,100,0,0" VerticalAlignment="Top" />
+        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120"
+                   RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
 
-        <TextBox FontSize="30" HorizontalAlignment="Left" Margin="1154,100,0,0" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" Height="64"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1563,110,0,0" VerticalAlignment="Top" Width="44" Source="{StaticResource SearchGreen}"/>
+        <TextBox FontSize="30" HorizontalAlignment="Left" Margin="1154,100,0,0"
+                 Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="466" Height="64" />
+        <Image HorizontalAlignment="Left" Height="44" Margin="1563,110,0,0" VerticalAlignment="Top" Width="44"
+               Source="{StaticResource SearchGreen}" />
 
-        <ListView ItemsSource="{Binding Festivals}" Margin="300,200,300,150" >
+        <ListView ItemsSource="{Binding Festivals}" Margin="300,200,300,150">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Width="1270">
-                        <Label HorizontalAlignment="Left" FontSize="30" Height="50" Content="{Binding FestivalName}"/>
+                        <Label HorizontalAlignment="Left" FontSize="30" Height="50" Content="{Binding FestivalName}" />
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Button Command="{Binding DataContext.OpenFestivalCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding DataContext , RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Style="{DynamicResource ButtonGreen}" Width="200" Height="50">Openen</Button>
+                            <Button
+                                Command="{Binding DataContext.OpenFestivalCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                CommandParameter="{Binding DataContext , RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                Style="{DynamicResource ButtonGreen}" Width="200" Height="50">
+                                Openen
+                            </Button>
                         </StackPanel>
                     </DockPanel>
                 </DataTemplate>

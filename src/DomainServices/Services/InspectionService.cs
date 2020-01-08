@@ -1,15 +1,13 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
+using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-
-using System.Data.Entity.Core.Objects;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
@@ -24,7 +22,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> CreatePlannedInspection(Festival festival)
         {
-            var plannedInspection = new PlannedInspection { Festival = festival };
+            var plannedInspection = new PlannedInspection {Festival = festival};
 
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
@@ -43,7 +41,9 @@ namespace Festispec.DomainServices.Services
             string eventTitle,
             Employee employee)
         {
-            var existing = _db.PlannedInspections.FirstOrDefault(x => x.Questionnaire.Id == questionnaire.Id && x.Festival.Id == festival.Id && x.Employee.Id == employee.Id && x.StartTime.Equals(startTime) && x.IsCancelled == null);
+            PlannedInspection existing = _db.PlannedInspections.FirstOrDefault(x =>
+                x.Questionnaire.Id == questionnaire.Id && x.Festival.Id == festival.Id &&
+                x.Employee.Id == employee.Id && x.StartTime.Equals(startTime) && x.IsCancelled == null);
 
             if (existing != null)
                 throw new EntityExistsException();
@@ -66,6 +66,7 @@ namespace Festispec.DomainServices.Services
 
             return null;
         }
+
         public async Task SaveChanges()
         {
             await _db.SaveChangesAsync();
@@ -73,7 +74,8 @@ namespace Festispec.DomainServices.Services
 
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
-            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
+            PlannedInspection plannedInspection =
+                await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
 
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
@@ -84,16 +86,21 @@ namespace Festispec.DomainServices.Services
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            var plannedInspections = _db.PlannedInspections.Include(e => e.Employee.Address).Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
+            List<PlannedInspection> plannedInspections = _db.PlannedInspections.Include(e => e.Employee.Address)
+                .Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)
                 .Select(grp => grp.ToList())
                 .ToList();
         }
-        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+
+        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee,
+            DateTime StartTime)
         {
-            var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
+            PlannedInspection plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e =>
+                e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) &&
+                e.IsCancelled == null);
 
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
@@ -103,7 +110,8 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
         {
-            var plannedInspections = await _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
+            List<PlannedInspection> plannedInspections = await _db.PlannedInspections.Where(e =>
+                e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToListAsync();
 
             if (plannedInspections == null)
                 throw new EntityNotFoundException();
@@ -114,7 +122,9 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
-            var plannedInspections = await _db.PlannedInspections.Include(e => e.Employee).Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) == EntityFunctions.TruncateTime(DateTime.Now)).ToListAsync();
+            List<PlannedInspection> plannedInspections = await _db.PlannedInspections.Include(e => e.Employee)
+                .Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) ==
+                            EntityFunctions.TruncateTime(DateTime.Now)).ToListAsync();
 
             if (plannedInspections.Count < 1)
                 throw new EntityNotFoundException();
@@ -125,8 +135,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveInspection(int plannedInspectionId, string cancellationreason)
         {
-            var plannedInspection = await GetPlannedInspection(plannedInspectionId);
-
+            PlannedInspection plannedInspection = await GetPlannedInspection(plannedInspectionId);
 
 
             //Check if submitted answers by employee
@@ -142,6 +151,5 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
-
     }
 }

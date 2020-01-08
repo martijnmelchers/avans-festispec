@@ -11,20 +11,18 @@ namespace Festispec.Models
         {
             Answers = new List<Answer>();
         }
+
         public int WorkedHours { get; set; }
 
         public DateTime? WorkedHoursAccepted { get; set; }
 
-        [MaxLength(250)]
-        public string CancellationReason { get; set; }
+        [MaxLength(250)] public string CancellationReason { get; set; }
 
         public DateTime? IsCancelled { get; set; }
 
-        [Required]
-        public virtual Questionnaire Questionnaire { get; set; }
+        [Required] public virtual Questionnaire Questionnaire { get; set; }
 
-        [Required]
-        public virtual Festival Festival { get; set; }
+        [Required] public virtual Festival Festival { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
     }

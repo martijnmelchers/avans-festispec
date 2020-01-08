@@ -2,7 +2,6 @@
 {
     public class QuestionHasReferencesException : System.Exception
     {
-
         public QuestionHasReferencesException()
         {
         }
@@ -11,7 +10,8 @@
         {
         }
 
-        public QuestionHasReferencesException(string message, System.Exception innerException) : base(message, innerException)
+        public QuestionHasReferencesException(string message, System.Exception innerException) : base(message,
+            innerException)
         {
         }
     }

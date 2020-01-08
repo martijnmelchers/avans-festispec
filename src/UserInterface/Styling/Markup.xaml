@@ -1,56 +1,56 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <Style x:Key="Header" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="40"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="40" />
         <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="DefaultText" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 
     <Style TargetType="Label">
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="FontSize" Value="21"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="21" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="MediumLabel" TargetType="Label">
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextColor}"></SolidColorBrush>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="HeaderLink" TargetType="Hyperlink">
-        <Setter Property="Foreground" Value="#707070"/>
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Foreground" Value="#707070" />
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontSize" Value="30" />
         <Setter Property="TextDecorations" Value="None" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -60,10 +60,10 @@
     </Style>
 
     <Style x:Key="ActiveLink" TargetType="Hyperlink">
-        <Setter Property="Foreground" Value="#707070"/>
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#707070" />
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="TextDecorations">
             <Setter.Value>
                 <TextDecorationCollection>
@@ -78,9 +78,9 @@
     </Style>
 
     <Style x:Key="NoStyles" TargetType="Hyperlink">
-        <Setter Property="Foreground" Value="#707070"/>
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
-        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Foreground" Value="#707070" />
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontSize" Value="30" />
         <Setter Property="TextDecorations" Value="None" />
     </Style>
 </ResourceDictionary>

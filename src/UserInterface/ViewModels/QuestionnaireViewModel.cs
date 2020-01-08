@@ -1,3 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -6,47 +13,32 @@ using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
+    internal class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
     {
-        private readonly IQuestionnaireService _questionnaireService;
         private readonly IFestivalService _festivalService;
-        private readonly QuestionFactory _questionFactory;
         private readonly IFrameNavigationService _navigationService;
-        public Questionnaire Questionnaire { get; set; }
-        public ICommand AddQuestionCommand { get; set; }
-        public ICommand DeleteQuestionCommand { get; set; }
-        public ICommand DeleteQuestionaireCommand { get; set; }
-        public ICommand SaveQuestionnaireCommand { get; set; }
-        public ICommand OpenFileWindowCommand { get; set; }
-        public ICommand SelectReferenceQuestionCommand { get; set; }
-        public ICommand SetReferenceQuestionCommand { get; set; }
-        public RelayCommand<Question> AddOptionToQuestion { get; set; }
+        private readonly QuestionFactory _questionFactory;
+        private readonly IQuestionnaireService _questionnaireService;
 
-        private ObservableCollection<Question> _questions { get; set; }
-        public ObservableCollection<Question> AddedQuestions { get; set; }
-        private ObservableCollection<Question> _removedQuestions { get; set; }
-        public List<string> QuestionType { get => _questionFactory.QuestionTypes.ToList(); }
-        public ObservableCollection<Question> Questions { get => _questions; }
-        public string Selecteditem { get; set; }
+        private bool _isOpen;
 
-        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IFestivalService festivalService)
+        private int _search;
+
+
+        private ReferenceQuestion _selectedReferenceQuestion;
+
+        public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
+            IFrameNavigationService navigationService, IFestivalService festivalService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
             _festivalService = festivalService;
 
-            Initialize((int)_navigationService.Parameter);
+            Initialize((int) _navigationService.Parameter);
 
             AddedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
@@ -61,13 +53,66 @@ namespace Festispec.UI.ViewModels
             SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion);
 
 
-            QuestionList = (CollectionView)CollectionViewSource.GetDefaultView(_allQuestions());
+            QuestionList = (CollectionView) CollectionViewSource.GetDefaultView(_allQuestions());
             QuestionList.Filter = Filter;
-
         }
 
+        public Questionnaire Questionnaire { get; set; }
+        public ICommand AddQuestionCommand { get; set; }
+        public ICommand DeleteQuestionCommand { get; set; }
+        public ICommand DeleteQuestionaireCommand { get; set; }
+        public ICommand SaveQuestionnaireCommand { get; set; }
+        public ICommand OpenFileWindowCommand { get; set; }
+        public ICommand SelectReferenceQuestionCommand { get; set; }
+        public ICommand SetReferenceQuestionCommand { get; set; }
+        public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
-        private ReferenceQuestion _selectedReferenceQuestion;
+        private ObservableCollection<Question> _questions { get; set; }
+        public ObservableCollection<Question> AddedQuestions { get; set; }
+        private ObservableCollection<Question> _removedQuestions { get; }
+        public List<string> QuestionType => _questionFactory.QuestionTypes.ToList();
+        public ObservableCollection<Question> Questions => _questions;
+        public string Selecteditem { get; set; }
+
+
+        public CollectionView QuestionList { get; }
+
+        public int Search
+        {
+            get => _search;
+            set
+            {
+                _search = value;
+                QuestionList.Filter += Filter;
+            }
+        }
+
+        public List<Questionnaire> Questionnaires
+        {
+            get
+            {
+                return _festivalService.GetFestival(Questionnaire.Festival.Id).Questionnaires
+                    .Where(e => e.Id != Questionnaire.Id).ToList();
+            }
+        }
+
+        public bool IsOpen
+        {
+            get => _isOpen;
+            set
+            {
+                if (_isOpen == value) return;
+                _isOpen = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public void Initialize(int input)
+        {
+            Questionnaire = _questionnaireService.GetQuestionnaire(input);
+            _questions = new ObservableCollection<Question>(Questionnaire.Questions);
+        }
+
         private void SelectReferenceQuestion(ReferenceQuestion referenceQuestion)
         {
             _selectedReferenceQuestion = referenceQuestion;
@@ -79,21 +124,15 @@ namespace Festispec.UI.ViewModels
             _selectedReferenceQuestion.Question = question;
             IsOpen = false;
             RaisePropertyChanged("Questions");
-            
         }
 
         private List<Question> _allQuestions()
         {
-            List<Question> temp = new List<Question>();
-            foreach (var item in Questionnaire.Festival.Questionnaires)
-            {
-                foreach (var item2 in item.Questions)
-                {
-                    temp.Add(item2);
-                }
-            }
+            var temp = new List<Question>();
+            foreach (Questionnaire item in Questionnaire.Festival.Questionnaires)
+            foreach (Question item2 in item.Questions)
+                temp.Add(item2);
             return temp;
-
         }
 
 
@@ -105,7 +144,7 @@ namespace Festispec.UI.ViewModels
 
         public void AddQuestion()
         {
-            var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
+            Question tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
             AddedQuestions.Add(tempQuestion);
             _questions.Add(tempQuestion);
         }
@@ -134,30 +173,30 @@ namespace Festispec.UI.ViewModels
                 q.ObjectsToString();
 
             foreach (Question q in AddedQuestions)
-            {
                 try
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}",
+                        $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
+
             AddedQuestions.Clear();
 
             foreach (Question q in _removedQuestions)
-            {
                 try
                 {
                     await _questionnaireService.RemoveQuestion(q.Id);
-
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        $"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}",
+                        $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
+
             _removedQuestions.Clear();
             _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
@@ -169,58 +208,20 @@ namespace Festispec.UI.ViewModels
 
         public void OpenFileWindow(Question question)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
+            var fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
         }
 
         public void AddOption(Question question)
         {
-            var option = (MultipleChoiceQuestion)question;
+            var option = (MultipleChoiceQuestion) question;
 
             option.OptionCollection.Add(new StringObject());
         }
 
-        public void Initialize(int input)
+        private bool Filter(object item)
         {
-            Questionnaire = _questionnaireService.GetQuestionnaire(input);
-            _questions = new ObservableCollection<Question>(Questionnaire.Questions);
-        }
-
-
-        public CollectionView QuestionList { get; }
-
-        private bool Filter(object item) => Search <= 0 || ((Question)item).Questionnaire.Id == Search;
-
-        private int _search;
-
-        public int Search
-        {
-            get => _search;
-            set
-            {
-                _search = value;
-                QuestionList.Filter += Filter;
-            }
-        }
-
-        public List<Questionnaire> Questionnaires
-        {
-            get
-            {
-                return _festivalService.GetFestival(Questionnaire.Festival.Id).Questionnaires.Where(e => e.Id != Questionnaire.Id).ToList();
-            }
-        }
-
-        private bool _isOpen;
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-            set
-            {
-                if (_isOpen == value) return;
-                _isOpen = value;
-                RaisePropertyChanged("IsOpen");
-            }
+            return Search <= 0 || ((Question) item).Questionnaire.Id == Search;
         }
     }
 }

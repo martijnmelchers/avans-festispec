@@ -1,15 +1,16 @@
-﻿using Festispec.UI.ViewModels;
+﻿using System.Windows.Controls;
+using Festispec.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Controls;
 
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for UpdateFestivalPage.xaml
+    ///     Interaction logic for UpdateFestivalPage.xaml
     /// </summary>
     public partial class UpdateFestivalPage : Page
     {
         private readonly IServiceScope _scope;
+
         public UpdateFestivalPage()
         {
             InitializeComponent();
