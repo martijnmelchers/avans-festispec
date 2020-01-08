@@ -3,7 +3,6 @@ using Festispec.Models.Questions;
 using Festispec.Models.Reports;
 using System;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +38,8 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<ReportEntry> ReportEntries { get; set; }
-
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<DistanceResult> DistanceResults { get; set; }
 
         public override int SaveChanges()
         {

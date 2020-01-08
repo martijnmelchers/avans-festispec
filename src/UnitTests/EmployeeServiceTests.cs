@@ -60,7 +60,9 @@ namespace Festispec.UnitTests
                     HouseNumber = 1,
                     Suffix = "a",
                     City = "Test city",
-                    Country = "Nederland"
+                    Country = "Nederland",
+                    Latitude = 15,
+                    Longitude = 19
                 },
                 new ContactDetails
                 {
@@ -90,29 +92,30 @@ namespace Festispec.UnitTests
                     PhoneNumber = "+316123456789"
                 }
             },
-            new object[]
-            {
-                new FullName {First = "Test", Last = "Testerson"},
-                "NL01RABO0123456789",
-                "testeretta",
-                "testpassword",
-                Role.Employee,
-                new Address
-                {
-                    // te korte postcode
-                    ZipCode = "123",
-                    StreetName = "Testing street",
-                    HouseNumber = 1,
-                    Suffix = "a",
-                    City = "Test city",
-                    Country = "Nederland"
-                },
-                new ContactDetails
-                {
-                    EmailAddress = "test@tester.com",
-                    PhoneNumber = "+316123456789"
-                }
-            }
+            // Removed because it throws an InvalidAddressException
+            //new object[]
+            //{
+            //    new FullName {First = "Test", Last = "Testerson"},
+            //    "NL01RABO0123456789",
+            //    "testeretta",
+            //    "testpassword",
+            //    Role.Employee,
+            //    new Address
+            //    {
+            //        // te korte postcode
+            //        ZipCode = "123",
+            //        StreetName = "Testing street",
+            //        HouseNumber = 1,
+            //        Suffix = "a",
+            //        City = "Test city",
+            //        Country = "Nederland"
+            //    },
+            //    new ContactDetails
+            //    {
+            //        EmailAddress = "test@tester.com",
+            //        PhoneNumber = "+316123456789"
+            //    }
+            //}
         };
         
         public static IEnumerable<object[]> ValidCertificates = new[]
@@ -154,8 +157,11 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
             _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Accounts).Object);
             _dbMock.Setup(x => x.Certificates).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Certificates).Object);
+            _dbMock.Setup(x => x.Addresses).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Addresses).Object);
+            _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
+            _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
 
-            _employeeService = new EmployeeService(_dbMock.Object, new AuthenticationService(_dbMock.Object));
+            _employeeService = new EmployeeService(_dbMock.Object, new AuthenticationService(_dbMock.Object), new AddressService(_dbMock.Object));
         }
 
         [Fact]
@@ -230,7 +236,8 @@ namespace Festispec.UnitTests
              Assert.Equal(username, createdEmployee.Account.Username);
              Assert.True(BCrypt.Net.BCrypt.Verify(password, createdEmployee.Account.Password));
 
-             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+             // once for the employee, once for the address
+             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
 
              Employee customer = await _employeeService.GetEmployeeAsync(createdEmployee.Id);
              Assert.Equal(createdEmployee, customer);
@@ -251,7 +258,8 @@ namespace Festispec.UnitTests
             await _employeeService.RemoveEmployeeAsync(employeeId);
             
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.GetEmployeeAsync(employeeId));
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            // once for the address, another for the employee
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [Theory]

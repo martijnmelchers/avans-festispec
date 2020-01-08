@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="LoginPageEmployee" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
@@ -36,5 +37,6 @@
                     CommandParameter="{Binding ElementName = Password}"
                     Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" />
         </Grid>
+        <controls:ValidationPopup Caption="Login niet gelukt" />
     </Grid>
 </Page>
