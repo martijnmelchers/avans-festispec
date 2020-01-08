@@ -21,6 +21,7 @@ namespace Festispec.UI.ViewModels
     {
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IFestivalService _festivalService;
+        private readonly IOfflineService _offlineService;
         private readonly QuestionFactory _questionFactory;
         private readonly IFrameNavigationService _navigationService;
         public Questionnaire Questionnaire { get; set; }
@@ -41,14 +42,13 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Question> Questions { get => _questions; }
         public string Selecteditem { get; set; }
 
-        public bool CanEdit { get; }
-
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory, IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
             _festivalService = festivalService;
+            _offlineService = offlineService;
 
             Initialize((int)_navigationService.Parameter);
 
@@ -56,16 +56,14 @@ namespace Festispec.UI.ViewModels
             _removedQuestions = new ObservableCollection<Question>();
 
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
-            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
-            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
-            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
+            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline);
+            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire, () => offlineService.IsOnline);
+            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline);
             OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
-            AddOptionToQuestion = new RelayCommand<Question>(AddOption);
+            AddOptionToQuestion = new RelayCommand<Question>(AddOption, _ => offlineService.IsOnline);
             ReturnCommand = new RelayCommand(NavigateToFestivalInfo);
-            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion);
-            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion);
-
-            CanEdit = offlineService.IsOnline;
+            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion, _ => offlineService.IsOnline);
+            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion, _ => offlineService.IsOnline);
 
             QuestionList = (CollectionView)CollectionViewSource.GetDefaultView(_allQuestions());
             QuestionList.Filter = Filter;
@@ -117,7 +115,7 @@ namespace Festispec.UI.ViewModels
 
         public bool CanAddQuestion()
         {
-            return Selecteditem != null;
+            return Selecteditem != null && _offlineService.IsOnline;
         }
 
         public void DeleteQuestion(Question item)
@@ -174,7 +172,7 @@ namespace Festispec.UI.ViewModels
 
         public bool HasAnswers(Question question)
         {
-            return question.Answers.Count == 0;
+            return question.Answers.Count == 0 && _offlineService.IsOnline;
         }
 
         public void OpenFileWindow(Question question)

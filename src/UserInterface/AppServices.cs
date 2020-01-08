@@ -7,6 +7,7 @@ using System;
 using Festispec.DomainServices.Enums;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
+using Festispec.UI.ViewModels.Festivals;
 
 namespace Festispec.UI
 {

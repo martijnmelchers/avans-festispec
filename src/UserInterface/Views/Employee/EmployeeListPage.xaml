@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Employees"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       mc:Ignorable="d"
       Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:EmployeeListViewModel}">
@@ -41,7 +42,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type models:Employee}">
                         <Grid Height="60">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -65,7 +66,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Content="Nieuw" Command="{Binding AddNewEmployeeCommand}" Style="{DynamicResource ButtonGreen}" IsEnabled="{Binding CanEditEmployees}"
+            <Button Content="Nieuw" Command="{Binding AddNewEmployeeCommand}" Style="{DynamicResource ButtonGreen}"
                     Height="50" Width="185" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Margin="40,0,0,0" />
         </Grid>
     </Grid>

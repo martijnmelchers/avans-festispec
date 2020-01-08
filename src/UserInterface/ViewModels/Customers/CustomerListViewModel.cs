@@ -18,17 +18,15 @@ namespace Festispec.UI.ViewModels.Customers
         {
             _navigationService = navigationService;
 
-            AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer);
+            AddNewCustomerCommand = new RelayCommand(NavigateToAddCustomer, () => offlineService.IsOnline);
             ViewCustomerCommand = new RelayCommand<int>(NavigateToViewCustomer);
 
-            CanEditCustomers = offlineService.IsOnline;
             CustomerList = (CollectionView) CollectionViewSource.GetDefaultView(customerService.GetAllCustomers());
             CustomerList.Filter = Filter;
             customerService.Sync();
         }
 
         public CollectionView CustomerList { get; }
-        public bool CanEditCustomers { get; set; }
 
         public ICommand AddNewCustomerCommand { get; }
         public ICommand ViewCustomerCommand { get; }

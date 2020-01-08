@@ -64,7 +64,7 @@
                                 </Hyperlink>
                             </TextBlock>
                             <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}}" Grid.Column="3"  Padding="0,0,20,0"  VerticalAlignment="Center">
-                                <Hyperlink IsEnabled="{Binding CanEdit, RelativeSource={RelativeSource AncestorType=Page}}" Click="ToggleDeleteQuestionnairePopUp" Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
+                                <Hyperlink Click="ToggleDeleteQuestionnairePopUp" Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
                                     <Image Height="25" Source="{StaticResource TrashcanRed}" />
                                 </Hyperlink>
                             </TextBlock>

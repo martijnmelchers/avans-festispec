@@ -46,8 +46,6 @@ namespace Festispec.UI.ViewModels
         public ICommand EditPlannedInspectionCommand { get; set; }
         public ICommand CreatePlannedInspectionCommand { get; set; }
 
-        public bool CanEdit { get; }
-
         public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
@@ -55,18 +53,16 @@ namespace Festispec.UI.ViewModels
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
 
-            RemoveFestivalCommand = new RelayCommand(RemoveFestival);
-            EditFestivalCommand = new RelayCommand(EditFestival);
+            RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline);
+            EditFestivalCommand = new RelayCommand(EditFestival, () => offlineService.IsOnline);
             OpenQuestionnaireCommand = new RelayCommand<int>(OpenQuestionnaire);
-            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire);
-            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
-            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
+            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline);
+            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline);
+            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete, _ => offlineService.IsOnline);
             GenerateReportCommand = new RelayCommand(GenerateReport);
-            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
-            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
-            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
-
-            CanEdit = offlineService.IsOnline;
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline);
+            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline);
 
             Task.Run(async () => Initialize((int)_navigationService.Parameter));
         }

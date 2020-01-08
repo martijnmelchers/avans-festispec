@@ -36,13 +36,12 @@ namespace Festispec.UI.ViewModels.Customers
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
-            CanEditCustomer = offlineService.IsOnline;
             EditCustomerCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateCustomer", Customer.Id));
             AddFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("CreateFestival", Customer.Id));
             NavigateToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
             NavigateToCustomerInfoCommand = new RelayCommand(NavigateToCustomerInfo);
 
-            DeleteCommand = new RelayCommand(RemoveCustomer);
+            DeleteCommand = new RelayCommand(RemoveCustomer, () => offlineService.IsOnline);
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
             
             customerService.Sync();

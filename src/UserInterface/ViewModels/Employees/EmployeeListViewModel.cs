@@ -18,20 +18,16 @@ namespace Festispec.UI.ViewModels.Employees
         {
             _navigationService = navigationService;
 
-            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
+            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee, () => offlineService.IsOnline);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
             EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployeesActiveAndNonActive());
             EmployeeList.Filter = Filter;
-
-            CanEditEmployees = offlineService.IsOnline;
             
             employeeService.Sync();
         }
 
         public CollectionView EmployeeList { get; }
-        
-        public bool CanEditEmployees { get; }
 
         public ICommand AddNewEmployeeCommand { get; }
         public ICommand ViewEmployeeCommand { get; }

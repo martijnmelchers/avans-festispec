@@ -23,10 +23,9 @@ namespace Festispec.UI.ViewModels.Employees
             _navigationService = navigationService;
 
             Employee = employeeService.GetEmployee(employeeId);
-            CanEditCertificates = offlineService.IsOnline;
-            AddNewCertificateCommand = new RelayCommand(NavigateToAddNewCertificate);
+            AddNewCertificateCommand = new RelayCommand(NavigateToAddNewCertificate, () => offlineService.IsOnline);
             NavigateToEmployeeInfoCommand = new RelayCommand(NavigateToEmployeeInfo);
-            EditCertificateCommand = new RelayCommand<int>(NavigateToEditCertificate);
+            EditCertificateCommand = new RelayCommand<int>(NavigateToEditCertificate, _ => offlineService.IsOnline);
 
             CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
@@ -35,7 +34,6 @@ namespace Festispec.UI.ViewModels.Employees
         }
 
         public Employee Employee { get; }
-        public bool CanEditCertificates { get; }
 
         public CollectionView CertificateList { get; }
 

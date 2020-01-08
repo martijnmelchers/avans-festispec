@@ -29,7 +29,7 @@ namespace Festispec.UI.ViewModels.Employees
                 Employee = _employeeService.GetEmployee(customerId);
                 CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
-                CurrentAddress = $"Huidige adres: {Employee.Address.ToString()}";
+                CurrentAddress = $"Huidige adres: {Employee.Address}";
             }
             else
             {
@@ -37,10 +37,9 @@ namespace Festispec.UI.ViewModels.Employees
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
             }
 
-            CanEditEmployee = offlineService.IsOnline;
             CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id));
-            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id));
-            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id));
+            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline);
+            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline);
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
@@ -55,7 +54,6 @@ namespace Festispec.UI.ViewModels.Employees
 
         public Employee Employee { get; }
         private bool CanDeleteEmployee { get; }
-        public bool CanEditEmployee { get; }
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }

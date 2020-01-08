@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:CustomerListViewModel}">
@@ -41,7 +42,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type models:Customer}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -59,7 +60,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}" IsEnabled="{Binding CanEditCustomers}"
+            <Button Content="Nieuw" Command="{Binding AddNewCustomerCommand}" Style="{DynamicResource ButtonGreen}"
                     Height="50" Width="185" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Margin="40,0,0,0" />
         </Grid>
     </Grid>

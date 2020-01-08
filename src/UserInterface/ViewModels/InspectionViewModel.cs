@@ -171,6 +171,8 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
+            
+            _inspectionService.Sync();
         }
 
         public List<DateTime> GetDateOptions
@@ -180,22 +182,13 @@ namespace Festispec.UI.ViewModels
                 if (Festival == null)
                     return new List<DateTime>();
 
-                var dateOptions = new List<DateTime>();
-                foreach (DateTime day in EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate))
-                {
-                    dateOptions.Add(day);
-                }
-
-                return dateOptions;
+                return EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate).ToList();
             }
         }
 
         public DateTime SelectedDate
         {
-            get
-            {
-                return GetDateOptions.FirstOrDefault(e => e.Year == _startTime.Year && e.Month == _startTime.Month && e.Day == _startTime.Day);
-            }
+            get => GetDateOptions.FirstOrDefault(e => e.Year == _startTime.Year && e.Month == _startTime.Month && e.Day == _startTime.Day);
             set
             {
                 try
