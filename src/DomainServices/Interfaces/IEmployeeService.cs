@@ -7,6 +7,9 @@ namespace Festispec.DomainServices.Interfaces
     public interface IEmployeeService
     {
         List<Employee> GetAllEmployees();
+        List<Employee> GetAllInspectors();
+        
+        List<Employee> GetAllEmployeesActiveAndNonActive();
         
         Employee GetEmployee(int employeeId);
         Task<Employee> GetEmployeeAsync(int employeeId);
