@@ -41,8 +41,8 @@ namespace Festispec.DomainServices
                 services.AddScoped<ICustomerService, OfflineCustomerService>();
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
                 services.AddScoped<IInspectionService, OfflineInspectionService>();
-                services.AddScoped<IAddressService, AddressService>(); // TODO
-                services.AddScoped<IGoogleMapsService, GoogleMapsService>(); // TODO
+                services.AddScoped<IAddressService, OfflineAddressService>();
+                services.AddScoped<IGoogleMapsService, OfflineGoogleMapsService>();
             }
 
             // Register all your factories here
