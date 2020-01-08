@@ -15,7 +15,19 @@
                 multidate: true
             });
 
+            $('.datepicker').on('changeDate', function(evt) {
+    console.log(evt.date);
+  });
+          
+  $('.btn').on('click', function() {
+    var the_date = $('.datepicker:first').datepicker('getDates');
+    console.log(the_date);
+  });
+
+
         });
+
+        
 
         function changeDaysBackground() {
             console.log("changeBackground");
