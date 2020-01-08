@@ -43,6 +43,7 @@ namespace Festispec.UI.ViewModels
 
             CheckboxCheckedCommand = new RelayCommand(FilterPoints);
             BackCommand = new RelayCommand(Back);
+            BingMapsTileLayer.ApiKey = "Ag2i7B-Uw8sWueLGS7BX7J5xYYKPJnynHsz7KYPQuE_cZAZItqMIQtYgE9mWIvkH";
 
             LoadPoints();
             FilterPoints();
@@ -115,9 +116,9 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public void Navigate(string DestinationView, object DestinationParameter)
+        public void Navigate(string destinationView, object destinationParameter)
         {
-            _navigationService.NavigateTo(DestinationView, DestinationParameter);
+            _navigationService.NavigateTo(destinationView, destinationParameter);
         }
 
 
