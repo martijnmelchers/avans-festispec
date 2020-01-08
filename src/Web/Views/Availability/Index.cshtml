@@ -11,8 +11,9 @@
             $('.datepicker').datepicker({
                 language: "nl",
                 todayHighlight: true,
+                clearBtn: true,
+                multidate: true
             });
-            changeDaysBackground();
 
         });
 
@@ -27,8 +28,6 @@
             });
             
         }
-
-        
     </script>
     <style>
         .change {
@@ -36,14 +35,13 @@
         }
     </style>
 
-    @ViewBag.SuccesBody;
-
     <div id="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
         <div class="datepicker">
 
         </div>
         <div class="span5 col-md-5" id="sandbox-container">
+            <p id="date-error" style="color : red ; font-weight: bold">@TempData["DateError"]</p>
             <div>
             </div>
         </div>
@@ -53,7 +51,6 @@
         <div class="legend-item">
             <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
         </div>
-
 
         <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
         <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>

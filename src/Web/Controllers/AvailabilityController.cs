@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
+using Festispec.Models.Exception;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -43,20 +44,24 @@ namespace Festispec.Web.Controllers
         }
 
 
-        //[HttpPost]
-        //public async task<iactionresult> index(availability avalability)
-        //{
-        //    try
-        //    {
-        //        await
-        //    }
-        //    catch (datehaspassedexception)
-        //    {
-        //        tempdata["dateerror"] = "datum mag niet in het verleden zijn!";
-        //        return view("index");
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Index(List<DateTime> dateTimes)
+        {
+            try
+            {
+                foreach (DateTime time in dateTimes)
+                {
+                    await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "");
+                }
+            }
+            catch (DateHasPassedException)
+            {
+                TempData["DateError"] = "Datum mag niet in het verleden zijn!";
+                return View("Index");
+            }
+            
 
-        //    return view("better");
-        //}
+            return View("Index");
+        }
     }
 }
