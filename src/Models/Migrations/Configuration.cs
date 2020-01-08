@@ -66,7 +66,18 @@ namespace Festispec.Models.Migrations
                     Longitude = 5.08541441f
                 };
 
-                context.Addresses.AddOrUpdate(address, address2, address3);
+                var address4 = new Address
+                {
+                    City = "Amsterdam",
+                    Country = "Nederland",
+                    HouseNumber = 14,
+                    StreetName = "Lutmastraat",
+                    ZipCode = "1072JL",
+                    Latitude = 52.350400f,
+                    Longitude = 4.892710f
+                };
+
+                context.Addresses.AddOrUpdate(address, address2, address3, address4);
 
                 var employee = CreateEmployee(context, address3);
 
@@ -387,14 +398,7 @@ namespace Festispec.Models.Migrations
                         Password = BCrypt.Net.BCrypt.HashPassword("TestWachtwoord"),
                         Role = Role.Inspector
                     },
-                    Address = new Address
-                    {
-                        City = "Amsterdam",
-                        Country = "Nederland",
-                        HouseNumber = 14,
-                        StreetName = "Lutmastraat",
-                        ZipCode = "1072JL"
-                    },
+                    Address = address4,
                     ContactDetails = new ContactDetails
                     {
                         EmailAddress = "jdirksen89@gmail.com",

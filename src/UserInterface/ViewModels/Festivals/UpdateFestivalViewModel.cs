@@ -16,6 +16,7 @@ namespace Festispec.UI.ViewModels
     {
         public Festival Festival { get; set; }
         public ICommand UpdateFestivalCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
@@ -30,15 +31,23 @@ namespace Festispec.UI.ViewModels
             _googleService = googleMapsService;
             Festival = _festivalService.GetFestival((int)_navigationService.Parameter);
             UpdateFestivalCommand = new RelayCommand(UpdateFestival);
+            CancelCommand = new RelayCommand(Cancel);
 
             #region Google Search
             _googleService = googleMapsService;
             SearchCommand = new RelayCommand(Search);
             SelectCommand = new RelayCommand<string>(Select);
+            CurrentAddress = $"Huidige adres: {Festival.Address.ToString()}";
             #endregion
         }
         public async void UpdateFestival()
-        {            
+        {
+            if (String.IsNullOrEmpty(CurrentAddress))
+            {
+                MessageBox.Show("Please select an address");
+                return;
+            }
+
             try
             {
                 await _festivalService.UpdateFestival(Festival);
@@ -54,6 +63,11 @@ namespace Festispec.UI.ViewModels
             }
         }
 
+        private void Cancel()
+        {
+            _navigationService.GoBack();
+        }
+
         #region Google Search
         public ObservableCollection<Prediction> Suggestions { get; set; }
         public string SearchQuery { get; set; }
@@ -63,7 +77,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery));
+                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)

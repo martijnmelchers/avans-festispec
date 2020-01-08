@@ -40,33 +40,45 @@ namespace Festispec.UI.ViewModels
                 else
                     return (employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0);
             }
-            return false;
+                return false;
+
         }
 
         private bool EmployeeIsAvailable(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
-                if (item is Availability && item.StartTime.Ticks <= _startTime.Ticks && item.EndTime.Ticks >= _endTime.Ticks)
-                    return true;
+                if (item is Availability)
+                {
+                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                    {
+                        //check next one
+                    }
+                    else
+                        return false;
+                }
             }
-            return false;
+            return true;
         }
 
         private bool EmployeeHasNoPlannedInspection(Employee employee)
         {
             foreach (var item in employee.PlannedEvents)
             {
-                //Check type
                 if (item is PlannedInspection)
                 {
-                    //check if starttime is before item start and endtime is before start         or       starttime is after item starttime and endtime is after item endttime
-                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
-                    {
-                        //checked next one
-                    }
+                    // check if new or edit
+                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
+                        return true;
                     else
-                        return false;
+                    {
+                        if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                        {
+                            //checked next one
+                        }
+                        else
+                            return false;
+                    }
                 }
             }
 
@@ -112,7 +124,7 @@ namespace Festispec.UI.ViewModels
             EmployeesToAdd = new ObservableCollection<Employee>();
             EmployeesToRemove = new ObservableCollection<Employee>();
             EmployeesAdded = new ObservableCollection<Employee>();
-            Task.Run(async () => await Initialize(_navigationService.Parameter));
+            Task.Run(() => Initialize(_navigationService.Parameter)).Wait();
         }
 
         private async Task Initialize(dynamic parameter)
@@ -128,7 +140,6 @@ namespace Festispec.UI.ViewModels
 
                 _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
                 _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
-                //RaisePropertyChanged(nameof(EmployeesAdded));
             }
             else if (parameter.FestivalId > 0)
                 Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
@@ -147,16 +158,16 @@ namespace Festispec.UI.ViewModels
 
             var employees = _employeeService.GetAllEmployees();
             var advancedEmployees = new List<AdvancedEmployee>();
-            foreach(Employee employee in employees)
+            foreach (Employee employee in employees)
             {
-                advancedEmployees.Add(new AdvancedEmployee()
-                {
-                    Employee = employee,
-                    Distance = await _googleService.CalculateDistance(Festival.Address, employee.Address)
-                });
-            }
 
-            Employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
+                    var distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
+
+                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km" });
+
+            }
+            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees);
+
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
