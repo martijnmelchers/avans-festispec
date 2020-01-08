@@ -4,7 +4,11 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.Services;
 using Festispec.UI.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Festispec.DomainServices.Enums;
+using Festispec.DomainServices.Interfaces;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
 using Festispec.UI.ViewModels.Festivals;
@@ -59,6 +63,17 @@ namespace Festispec.UI
             // Initialise the application directory structure for WPF.
             // Make sure to add your custom paths here.
             FestispecPaths.Setup();
+            
+            // Run an initial offline sync in a background thread
+            Task.Run(() =>
+            {
+                IEnumerable<ServiceDescriptor> serviceDescriptors = services
+                    .Where(x => typeof(ISyncable).IsAssignableFrom(x.ServiceType))
+                    .ToList();
+                
+                foreach (ServiceDescriptor service in serviceDescriptors)
+                    ((ISyncable) services.BuildServiceProvider().GetRequiredService(service.ServiceType)).Sync();
+            });
 
             ServiceProvider = services.BuildServiceProvider();
         }
