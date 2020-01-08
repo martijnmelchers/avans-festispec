@@ -28,6 +28,7 @@ namespace Festispec.UI.Views
             Unloaded += (sender, e) => _scope.Dispose();
 
             DataContext = _scope.ServiceProvider.GetRequiredService<InspectionViewModel>();
+
         }
     }
 }

@@ -9,10 +9,6 @@ namespace Festispec.Models
 
         public Customer()
         {
-            Address = new Address
-            {
-                Country = "Nederland"
-            };
             ContactDetails = new ContactDetails();
         }
 

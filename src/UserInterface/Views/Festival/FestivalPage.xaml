@@ -81,7 +81,7 @@
             <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
         </Grid>
 
-        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonBase}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
+        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>
 
         <Grid Margin="800,100,625,100">
             <Grid.RowDefinitions>
