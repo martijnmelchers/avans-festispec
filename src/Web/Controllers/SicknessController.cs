@@ -19,6 +19,7 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             if (_sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])))
             {
                 return View("Better");
