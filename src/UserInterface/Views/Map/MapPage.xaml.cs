@@ -31,10 +31,5 @@ namespace Festispec.UI.Views.Map
 
             DataContext = _scope.ServiceProvider.GetRequiredService<MapViewModel>();
         }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
