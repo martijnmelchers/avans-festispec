@@ -39,7 +39,6 @@ namespace Festispec.Models
                    && (Account.Password != null
                        ? Account.Validate(Account.Password)
                        : Account.Validate())
-                   && Address.Validate()
                    && ContactDetails.Validate();
         }
     }
