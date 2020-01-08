@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
+    class QuestionnaireViewModel : BaseValidationViewModel, IActivateable<int>
     {
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IFestivalService _festivalService;
@@ -51,7 +51,7 @@ namespace Festispec.UI.ViewModels
             AddedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
 
-            AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
+            AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion);
             DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire);
@@ -105,15 +105,20 @@ namespace Festispec.UI.ViewModels
 
         public void AddQuestion()
         {
-            var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
-            AddedQuestions.Add(tempQuestion);
-            _questions.Add(tempQuestion);
+            if (Selecteditem == null)
+            {
+                ValidationError = $"Selecteer eerst een vraagtype";
+                PopupIsOpen = true;
+            }
+            else
+            {
+                var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
+                AddedQuestions.Add(tempQuestion);
+                _questions.Add(tempQuestion);
+            }
         }
 
-        public bool CanAddQuestion()
-        {
-            return Selecteditem != null;
-        }
+
 
         public void DeleteQuestion(Question item)
         {
@@ -141,7 +146,8 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = $"Vraag kan niet worden toegevoegd";
+                    PopupIsOpen = true;
                 }
             }
             AddedQuestions.Clear();
@@ -155,11 +161,13 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = $"Vraag kan niet worden verwijderd";
+                    PopupIsOpen = true;
                 }
             }
             _removedQuestions.Clear();
-            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
+            if (!PopupIsOpen)
+                _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
 
         public bool HasAnswers(Question question)

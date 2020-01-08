@@ -4,51 +4,46 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:Models="clr-namespace:Festispec.Models.Questions;assembly=Models"
-      xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
-      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920">
+      Title="QuestionairePage" Background="#EFEFEF" d:DesignHeight="1080" d:DesignWidth="1920"
+      d:DataContext="{d:DesignInstance Type=viewModels:QuestionnaireViewModel}">
     <Page.Resources>
         <Converters:HasAnswerConverter x:Key="HasAnswerConverter" />
         <Converters:CanEditQuestionConverter x:Key="CanEditQuestionConverter" />
         <Converters:CanEditQuestionConverterInverse x:Key="CanEditQuestionConverterInverse" />
     </Page.Resources>
-    <Grid Margin="50">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Rectangle Style="{DynamicResource ContentBox}" Width="1000" />
-        <Grid Margin="450,0,0,0">
+    <Grid>
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" />
+        <controls:ValidationPopup Caption="Vragenlijst" />
+        <Grid HorizontalAlignment="Center" Width="1200">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
                 <RowDefinition Height="*" />
                 <RowDefinition  Height="60" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition  Width="250" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition  Width="600" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Margin="5,10,5,5" />
+            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="5,10,5,5" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
-            <ListView ItemsSource="{Binding Questions}"  BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,0,0,0">
+            <ListView ItemsSource="{Binding Questions}"  BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Focusable" Value="false" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Expander Header="Vraag" Width="750" IsExpanded="True">
+                    <DataTemplate DataType="{x:Type Models:Question}">
+                        <Expander Header="Vraag" Width="750" HorizontalAlignment="Center" IsExpanded="True">
                             <StackPanel>
                                 <Label Content="Vraag" />
-                                <TextBox Text="{Binding Contents}" IsReadOnly="{Binding DataContext , Converter={StaticResource CanEditQuestionConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}">
-
-                                </TextBox>
+                                <TextBox Text="{Binding Contents}" IsReadOnly="{Binding DataContext , Converter={StaticResource CanEditQuestionConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                                 <ContentControl Content="{Binding}">
                                     <ContentControl.Resources>
                                         <DataTemplate DataType="{x:Type Models:MultipleChoiceQuestion}">
@@ -101,10 +96,13 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ComboBox Margin="10" ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" />
+            <ComboBox Margin="10" ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Grid.Column="0" Grid.Row="2" SelectedIndex="1" />
             <Button  Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
-            <Button  Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
-            <Button  Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionaireCommand}" Style="{DynamicResource ButtonRed}" Grid.Column="3" Grid.Row="2" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2">
+                <Button Margin="10" Content="Terug" Command="{Binding ReturnCommand}" Style="{DynamicResource ButtonRed}" />
+                <Button  Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}" Style="{DynamicResource ButtonGreen}" />
+                <Button  Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionaireCommand}" Style="{DynamicResource ButtonRed}" />
+            </StackPanel>
 
             <Popup x:Name="ReferenceQuestionSelector"  Placement="Center" AllowsTransparency="True" Width="550" IsOpen="{Binding IsOpen}">
                 <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
