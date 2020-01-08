@@ -182,7 +182,7 @@ namespace Festispec.UI.ViewModels
             {
                 switch (point.DestinationView)
                 {
-                    case "EditCustomer":
+                    case "CustomerInfo":
                         if (KlantChecked)
                             Points.Add(point);
                     break;
