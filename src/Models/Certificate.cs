@@ -17,5 +17,10 @@ namespace Festispec.Models
         public DateTime ExpirationDate { get; set; }
 
         public virtual Employee Employee { get; set; }
+
+        public override bool Validate()
+        {
+            return CertificationDate < ExpirationDate && base.Validate();
+        }
     }
 }

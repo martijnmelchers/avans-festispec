@@ -7,21 +7,7 @@
     <ActiveDebugProfile>UserInterface</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Views\GoogleTestPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Map\MapPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Styling\Icons.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\GoogleTestPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Map\MapPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

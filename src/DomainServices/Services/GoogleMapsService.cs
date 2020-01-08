@@ -1,25 +1,26 @@
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
+using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 namespace Festispec.DomainServices.Services
 {
-    public class GoogleMapsService
+    public class GoogleMapsService : IGoogleMapsService
     {
         private readonly HttpClient _client;
         private readonly HttpClient _clientStatic;
         private const string API_KEY = "AIzaSyDqy_DxcI0571BKIoakNuOj-eWQ6S_B3NM";
         private readonly string _sessionToken;
-
-
         private readonly FestispecContext _db;
-
         public GoogleMapsService(FestispecContext db)
         {
 
@@ -27,82 +28,77 @@ namespace Festispec.DomainServices.Services
 
             _client = new HttpClient
             {
-                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/place/")
+                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/")
             };
 
-                _sessionToken =  new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)]).ToArray());
-
-
-            _clientStatic = new HttpClient
-            {
-                BaseAddress = new Uri("https://maps.googleapis.com/maps/api/staticmap")
-            };
-
+            _sessionToken =  new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)]).ToArray());
+            _db = db;
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
         {
-            var request = await _client.GetAsync($"autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
-            var s = await request.Content.ReadAsStringAsync();
+            var request = await _client.GetAsync($"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
             var result = JsonConvert.DeserializeObject<AutocompleteResponse>(await request.Content.ReadAsStringAsync());
 
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
-                throw new Exception();
+                throw new GoogleMapsApiException();
 
             return result.Predictions;
         }
 
-        public async Task<Place> GetPlace(string placeId)
+        public async Task<Address> GetAddress(string placeId)
         {
-            var request = await _client.GetAsync($"details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
+            var request = await _client.GetAsync($"place/details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
             var result = JsonConvert.DeserializeObject<PlaceDetailResponse>(await request.Content.ReadAsStringAsync());
 
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
-                throw new Exception();
+                throw new GoogleMapsApiException();
 
-            return result.Place;
-        }
-
-        public Address PlaceToAddress(Place place)
-        {
-            var zipCode = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("postal_code")).LongName;
-            var houseNumber = int.Parse(place.AddressComponents.FirstOrDefault(x => x.Types.Contains("street_number")).LongName);
-            var city = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("locality")).LongName;
-            var country = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("country")).LongName;
-            var streetName = place.AddressComponents.FirstOrDefault(x => x.Types.Contains("route")).LongName;
+            int.TryParse(Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, "[^.0-9]", ""), out int houseNumber);
 
             return new Address
             {
-                City = city,
-                ZipCode = zipCode,
+                City = GetComponent(result.Place, "locality")?.LongName,
+                ZipCode = GetComponent(result.Place, "postal_code")?.LongName,
                 HouseNumber = houseNumber,
-                Country = country,
-                StreetName = streetName,
-                Suffix = "",
-                Latitude = place.Geometry.Location.Latitude,
-                Longitude = place.Geometry.Location.Longitude
+                Country = GetComponent(result.Place, "country")?.LongName,
+                StreetName = GetComponent(result.Place, "route")?.LongName,
+                Suffix = Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, @"[\d-]", string.Empty),
+                Latitude = result.Place.Geometry.Location.Latitude,
+                Longitude = result.Place.Geometry.Location.Longitude
             };
         }
 
-        public async Task<string> GenerateStaticMap()
+        public async Task<double> CalculateDistance(Address origin, Address destination)
         {
-            var queryBuilder = new QueryBuilder();
+            var existing = await _db.DistanceResults.FirstOrDefaultAsync(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
 
-            queryBuilder.Add("key", API_KEY);
-            queryBuilder.Add("center", "Netherlands");
-            queryBuilder.Add("size", "1920x1080");
+            if (existing != null)
+                return existing.Distance;
 
-            foreach (Festival festival in _db.Festivals.ToList()) {
-                var latitude = festival.Address.Latitude.ToString();
-                var longitude = festival.Address.Longitude.ToString();
-                var label = festival.FestivalName;
-                var color = "blue";
-                queryBuilder.Add("markers", CreateMarker(latitude, longitude, label, color));
-            }
+            var request = await _client.GetAsync($"distancematrix/json?units=metric&origins={origin.Latitude.ToString().Replace(",", ".")},{origin.Longitude.ToString().Replace(",", ".")}&destinations={destination.Latitude.ToString().Replace(",", ".")},{destination.Longitude.ToString().Replace(",", ".")}&language=nl&key={API_KEY}");
+            var result = JsonConvert.DeserializeObject<DistanceMatrixResponse>(await request.Content.ReadAsStringAsync());
 
-            return String.Format("{0}{1}","https://maps.googleapis.com/maps/api/staticmap", queryBuilder.ToString());
+            if (!result.Status.Equals(GoogleStatusCodes.Ok))
+                throw new GoogleMapsApiException();
+
+            var distanceResult = new DistanceResult()
+            {
+                Origin = origin,
+                Destination = destination,
+                Distance = Math.Round((double) result.Rows[0].Elements[0].Distance.DistanceValue / 1000, 2)
+            };
+
+            _db.DistanceResults.Add(distanceResult);
+            await _db.SaveChangesAsync();
+
+            return distanceResult.Distance;
         }
 
+        private AddressComponent GetComponent(Place place, string name)
+        {
+            return place.AddressComponents.FirstOrDefault(x => x.Types.Contains(name));
+        }
 
         private string CreateMarker(string latitude, string longitude, string label, string color)
         {

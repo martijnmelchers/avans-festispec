@@ -16,11 +16,13 @@ namespace Festispec.DomainServices
             services.AddScoped<IQuestionnaireService, QuestionnaireService>();
             services.AddScoped<IFestivalService, FestivalService>();
             services.AddScoped<ICustomerService, CustomerService>();
-
+            services.AddScoped<IGoogleMapsService, GoogleMapsService>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddScoped<GoogleMapsService>();
             services.AddScoped<FestispecContext>();
+            services.AddScoped<IInspectionService, InspectionService>();
 
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
@@ -29,7 +31,7 @@ namespace Festispec.DomainServices
             // Database initialisation code below
             using (var ctx = new FestispecContext()) ctx.Database.Initialize(false);
 
-            return services;
+            return services; 
         }
     }
 }

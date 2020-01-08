@@ -16,20 +16,19 @@ using System.Windows.Shapes;
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for GoogleTestPage.xaml
+    /// Interaction logic for InspectionPage.xaml
     /// </summary>
-    public partial class GoogleTestPage : Page
+    public partial class InspectionPage : Page
     {
         private readonly IServiceScope _scope;
 
-        public GoogleTestPage()
+        public InspectionPage()
         {
-            InitializeComponent();
-
             _scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => _scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<GoogleTestViewModel>();
+            DataContext = _scope.ServiceProvider.GetRequiredService<InspectionViewModel>();
+
         }
     }
 }

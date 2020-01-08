@@ -1,13 +1,9 @@
-﻿using System.Windows.Controls;
-using Festispec.UI.ViewModels.Customers;
+﻿using Festispec.UI.ViewModels.Customers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Customer
 {
-    /// <summary>
-    /// Interaction logic for CustomerInformationScreen.xaml
-    /// </summary>
-    public partial class CustomerPage : Page
+    public partial class CustomerPage
     {
         public CustomerPage()
         {
@@ -18,7 +14,5 @@ namespace Festispec.UI.Views.Customer
 
             DataContext = scope.ServiceProvider.GetRequiredService<CustomerViewModel>();
         }
-
-
     }
 }

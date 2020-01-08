@@ -4,6 +4,7 @@ namespace Festispec.Models
 {
     public class Address : Validateable
     {
+        public int Id { get; set; }
         [Required, MinLength(4), MaxLength(10)]
         public string ZipCode { get; set; }
 
@@ -22,12 +23,19 @@ namespace Festispec.Models
         [Required, MinLength(1), MaxLength(75)]
         public string Country { get; set; }
 
-        // TODO: MAKE REQUIRED
+        [Required]
         public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        [Required]
+        public float Longitude { get; set; }    
 
         public override string ToString()
         {
+            if (HouseNumber == 0 && (StreetName == null || StreetName.Length == 0))
+                return $"{City} {Country}";
+
+            if (HouseNumber == 0)
+                return $"{StreetName}, {City} {Country}";
+
             return $"{StreetName} {HouseNumber}{Suffix}, {City} {Country}";
         }
     }
