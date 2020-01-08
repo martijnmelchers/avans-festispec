@@ -20,6 +20,6 @@ namespace Festispec.DomainServices.Interfaces
 
         List<Availability> GetUnavailabilitiesForDay(int employeeId, DateTime date);
 
-        Task<Dictionary<int, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate);
+        Task<Dictionary<long, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate);
     }
 }

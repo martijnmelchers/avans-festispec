@@ -23,13 +23,13 @@ namespace Festispec.Web.Controllers
         }
         public async Task <IActionResult> Index()
         {
-            ViewBag["GetAvailabilityDays"] = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
+            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
             return View();
         }
 
-        public async Task<Dictionary<int, int>> ConvertAvailibiltyToJson()
+        public async Task<Dictionary<long, int>> ConvertAvailibiltyToJson()
         {
-            var dictionary = new Dictionary<int, int>();
+            var dictionary = new Dictionary<long, int>();
             var availibilityDictionary = await _availibilityService.GetUnavailabilitiesForFuture(_currentEmployeeId, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
             foreach (var availability in availibilityDictionary)
@@ -38,7 +38,7 @@ namespace Festispec.Web.Controllers
                     dictionary.Add(availability.Key, 1);
                 
             }
-
+            dictionary.Add(1578355200000, 1);
             return dictionary;
         }
 

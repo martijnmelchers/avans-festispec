@@ -122,18 +122,18 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Dictionary<int, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate)
+        public async Task<Dictionary<long, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate)
         {
              var list = await _db.Availabilities
                 .OrderByDescending(c => c.EndTime)
                 .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId)
                 .ToListAsync();
-            var dictionary = new Dictionary<int, Availability>();
+            var dictionary = new Dictionary<long, Availability>();
             foreach (Availability availability in list)
             {
                 foreach (DateTime day in EachDay(availability.StartTime, availability.EndTime))
                 {
-                    int epoch = (int)(day - new DateTime(1970, 1, 1)).TotalSeconds;
+                    long epoch = (long)(day - new DateTime(1970, 1, 1)).TotalSeconds;
                     dictionary.Add(epoch, availability);
                 }
             }

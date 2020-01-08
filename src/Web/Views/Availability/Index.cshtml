@@ -6,12 +6,11 @@
 <h1>Index</h1>
 <form asp-action="Index">
     <script>
-
+        const data = @Html.Raw(ViewBag.SuccesBody);
         $(document).ready(function () {
             $('.datepicker').datepicker({
                 language: "nl",
                 todayHighlight: true,
-                daysOfWeekHighlighted: [1, 2, 3, 4]
             });
             changeDaysBackground();
 
@@ -20,16 +19,24 @@
         function changeDaysBackground() {
             console.log("changeBackground");
             var days = $(".datepicker-days td");
-            days.each(i => {
-                console.log(i);
-                $(this).css("background-color", '#212529');
 
-
+            document.querySelectorAll(".datepicker-days td").forEach(i => {
+               if(data[i.dataset.date] == 1)
+                    $(i).addClass("change")
+            
             });
+            
         }
-    </script>
 
-    @ViewBag["GetAvailabilityDays"];
+        
+    </script>
+    <style>
+        .change {
+            background-color: red;
+        }
+    </style>
+
+    @ViewBag.SuccesBody;
 
     <div id="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
