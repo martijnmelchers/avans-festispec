@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IFestivalService
+    public interface IFestivalService : ISyncable
     {
         Task<Festival> CreateFestival(Festival festival);
         Task<Festival> GetFestivalAsync(int festivalId);

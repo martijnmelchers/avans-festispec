@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IInspectionService
+    public interface IInspectionService : ISyncable
     {
         #region planned Event
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);

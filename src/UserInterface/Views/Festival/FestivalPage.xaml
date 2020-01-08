@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="FestivalPage">
+      Title="FestivalPage"
+      d:DataContext="{d:DesignInstance Type=viewModels:FestivalViewModel}">
     <Page.Resources>
         <Converters:HasQuestionsConverter x:Key="HasQuestionsConverter"/>
         <Converters:TextTrimmerConverter x:Key="TextTrimmerConverter"/>
@@ -78,7 +80,8 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"/>
+            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"
+                    IsEnabled="{Binding CanEdit}"/>
         </Grid>
 
         <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom" Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding EditFestivalCommand}"/>

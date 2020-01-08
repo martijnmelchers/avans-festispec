@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
@@ -16,7 +17,7 @@ namespace Festispec.UI.ViewModels.Customers
         private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
 
-        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService)
+        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
@@ -40,8 +41,10 @@ namespace Festispec.UI.ViewModels.Customers
             NavigateToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
             NavigateToCustomerInfoCommand = new RelayCommand(NavigateToCustomerInfo);
 
-            DeleteCommand = new RelayCommand(RemoveCustomer);
+            DeleteCommand = new RelayCommand(RemoveCustomer, () => offlineService.IsOnline);
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
+            
+            customerService.Sync();
 
             #region Google Search
             _googleService = googleMapsService;
@@ -51,6 +54,7 @@ namespace Festispec.UI.ViewModels.Customers
         }
 
         public Customer Customer { get; }
+        public bool CanEditCustomer { get; }
         private bool CanDeleteCustomer { get; }
 
         public ICommand SaveCommand { get; }
@@ -71,6 +75,7 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
+                _customerService.Sync();
                 NavigateToCustomerList();
             }
             catch (InvalidAddressException)
@@ -95,6 +100,7 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.UpdateCustomerAsync(Customer);
+                _customerService.Sync();
                 NavigateToCustomerInfo();
             }
             catch (InvalidAddressException)

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
@@ -16,7 +17,8 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IEmployeeService _employeeService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
-        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService)
+
+        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
@@ -27,7 +29,7 @@ namespace Festispec.UI.ViewModels.Employees
                 Employee = _employeeService.GetEmployee(customerId);
                 CanDeleteEmployee = _employeeService.CanRemoveEmployee(Employee);
                 SaveCommand = new RelayCommand(UpdateEmployee);
-                CurrentAddress = $"Huidige adres: {Employee.Address.ToString()}";
+                CurrentAddress = $"Huidige adres: {Employee.Address}";
             }
             else
             {
@@ -36,8 +38,8 @@ namespace Festispec.UI.ViewModels.Employees
             }
 
             CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id));
-            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id));
-            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id));
+            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline);
+            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline);
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
@@ -102,6 +104,7 @@ namespace Festispec.UI.ViewModels.Employees
                     Employee.Account.Role,
                     Employee.Address,
                     Employee.ContactDetails);
+                _employeeService.Sync();
                 NavigateBack();
             }
             catch (InvalidAddressException)
@@ -131,6 +134,7 @@ namespace Festispec.UI.ViewModels.Employees
             try
             {
                 await _employeeService.UpdateEmployee(Employee);
+                _employeeService.Sync();
                 _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
             }
             catch(InvalidAddressException)
