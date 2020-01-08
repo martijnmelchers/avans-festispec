@@ -71,6 +71,9 @@ namespace Festispec.DomainServices.Services
 
         public void Sync()
         {
+            if (LoggedIn == null)
+                return;
+            
             FestispecContext ctx = _syncService.GetSyncContext();
         
             Account account = ctx.Accounts.Include(a => a.Employee).First(a => a.Id == LoggedIn.Id);
