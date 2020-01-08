@@ -1,4 +1,4 @@
-﻿<Page x:Class="Festispec.UI.Views.Home.HomePage"
+<Page x:Class="Festispec.UI.Views.Home.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,7 +26,7 @@
 
             <Label Content="Hier boven vind u de navigatie naar de relevante pagina's" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2"/>
 
-
+            <Button Command="{Binding NavigateCommand}" CommandParameter="MapPage" Content="Kaart openen" Height="50" Width="100" Style="{DynamicResource ButtonGreen}" Margin="360,0,360,0" Grid.Row="4" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 </Page>
