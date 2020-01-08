@@ -186,7 +186,8 @@ namespace Festispec.UnitTests.Helpers
         {
             Id = 4,
             KvkNr = 12345678,
-            CustomerName = "ThunderDome"
+            CustomerName = "ThunderDome",
+            Address = new Address()
         };
 
         public static Festival festivalThunderDome = new Festival()
@@ -366,10 +367,26 @@ namespace Festispec.UnitTests.Helpers
 
         public List<Certificate> Certificates { get; }
 
+        public List<Address> Addresses { get; } = new List<Address>();
+
+        public List<Festival> Festivals { get; } = new List<Festival>();
+
         public ModelMocks()
         {
             Accounts = Employees.Select(e => e.Account).ToList();
             Certificates = Employees.SelectMany(e => e.Certificates).ToList();
+
+            int i = 0;
+            Employees.ForEach(e =>
+            {
+                e.Address.Id = i++;
+                Addresses.Add(e.Address);
+            });
+            Customers.ForEach(c =>
+            {
+                c.Address.Id = i++;
+                Addresses.Add(c.Address);
+            });
         }
     }
 }
