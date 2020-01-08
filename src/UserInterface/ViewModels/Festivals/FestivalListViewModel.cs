@@ -12,7 +12,6 @@ namespace Festispec.UI.ViewModels
     public class FestivalListViewModel
     {
         private readonly IFestivalService _festivalService;
-
         private readonly IFrameNavigationService _navigationService;
 
         public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
@@ -20,8 +19,7 @@ namespace Festispec.UI.ViewModels
             _festivalService = festivalService;
             _navigationService = navigationService;
 
-            EditFestivalCommand = new RelayCommand<Festival>(EditFestival);
-            OpenFestivalCommand = new RelayCommand<Festival>(OpenFestival);
+            OpenFestivalCommand = new RelayCommand<int>(OpenFestival);
             Festivals = (CollectionView) CollectionViewSource.GetDefaultView(_festivalService.GetFestivals());
             Festivals.Filter = Filter;
         }
@@ -58,14 +56,9 @@ namespace Festispec.UI.ViewModels
             return (item as Festival).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private void OpenFestival(Festival festival)
+        private void OpenFestival(int festivalId)
         {
-            _navigationService.NavigateTo("FestivalInfo", festival.Id);
-        }
-
-        public void EditFestival(Festival festival)
-        {
-            _navigationService.NavigateTo("UpdateFestival", festival.Id);
+            _navigationService.NavigateTo("FestivalInfo", festivalId);
         }
     }
 }

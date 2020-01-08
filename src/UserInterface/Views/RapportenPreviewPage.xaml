@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d" Background="#EFEFEF"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="RapportenPreviewPage">
@@ -14,18 +15,20 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="529,128,529,158">
             <StackPanel HorizontalAlignment="Left">
                 <!--hier door de antwoorden loopen teksblok eronder knallen-->
-                <ItemsControl ItemsSource="{Binding Charts}" />
+                <ItemsControl ItemsSource="{Binding Controls}" />
 
             </StackPanel>
         </ScrollViewer>
         <Button Command="{Binding GeneratePdfCommand }" Content="Genereer Rapport"
                 Style="{DynamicResource ButtonGreen}" Margin="1043,0,529,108" Height="45" VerticalAlignment="Bottom" />
-        <TextBlock Text="{Binding selectedFestival.FestivalName, StringFormat='GENEREREN {0}'}"
+        <TextBlock Text="{Binding SelectedFestival.FestivalName, StringFormat='GENEREREN {0}'}"
                    Style="{DynamicResource Header}" HorizontalAlignment="Center" Margin="0,56,0,0"
                    VerticalAlignment="Top" Width="701" />
         <Rectangle HorizontalAlignment="Left" Height="7" Margin="529,109,0,0" VerticalAlignment="Top" Width="120"
                    RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
         <Button Command="{Binding BackCommand}" Content="Terug" Style="{DynamicResource ButtonBase}"
                 Margin="529,0,1043,108" Height="45" VerticalAlignment="Bottom" />
+        
+        <controls:ValidationPopup Caption="Melding" />
     </Grid>
 </Page>

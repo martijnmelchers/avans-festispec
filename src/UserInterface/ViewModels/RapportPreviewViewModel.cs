@@ -8,24 +8,24 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Answers;
-using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
 using Festispec.UI.Views.Controls;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using IronPdf;
 
 namespace Festispec.UI.ViewModels
 {
-    public class RapportPreviewViewModel : ViewModelBase
+    public class RapportPreviewViewModel : BaseValidationViewModel
     {
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IQuestionnaireService _questionnaireService;
+        private readonly GraphSelectorFactory _graphFactory;
         private string _pdfHtml;
 
 
@@ -34,23 +34,28 @@ namespace Festispec.UI.ViewModels
 
         public RapportPreviewViewModel(
             IFrameNavigationService navigationService,
-            IQuestionnaireService questionnaireService, 
-            IFestivalService festivalService
+            IQuestionnaireService questionnaireService,
+            IFestivalService festivalService,
+            GraphSelectorFactory graphSelector
             )
         {
             _festivalService = festivalService;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
-            GeneratePdfCommand = new RelayCommand(SavePdf);
+            _graphFactory = graphSelector;
 
+            GeneratePdfCommand = new RelayCommand(SavePdf);
             BackCommand = new RelayCommand(Back);
 
-            SelectedFestival = _festivalService.GetFestival((int) _navigationService.Parameter);
-            _pdfHtml = "";
+            SelectedFestival = _festivalService.GetFestival((int)_navigationService.Parameter);
+
+            if (SelectedFestival.Questionnaires.Count == 0)
+                _navigationService.NavigateTo("FestivalInfo", _navigationService.Parameter);
+
             GenerateReport();
         }
 
-        public ObservableCollection<FrameworkElement> Charts { get; set; }
+        public ObservableCollection<FrameworkElement> Controls { get; set; }
         public Festival SelectedFestival { get; set; }
         public string DescriptionText { get; set; }
 
@@ -59,33 +64,31 @@ namespace Festispec.UI.ViewModels
         public ICommand BackCommand { get; set; }
 
 
-        private void ResetReport()
+        private void CreateReport()
         {
             _pdfHtml = "";
-            ReportHeading();
-        }
-
-        private void ReportHeading()
-        {
             _pdfHtml += string.Format("<h1>Rapport {0}</h1>", SelectedFestival.FestivalName);
         }
 
-        private async void GenerateReport()
+        private void GenerateReport()
         {
             int questionaireId = SelectedFestival.Questionnaires.FirstOrDefault().Id;
             List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
-            Charts = new ObservableCollection<FrameworkElement>();
 
-            var textBox = new TextBox
+            Controls = new ObservableCollection<FrameworkElement>();
+
+            CreateReport();
+
+            Controls.Add(CreateLabel("Beschrijving"));
+            Controls.Add(new TextBox
             {
-                Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true,
+                Height = 150,
+                Width = 700,
+                Margin = new Thickness(10),
+                AcceptsReturn = true,
+                AcceptsTab = true,
                 TextWrapping = TextWrapping.Wrap
-            };
-
-            ReportHeading();
-
-            Charts.Add(CreateLabel("Beschrijving"));
-            Charts.Add(textBox);
+            });
 
             foreach (Question question in questions)
                 AddQuestionToReport(question);
@@ -93,7 +96,6 @@ namespace Festispec.UI.ViewModels
 
         private void Back()
         {
-            ResetReport();
             _navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id);
         }
 
@@ -101,33 +103,19 @@ namespace Festispec.UI.ViewModels
         {
             // Make sure that the question point to its reference when available.
             if (question is ReferenceQuestion)
-                question = ((ReferenceQuestion) question).Question;
+                question = ((ReferenceQuestion)question).Question;
 
-            IGraphable converter = new GraphSelectorFactory().GetConverter(question.GraphType);
-            if (converter == null && !(question is UploadPictureQuestion || question is StringQuestion)) return;
+            var converter = _graphFactory.GetConverter(question.GraphType);
+
+            if (converter == null && !(question is UploadPictureQuestion || question is StringQuestion))
+                return;
 
             if (question is UploadPictureQuestion || question is StringQuestion)
             {
-                // String question or image upload.
-                if (question is UploadPictureQuestion)
-                {
-                    Charts.Add(CreateLabel(question.Contents));
-                    // UploadPictureQuestion uploadQuestion = (UploadPictureQuestion)question;
-                    //var fileAnwers = ((ICollection<FileAnswer>)uploadQuestion.Answers).ToList();
+                Controls.Add(CreateLabel(question.Contents));
+                AddAnswers(question.Answers);
 
-                    AddAnswers(question.Answers);
-                    return;
-                }
-
-
-                if (question is StringQuestion)
-                {
-                    // String.
-                    Charts.Add(CreateLabel(question.Contents));
-                    AddAnswers(question.Answers);
-
-                    return;
-                }
+                return;
             }
 
             List<GraphableSeries> chartValues = converter.TypeToChart(question);
@@ -145,41 +133,40 @@ namespace Festispec.UI.ViewModels
             else if (question.GraphType == GraphType.Column)
                 lineControl = new ColumnChartControl(chartValues);
 
-
-            var textBox = new TextBox
-            {
-                Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true,
-                TextWrapping = TextWrapping.Wrap
-            };
-            Charts.Add(CreateLabel(question.Contents));
-
-
             lineControl.Height = 300;
             lineControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            Charts.Add(lineControl);
 
-            Charts.Add(textBox);
+            Controls.Add(CreateLabel(question.Contents));
+            Controls.Add(lineControl);
+            Controls.Add(new TextBox
+            {
+                Height = 150,
+                Width = 700,
+                Margin = new Thickness(10),
+                AcceptsReturn = true,
+                AcceptsTab = true,
+                TextWrapping = TextWrapping.Wrap
+            });
         }
 
         private void SavePdf()
         {
-            foreach (FrameworkElement chart in Charts)
+            foreach (FrameworkElement chart in Controls)
                 AddControlToPdf(chart);
 
 
-            var Renderer = new HtmlToPdf();
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string renderPath = Path.Combine(path, string.Format("Rapport {0}.pdf", SelectedFestival.FestivalName));
+            var renderer = new HtmlToPdf();
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var renderPath = Path.Combine(path, string.Format("Rapport {0}.pdf", SelectedFestival.FestivalName));
 
             try
             {
-                Renderer.RenderHtmlAsPdf(_pdfHtml).SaveAs(renderPath);
-                MessageBox.Show("Generated!");
+                renderer.RenderHtmlAsPdf(_pdfHtml).SaveAs(renderPath);
+                OpenPopup($"Het rapport is succesvol gegeneerd! Het is opgeslagen op je desktop onder de naam: Rapport {SelectedFestival.FestivalName}.pdf");
             }
             catch (IOException)
             {
-                MessageBox.Show("Sluit het pdf bestand in de editor. voor het opslaan.");
-                ResetReport();
+                OpenPopup("Er is een fout opgetreden tijdens het schrijven van het rapport. Controleer of het bestand gesloten is en je toegang hebt om bestanden te generen");
             }
         }
 
@@ -187,26 +174,20 @@ namespace Festispec.UI.ViewModels
         private void AddAnswers(ICollection<Answer> answers)
         {
             foreach (Answer answer in answers)
-                if (answer is FileAnswer)
+                if (answer is FileAnswer fileAnswer)
                 {
-                    var fileAnswer = (FileAnswer) answer;
                     DateTime date = fileAnswer.CreatedAt;
                     Label label = CreateLabel(date.ToString());
                     Image image = CreateImage(fileAnswer);
 
-
                     if (image != null)
                     {
-                        Charts.Add(label);
-                        Charts.Add(image);
+                        Controls.Add(label);
+                        Controls.Add(image);
                     }
                 }
-
-                else if (answer is StringAnswer)
-                {
-                    var stringAnswer = (StringAnswer) answer;
-                    Charts.Add(CreateTextboxFromStringAnswer(stringAnswer));
-                }
+                else if (answer is StringAnswer stringAnswer)
+                    Controls.Add(CreateTextboxFromStringAnswer(stringAnswer));
         }
 
 
@@ -228,44 +209,26 @@ namespace Festispec.UI.ViewModels
 
         private void AddControlToPdf(FrameworkElement control)
         {
-            if (control is TextBox)
-            {
-                var textBox = (TextBox) control;
-                string richText = textBox.Text;
-                richText = richText.Replace("\n", "<br>");
-                _pdfHtml += string.Format("<p>{0}</p>", richText);
-            }
-            else if (control is Label)
-            {
-                var label = (Label) control;
+            if (control is TextBox textBox)
+                _pdfHtml += string.Format("<p>{0}</p>", textBox.Text.Replace("\n", "<br>"));
+            else if (control is Label label)
                 _pdfHtml += string.Format("<h2>{0}</h2>", label.Content);
-            }
-            else if (control is Image)
-            {
-                var image = (Image) control;
-                _pdfHtml += string.Format("<img src='{0}' style='max-width: 100%; height: auto;'>",
-                    imageSources[image]);
-            }
+            else if (control is Image image)
+                _pdfHtml += string.Format("<img src='{0}' style='max-width: 100%; height: auto;'>", imageSources[image]);
             else
-            {
-                string file = WriteToPng(control);
-                _pdfHtml += string.Format("<img src='{0}'>", file);
-            }
+                _pdfHtml += string.Format("<img src='{0}'>", WriteToPng(control));
         }
 
-        public string WriteToPng(UIElement element)
+        public static string WriteToPng(UIElement element)
         {
             var rect = new Rect(element.RenderSize);
             var visual = new DrawingVisual();
 
             using (DrawingContext dc = visual.RenderOpen())
-            {
                 dc.DrawRectangle(new VisualBrush(element), null, rect);
-            }
 
 
-            var bitmap = new RenderTargetBitmap(
-                (int) rect.Width, (int) rect.Height, 96, 96, PixelFormats.Default);
+            var bitmap = new RenderTargetBitmap((int)rect.Width, (int)rect.Height, 96, 96, PixelFormats.Default);
             bitmap.Render(visual);
 
             var encoder = new PngBitmapEncoder();
@@ -274,42 +237,35 @@ namespace Festispec.UI.ViewModels
             string fileName = Path.GetTempPath() + Guid.NewGuid() + ".png";
 
             using (FileStream file = File.OpenWrite(fileName))
-            {
                 encoder.Save(file);
-            }
 
             return fileName;
         }
 
         private Label CreateLabel(string text)
         {
-            var label = new Label();
 
-            label.Content = text;
-
-            label.Width = double.NaN;
-
-            label.Height = 30;
-
-            return label;
+            return new Label
+            {
+                Content = text,
+                Width = double.NaN,
+                Height = 30
+            };
         }
 
 
         private TextBox CreateTextboxFromStringAnswer(StringAnswer answer)
         {
-            var stringAnswer = new TextBox
+            return new TextBox
             {
-                Height = 150, Width = 700, Margin = new Thickness(10), AcceptsReturn = true, AcceptsTab = true,
-                TextWrapping = TextWrapping.Wrap
+                Height = 150,
+                Width = 700,
+                Margin = new Thickness(10),
+                AcceptsReturn = true,
+                AcceptsTab = true,
+                TextWrapping = TextWrapping.Wrap,
+                Text = answer.AnswerContents.Replace("\n", "<br>")
             };
-
-
-            string contents = answer.AnswerContents;
-            contents = contents.Replace("\n", "<br>");
-
-            stringAnswer.Text = contents;
-
-            return stringAnswer;
         }
     }
 }

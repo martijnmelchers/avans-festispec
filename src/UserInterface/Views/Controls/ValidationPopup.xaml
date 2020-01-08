@@ -8,20 +8,19 @@
              d:DataContext="{d:DesignInstance Type=viewModels:BaseValidationViewModel}">
     <Popup x:Name="WarningPopup" IsOpen="{Binding PopupIsOpen}"
            PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Page}}" Placement="Center"
-           AllowsTransparency="True">
+           AllowsTransparency="True" MaxWidth="800">
         <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
             <StackPanel Orientation="Vertical" Background="White">
                 <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                     <TextBlock
                         Text="{Binding Caption, Converter={StaticResource UpperCaseConverter}, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        Style="{DynamicResource Header}" />
+                        Style="{DynamicResource Header}"  TextWrapping="Wrap" MaxWidth="740"/>
                     <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5"
                                Fill="#FF4A4A" />
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                    <Label Content="{Binding ValidationError}" />
-                    <Label Content="Controleer de ingevoerde data en probeer het opnieuw." />
+                    <TextBlock Text="{Binding ValidationError}"  MaxWidth="740" TextWrapping="Wrap" Style="{DynamicResource DefaultText}"/>
                 </StackPanel>
 
                 <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
