@@ -57,9 +57,8 @@ namespace Festispec.Web.Controllers
             catch (Exception)
             {
                 if (Request.Cookies["CurrentUserId"] == null)
-                {
-                    return RedirectToAction("Login", "Authentication");
-                }
+                     return RedirectToAction("Login", "Authentication");
+
                 answers = new List<Answer>();
             }
 
@@ -75,9 +74,8 @@ namespace Festispec.Web.Controllers
                     question1.Answers = question.Answers;
 
                     foreach (var item in question1.Answers)
-                    {
                         item.Question = question1;
-                    }
+
                 }
 
                 if (!question1.Answers.Any(e => e.PlannedInspection.Id == plannedInspection.Id))
