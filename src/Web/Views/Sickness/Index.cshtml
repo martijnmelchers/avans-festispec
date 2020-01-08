@@ -7,12 +7,7 @@
 <h1>Ziek Melden</h1>
 <form asp-action="Index">
 
-    @*Dit kan weg als inloggen wordt gepushed.*@
-    <input asp-for="Employee.Id" type="hidden" value="1" />
-
-    @*Dit is voor als het inloggen wordt gepushed.
-        <input asp-for="Employee.Id" type="hidden" value="ParseInt(Request.Cookies["CurrentUserID"])" />*@
-
+    <input asp-for="Employee.Id" type="hidden" value="ParseInt(Request.Cookies["CurrentUserID"])" />*@
 
     <div class="card">
         <label class="control-label"> Reden:</label>
