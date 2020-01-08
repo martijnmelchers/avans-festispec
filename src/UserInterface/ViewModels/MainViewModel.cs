@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : BaseValidationViewModel
     {
         public RelayCommand<string> NavigateCommand { get; set; }
         private readonly IFrameNavigationService _navigationService;
@@ -58,15 +58,15 @@ namespace Festispec.UI.ViewModels
                 CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
                 _navigationService.NavigateTo("HomePage");
             }
-            catch (AuthenticationException)
+            catch (AuthenticationException a)
             {
-                MessageBox.Show("Incorrect Username or Password.", "Login Failed", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ValidationError = $"Incorrecte Gebruikersnaam of Wachtwoord. ({a.GetType()})";
+                PopupIsOpen = true;
             }
-            catch (NotAuthorizedException)
+            catch (NotAuthorizedException n)
             {
-                MessageBox.Show("Not authorized to view this data.", "Role unauthorized", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ValidationError = $"Niet toegestaan deze data in te zien. ({n.GetType()})";
+                PopupIsOpen = true;
             }
         }
 
