@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace Festispec.UI.ViewModels
 {
-    internal class InspectionViewModel : ViewModelBase
+    internal class InspectionViewModel : BaseDeleteCheckViewModel
     {
         public Festival Festival { get; set; }
         public ICommand CheckBoxCommand { get; set; }
@@ -318,15 +318,18 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (EntityExistsException)
                 {
-                    MessageBox.Show($"Kan de medewerker niet inplannen omdat deze al ingepland is.", $"Medewerker is al ingepland.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                    PopupIsOpen = true;
                 }
                 catch (InvalidDataException)
                 {
-                    MessageBox.Show($"Kan de medewerker niet inplannen omdat de ingevulde gegevens niet voldoen.", $"Gegevens zijn niet geldig.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                    PopupIsOpen = true;
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show($"Kan de medewerker niet inplannen omdat de ingevulde gegevens niet voldoen.", $"Gegevens zijn niet geldig.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                    PopupIsOpen = true;
                 }
             }
             EmployeesToAdd.Clear();
@@ -339,16 +342,23 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (QuestionHasAnswersException)
                 {
-                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = "De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.";
+                    PopupIsOpen = true;
                 }
                 catch (InvalidDataException)
                 {
-                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
+                    PopupIsOpen = true;
                 }
             }
             EmployeesToRemove.Clear();
             await _inspectionService.SaveChanges();
+
+            if (PopupIsOpen == false)
+            {
             _navigationService.NavigateTo("FestivalInfo", Festival.Id);
+
+            }
         }
 
         private void Return()
