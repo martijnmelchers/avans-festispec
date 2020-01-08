@@ -164,10 +164,10 @@ namespace Festispec.UI.ViewModels
 
                     var distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
 
-                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km", DDistance = distance });
+                    advancedEmployees.Add(new AdvancedEmployee() { Employee = employee, Distance = $"{distance} Km", DoubleDistance = distance });
 
             }
-            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees.OrderBy(e => e.DDistance));
+            _employees = (CollectionView)CollectionViewSource.GetDefaultView(advancedEmployees.OrderBy(e => e.DoubleDistance));
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = new Predicate<object>(Filter);
             Employees.Filter += Filter;
@@ -278,9 +278,9 @@ namespace Festispec.UI.ViewModels
         public ObservableCollection<Employee> EmployeesToRemove { get; set; }
         public ObservableCollection<Employee> EmployeesAdded { get; set; }
 
-        public void CheckBox(AdvancedEmployee advemployee)
+        public void CheckBox(AdvancedEmployee advancedEmployee)
         {
-            var employee = advemployee.Employee;
+            var employee = advancedEmployee.Employee;
             if (!EmployeesToAdd.Any(e => e.Id == employee.Id) && !EmployeesAdded.Any(e => e.Id == employee.Id))
                 EmployeesToAdd.Add(employee);
             else if (EmployeesToAdd.Any(e => e.Id == employee.Id))

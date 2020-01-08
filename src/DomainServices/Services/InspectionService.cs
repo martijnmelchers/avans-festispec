@@ -82,7 +82,7 @@ namespace Festispec.DomainServices.Services
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            var plannedInspections = _db.PlannedInspections.Include(e=> e.Employee.Address).Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
+            var plannedInspections = _db.PlannedInspections.Include(e => e.Employee.Address).Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)

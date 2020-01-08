@@ -82,7 +82,11 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+            }
+            catch (GoogleZeroResultsException)
+            {
+                MessageBox.Show("Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
 
 
@@ -99,7 +103,7 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
         }
 
