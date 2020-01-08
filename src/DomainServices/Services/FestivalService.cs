@@ -98,6 +98,7 @@ namespace Festispec.DomainServices.Services
             FestispecContext db = _syncService.GetSyncContext();
             
             List<Festival> festivals = db.Festivals
+                .Include(f => f.Address)
                 .Include(f => f.Questionnaires)
                 .Include(f => f.Questionnaires.Select(q => q.Questions))
                 .Include(f => f.PlannedInspections).ToList();
