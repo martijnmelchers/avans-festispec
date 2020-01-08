@@ -13,11 +13,13 @@ namespace Festispec.DomainServices.Services
     {
         private readonly FestispecContext _db;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IAddressService _addressService;
 
-        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService)
+        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, IAddressService addressService)
         {
             _db = db;
             _authenticationService = authenticationService;
+            _addressService = addressService;
         }
 
         public List<Employee> GetAllEmployees() //returns all active accounts.
@@ -27,7 +29,10 @@ namespace Festispec.DomainServices.Services
 
         public List<Employee> GetAllEmployeesActiveAndNonActive()
         {
-            return _db.Employees.ToList();
+            return _db.Employees
+                .Include(e => e.Address)
+                .Include(e=> e.PlannedEvents)
+                .ToList();
         }
 
         public async Task<Employee> CreateEmployeeAsync(FullName name, string iban, string username, string password,
@@ -52,6 +57,8 @@ namespace Festispec.DomainServices.Services
             if (!employee.Validate())
                 throw new InvalidDataException();
 
+            employee.Address = await _addressService.SaveAddress(employee.Address);
+
             _db.Employees.Add(employee);
 
             await SaveChangesAsync();
@@ -61,7 +68,9 @@ namespace Festispec.DomainServices.Services
         
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            Employee employee = await _db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
+            Employee employee = await _db.Employees
+                .Include(e => e.Address)
+                .FirstOrDefaultAsync(e => e.Id == employeeId);
 
             if (employee == null)
                 throw new EntityNotFoundException();
@@ -72,6 +81,7 @@ namespace Festispec.DomainServices.Services
         public Employee GetEmployee(int employeeId)
         {
             Employee employee = _db.Employees
+                .Include(e => e.Address)
                 .FirstOrDefault(e => e.Id == employeeId);
 
             if (employee == null)
@@ -101,11 +111,22 @@ namespace Festispec.DomainServices.Services
 
             if (employee.PlannedEvents.ToList().Count > 0)
                 throw new EmployeeHasPlannedEventsException();
-            
+
+            await _addressService.RemoveAddress(employee.Address);
             _db.Accounts.Remove(employee.Account);
             _db.Employees.Remove(employee);
 
             return await SaveChangesAsync();
+        }
+
+        public async Task UpdateEmployee(Employee employee)
+        {
+            if (!employee.Validate())
+                throw new InvalidDataException();
+
+            employee.Address = await _addressService.SaveAddress(employee.Address);
+
+            await SaveChangesAsync();
         }
 
         #region Certificate code
@@ -147,5 +168,7 @@ namespace Festispec.DomainServices.Services
         {
             return await _db.SaveChangesAsync();
         }
+
+
     }
 }

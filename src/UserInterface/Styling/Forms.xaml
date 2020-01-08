@@ -106,6 +106,23 @@
         </Grid>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="ComboBoxToggleButtonHidden" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="35" />
+            </Grid.ColumnDefinitions>
+            <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="5"
+                  Background="#F7F6F6"
+                  BorderBrush="#CFCFCF"
+                  BorderThickness="1.5">
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
         <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
     </ControlTemplate>

@@ -6,8 +6,6 @@
   <PropertyGroup>
     <ActiveDebugProfile>UserInterface</ActiveDebugProfile>
   </PropertyGroup>
-  <ItemGroup />
-  <ItemGroup />
   <ItemGroup>
     <Page Update="Styling\Icons.xaml">
       <SubType>Designer</SubType>

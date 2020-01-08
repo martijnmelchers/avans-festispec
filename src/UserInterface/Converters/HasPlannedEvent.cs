@@ -15,7 +15,8 @@ namespace Festispec.UI.Converters
         {
            
             ObservableCollection<Employee> EmployeesToAdd = values[0] as ObservableCollection<Employee>;
-            return EmployeesToAdd.Contains(values[1] as Employee);
+            ObservableCollection<Employee> EmployeesAdded = values[1] as ObservableCollection<Employee>;
+            return EmployeesToAdd.Contains(values[2] as Employee) || EmployeesAdded.Contains(values[2] as Employee);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
