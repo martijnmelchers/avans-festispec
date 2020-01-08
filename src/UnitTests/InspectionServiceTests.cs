@@ -31,7 +31,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.PlannedInspections).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().plannedInspections).Object);                        
 
             // Create InspectionService
-            _inspectionService = new InspectionService(_dbMock.Object);
+            _inspectionService = new InspectionService(_dbMock.Object, new JsonSyncService<PlannedInspection>(_dbMock.Object));
         }
 
 
