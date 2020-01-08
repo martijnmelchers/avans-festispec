@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
@@ -21,7 +22,7 @@ namespace Festispec.UI.ViewModels
         private Festival _festival;
 
         public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService,
-            IQuestionnaireService questionnaireService, IInspectionService inspectionService)
+            IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
@@ -53,6 +54,8 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged(nameof(Festival));
             }
         }
+
+        public bool CanEdit { get; set; }
 
         public string FestivalLocation => Festival?.Address?.ToString() ?? "Laden...";
         public string FestivalData { get; set; }

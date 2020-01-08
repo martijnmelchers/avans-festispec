@@ -28,12 +28,6 @@ namespace Festispec.UI.ViewModels.Festivals
 
         public ICollectionView Festivals { get; set; }
 
-        public ICollectionView Festivals
-        {
-            get => _festivals;
-            set => _festivals = value;
-        }
-
         private string _search { get; set; }
 
         public string Search

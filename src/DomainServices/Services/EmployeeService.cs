@@ -15,8 +15,6 @@ namespace Festispec.DomainServices.Services
         private readonly IAuthenticationService _authenticationService;
         private readonly ISyncService<Employee> _employeeSyncService;
         private readonly IAddressService _addressService;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly FestispecContext _db;
 
         public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, ISyncService<Employee> employeeSyncService, IAddressService addressService)
         {

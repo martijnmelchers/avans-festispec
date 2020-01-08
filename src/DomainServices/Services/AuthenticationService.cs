@@ -3,8 +3,6 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using System.Data.Entity;
 

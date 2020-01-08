@@ -14,7 +14,6 @@ namespace Festispec.DomainServices.Services
         private readonly FestispecContext _db;
         private readonly ISyncService<Customer> _syncService;
         private readonly IAddressService _addressService;
-        private readonly FestispecContext _db;
 
         public CustomerService(FestispecContext db, ISyncService<Customer> syncService, IAddressService addressService)
         {

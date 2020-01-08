@@ -18,7 +18,7 @@ namespace Festispec.UI.ViewModels.Customers
         private readonly IFrameNavigationService _navigationService;
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService,
-            IGoogleMapsService googleMapsService)
+            IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _customerService = customerService;
             _navigationService = navigationService;

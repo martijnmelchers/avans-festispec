@@ -14,7 +14,6 @@ namespace Festispec.DomainServices.Services
         private readonly IAddressService _addressService;
         private readonly FestispecContext _db;
         private readonly ISyncService<Festival> _syncService;
-        private readonly IAddressService _addressService;
 
         public FestivalService(FestispecContext db, ISyncService<Festival> syncService, IAddressService addressService)
         {

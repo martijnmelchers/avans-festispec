@@ -1,10 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Festispec.DomainServices;
+using Festispec.DomainServices.Enums;
+using Festispec.DomainServices.Interfaces;
 using Festispec.UI.Interfaces;
 using Festispec.UI.Services;
 using Festispec.UI.ViewModels;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
+using Festispec.UI.ViewModels.Festivals;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI
@@ -71,7 +77,7 @@ namespace Festispec.UI
             // Run an initial offline sync in a background thread
             Task.Run(() =>
             {
-                IEnumerable<ServiceDescriptor> serviceDescriptors = services
+                List<ServiceDescriptor> serviceDescriptors = services
                     .Where(x => typeof(ISyncable).IsAssignableFrom(x.ServiceType))
                     .ToList();
                 

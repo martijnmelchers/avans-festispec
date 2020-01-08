@@ -15,7 +15,7 @@ namespace Festispec.DomainServices.Services
             _syncService = syncService;
         }
         
-        public IEnumerable<Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
             return _syncService.GetAll().ToList();
         }

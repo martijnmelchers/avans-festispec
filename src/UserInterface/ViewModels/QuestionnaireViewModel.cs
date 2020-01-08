@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
@@ -20,17 +21,9 @@ namespace Festispec.UI.ViewModels
     {
         private readonly IFestivalService _festivalService;
         private readonly IOfflineService _offlineService;
+        private readonly IQuestionnaireService _questionnaireService;
         private readonly QuestionFactory _questionFactory;
         private readonly IFrameNavigationService _navigationService;
-        public Questionnaire Questionnaire { get; set; }
-        public ICommand AddQuestionCommand { get; set; }
-        public ICommand DeleteQuestionCommand { get; set; }
-        public ICommand DeleteQuestionaireCommand { get; set; }
-        public ICommand SaveQuestionnaireCommand { get; set; }
-        public ICommand OpenFileWindowCommand { get; set; }
-        public ICommand SelectReferenceQuestionCommand { get; set; }
-        public ICommand SetReferenceQuestionCommand { get; set; }
-        public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private bool _isOpen;
 
@@ -75,6 +68,7 @@ namespace Festispec.UI.ViewModels
         public ICommand OpenFileWindowCommand { get; set; }
         public ICommand SelectReferenceQuestionCommand { get; set; }
         public ICommand SetReferenceQuestionCommand { get; set; }
+        public ICommand ReturnCommand { get; set; }
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }

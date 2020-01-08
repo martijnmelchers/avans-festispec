@@ -19,7 +19,7 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IFrameNavigationService _navigationService;
 
         public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService,
-            IGoogleMapsService googleMapsService)
+            IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
