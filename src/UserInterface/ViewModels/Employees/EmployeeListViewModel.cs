@@ -19,7 +19,9 @@ namespace Festispec.UI.ViewModels.Employees
             AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
-            EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployeesActiveAndNonActive());
+            EmployeeList =
+                (CollectionView) CollectionViewSource.GetDefaultView(
+                    employeeService.GetAllEmployeesActiveAndNonActive());
             EmployeeList.Filter = Filter;
         }
 
@@ -27,9 +29,6 @@ namespace Festispec.UI.ViewModels.Employees
 
         public ICommand AddNewEmployeeCommand { get; }
         public ICommand ViewEmployeeCommand { get; }
-
-        private void NavigateToAddNewEmployee() => _navigationService.NavigateTo("CreateEmployee");
-        private void NavigateToViewEmployee(int employeeId) => _navigationService.NavigateTo("EmployeeInfo", employeeId);
 
         public string Search
         {
@@ -41,8 +40,20 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        private bool Filter(object item) =>
-            string.IsNullOrEmpty(Search) ||
-            ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        private void NavigateToAddNewEmployee()
+        {
+            _navigationService.NavigateTo("CreateEmployee");
+        }
+
+        private void NavigateToViewEmployee(int employeeId)
+        {
+            _navigationService.NavigateTo("EmployeeInfo", employeeId);
+        }
+
+        private bool Filter(object item)
+        {
+            return string.IsNullOrEmpty(Search) ||
+                   ((Employee) item).Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
 }

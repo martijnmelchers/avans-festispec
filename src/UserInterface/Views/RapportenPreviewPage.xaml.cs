@@ -1,19 +1,14 @@
-﻿using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
-using Microsoft.Extensions.DependencyInjection;
-
-using System.Windows.Controls;
-
+﻿using System.Windows.Controls;
 using Festispec.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views
 {
     /// <summary>
-    /// Interaction logic for RapportenPreviewPage.xaml
+    ///     Interaction logic for RapportenPreviewPage.xaml
     /// </summary>
     public partial class RapportenPreviewPage : Page
     {
-
         private readonly IServiceScope _scope;
 
         public RapportenPreviewPage()

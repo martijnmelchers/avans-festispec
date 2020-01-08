@@ -20,8 +20,10 @@
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Welkom!" Style="{DynamicResource Header}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
-            <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Text="Welkom!" Style="{DynamicResource Header}" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" />
+            <Label Content="Om in te loggen, vul je gegevens in." HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Grid.Row="1" Grid.ColumnSpan="3" />
 
             <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
                 <Label Content="Gebruikersnaam:" VerticalAlignment="Center" />
@@ -35,7 +37,8 @@
 
             <Button Content="Inloggen" Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName = Password}"
-                    Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" />
+                    Style="{DynamicResource ButtonGreen}" Height="50" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Grid.Row="4" />
         </Grid>
         <controls:ValidationPopup Caption="Login niet gelukt" />
     </Grid>

@@ -1,17 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Festispec.Models;
 using Festispec.Models.GraphConverters;
 using Festispec.Models.Interfaces;
-using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
 
 namespace Festispec.Models.Questions
 {
     public class GraphSelectorFactory
     {
-        private Dictionary<GraphType, IGraphable> _converters;
+        private readonly Dictionary<GraphType, IGraphable> _converters;
 
         public GraphSelectorFactory()
         {

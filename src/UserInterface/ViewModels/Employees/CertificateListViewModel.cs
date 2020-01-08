@@ -37,10 +37,6 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand AddNewCertificateCommand { get; }
         public ICommand EditCertificateCommand { get; }
         public ICommand NavigateToEmployeeInfoCommand { get; }
-        
-        private void NavigateToAddNewCertificate() => _navigationService.NavigateTo("CreateCertificate", Employee);
-        private void NavigateToEmployeeInfo() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
-        private void NavigateToEditCertificate(int certificateId) => _navigationService.NavigateTo("UpdateCertificate", certificateId);
 
         public string Search
         {
@@ -52,8 +48,25 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        private bool Filter(object item) =>
-            string.IsNullOrEmpty(Search) ||
-            ((Certificate) item).CertificateTitle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        private void NavigateToAddNewCertificate()
+        {
+            _navigationService.NavigateTo("CreateCertificate", Employee);
+        }
+
+        private void NavigateToEmployeeInfo()
+        {
+            _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
+        }
+
+        private void NavigateToEditCertificate(int certificateId)
+        {
+            _navigationService.NavigateTo("UpdateCertificate", certificateId);
+        }
+
+        private bool Filter(object item)
+        {
+            return string.IsNullOrEmpty(Search) ||
+                   ((Certificate) item).CertificateTitle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
 }

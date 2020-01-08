@@ -23,9 +23,9 @@
                     <Label Content="{Binding ValidationError}" />
                     <Label Content="Controleer de ingevoerde data en probeer het opnieuw." />
                 </StackPanel>
-                
-                    <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
-                            Style="{DynamicResource ButtonGreen}" Height="50" Width="185" />
+
+                <Button HorizontalAlignment="Right" Content="Sluit" Click="ClosePopup"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="185" />
             </StackPanel>
         </Border>
     </Popup>

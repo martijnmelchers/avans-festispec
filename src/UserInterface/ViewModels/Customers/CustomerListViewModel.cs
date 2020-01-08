@@ -28,9 +28,6 @@ namespace Festispec.UI.ViewModels.Customers
 
         public ICommand AddNewCustomerCommand { get; }
         public ICommand ViewCustomerCommand { get; }
-        
-        private void NavigateToAddCustomer() => _navigationService.NavigateTo("CreateCustomer");
-        private void NavigateToViewCustomer(int customerId) => _navigationService.NavigateTo("CustomerInfo", customerId);
 
         public string Search
         {
@@ -42,8 +39,20 @@ namespace Festispec.UI.ViewModels.Customers
             }
         }
 
-        private bool Filter(object item) =>
-            string.IsNullOrEmpty(Search) ||
-            ((Customer) item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        private void NavigateToAddCustomer()
+        {
+            _navigationService.NavigateTo("CreateCustomer");
+        }
+
+        private void NavigateToViewCustomer(int customerId)
+        {
+            _navigationService.NavigateTo("CustomerInfo", customerId);
+        }
+
+        private bool Filter(object item)
+        {
+            return string.IsNullOrEmpty(Search) ||
+                   ((Customer) item).CustomerName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
 }

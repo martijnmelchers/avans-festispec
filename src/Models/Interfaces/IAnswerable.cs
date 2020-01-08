@@ -1,7 +1,5 @@
-﻿using Festispec.Models.Answers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Festispec.Models.Answers;
 
 namespace Festispec.Models.Interfaces
 {

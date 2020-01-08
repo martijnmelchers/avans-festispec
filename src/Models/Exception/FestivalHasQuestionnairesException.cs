@@ -6,7 +6,8 @@
         {
         }
 
-        public FestivalHasQuestionnairesException(string message, System.Exception innerException) : base(message, innerException)
+        public FestivalHasQuestionnairesException(string message, System.Exception innerException) : base(message,
+            innerException)
         {
         }
 

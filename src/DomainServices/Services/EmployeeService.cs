@@ -1,21 +1,22 @@
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.EntityMapping;
-using Festispec.Models.Exception;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.EntityMapping;
+using Festispec.Models.Exception;
 
 namespace Festispec.DomainServices.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly FestispecContext _db;
-        private readonly IAuthenticationService _authenticationService;
         private readonly IAddressService _addressService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly FestispecContext _db;
 
-        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, IAddressService addressService)
+        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService,
+            IAddressService addressService)
         {
             _db = db;
             _authenticationService = authenticationService;
@@ -138,6 +139,11 @@ namespace Festispec.DomainServices.Services
             await SaveChangesAsync();
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _db.SaveChangesAsync();
+        }
+
         #region Certificate code
 
         public async Task<Certificate> CreateCertificateAsync(Certificate certificate)
@@ -172,10 +178,5 @@ namespace Festispec.DomainServices.Services
         }
 
         #endregion Certificate code
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _db.SaveChangesAsync();
-        }
     }
 }

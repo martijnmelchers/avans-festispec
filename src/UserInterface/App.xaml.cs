@@ -6,7 +6,7 @@ using System.Windows.Markup;
 namespace Festispec.UI
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
@@ -18,8 +18,8 @@ namespace Festispec.UI
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("nl-NL");
 
             FrameworkElement.LanguageProperty.OverrideMetadata(
-                         typeof(FrameworkElement),
-                         new FrameworkPropertyMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
                     XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
     }

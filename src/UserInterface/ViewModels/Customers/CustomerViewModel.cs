@@ -13,10 +13,11 @@ namespace Festispec.UI.ViewModels.Customers
     public class CustomerViewModel : BaseDeleteCheckViewModel
     {
         private readonly ICustomerService _customerService;
-        private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
+        private readonly IFrameNavigationService _navigationService;
 
-        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService)
+        public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService,
+            IGoogleMapsService googleMapsService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
@@ -44,9 +45,11 @@ namespace Festispec.UI.ViewModels.Customers
             OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
 
             #region Google Search
+
             _googleService = googleMapsService;
             SearchCommand = new RelayCommand(Search);
             SelectCommand = new RelayCommand<string>(Select);
+
             #endregion
         }
 
@@ -63,8 +66,15 @@ namespace Festispec.UI.ViewModels.Customers
         public RelayCommand<string> SelectCommand { get; }
 
 
-        private void NavigateToCustomerInfo() => _navigationService.NavigateTo("CustomerInfo", Customer.Id);
-        private void NavigateToCustomerList() => _navigationService.NavigateTo("CustomerList");
+        private void NavigateToCustomerInfo()
+        {
+            _navigationService.NavigateTo("CustomerInfo", Customer.Id);
+        }
+
+        private void NavigateToCustomerList()
+        {
+            _navigationService.NavigateTo("CustomerList");
+        }
 
         private async void AddCustomer()
         {
@@ -75,7 +85,8 @@ namespace Festispec.UI.ViewModels.Customers
             }
             catch (InvalidAddressException)
             {
-                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
+                ValidationError =
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
                 PopupIsOpen = true;
             }
             catch (InvalidDataException)
@@ -99,7 +110,8 @@ namespace Festispec.UI.ViewModels.Customers
             }
             catch (InvalidAddressException)
             {
-                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
+                ValidationError =
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
                 PopupIsOpen = true;
             }
             catch (InvalidDataException)
@@ -124,6 +136,7 @@ namespace Festispec.UI.ViewModels.Customers
         }
 
         #region Google Search
+
         public ObservableCollection<Prediction> Suggestions { get; set; }
         public string SearchQuery { get; set; }
         public string CurrentAddress { get; set; }
@@ -132,35 +145,38 @@ namespace Festispec.UI.ViewModels.Customers
         {
             try
             {
-                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
+                Suggestions =
+                    new ObservableCollection<Prediction>(
+                        await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                ValidationError =
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
                 PopupIsOpen = true;
             }
             catch (GoogleZeroResultsException)
             {
-                ValidationError = "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.";
+                ValidationError =
+                    "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.";
                 PopupIsOpen = true;
             }
-
-
         }
 
         public async void Select(string id)
         {
             try
             {
-                var address = await _googleService.GetAddress(id);
+                Address address = await _googleService.GetAddress(id);
                 Customer.Address = address;
                 CurrentAddress = $"Geselecteerde adres: {Customer.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
+                ValidationError =
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
                 PopupIsOpen = true;
             }
         }

@@ -9,23 +9,29 @@
     <Grid x:Name="MainGrid">
 
         <DockPanel Height="69" VerticalAlignment="Top" Background="#FFFFFF">
-            <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" />
+            <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222"
+                   Source="/Assets/festispec logo.png" />
 
-            <StackPanel Visibility="{Binding HideNavbar}" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,25,0">
+            <StackPanel Visibility="{Binding HideNavbar}" HorizontalAlignment="Right" Orientation="Horizontal"
+                        Margin="0,0,25,0">
                 <TextBlock VerticalAlignment="Center" Width="147">
-                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="HomePage" Content="Home" />
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}"
+                            CommandParameter="HomePage" Content="Home" />
                 </TextBlock>
 
                 <TextBlock VerticalAlignment="Center" Width="164">
-                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="CustomerList" Content="Klanten" />
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}"
+                            CommandParameter="CustomerList" Content="Klanten" />
                 </TextBlock>
 
                 <TextBlock VerticalAlignment="Center" Width="178">
-                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="FestivalList" Content="Festivals" />
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}"
+                            CommandParameter="FestivalList" Content="Festivals" />
                 </TextBlock>
 
                 <TextBlock VerticalAlignment="Center" Width="257">
-                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="EmployeeList" Content="Medewerkers" />
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}"
+                            CommandParameter="EmployeeList" Content="Medewerkers" />
                 </TextBlock>
 
                 <Image Height="25" VerticalAlignment="Center" Width="22" Margin="8,22,8,22" Source="/Assets/user.png" />
@@ -33,7 +39,8 @@
                         VerticalAlignment="Center" FontSize="30" FontFamily="{DynamicResource Montserrat}"
                         Foreground="#707070" Background="#FFFFFF"
                         BorderThickness="0" IsEnabled="{Binding IsLoggedIn}" />
-                <Image Height="19" VerticalAlignment="Center" Width="31" Margin="8,25,0,25" Source="/Assets/Chevron.png" />
+                <Image Height="19" VerticalAlignment="Center" Width="31" Margin="8,25,0,25"
+                       Source="/Assets/Chevron.png" />
             </StackPanel>
         </DockPanel>
 
