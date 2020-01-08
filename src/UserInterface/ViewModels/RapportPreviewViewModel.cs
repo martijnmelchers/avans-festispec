@@ -26,18 +26,19 @@ namespace Festispec.UI.ViewModels
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IQuestionnaireService _questionnaireService;
-        private readonly IQuestionService _questionService;
         private string _pdfHtml;
 
 
         private readonly Dictionary<Image, string> imageSources = new Dictionary<Image, string>();
 
 
-        public RapportPreviewViewModel(IFrameNavigationService navigationService, IQuestionService questionService,
-            IQuestionnaireService questionnaireService, IFestivalService festivalService)
+        public RapportPreviewViewModel(
+            IFrameNavigationService navigationService,
+            IQuestionnaireService questionnaireService, 
+            IFestivalService festivalService
+            )
         {
             _festivalService = festivalService;
-            _questionService = questionService;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             GeneratePdfCommand = new RelayCommand(SavePdf);

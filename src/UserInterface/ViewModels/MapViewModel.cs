@@ -7,6 +7,7 @@ using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MapControl;
 
 namespace Festispec.UI.ViewModels
 {

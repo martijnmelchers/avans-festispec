@@ -16,7 +16,7 @@ namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService : IGoogleMapsService
     {
-        private const string API_KEY = "AIzaSyDqy_DxcI0571BKIoakNuOj-eWQ6S_B3NM";
+        private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
         private readonly HttpClient _client;
         private readonly HttpClient _clientStatic;
         private readonly FestispecContext _db;
