@@ -84,7 +84,7 @@ namespace Festispec.UnitTests
                 "pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, " +
                 "rhoncus ut, imperdiet";
 
-            await Assert.ThrowsAsync<InvalidDataException>(() => _inspectionService.RemoveInspection(ModelMocks.PlannedInspectionPinkpop.Id, cancellationReason));
+            await Assert.ThrowsAsync<InvalidDataException>(() =>  _inspectionService.RemoveInspection(ModelMocks.PlannedInspectionPinkpop.Id, cancellationReason));
         }
         #endregion
 
