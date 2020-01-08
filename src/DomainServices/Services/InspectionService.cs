@@ -82,7 +82,7 @@ namespace Festispec.DomainServices.Services
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            var plannedInspections = _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
+            var plannedInspections = _db.PlannedInspections.Include(e => e.Employee.Address).Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)
@@ -113,8 +113,7 @@ namespace Festispec.DomainServices.Services
         public async Task RemoveInspection(int plannedInspectionId, string cancellationreason)
         {
             var plannedInspection = await GetPlannedInspection(plannedInspectionId);
-            if (plannedInspection.Answers == null)
-                throw new System.Exception();
+
 
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
