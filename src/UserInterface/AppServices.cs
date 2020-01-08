@@ -46,6 +46,7 @@ namespace Festispec.UI
 
 
             services.AddTransient<RapportPreviewViewModel>();
+            services.AddTransient<MapViewModel>();
 
             // Services from UI project
             services.AddSingleton<IFrameNavigationService>(RegisterRoutes());
@@ -106,7 +107,10 @@ namespace Festispec.UI
             navigationService.Configure("HomePage", new Uri("../Views/Home/HomePage.xaml", UriKind.Relative));
             #endregion
 
+
             navigationService.Configure("GenerateReport", new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+            navigationService.Configure("MapPage", new Uri("../Views/Map/MapPage.xaml", UriKind.Relative));
+
 
             return navigationService;
         }

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
       mc:Ignorable="d"
       d:DesignHeight="1080" d:DesignWidth="1920"
@@ -13,6 +14,7 @@
     </Page.Resources>
 
     <Grid Margin="50">
+        <controls:ValidationPopup Caption="Inplannen" />
         <Rectangle Style="{DynamicResource ContentBox}" Width="800" />
         <Grid Width="700">
             <Grid.RowDefinitions>
@@ -73,7 +75,7 @@
                                         <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource HasPlannedEvent}" Mode="OneWay">
                                             <Binding Path="DataContext.EmployeesToAdd" RelativeSource="{RelativeSource AncestorType=Page}" />
                                             <Binding Path="DataContext.EmployeesAdded" RelativeSource="{RelativeSource AncestorType=Page}" />
-                                            <Binding Path="." UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" />
+                                            <Binding Path="Employee" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" />
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>
@@ -84,6 +86,8 @@
             </ScrollViewer>
             <Button Content="Terug" Style="{StaticResource ButtonBase}" Height="50" Width="200" Grid.Column="0" Grid.Row="9" Command="{Binding ReturnCommand}" />
             <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1" Grid.Row="9" Command="{Binding SaveCommand}" />
+            
         </Grid>
     </Grid>
+
 </Page>

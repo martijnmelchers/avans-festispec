@@ -14,12 +14,12 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using IronPdf;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.CommandWpf;
 using Festispec.Models.Answers;
 using Festispec.UI.Interfaces;
 using System.Linq;
 using System.Data.Entity;
 using System.Windows.Markup;
+using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels
 {

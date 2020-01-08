@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
@@ -24,14 +24,23 @@ namespace Festispec.DomainServices.Services
 
         public List<Employee> GetAllEmployees() //returns all active accounts.
         {
-            return _db.Employees.Where(e => e.Account.IsNonActive == null).ToList();
+            return _db.Employees.Where(e => e.Account.IsNonActive == null).Include(e => e.Address).ToList();
         }
 
         public List<Employee> GetAllEmployeesActiveAndNonActive()
         {
             return _db.Employees
                 .Include(e => e.Address)
-                .Include(e=> e.PlannedEvents)
+                .Include(e => e.PlannedEvents)
+                .ToList();
+        }
+
+        public List<Employee> GetAllInspectors()
+        {
+            return _db.Employees
+                .Include(e => e.Address)
+                .Include(e => e.PlannedEvents)
+                .Where(e => e.Account.Role == Role.Inspector)
                 .ToList();
         }
 
@@ -48,10 +57,10 @@ namespace Festispec.DomainServices.Services
                 Address = address,
                 ContactDetails = contactDetails
             };
-            
+
             return await CreateEmployeeAsync(employee);
         }
-        
+
         public async Task<Employee> CreateEmployeeAsync(Employee employee)
         {
             if (!employee.Validate())
@@ -65,7 +74,7 @@ namespace Festispec.DomainServices.Services
 
             return employee;
         }
-        
+
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
             Employee employee = await _db.Employees
@@ -77,7 +86,7 @@ namespace Festispec.DomainServices.Services
 
             return employee;
         }
-        
+
         public Employee GetEmployee(int employeeId)
         {
             Employee employee = _db.Employees
@@ -152,23 +161,21 @@ namespace Festispec.DomainServices.Services
 
             return certificate;
         }
-        
+
         public async Task<int> RemoveCertificateAsync(int certificateId)
         {
             Certificate certificate = GetCertificate(certificateId);
-            
+
             _db.Certificates.Remove(certificate);
 
             return await SaveChangesAsync();
         }
 
-        #endregion
+        #endregion Certificate code
 
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();
         }
-
-
     }
 }

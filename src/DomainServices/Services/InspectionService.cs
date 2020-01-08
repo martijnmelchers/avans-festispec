@@ -5,6 +5,9 @@ using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+
+using System.Data.Entity.Core.Objects;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,7 +57,6 @@ namespace Festispec.DomainServices.Services
                 EventTitle = eventTitle,
                 Employee = employee
             };
-
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
 
@@ -64,7 +66,6 @@ namespace Festispec.DomainServices.Services
 
             return null;
         }
-
         public async Task SaveChanges()
         {
             await _db.SaveChangesAsync();
@@ -80,16 +81,16 @@ namespace Festispec.DomainServices.Services
             return plannedInspection;
         }
 
+
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            var plannedInspections = _db.PlannedInspections.Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
+            var plannedInspections = _db.PlannedInspections.Include(e => e.Employee.Address).Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)
                 .Select(grp => grp.ToList())
                 .ToList();
         }
-
         public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
         {
             var plannedInspection = await _db.PlannedInspections.FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
@@ -110,11 +111,23 @@ namespace Festispec.DomainServices.Services
             return plannedInspections;
         }
 
+
+        public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
+        {
+            var plannedInspections = await _db.PlannedInspections.Include(e => e.Employee).Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) == EntityFunctions.TruncateTime(DateTime.Now)).ToListAsync();
+
+            if (plannedInspections.Count < 1)
+                throw new EntityNotFoundException();
+
+            return plannedInspections;
+        }
+
+
         public async Task RemoveInspection(int plannedInspectionId, string cancellationreason)
         {
             var plannedInspection = await GetPlannedInspection(plannedInspectionId);
-            if (plannedInspection.Answers == null)
-                throw new System.Exception();
+
+
 
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
@@ -129,5 +142,6 @@ namespace Festispec.DomainServices.Services
 
             await _db.SaveChangesAsync();
         }
+
     }
 }

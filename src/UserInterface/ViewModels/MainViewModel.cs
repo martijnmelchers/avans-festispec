@@ -1,9 +1,9 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

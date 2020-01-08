@@ -7,13 +7,13 @@ namespace Festispec.Models.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.3.0")]
-    public sealed partial class AddLatLng : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddLatLng));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201912132346428_AddLatLng"; }
+            get { return "202001081644430_Initial"; }
         }
         
         string IMigrationMetadata.Source
