@@ -107,13 +107,13 @@ namespace Festispec.DomainServices.Services
         public void SaveChanges()
         {
             JsonObject["updatedAt"] = new JValue(DateTime.Now);
-            File.WriteAllText(_jsonFile, JsonObject.ToString());
+            File.WriteAllText(_jsonFile, JsonObject.ToString(Formatting.None));
         }
 
         public async void SaveChangesAsync()
         {
             JsonObject["updatedAt"] = new JValue(DateTime.Now);
-            await File.WriteAllTextAsync(_jsonFile, JsonObject.ToString());
+            await File.WriteAllTextAsync(_jsonFile, JsonObject.ToString(Formatting.None));
         }
 
         public FestispecContext GetSyncContext() => _db;
