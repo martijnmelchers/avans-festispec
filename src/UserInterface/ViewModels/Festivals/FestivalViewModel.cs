@@ -68,7 +68,7 @@ namespace Festispec.UI.ViewModels
 
             CanEdit = offlineService.IsOnline;
 
-            Task.Run(async () => await Initialize((int)_navigationService.Parameter));
+            Task.Run(async () => Initialize((int)_navigationService.Parameter));
         }
 
         #region PlannedInspections

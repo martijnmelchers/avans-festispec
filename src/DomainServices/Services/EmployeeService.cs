@@ -166,7 +166,6 @@ namespace Festispec.DomainServices.Services
             return await _db.SaveChangesAsync();
         }
 
-<<<<<<< HEAD
         public void Sync()
         {
             FestispecContext db = _employeeSyncService.GetSyncContext();
@@ -181,8 +180,5 @@ namespace Festispec.DomainServices.Services
             _employeeSyncService.AddEntities(employees);
             _employeeSyncService.SaveChanges();
         }
-=======
-
->>>>>>> development
     }
 }

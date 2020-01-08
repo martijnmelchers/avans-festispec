@@ -46,6 +46,11 @@ namespace Festispec.DomainServices.Services
             throw new System.InvalidOperationException();
         }
 
+        public Task UpdateEmployee(Employee employee)
+        {
+            throw new System.InvalidOperationException();
+        }
+
         public Task<int> SaveChangesAsync()
         {
             throw new System.InvalidOperationException();
