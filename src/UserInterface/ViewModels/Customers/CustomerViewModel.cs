@@ -2,7 +2,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
@@ -26,7 +25,7 @@ namespace Festispec.UI.ViewModels.Customers
             if (_navigationService.Parameter is int customerId)
             {
                 Customer = _customerService.GetCustomer(customerId);
-                CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
+                CanDeleteCustomer = _customerService.CanDeleteCustomer(Customer);
                 SaveCommand = new RelayCommand(UpdateCustomer);
                 CurrentAddress = $"Huidige adres: {Customer.Address}";
             }
@@ -37,8 +36,8 @@ namespace Festispec.UI.ViewModels.Customers
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
-            EditCustomerCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateCustomer", Customer.Id));
-            AddFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("CreateFestival", Customer.Id));
+            EditCustomerCommand = new RelayCommand(NavigateToUpdateCustomer, () => offlineService.IsOnline);
+            AddFestivalCommand = new RelayCommand(NavigateToCreateFestival, () => offlineService.IsOnline);
             NavigateToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
             NavigateToCustomerInfoCommand = new RelayCommand(NavigateToCustomerInfo);
 
@@ -57,7 +56,6 @@ namespace Festispec.UI.ViewModels.Customers
         }
 
         public Customer Customer { get; }
-        public bool CanEditCustomer { get; }
         private bool CanDeleteCustomer { get; }
 
         public ICommand SaveCommand { get; }
@@ -78,6 +76,16 @@ namespace Festispec.UI.ViewModels.Customers
         private void NavigateToCustomerList()
         {
             _navigationService.NavigateTo("CustomerList");
+        }
+        
+        private void NavigateToCreateFestival()
+        {
+            _navigationService.NavigateTo("CreateFestival", Customer.Id);
+        }
+
+        private void NavigateToUpdateCustomer()
+        {
+            _navigationService.NavigateTo("UpdateCustomer", Customer.Id);
         }
 
         private async void AddCustomer()
