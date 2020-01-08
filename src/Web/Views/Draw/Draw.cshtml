@@ -1,12 +1,17 @@
-@model Festispec.Models.Questions.DrawQuestion
+@model Festispec.Models.Answers.FileAnswer
     <button class="btn btn-success" id="btnUpload">Opslaan</button>
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
 
 
-    function preload(){
-        bg = loadImage("@Model.PicturePath");
+    function preload() {
+
+        @{
+            var questionPicture = ((Festispec.Models.Questions.DrawQuestion)Model.Question).PicturePath;
+        }
+
+        bg = loadImage("@questionPicture");
     }
     function setup() {
         canvas = createCanvas(w, h);
@@ -38,10 +43,11 @@ $("#btnUpload").on("click", function(e) {
 
     var file = canvas.canvas.toDataURL("image/png");
     dataUrl = file.replace('data:image/png;base64,', '');
-    var obj = { QuestionId: 1, ImageData: dataUrl};
+    var obj = { QuestionId: @Model.Question.Id, ImageData: dataUrl };
     
     $.post("/Draw/Draw", { imageData: JSON.stringify(obj) });
-    
+    window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
+
 });
 
 </script>
