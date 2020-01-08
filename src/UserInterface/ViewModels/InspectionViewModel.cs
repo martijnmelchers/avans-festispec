@@ -51,7 +51,11 @@ namespace Festispec.UI.ViewModels
             {
                 if (item is Availability)
                 {
-                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                    if (_startTime.Ticks > item.StartTime.Ticks && item.EndTime == null)
+                    {
+                        return false;
+                    }
+                    if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > ((DateTime)item.EndTime).Ticks && _endTime.Ticks > ((DateTime)item.EndTime).Ticks))
                     {
                         //check next one
                     }
@@ -73,7 +77,11 @@ namespace Festispec.UI.ViewModels
                         return true;
                     else
                     {
-                        if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > item.EndTime.Ticks && _endTime.Ticks > item.EndTime.Ticks))
+                        if(_startTime.Ticks > item.StartTime.Ticks && item.EndTime == null)
+                        {
+                            return false;
+                        }
+                        if ((_startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks) || (_startTime.Ticks > ((DateTime)item.EndTime).Ticks && _endTime.Ticks > ((DateTime)item.EndTime).Ticks))
                         {
                             //checked next one
                         }
@@ -135,7 +143,7 @@ namespace Festispec.UI.ViewModels
                 PlannedInspection temp = await _inspectionService.GetPlannedInspection(parameter.PlannedInspectionId);
                 Festival = await _festivalService.GetFestivalAsync(temp.Festival.Id);
                 _startTime = temp.StartTime;
-                _endTime = temp.EndTime;
+                _endTime = (DateTime)temp.EndTime;
                 Questionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
 

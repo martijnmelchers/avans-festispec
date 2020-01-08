@@ -34,7 +34,7 @@ namespace Festispec.UnitTests.Helpers
             EndTime = new TimeSpan(1, 0, 0)
         };
 
-        public static Employee Employee = new Employee()
+        public static Employee Employee1 = new Employee()
         {
             Id = 1,
             Account = new Account()
@@ -49,7 +49,7 @@ namespace Festispec.UnitTests.Helpers
         public static Availability Sickness = new Availability()
         {
             Id = 1,
-            Employee = Employee,
+            Employee = Employee1,
             IsAvailable = false,
             Reason = "Ik heb griep",
             EventTitle = "Afwezig wegens ziekte",
@@ -307,9 +307,9 @@ namespace Festispec.UnitTests.Helpers
             Sickness
         };
 
-        public List<Employee> Employees = new List<Employee>
+        public List<Employee> Employees1 = new List<Employee>
         {
-            Employee
+            Employee1
         };
         
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();

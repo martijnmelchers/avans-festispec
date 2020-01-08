@@ -21,7 +21,6 @@ namespace Festispec.DomainServices
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IInspectionService, InspectionService>();
 
-            services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<ISicknessService, SicknessService>();
 
             services.AddScoped<FestispecContext>();
