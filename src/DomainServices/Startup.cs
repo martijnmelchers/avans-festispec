@@ -40,7 +40,7 @@ namespace Festispec.DomainServices
                 services.AddScoped<IFestivalService, OfflineFestivalService>();
                 services.AddScoped<ICustomerService, OfflineCustomerService>();
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
-                services.AddScoped<IInspectionService, InspectionService>(); // TODO
+                services.AddScoped<IInspectionService, OfflineInspectionService>();
                 services.AddScoped<IAddressService, AddressService>(); // TODO
                 services.AddScoped<IGoogleMapsService, GoogleMapsService>(); // TODO
             }
