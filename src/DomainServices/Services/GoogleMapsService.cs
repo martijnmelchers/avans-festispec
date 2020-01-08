@@ -36,6 +36,9 @@ namespace Festispec.DomainServices.Services
             var request = await _client.GetAsync($"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
             var result = JsonConvert.DeserializeObject<AutocompleteResponse>(await request.Content.ReadAsStringAsync());
 
+            if (result.Status.Equals(GoogleStatusCodes.ZeroResults))
+                throw new GoogleZeroResultsException();
+
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
                 throw new GoogleMapsApiException();
 
