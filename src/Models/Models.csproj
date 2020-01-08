@@ -28,6 +28,9 @@
     <EmbeddedResource Update="Migrations\202001071621587_AddDistanceResult.resx">
       <DependentUpon>202001071621587_AddDistanceResult.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\201912301434056_AccountActive.resx">
+      <DependentUpon>201912301434056_AccountActive.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
       <DependentUpon>202001061200392_INotify.cs</DependentUpon>
     </EmbeddedResource>

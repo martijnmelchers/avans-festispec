@@ -22,7 +22,12 @@ namespace Festispec.DomainServices.Services
             _addressService = addressService;
         }
 
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees() //returns all active accounts.
+        {
+            return _db.Employees.Where(e => e.Account.IsNonActive == null).ToList();
+        }
+
+        public List<Employee> GetAllEmployeesActiveAndNonActive()
         {
             return _db.Employees
                 .Include(e => e.Address)

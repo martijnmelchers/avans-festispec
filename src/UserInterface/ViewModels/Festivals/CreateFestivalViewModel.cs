@@ -64,6 +64,10 @@ namespace Festispec.UI.ViewModels
                 await _festivalService.CreateFestival(Festival);
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
+            catch (InvalidAddressException)
+            {
+                MessageBox.Show("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
+            }
             catch (Exception e)
             {
                 MessageBox.Show($"An error occured while adding festival. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -84,7 +88,11 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+            }
+            catch (GoogleZeroResultsException)
+            {
+                MessageBox.Show("Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
 
 
@@ -101,7 +109,7 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
         }
 
