@@ -3,7 +3,6 @@ using Festispec.Models;
 using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using Festispec.UI.Views.Controls;
 using GalaSoft.MvvmLight;
@@ -12,27 +11,24 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
-using IronPdf;
 using System.Windows.Input;
 using Festispec.Models.Answers;
 using Festispec.UI.Interfaces;
 using System.Linq;
-using System.Data.Entity;
-using System.Windows.Markup;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels
 {
     public class RapportPreviewViewModel: ViewModelBase
     {
-        private IQuestionService _questionService;
-        private IQuestionnaireService _questionnaireService;
-        private IFrameNavigationService _navigationService;
-        private IFestivalService _festivalService;
+        private readonly IQuestionService _questionService;
+        private readonly IQuestionnaireService _questionnaireService;
+        private readonly IFrameNavigationService _navigationService;
+        private readonly IFestivalService _festivalService;
         public ObservableCollection<FrameworkElement> Charts { get; set; }
-        public Festival selectedFestival { get; set; }
+        public Festival SelectedFestival { get; set; }
         public string DescriptionText { get; set; }
-        private string PdfHtml = "";
+        private string _pdfHtml;
 
 
 
@@ -53,26 +49,26 @@ namespace Festispec.UI.ViewModels
 
             BackCommand = new RelayCommand(Back);
 
-            selectedFestival = _festivalService.GetFestival((int)_navigationService.Parameter);
-            PdfHtml = "";
+            SelectedFestival = _festivalService.GetFestival((int)_navigationService.Parameter);
+            _pdfHtml = "";
             GenerateReport();
         }
 
 
         private void ResetReport()
         {
-            PdfHtml = "";
+            _pdfHtml = "";
             ReportHeading();
         }
 
         private void ReportHeading()
         {
-            PdfHtml += String.Format("<h1>Rapport {0}</h1>", selectedFestival.FestivalName);
+            _pdfHtml += String.Format("<h1>Rapport {0}</h1>", SelectedFestival.FestivalName);
         }
 
         private async void GenerateReport()
         {
-            var questionaireId = selectedFestival.Questionnaires.FirstOrDefault().Id;
+            var questionaireId = SelectedFestival.Questionnaires.FirstOrDefault().Id;
             var questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionaireId);
             Charts = new ObservableCollection<FrameworkElement>();
 
@@ -91,7 +87,7 @@ namespace Festispec.UI.ViewModels
         private void Back()
         {
             ResetReport();
-            _navigationService.NavigateTo("FestivalInfo", selectedFestival.Id);
+            _navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id);
         }
 
         private void AddQuestionToReport(Question question)
@@ -164,11 +160,11 @@ namespace Festispec.UI.ViewModels
 
             IronPdf.HtmlToPdf Renderer = new IronPdf.HtmlToPdf();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var renderPath = Path.Combine(path, String.Format("Rapport {0}.pdf", selectedFestival.FestivalName));
+            var renderPath = Path.Combine(path, String.Format("Rapport {0}.pdf", SelectedFestival.FestivalName));
 
             try
             {
-                Renderer.RenderHtmlAsPdf(PdfHtml).SaveAs(renderPath);
+                Renderer.RenderHtmlAsPdf(_pdfHtml).SaveAs(renderPath);
                 MessageBox.Show("Generated!");
             }
             catch (IOException)
@@ -233,22 +229,22 @@ namespace Festispec.UI.ViewModels
                 var textBox = (TextBox)control;
                 String richText = textBox.Text;
                 richText = richText.Replace("\n", "<br>");
-                PdfHtml += String.Format("<p>{0}</p>", richText);
+                _pdfHtml += String.Format("<p>{0}</p>", richText);
             }
             else if(control is Label)
             {
                 var label = (Label)control;
-                PdfHtml += String.Format("<h2>{0}</h2>", label.Content);
+                _pdfHtml += String.Format("<h2>{0}</h2>", label.Content);
             }
             else if(control is Image)
             {
                 var image = (Image)control;
-                PdfHtml += String.Format("<img src='{0}' style='max-width: 100%; height: auto;'>", imageSources[image]);
+                _pdfHtml += String.Format("<img src='{0}' style='max-width: 100%; height: auto;'>", imageSources[image]);
             }
             else
             {
                 var file = WriteToPng(control);
-                PdfHtml += String.Format("<img src='{0}'>", file);
+                _pdfHtml += String.Format("<img src='{0}'>", file);
             }
         }
 
