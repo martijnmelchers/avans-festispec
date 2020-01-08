@@ -254,6 +254,8 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(Employees));
             Employees.Filter = Filter;
             Employees.Filter += Filter;
+
+            _inspectionService.Sync();
         }
 
         public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)

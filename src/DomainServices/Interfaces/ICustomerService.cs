@@ -4,7 +4,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface ICustomerService
+    public interface ICustomerService : ISyncable
     {
         List<Customer> GetAllCustomers();
 
@@ -19,5 +19,6 @@ namespace Festispec.DomainServices.Interfaces
         Task UpdateCustomerAsync(Customer customer);
 
         Task<int> SaveChangesAsync();
+        public bool CanDeleteCustomer(Customer customer);
     }
 }

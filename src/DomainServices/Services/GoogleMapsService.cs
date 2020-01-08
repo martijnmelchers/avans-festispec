@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.EntityMapping;
+using Festispec.Models.Exception;
+using Festispec.Models.Google;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.EntityMapping;
-using Festispec.Models.Exception;
-using Festispec.Models.Google;
-using Newtonsoft.Json;
 
 namespace Festispec.DomainServices.Services
 {
@@ -21,10 +21,10 @@ namespace Festispec.DomainServices.Services
         private readonly FestispecContext _db;
         private readonly string _sessionToken;
 
-        public GoogleMapsService(FestispecContext db)
-        {
-            _db = db;
+        private readonly ISyncService<DistanceResult> _syncService;
 
+        public GoogleMapsService(FestispecContext db, ISyncService<DistanceResult> syncService)
+        {
             _client = new HttpClient
             {
                 BaseAddress = new Uri("https://maps.googleapis.com/maps/api/")
@@ -32,6 +32,8 @@ namespace Festispec.DomainServices.Services
 
             _sessionToken = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
                 .Select(s => s[new Random().Next(s.Length)]).ToArray());
+            _db = db;
+            _syncService = syncService;
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
@@ -108,6 +110,20 @@ namespace Festispec.DomainServices.Services
         private AddressComponent GetComponent(Place place, string name)
         {
             return place.AddressComponents.FirstOrDefault(x => x.Types.Contains(name));
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+            
+            List<DistanceResult> distanceResults = db.DistanceResults
+                .Include(i => i.Destination)
+                .Include(i => i.Origin)
+                .ToList();
+
+            _syncService.Flush();
+            _syncService.AddEntities(distanceResults);
+            _syncService.SaveChanges();
         }
     }
 }

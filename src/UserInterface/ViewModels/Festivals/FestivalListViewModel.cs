@@ -7,7 +7,7 @@ using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
     public class FestivalListViewModel
     {
@@ -22,9 +22,11 @@ namespace Festispec.UI.ViewModels
             OpenFestivalCommand = new RelayCommand<int>(OpenFestival);
             Festivals = (CollectionView) CollectionViewSource.GetDefaultView(_festivalService.GetFestivals());
             Festivals.Filter = Filter;
+
+            festivalService.Sync();
         }
 
-        private ICollectionView _festivals { get; set; }
+        public ICollectionView Festivals { get; set; }
 
         public ICollectionView Festivals
         {

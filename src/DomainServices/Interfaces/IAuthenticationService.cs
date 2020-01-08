@@ -3,7 +3,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthenticationService : ISyncable
     {
         Account AssembleAccount(string username, string password, Role requiredRole);
         Account Login(string username, string password, Role requiredRole);

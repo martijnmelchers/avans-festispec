@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       mc:Ignorable="d"
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="InspectionPage">
@@ -64,8 +65,8 @@
             <ScrollViewer Grid.Row="8" Grid.Column=" 0" Grid.ColumnSpan="2" Margin="0,10,0,0">
                 <ListView ItemsSource="{Binding Employees}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                     <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
+                        <DataTemplate DataType="{x:Type models:AdvancedEmployee}">
+                            <Grid Width="675">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />

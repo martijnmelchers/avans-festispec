@@ -6,7 +6,7 @@ using Festispec.Models.Questions;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IQuestionnaireService : ISaveable
+    public interface IQuestionnaireService : ISaveable, ISyncable
     {
         Questionnaire GetQuestionnaire(int questionnaireId);
         Task<Questionnaire> CreateQuestionnaire(string name, Festival festival);

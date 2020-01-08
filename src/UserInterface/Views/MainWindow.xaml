@@ -12,8 +12,11 @@
             <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222"
                    Source="/Assets/festispec logo.png" />
 
-            <StackPanel Visibility="{Binding HideNavbar}" HorizontalAlignment="Right" Orientation="Horizontal"
-                        Margin="0,0,25,0">
+            <StackPanel Visibility="{Binding HideNavbar}" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,25,0">
+                <TextBlock VerticalAlignment="Center" Width="154">
+                    <Label Visibility="{Binding IsOffline}" Style="{StaticResource HeaderLabelRed}" Content="Offline" />
+                </TextBlock>
+                
                 <TextBlock VerticalAlignment="Center" Width="147">
                     <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}"
                             CommandParameter="HomePage" Content="Home" />
