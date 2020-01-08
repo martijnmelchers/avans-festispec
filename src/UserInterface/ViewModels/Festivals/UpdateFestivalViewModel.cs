@@ -65,7 +65,7 @@ namespace Festispec.UI.ViewModels
 
         private void Cancel()
         {
-            _navigationService.GoBack();
+            _navigationService.NavigateTo("FestivalInfo", Festival.Id);
         }
 
         #region Google Search
