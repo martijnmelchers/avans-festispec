@@ -16,9 +16,6 @@
     <EmbeddedResource Update="Migrations\201911201708219_ChangedMultipleChoiceSeed.resx">
       <DependentUpon>201911201708219_ChangedMultipleChoiceSeed.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\202001011759540_test.resx">
-      <DependentUpon>202001011759540_test.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Migrations\201912132346428_AddLatLng.resx">
       <DependentUpon>201912132346428_AddLatLng.cs</DependentUpon>
     </EmbeddedResource>
@@ -33,6 +30,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
       <DependentUpon>202001061200392_INotify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\202001081943477_EndTimeNullable.resx">
+      <DependentUpon>202001081943477_EndTimeNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

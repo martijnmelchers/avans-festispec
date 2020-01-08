@@ -4,6 +4,7 @@ using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
@@ -22,7 +23,7 @@ namespace Festispec.DomainServices.Services
             if (endTime < DateTime.Now)
                 throw new DateHasPassedException();
 
-            var employee = _db.Employees.FirstOrDefault(e => e.Id == employeeId);
+            var employee = _db.Employees.Include(e => e.Address).FirstOrDefault(e => e.Id == employeeId);
 
             var absense = new Availability()
             {

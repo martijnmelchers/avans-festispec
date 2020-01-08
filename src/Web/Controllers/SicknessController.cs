@@ -12,13 +12,14 @@ namespace Web.Controllers
     public class SicknessController : Controller
     {
         private ISicknessService _sicknessService;
+
         public SicknessController(ISicknessService sicknessService)
         {
             _sicknessService = sicknessService;
         }
         public IActionResult Index()
         {
-            if (_sicknessService.IsSick(1))
+            if (_sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])))
             {
                 return View("Better");
             }
@@ -31,11 +32,16 @@ namespace Web.Controllers
         {
             try
             {
-                await _sicknessService.AddAbsense(avalability.Employee.Id, avalability.Reason, avalability.EndTime);
+                await _sicknessService.AddAbsense(int.Parse(Request.Cookies["CurrentUserID"]), avalability.Reason, avalability.EndTime);
             }
             catch (DateHasPassedException)
             {
                 TempData["DateError"] = "Datum mag niet in het verleden zijn!";
+                return View("Index");
+            }
+            catch(Exception e)
+            {
+                TempData["DateError"] = "Er ging iets fout";
                 return View("Index");
             }
            
@@ -44,7 +50,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Better()
         {
-            await _sicknessService.EndAbsense(1);
+            await _sicknessService.EndAbsense(int.Parse(Request.Cookies["CurrentUserID"]));
             return View("Index");
         }
     }
