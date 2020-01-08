@@ -19,14 +19,13 @@ namespace Festispec.DomainServices
             services.AddScoped<IExampleService, ExampleService>();
             
             // Register all your online services here
-            if (services.BuildServiceProvider().GetRequiredService<DbPollOfflineService>().IsOnline)
+            if (services.BuildServiceProvider().GetRequiredService<IOfflineService>().IsOnline)
             {
                 services.AddScoped<IAuthenticationService, AuthenticationService>();
                 services.AddScoped<IQuestionnaireService, QuestionnaireService>();
                 services.AddScoped<IFestivalService, FestivalService>();
                 services.AddScoped<ICustomerService, CustomerService>();
                 services.AddScoped<IEmployeeService, EmployeeService>();
-                services.AddScoped<IQuestionService, QuestionService>();
                 services.AddScoped<IInspectionService, InspectionService>();
                 services.AddScoped<IAddressService, AddressService>();
                 services.AddScoped<IGoogleMapsService, GoogleMapsService>();
@@ -41,7 +40,6 @@ namespace Festispec.DomainServices
                 services.AddScoped<IFestivalService, OfflineFestivalService>();
                 services.AddScoped<ICustomerService, OfflineCustomerService>();
                 services.AddScoped<IEmployeeService, OfflineEmployeeService>();
-                services.AddScoped<IQuestionService, QuestionService>(); // TODO
                 services.AddScoped<IInspectionService, InspectionService>(); // TODO
                 services.AddScoped<IAddressService, AddressService>(); // TODO
                 services.AddScoped<IGoogleMapsService, GoogleMapsService>(); // TODO

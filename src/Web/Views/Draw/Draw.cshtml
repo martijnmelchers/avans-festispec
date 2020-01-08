@@ -1,0 +1,41 @@
+﻿@model Festispec.Models.Answers.FileAnswer
+    <button class="btn btn-success" id="btnUpload">Opslaan</button>
+<script>
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+
+    function preload(){
+
+        bg = loadImage("@Model.UploadedFilePath.ToString()");
+
+    }
+    function setup() {
+        canvas = createCanvas(w, h);
+        canvas.style('z-index', '-1');
+        background(bg);
+      strokeWeight(10);
+      stroke(0);
+    }
+
+function draw() {
+  if(mouseIsPressed){
+    line(pmouseX, pmouseY, mouseX,mouseY);
+  }
+}
+
+$("#btnUpload").on("click", function(e) {
+    e.preventDefault();
+
+    var file = canvas.canvas.toDataURL("image/png");
+    dataUrl = file.replace('data:image/png;base64,', '');
+    var obj = { QuestionId: 1, ImageData: dataUrl};
+    
+    $.post("/Draw/Draw", { imageData: JSON.stringify(obj) });
+    
+    window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
+});
+
+</script>
+
+

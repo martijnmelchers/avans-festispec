@@ -37,7 +37,6 @@ namespace Festispec.Models.Questions
         {
             Options = string.Join(STRING_SEPERATOR, OptionCollection);
         }
-
         public void StringToObjects()
         {
             OptionCollection = new ObservableCollection<StringObject>(Options.Split(STRING_SEPERATOR).Select(str => new StringObject(str)));

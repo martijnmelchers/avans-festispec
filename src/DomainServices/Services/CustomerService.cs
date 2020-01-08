@@ -42,7 +42,7 @@ namespace Festispec.DomainServices.Services
         
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
-            if (!customer.Validate() || !customer.Address.Validate() || !customer.ContactDetails.Validate())
+            if (!customer.Validate() || !customer.ContactDetails.Validate())
                 throw new InvalidDataException();
 
             customer.Address = await _addressService.SaveAddress(customer.Address);
@@ -98,7 +98,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task UpdateCustomerAsync(Customer customer)
         {
-            if (!customer.Validate() || !customer.Address.Validate() || !customer.ContactDetails.Validate())
+            if (!customer.Validate() || !customer.ContactDetails.Validate())
                 throw new InvalidDataException();
 
             customer.Address = await _addressService.SaveAddress(customer.Address);

@@ -1,12 +1,15 @@
 using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
-using Festispec.Models.Questions;
-using System.Threading.Tasks;
-using System.Linq;
 using Festispec.Models.Exception;
+using Festispec.Models.Questions;
 using Festispec.Models;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
@@ -22,6 +25,7 @@ namespace Festispec.DomainServices.Services
         }
 
         #region Questionnaire Management
+
         public Questionnaire GetQuestionnaire(int questionnaireId)
         {
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
@@ -92,21 +96,20 @@ namespace Festispec.DomainServices.Services
             return newQuestionnaire;
         }
 
-        #endregion
+        #endregion Questionnaire Management
 
         #region Question Management
 
         public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
             var questionnaire = _db.Questionnaires.Include(x => x.Questions).FirstOrDefault(q => q.Id == questionnaireId);
-            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId) ;
+            var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId);
 
             if (question == null)
                 throw new EntityNotFoundException();
 
             return question;
         }
-
 
         public List<Question> GetQuestionsFromQuestionnaire(int questionnaireId)
         {
@@ -118,10 +121,8 @@ namespace Festispec.DomainServices.Services
             foreach (MultipleChoiceQuestion q in questions.OfType<MultipleChoiceQuestion>())
                 q.StringToObjects();
 
-
             return questions;
         }
-
 
         public async Task<Question> AddQuestion(int questionnaireId, Question question)
         {
@@ -155,7 +156,35 @@ namespace Festispec.DomainServices.Services
 
             return await _db.SaveChangesAsync() > 1;
         }
-        #endregion
+
+        public void Save()
+        {
+            _db.SaveChanges();
+        }
+
+        public async Task<Answer> CreateAnswer(Answer answer)
+        {
+            if (!answer.Validate())
+                throw new InvalidDataException();
+
+            _db.Answers.Add(answer);
+
+            await _db.SaveChangesAsync();
+
+            return answer;
+        }
+
+        public List<Answer> GetAnswers()
+        {
+            return _db.Answers.ToList();
+        }
+
+        public async Task<Question> GetQuestion(int questionId)
+        {
+            return await _db.Questions.FirstOrDefaultAsync(e => e.Id == questionId);
+        }
+
+        #endregion Question Management
 
         public void Sync()
         {

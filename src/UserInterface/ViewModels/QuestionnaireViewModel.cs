@@ -35,7 +35,7 @@ namespace Festispec.UI.ViewModels
         public RelayCommand<Question> AddOptionToQuestion { get; set; }
 
         private ObservableCollection<Question> _questions { get; set; }
-        private ObservableCollection<Question> _addedQuestions { get; set; }
+        public ObservableCollection<Question> AddedQuestions { get; set; }
         private ObservableCollection<Question> _removedQuestions { get; set; }
         public List<string> QuestionType { get => _questionFactory.QuestionTypes.ToList(); }
         public ObservableCollection<Question> Questions { get => _questions; }
@@ -52,7 +52,7 @@ namespace Festispec.UI.ViewModels
 
             Initialize((int)_navigationService.Parameter);
 
-            _addedQuestions = new ObservableCollection<Question>();
+            AddedQuestions = new ObservableCollection<Question>();
             _removedQuestions = new ObservableCollection<Question>();
 
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
@@ -111,7 +111,7 @@ namespace Festispec.UI.ViewModels
         public void AddQuestion()
         {
             var tempQuestion = _questionFactory.GetQuestionType(Selecteditem);
-            _addedQuestions.Add(tempQuestion);
+            AddedQuestions.Add(tempQuestion);
             _questions.Add(tempQuestion);
         }
 
@@ -122,8 +122,8 @@ namespace Festispec.UI.ViewModels
 
         public void DeleteQuestion(Question item)
         {
-            if (_addedQuestions.Contains(item))
-                _addedQuestions.Remove(item);
+            if (AddedQuestions.Contains(item))
+                AddedQuestions.Remove(item);
             else
                 _removedQuestions.Add(item);
             Questions.Remove(item);
@@ -137,25 +137,24 @@ namespace Festispec.UI.ViewModels
         public async void SaveQuestionnaire()
         {
             var multipleChoiceQuestions = new List<MultipleChoiceQuestion>();
-            multipleChoiceQuestions.AddRange(_addedQuestions.OfType<MultipleChoiceQuestion>());
+            multipleChoiceQuestions.AddRange(AddedQuestions.OfType<MultipleChoiceQuestion>());
             multipleChoiceQuestions.AddRange(_questions.OfType<MultipleChoiceQuestion>());
 
             foreach (MultipleChoiceQuestion q in multipleChoiceQuestions)
                 q.ObjectsToString();
 
-            foreach (Question q in _addedQuestions)
+            foreach (Question q in AddedQuestions)
             {
                 try
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
-
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            _addedQuestions.Clear();
+            AddedQuestions.Clear();
 
             foreach (Question q in _removedQuestions)
             {
@@ -170,7 +169,7 @@ namespace Festispec.UI.ViewModels
                 }
             }
             _removedQuestions.Clear();
-
+            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
 
         public bool HasAnswers(Question question)

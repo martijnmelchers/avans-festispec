@@ -17,7 +17,17 @@ namespace Festispec.DomainServices.Services
         }
         public IEnumerable<Employee> GetAllEmployees()
         {
+            return _employeeSyncService.GetAll().Where(e => e.Account.IsNonActive == null).ToList();
+        }
+
+        public IEnumerable<Employee> GetAllEmployeesActiveAndNonActive()
+        {
             return _employeeSyncService.GetAll().ToList();
+        }
+
+        public IEnumerable<Employee> GetAllInspectors()
+        {
+            return _employeeSyncService.GetAll().Where(e => e.Account.Role == Role.Inspector).ToList();
         }
 
         public Employee GetEmployee(int employeeId)

@@ -54,15 +54,19 @@ namespace Festispec.UI.ViewModels
                 _festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-            catch (Exception e)
+            catch (QuestionHasAnswersException)
             {
-                MessageBox.Show($"An error occured while adding festival. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.","Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidDataException)
+            {
+                MessageBox.Show($"De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.","Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Cancel()
         {
-            _navigationService.GoBack();
+            _navigationService.NavigateTo("FestivalInfo", Festival.Id);
         }
 
         #region Google Search
@@ -79,7 +83,11 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+            }
+            catch (GoogleZeroResultsException)
+            {
+                MessageBox.Show("Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
 
 
@@ -96,7 +104,7 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                MessageBox.Show("Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
         }
 

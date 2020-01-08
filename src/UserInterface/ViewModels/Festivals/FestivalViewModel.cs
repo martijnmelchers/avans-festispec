@@ -90,14 +90,18 @@ namespace Festispec.UI.ViewModels
             {
                 try
                 {
-                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Slecht weer");
-                    RaisePropertyChanged("PlannedInspections");
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Niet meer nodig");
                 }
-                catch (Exception e)
+                catch (QuestionHasAnswersException)
                 {
-                    MessageBox.Show($"An error occured while removing festival with the id: {plannedInspection.Id}. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidDataException)
+                {
+                    MessageBox.Show($"De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.", "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            RaisePropertyChanged("PlannedInspections");
         }
 
         public void OpenPlannedInspection(PlannedInspection plannedInspection)

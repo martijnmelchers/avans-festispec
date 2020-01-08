@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Page Update="Styling\Icons.xaml">
+
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
