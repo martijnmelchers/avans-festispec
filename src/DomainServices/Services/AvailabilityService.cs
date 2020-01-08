@@ -4,6 +4,7 @@ using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -95,8 +96,9 @@ namespace Festispec.DomainServices.Services
 
             Dictionary<int, List<Availability>> availabilities = new Dictionary<int, List<Availability>>();
 
-            for (int x = 1; x <= 31; x++)
+            for (var x =1; x <= DateTime.DaysInMonth(year,month); x++)
             {
+                
                 availabilities.Add(x, GetUnavailabilitiesForDay(employeeId, new DateTime(year, month, x)));
             }
 
@@ -118,6 +120,30 @@ namespace Festispec.DomainServices.Services
         public async Task SaveChanges()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<Dictionary<int, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate)
+        {
+             var list = await _db.Availabilities
+                .OrderByDescending(c => c.EndTime)
+                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId)
+                .ToListAsync();
+            var dictionary = new Dictionary<int, Availability>();
+            foreach (Availability availability in list)
+            {
+                foreach (DateTime day in EachDay(availability.StartTime, availability.EndTime))
+                {
+                    int epoch = (int)(day - new DateTime(1970, 1, 1)).TotalSeconds;
+                    dictionary.Add(epoch, availability);
+                }
+            }
+            return dictionary;
+        }
+
+        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
         }
     }
 }

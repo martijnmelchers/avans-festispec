@@ -6,32 +6,52 @@
 <h1>Index</h1>
 <form asp-action="Index">
     <script>
-        $( document ).ready(function() {
-            $('#sandbox-container div').datepicker({
+
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
                 language: "nl",
                 todayHighlight: true,
+                daysOfWeekHighlighted: [1, 2, 3, 4]
             });
+            changeDaysBackground();
+
         });
-   
+
+        function changeDaysBackground() {
+            console.log("changeBackground");
+            var days = $(".datepicker-days td");
+            days.each(i => {
+                console.log(i);
+                $(this).css("background-color", '#212529');
+
+
+            });
+        }
     </script>
 
-    <div class="span5 col-md-5" id="sandbox-container">
-        <div>
+    @ViewBag["GetAvailabilityDays"];
+
+    <div id="background-availability">
+        <h1 id="availability-title">Beschikbaarheid</h1>
+        <div class="datepicker">
+
         </div>
+        <div class="span5 col-md-5" id="sandbox-container">
+            <div>
+            </div>
+        </div>
+        <div class="legend-item">
+            <div id="blue-circle"></div> <p>Beschikbaar</p>
+        </div>
+        <div class="legend-item">
+            <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
+        </div>
+
+
+        <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
+        <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
+        <input type="submit" value="Opslaan" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
     </div>
 
-            <div id="background-availability">
-                <h1 id="availability-title">Beschikbaarheid</h1>
-                <div class="legend-item">
-                    <div id="blue-circle"></div> <p>Beschikbaar</p>
-                </div>
-                <div class="legend-item">
-                    <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
-                </div>
-
-
-                <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
-                <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
-            </div>
 </form>
 
