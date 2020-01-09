@@ -19,7 +19,7 @@ namespace Festispec.Web.Controllers
         {
             _availibilityService = availibilityService;
         }
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Festispec.Web.Controllers
             catch (Exception e)
             {
                 if (Request.Cookies["CurrentUserId"] == null)
-                    return RedirectToAction("Login", "Authentication");   
+                    return RedirectToAction("Login", "Authentication");
             }
             return View();
         }
@@ -42,14 +42,14 @@ namespace Festispec.Web.Controllers
             {
                 if (!availability.Value.IsAvailable || !availibilityDictionary.ContainsKey(availability.Key))
                     dictionary.Add($"{availability.Key}000", 1);
-                
+
             }
             return dictionary;
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Index(String joehoe)
+        public async Task<IActionResult> Index(String j)
         {
             List<DateTime> dateTimes = new List<DateTime>();
             foreach (var item in Request.Form.Keys)
@@ -60,26 +60,35 @@ namespace Festispec.Web.Controllers
                     dateTimes.Add(DateTime.Parse(s));
                 }
             }
-            try
-            {
-                foreach (DateTime time in dateTimes)
-                {
-                    var existing = _availibilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
-                    if (existing == null)
-                        await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
 
-                    else
+            foreach (DateTime time in dateTimes)
+            {
+                var existing = _availibilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
+                if (existing == null)
+                    try
+                    {
+                        await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
+                    }
+                    catch (Exception)
+                    {
+                        @ViewData["DateError"] = "1 of meerdere geselecteerde datums mogen niet meer aangepast worden";
+                    }
+                else
+                {
+                    try
+                    {
                         await _availibilityService.RemoveUnavailablity(existing.Id);
-                    
+                    }
+                    catch (Exception)
+                    {
+                        @ViewData["DateError"] = "1 of meerdere geselecteerde datums mogen niet meer aangepast worden";
+                    }
                 }
             }
-            catch (Exception e)
-            {
 
-            }
 
             ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
-            return View("Index");
+            return View();
         }
     }
 }

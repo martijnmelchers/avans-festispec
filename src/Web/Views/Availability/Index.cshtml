@@ -66,11 +66,12 @@
         <div class="title-bar"></div>
         <div id="datepicker-background">
             <div class="datepicker" style="display: flex; justify-content: center; margin-bottom: 15px">
-
+                
             </div>
         </div>
+        <p id="date-error" style="color : red ; font-weight: bold;">@ViewData["DateError"]</p>
         <div class="span5 col-md-5" id="sandbox-container">
-            <p id="date-error" style="color : red ; font-weight: bold;">@TempData["DateError"]</p>
+            <p id="date-error" style="color : red ; font-weight: bold;">@ViewData["DateError"]</p>
             <div>
             </div>
         </div>
@@ -88,16 +89,16 @@
         <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
         <div class="availability-paragraph">
             <p>
-            Selecteer de dagen dat je niet beschikbaar bent,
-            op deze dagen zullen wij je niet inplannen voor inspecties.
+                Selecteer de dagen dat je niet beschikbaar bent,
+                op deze dagen zullen wij je niet inplannen voor inspecties.
             </p>
             <p>
-            Als je een dag selecteert die is gemarkeerd als niet beschikbaar, zal deze
-            weer veranderd worden naar beschikbaar.
+                Als je een dag selecteert die is gemarkeerd als niet beschikbaar, zal deze
+                weer veranderd worden naar beschikbaar.
             </p>
         </div>
         <div id="availability-submit-container">
-            <input type="submit" id="save" value="Opslaan" class="green-button"/>
+            <input type="submit" id="save" value="Opslaan" class="green-button" />
         </div>
     </div>
 
