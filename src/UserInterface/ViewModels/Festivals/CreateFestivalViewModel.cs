@@ -66,9 +66,13 @@ namespace Festispec.UI.ViewModels.Festivals
             {
                 OpenValidationPopup("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
+            catch (EndDateEarlierThanStartDateException)
+            {
+                OpenValidationPopup("De einddatum moet later zijn dan de startdatum");
+            }
             catch (Exception e)
             {
-                OpenValidationPopup($"An error occured while adding festival. The occured error is: {e.GetType()}");
+                OpenValidationPopup($"Er is een fout opgetreden bij het toevoegen van het festival, de fout is: {e.GetType()}");
             }
         }
 
