@@ -17,9 +17,9 @@ namespace Festispec.DomainServices.Services
             _syncService = syncService;
         }
         
-        public async Task<List<Prediction>> GetSuggestions(string input)
+        public Task<List<Prediction>> GetSuggestions(string input)
         {
-            return new List<Prediction>();
+            return Task.FromResult(new List<Prediction>());
         }
 
         public Task<Address> GetAddress(string placeId)

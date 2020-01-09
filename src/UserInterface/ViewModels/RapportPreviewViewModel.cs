@@ -18,6 +18,7 @@ using Festispec.UI.Interfaces;
 using Festispec.UI.Views.Controls;
 using GalaSoft.MvvmLight.Command;
 using IronPdf;
+using Microsoft.Extensions.Configuration;
 
 namespace Festispec.UI.ViewModels
 {
@@ -26,6 +27,7 @@ namespace Festispec.UI.ViewModels
         private readonly IQuestionnaireService _questionnaireService;
         private readonly GraphSelectorFactory _graphFactory;
         private readonly IFrameNavigationService _navigationService;
+        private readonly IConfiguration _config;
         private string _pdfHtml;
         
         private readonly Dictionary<Image, string> _imageSources = new Dictionary<Image, string>();
@@ -34,12 +36,14 @@ namespace Festispec.UI.ViewModels
             IFrameNavigationService navigationService,
             IQuestionnaireService questionnaireService,
             IFestivalService festivalService,
+            IConfiguration config,
             GraphSelectorFactory graphSelector
             )
         {
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _graphFactory = graphSelector;
+            _config = config;
 
             GeneratePdfCommand = new RelayCommand(SavePdf);
             BackCommand = new RelayCommand(() => navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id));
@@ -197,7 +201,7 @@ namespace Festispec.UI.ViewModels
             if (answer.UploadedFilePath == null)
                 return null;
 
-            var baseUri = new Uri("http://localhost:5000");
+            var baseUri = new Uri(_config["Urls:WebApp"]);
             var source = new BitmapImage(new Uri(baseUri, answer.UploadedFilePath));
             
             image.Source = source;

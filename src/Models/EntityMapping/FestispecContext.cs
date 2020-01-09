@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using Festispec.Models.Reports;
+using Microsoft.Extensions.Configuration;
 
 namespace Festispec.Models.EntityMapping
 {
     public class FestispecContext : DbContext
     {
-        public FestispecContext() : base("Server=tcp:festispec-e.database.windows.net,1433;Initial Catalog=Festispec;Persist Security Info=False;User ID=martijn;Password=w8UbnjG0kg%x2fyk;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+        public FestispecContext(IConfiguration config) : base(config["ConnectionString"])
         {
         }
 

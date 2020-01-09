@@ -8,6 +8,7 @@ using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MapControl;
+using Microsoft.Extensions.Configuration;
 
 namespace Festispec.UI.ViewModels
 {
@@ -25,7 +26,8 @@ namespace Festispec.UI.ViewModels
             IFrameNavigationService navigationService,
             IFestivalService festivalService,
             ICustomerService customerService,
-            IEmployeeService employeeService
+            IEmployeeService employeeService,
+            IConfiguration configuration
         )
         {
             _festivalService = festivalService;
@@ -35,7 +37,7 @@ namespace Festispec.UI.ViewModels
 
             CheckboxCheckedCommand = new RelayCommand(FilterPoints);
             BackCommand = new RelayCommand(Back);
-            BingMapsTileLayer.ApiKey = "Ag2i7B-Uw8sWueLGS7BX7J5xYYKPJnynHsz7KYPQuE_cZAZItqMIQtYgE9mWIvkH";
+            BingMapsTileLayer.ApiKey = configuration["ApiKeys:Bing"];
 
             LoadPoints();
             FilterPoints();
