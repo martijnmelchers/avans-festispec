@@ -168,7 +168,9 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    OpenValidationPopup($"An error occured while adding a question. The occured error is: {e.GetType()}");
+                    ValidationError = $"Er is iets niet goedgegaan tijdens het toevoegen van de vraag(en)";
+                    PopupIsOpen = true;
+
                 }
 
             AddedQuestions.Clear();
@@ -180,7 +182,8 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    OpenValidationPopup($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}");
+                    ValidationError = $"Er is iets niet goedgegaan tijdens het verwijderen van de vraag(en)";
+                    PopupIsOpen = true;
                 }
 
             RemovedQuestions.Clear();

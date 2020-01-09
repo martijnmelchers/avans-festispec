@@ -59,6 +59,10 @@ namespace Festispec.UI.ViewModels.Festivals
             {
                 OpenValidationPopup("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
+            catch (EndDateEarlierThanStartDateException)
+            {
+                OpenValidationPopup("De einddatum moet later zijn dan de startdatum");
+            }
         }
 
         #region Google Search
