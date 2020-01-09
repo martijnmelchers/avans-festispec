@@ -15,6 +15,9 @@ namespace Festispec.Models.EntityMapping
         public FestispecContext(IConfiguration config) : base(config["ConnectionString"])
         {
         }
+        public FestispecContext() : base("Default")
+        {
+        }
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
