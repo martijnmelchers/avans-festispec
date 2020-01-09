@@ -185,7 +185,7 @@ namespace Festispec.UI.ViewModels
                 Questionnaires = temp.Festival.Questionnaires;
                 _startTime = temp.StartTime;
                 _endTime = (DateTime)temp.EndTime;
-                Questionnaire = temp.Questionnaire;
+                SelectedQuestionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
 
                 PlannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival.Id, temp.StartTime);
