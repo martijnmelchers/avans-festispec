@@ -11,7 +11,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Festispec.UI.ViewModels.Festivals
 {
-    public class FestivalViewModel : BaseValidationViewModel
+    public class FestivalViewModel : BaseDeleteCheckViewModel
     {
         private readonly IFestivalService _festivalService;
         private readonly IInspectionService _inspectionService;
@@ -28,26 +28,18 @@ namespace Festispec.UI.ViewModels.Festivals
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
 
-            RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline, true);
-            EditFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateFestival", Festival.Id),
-                () => offlineService.IsOnline, true);
+            RemoveFestivalCommand = new RelayCommand(OpenDeletePopup, () => offlineService.IsOnline, true);
+            DeleteCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline, true);
+            EditFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateFestival", Festival.Id), () => offlineService.IsOnline, true);
             OpenQuestionnaireCommand = new RelayCommand<int>(OpenQuestionnaire);
             CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline, true);
-            ConfirmDeleteQuestionnaireCommand =
-                new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
-            DeleteQuestionnaireCommand =
-                new RelayCommand<int>(id => _deletetingQuestionnareId = id, _ => offlineService.IsOnline, true);
+            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
+            DeleteQuestionnaireCommand = new RelayCommand<int>(id => _deletetingQuestionnareId = id, _ => offlineService.IsOnline, true);
             GenerateReportCommand = new RelayCommand(GenerateReport);
-            DeletePlannedInspectionsCommand =
-                new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(plannedInspections =>
-                    _navigationService.NavigateTo("Inspection",
-                        new {PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1}),
-                _ => offlineService.IsOnline, true);
-            CreatePlannedInspectionCommand =
-                new RelayCommand(
-                    () => _navigationService.NavigateTo("Inspection",
-                        new {PlannedInspectionId = -1, FestivalId = Festival.Id}), () => offlineService.IsOnline, true);
+            _navigationService.NavigateTo("Inspection", new {PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1}), _ => offlineService.IsOnline, true);
+            CreatePlannedInspectionCommand = new RelayCommand(() => _navigationService.NavigateTo("Inspection", new {PlannedInspectionId = -1, FestivalId = Festival.Id}), () => offlineService.IsOnline, true);
 
             CanEdit = offlineService.IsOnline;
 
@@ -105,7 +97,7 @@ namespace Festispec.UI.ViewModels.Festivals
                 await _festivalService.RemoveFestival(Festival.Id);
                 _navigationService.NavigateTo("FestivalList");
             }
-            catch (FestivalHasQuestionnairesException e)
+            catch (FestivalHasQuestionnairesException)
             {
                 OpenValidationPopup("Dit festival kan niet worden verwijderd omdat er al vragenlijsten zijn aangemaakt.");
             }

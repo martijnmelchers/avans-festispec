@@ -6,12 +6,11 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
-    internal class UpdateFestivalViewModel : ViewModelBase
+    internal class UpdateFestivalViewModel : BaseValidationViewModel
     {
         private readonly IFestivalService _festivalService;
         private readonly IGoogleMapsService _googleService;
@@ -46,27 +45,19 @@ namespace Festispec.UI.ViewModels
 
         public async void UpdateFestival()
         {
-            if (string.IsNullOrEmpty(CurrentAddress))
-            {
-                MessageBox.Show("Please select an address");
-                return;
-            }
-
             try
             {
                 await _festivalService.UpdateFestival(Festival);
                 _festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-            catch (QuestionHasAnswersException)
-            {
-                MessageBox.Show("De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.",
-                    "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             catch (InvalidDataException)
             {
-                MessageBox.Show("De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.",
-                    "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                OpenValidationPopup($"Ingevoerde data incorrect.");
+            }
+            catch (InvalidAddressException)
+            {
+                OpenValidationPopup("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
         }
 
@@ -87,13 +78,11 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show(
-                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
             catch (GoogleZeroResultsException)
             {
-                MessageBox.Show(
-                    "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
+                OpenValidationPopup($"Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
         }
 
@@ -108,11 +97,9 @@ namespace Festispec.UI.ViewModels
             }
             catch (GoogleMapsApiException)
             {
-                MessageBox.Show(
-                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
         }
-
         #endregion
     }
 }
