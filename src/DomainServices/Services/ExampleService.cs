@@ -1,5 +1,5 @@
-﻿using Festispec.DomainServices.Interfaces;
-using System;
+﻿using System;
+using Festispec.DomainServices.Interfaces;
 
 namespace Festispec.DomainServices.Services
 {
@@ -14,9 +14,10 @@ namespace Festispec.DomainServices.Services
         {
             return false;
         }
+
         public string ReturnString()
         {
-            return $"Test Command {new Random().Next(1,1000)}";
+            return $"Test Command {new Random().Next(1, 1000)}";
         }
     }
 }

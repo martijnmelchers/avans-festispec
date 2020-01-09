@@ -4,10 +4,8 @@ namespace Festispec.Models
 {
     public class Availability : PlannedEvent
     {
-        [Required]
-        public bool IsAvailable { get; set; }
+        [Required] public bool IsAvailable { get; set; }
 
-        [MaxLength(250)]
-        public string Reason { get; set; }
+        [MaxLength(250)] public string Reason { get; set; }
     }
 }

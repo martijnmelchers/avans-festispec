@@ -25,7 +25,6 @@ namespace Festispec.Models.Migrations
             //  to avoid creating duplicate seed data.
 
 
-
             //  context.SaveChanges();
 
             try
@@ -79,7 +78,7 @@ namespace Festispec.Models.Migrations
 
                 context.Addresses.AddOrUpdate(address, address2, address3, address4);
 
-                var employee = CreateEmployee(context, address3);
+                Employee employee = CreateEmployee(context, address3);
 
                 var customer = new Customer
                 {
@@ -143,9 +142,9 @@ namespace Festispec.Models.Migrations
                 context.Festivals.AddOrUpdate(festival);
 
                 customer.Festivals = new List<Festival>
-            {
-                festival
-            };
+                {
+                    festival
+                };
 
                 context.Customers.AddOrUpdate(customer);
 
@@ -153,7 +152,7 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Name = "Tester",
-                    Festival = festival,
+                    Festival = festival
                 };
 
                 context.Questionnaires.AddOrUpdate(questionnaire);
@@ -217,13 +216,14 @@ namespace Festispec.Models.Migrations
 
 
                 #region DrawQuestion
+
                 var drawQuestion = new DrawQuestion
                 {
                     Id = 1,
                     Category = questionCategory,
                     PicturePath = "/Uploads/grasso.png",
                     Questionnaire = questionnaire,
-                    Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
+                    Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?"
                 };
 
                 var drawQuestionAnswer = new FileAnswer
@@ -236,16 +236,18 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(drawQuestionAnswer);
                 context.Questions.AddOrUpdate(drawQuestion);
+
                 #endregion
 
                 #region MultipleChoiceQuestion
+
                 var multipleChoiceQuestion = new MultipleChoiceQuestion
                 {
                     Id = 2,
                     Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                     Options = "Ja~Nee",
-                    OptionCollection = new ObservableCollection<StringObject>()
+                    OptionCollection = new ObservableCollection<StringObject>
                     {
                         new StringObject("Option1")
                     },
@@ -270,9 +272,11 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(multipleChoiceQuestionAnswer);
                 context.Questions.AddOrUpdate(multipleChoiceQuestion);
+
                 #endregion
 
                 #region NumericQuestion
+
                 var numericQuestion = new NumericQuestion
                 {
                     Id = 3,
@@ -280,8 +284,7 @@ namespace Festispec.Models.Migrations
                     Contents = "Hoeveel EHBO-posten zijn er aanwezig?",
                     Minimum = 0,
                     Maximum = 99,
-                    Questionnaire = questionnaire,
-
+                    Questionnaire = questionnaire
                 };
 
                 var numericQuestionAnswer = new NumericAnswer
@@ -294,9 +297,11 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(numericQuestionAnswer);
                 context.Questions.AddOrUpdate(numericQuestion);
+
                 #endregion
 
                 #region RatingQuestion
+
                 var ratingQuestion = new RatingQuestion
                 {
                     Id = 4,
@@ -304,7 +309,7 @@ namespace Festispec.Models.Migrations
                     Contents = "Op een schaal van 1 tot 5, is de beveiliging voldoende aanwezig op het terrein?",
                     HighRatingDescription = "Er is veel beveiliging",
                     LowRatingDescription = "Er is amper beveiliging",
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var ratingQuestionAnswer = new NumericAnswer
@@ -321,20 +326,22 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region StringQuestion
+
                 var stringQuestion = new StringQuestion
                 {
                     Id = 5,
                     Category = questionCategory,
                     Contents = "Geef een korte samenvatting van het vluchtplan.",
                     IsMultiline = true,
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var stringQuestionAnswer = new StringAnswer
                 {
                     Id = 5,
                     Question = stringQuestion,
-                    AnswerContents = "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
+                    AnswerContents =
+                        "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
                     PlannedInspection = plannedInspection
                 };
 
@@ -344,12 +351,13 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region PictureQuestion
+
                 var pictureQuestion = new UploadPictureQuestion
                 {
                     Id = 6,
                     Category = questionCategory,
                     Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var pictureQuestionAnswer = new FileAnswer
@@ -366,6 +374,7 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region ReferenceQuestion
+
                 var referenceQuestion = new ReferenceQuestion
                 {
                     Id = 7,
@@ -385,6 +394,7 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(referenceQuestionAnswer);
                 context.Questions.AddOrUpdate(referenceQuestion);
+
                 #endregion
 
                 var report = new Report
@@ -392,25 +402,25 @@ namespace Festispec.Models.Migrations
                     Id = 1,
                     Festival = festival,
                     ReportEntries = new List<ReportEntry>
-                {
-                    new ReportTextEntry
                     {
-                        Id = 1,
-                        Order = 1,
-                        Header = "Het vluchtplan",
-                        Question = stringQuestion,
-                        Text =
-                            "Het vluchtplan was uitgebreid en zit goed in elkaar, maar de inspecteurs hadden nog wel een aantal dingen op te merken."
-                    },
-                    new ReportGraphEntry
-                    {
-                        Id = 2,
-                        Order = 2,
-                        GraphType = GraphType.Pie,
-                        GraphXAxisType = GraphXAxisType.MultipleChoiceOption,
-                        Question = multipleChoiceQuestion
+                        new ReportTextEntry
+                        {
+                            Id = 1,
+                            Order = 1,
+                            Header = "Het vluchtplan",
+                            Question = stringQuestion,
+                            Text =
+                                "Het vluchtplan was uitgebreid en zit goed in elkaar, maar de inspecteurs hadden nog wel een aantal dingen op te merken."
+                        },
+                        new ReportGraphEntry
+                        {
+                            Id = 2,
+                            Order = 2,
+                            GraphType = GraphType.Pie,
+                            GraphXAxisType = GraphXAxisType.MultipleChoiceOption,
+                            Question = multipleChoiceQuestion
+                        }
                     }
-                }
                 };
 
                 context.Reports.AddOrUpdate(report);
@@ -423,16 +433,15 @@ namespace Festispec.Models.Migrations
             }
             catch (DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                foreach (DbEntityValidationResult eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
+                    foreach (DbValidationError ve in eve.ValidationErrors)
                         Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
-                    }
                 }
+
                 throw;
             }
         }
@@ -455,7 +464,7 @@ namespace Festispec.Models.Migrations
                     // Voorletter + Achternaam + geboortejaar
                     Username = "HJanssen80",
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
-                    Role = Role.Employee,
+                    Role = Role.Employee
                 },
                 Address = address,
                 ContactDetails = new ContactDetails
@@ -491,7 +500,5 @@ namespace Festispec.Models.Migrations
 
             return employee;
         }
-
-
     }
 }

@@ -6,7 +6,6 @@ namespace Festispec.Models.EntityMapping
     {
         public QuestionnaireMapping()
         {
-
             Property(qn => qn.IsComplete).IsOptional();
 
             Property(qn => qn.Name).IsRequired();
