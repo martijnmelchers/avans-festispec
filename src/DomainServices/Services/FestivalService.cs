@@ -24,10 +24,12 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> CreateFestival(Festival festival)
         {
-            if (festival.OpeningHours.StartDate > festival.OpeningHours.EndDate)
+            if (festival.OpeningHours.StartDate > festival.OpeningHours.EndDate
+                || festival.OpeningHours.StartDate == festival.OpeningHours.EndDate
+                && festival.OpeningHours.StartTime > festival.OpeningHours.EndTime)
                 throw new EndDateEarlierThanStartDateException();
-            
-                if (!festival.Validate() || !festival.OpeningHours.Validate())
+
+            if (!festival.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
 
             festival.Address = await _addressService.SaveAddress(festival.Address);
@@ -75,7 +77,9 @@ namespace Festispec.DomainServices.Services
 
         public async Task UpdateFestival(Festival festival)
         {
-            if (festival.OpeningHours.StartDate > festival.OpeningHours.EndDate)
+            if (festival.OpeningHours.StartDate > festival.OpeningHours.EndDate
+                || festival.OpeningHours.StartDate == festival.OpeningHours.EndDate 
+                && festival.OpeningHours.StartTime > festival.OpeningHours.EndTime)
                 throw new EndDateEarlierThanStartDateException();
 
             if (!festival.Validate() || !festival.OpeningHours.Validate() || !festival.Address.Validate())
