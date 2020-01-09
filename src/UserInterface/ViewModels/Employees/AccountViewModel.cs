@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Exceptions;
 using Festispec.UI.Interfaces;
@@ -54,15 +53,13 @@ namespace Festispec.UI.ViewModels.Employees
             {
                 if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
                 {
-                    ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.");
                     return;
                 }
 
                 if (passwordWithVerification.Password.Length < 5)
                 {
-                    ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Het wachtwoord moet tussen 5 en 100 karakters zijn.");
                     return;
                 }
 
@@ -81,8 +78,7 @@ namespace Festispec.UI.ViewModels.Employees
 
             if (!Account.Validate())
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 return;
             }
 

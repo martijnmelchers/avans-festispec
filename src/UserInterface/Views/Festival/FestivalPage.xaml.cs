@@ -1,26 +1,19 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using Festispec.UI.ViewModels;
 using Festispec.UI.ViewModels.Festivals;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Festispec.UI.Views
+namespace Festispec.UI.Views.Festival
 {
-    /// <summary>
-    ///     Interaction logic for FestivalPage.xaml
-    /// </summary>
-    public partial class FestivalPage : Page
+    public partial class FestivalPage
     {
-        private readonly IServiceScope _scope;
-
         public FestivalPage()
         {
             InitializeComponent();
 
-            _scope = AppServices.Instance.ServiceProvider.CreateScope();
-            Unloaded += (sender, e) => _scope.Dispose();
+            IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<FestivalViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<FestivalViewModel>();
         }
 
         private void ToggleNewQuestionnairePopUp(object sender, RoutedEventArgs e)

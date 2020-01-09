@@ -6,7 +6,7 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface IFestivalService : ISyncable
     {
-        Task<Festival> CreateFestival(Festival festival);
+        Task<Festival> CreateFestival(Festival festival, int customerId);
         Task<Festival> GetFestivalAsync(int festivalId);
         Festival GetFestival(int festivalId);
         ICollection<Festival> GetFestivals();

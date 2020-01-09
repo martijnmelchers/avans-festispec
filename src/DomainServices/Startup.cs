@@ -48,6 +48,7 @@ namespace Festispec.DomainServices
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
+            services.AddSingleton(new GraphSelectorFactory());
 
             return services; 
         }

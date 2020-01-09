@@ -93,4 +93,28 @@
         <Setter Property="FontSize" Value="30" />
         <Setter Property="TextDecorations" Value="None" />
     </Style>
+
+    <Style x:Key="InspectionTextblock" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="21" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="InspectionTextblockLight" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource TextColor}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

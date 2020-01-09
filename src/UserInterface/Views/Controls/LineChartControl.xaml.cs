@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Windows.Controls;
 using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -7,10 +6,7 @@ using Separator = LiveCharts.Wpf.Separator;
 
 namespace Festispec.UI.Views.Controls
 {
-    /// <summary>
-    ///     Interaction logic for LineChartControl.xaml
-    /// </summary>
-    public partial class LineChartControl : UserControl
+    public partial class LineChartControl
     {
         public LineChartControl(List<GraphableSeries> values)
         {
@@ -40,12 +36,12 @@ namespace Festispec.UI.Views.Controls
                 }
             });
 
-            foreach (GraphableSeries GraphableSeries in values)
+            foreach (GraphableSeries graphableSeries in values)
                 SeriesCollection.Add(
                     new LineSeries
                     {
-                        Title = GraphableSeries.Title,
-                        Values = GraphableSeries.Values,
+                        Title = graphableSeries.Title,
+                        Values = graphableSeries.Values,
                         PointGeometry = null
                     });
 
@@ -54,7 +50,6 @@ namespace Festispec.UI.Views.Controls
             DataContext = this;
         }
 
-        public string[] Labels { get; set; }
         public AxesCollection YFormatter { get; set; }
         public AxesCollection XFormatter { get; set; }
 

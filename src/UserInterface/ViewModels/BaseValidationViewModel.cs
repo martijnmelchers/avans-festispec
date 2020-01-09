@@ -27,7 +27,7 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public void OpenPopup(string message)
+        protected void OpenValidationPopup(string message)
         {
             ValidationError = message;
             PopupIsOpen = true;

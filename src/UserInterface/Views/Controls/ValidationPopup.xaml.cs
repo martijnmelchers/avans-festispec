@@ -1,9 +1,8 @@
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Festispec.UI.Views.Controls
 {
-    public partial class ValidationPopup : UserControl
+    public partial class ValidationPopup
     {
         public ValidationPopup()
         {

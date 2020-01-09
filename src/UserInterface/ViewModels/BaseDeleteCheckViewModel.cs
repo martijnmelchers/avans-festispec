@@ -16,6 +16,11 @@ namespace Festispec.UI.ViewModels
             }
         }
 
+        protected void OpenDeletePopup()
+        {
+            DeletePopupIsOpen = true;
+        }
+
         public ICommand DeleteCommand { get; protected set; }
     }
 }

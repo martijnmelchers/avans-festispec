@@ -16,11 +16,12 @@ namespace Festispec.UI.ViewModels
         private readonly IFrameNavigationService _navigationService;
         private Account _currentAccount;
 
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
-            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
+            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
+            NavigateCommand = new RelayCommand<string>(page => _navigationService.NavigateTo(page), IsNotOnSamePage, true);
             LoginCommand = new RelayCommand<object>(Login);
         }
 
@@ -29,7 +30,7 @@ namespace Festispec.UI.ViewModels
         public ICommand LoginCommand { get; set; }
         public bool IsLoggedIn => CurrentAccount != null;
 
-        public Account CurrentAccount
+        private Account CurrentAccount
         {
             get => _currentAccount;
             set
@@ -49,21 +50,7 @@ namespace Festispec.UI.ViewModels
         
         public Visibility IsOffline { get; set; }
 
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
-        {
-            _navigationService = navigationService;
-            _authenticationService = authenticationService;
-            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
-            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
-            LoginCommand = new RelayCommand<object>(Login);
-        }
-
-        public void Navigate(string page)
-        {
-            _navigationService.NavigateTo(page);
-        }
-
-        public void Login(object passwordBox)
+        private void Login(object passwordBox)
         {
             try
             {
@@ -71,15 +58,13 @@ namespace Festispec.UI.ViewModels
                 _authenticationService.Sync();
                 _navigationService.NavigateTo("HomePage");
             }
-            catch (AuthenticationException a)
+            catch (AuthenticationException)
             {
-                ValidationError = $"Incorrecte Gebruikersnaam of Wachtwoord. ({a.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup("Incorrecte gebruikersnaam of wachtwoord.");
             }
-            catch (NotAuthorizedException n)
+            catch (NotAuthorizedException)
             {
-                ValidationError = $"Niet toegestaan deze data in te zien. ({n.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup("Niet toegestaan deze data in te zien.");
             }
         }
 
@@ -88,11 +73,9 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo("LoginPageEmployee");
         }
 
-        public bool IsNotOnSamePage(string page)
+        private bool IsNotOnSamePage(string page)
         {
-            if (_navigationService.CurrentPageKey != null)
-                return !_navigationService.CurrentPageKey.Equals(page);
-            return true;
+            return _navigationService.CurrentPageKey == null || !_navigationService.CurrentPageKey.Equals(page);
         }
     }
 }
