@@ -118,13 +118,13 @@
 
             <ComboBox Margin="10"
                       ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                      SelectedItem="{Binding DataContext.Selecteditem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                      SelectedItem="{Binding DataContext.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                       Grid.Column="0" Grid.Row="2" />
             <Button Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}"
                     Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
             <Button Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}"
                     Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
-            <Button Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionaireCommand}"
+            <Button Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionnaireCommand}"
                     Style="{DynamicResource ButtonRed}" Grid.Column="3" Grid.Row="2" />
 
             <Popup x:Name="ReferenceQuestionSelector" Placement="Center" AllowsTransparency="True" Width="550"

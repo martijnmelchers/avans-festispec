@@ -8,9 +8,9 @@ namespace Festispec.UI.ViewModels
 {
     public class PointItem : ViewModelBase
     {
-        private Location location;
+        private Location _location;
 
-        private string name;
+        private string _name;
         public MapViewModel Parent;
 
         public PointItem()
@@ -28,20 +28,20 @@ namespace Festispec.UI.ViewModels
 
         public string Name
         {
-            get => name;
+            get => _name;
             set
             {
-                name = value;
+                _name = value;
                 RaisePropertyChanged(nameof(Name));
             }
         }
 
         public Location Location
         {
-            get => location;
+            get => _location;
             set
             {
-                location = value;
+                _location = value;
                 RaisePropertyChanged(nameof(Location));
             }
         }

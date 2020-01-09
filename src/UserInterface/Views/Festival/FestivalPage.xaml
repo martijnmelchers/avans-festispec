@@ -6,10 +6,11 @@
       xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalPage"
-      d:DataContext="{d:DesignInstance Type=viewModels:FestivalViewModel}">
+      d:DataContext="{d:DesignInstance Type=festivals:FestivalViewModel}">
     <Page.Resources>
         <Converters:HasQuestionsConverter x:Key="HasQuestionsConverter" />
         <Converters:TextTrimmerConverter x:Key="TextTrimmerConverter" />
