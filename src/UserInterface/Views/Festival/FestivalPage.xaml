@@ -47,7 +47,9 @@
 
             <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="1" />
             <Label Content="Naam" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="1" Margin="30,0,0,0"/>
-            <Label Content="{Binding Festival.FestivalName}" Grid.Row="2" FontWeight="Light"/>
+            <Label Grid.Row="2" FontWeight="Light">
+                <TextBlock Text="{Binding Festival.FestivalName}" TextWrapping="Wrap"/>
+            </Label>
 
             <Image Source="{StaticResource LocationGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="3" />
             <Label Content="Locatie" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="3" Margin="30,0,0,0"/>
