@@ -1,9 +1,6 @@
 ﻿using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
