@@ -15,6 +15,9 @@ namespace Festispec.Models.EntityMapping
         public FestispecContext() : base("Server=localhost;Database=Festispec;Trusted_Connection=True;")
         {
         }
+        public FestispecContext() : base("Default")
+        {
+        }
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }

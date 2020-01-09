@@ -140,6 +140,8 @@ namespace Festispec.DomainServices.Services
             if (!question.Validate())
                 throw new InvalidDataException();
 
+            _db.Questions.Add(question);
+
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
 
