@@ -177,7 +177,7 @@ namespace Festispec.UI
 
 
             navigationService.Configure("GenerateReport",
-                new Uri("../Views/RapportenPreviewPage.xaml", UriKind.Relative));
+                new Uri("../Views/RapportPreviewPage.xaml", UriKind.Relative));
             navigationService.Configure("MapPage", new Uri("../Views/Map/MapPage.xaml", UriKind.Relative));
 
 
