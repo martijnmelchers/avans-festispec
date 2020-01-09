@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Factories;
@@ -10,7 +9,6 @@ using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 
@@ -166,9 +164,11 @@ namespace Festispec.UI.ViewModels
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    OpenValidationPopup($"An error occured while adding a question. The occured error is: {e.GetType()}");
+                    ValidationError = $"Er is iets niet goedgegaan tijdens het toevoegen van de vraag(en)";
+                    PopupIsOpen = true;
+
                 }
 
             AddedQuestions.Clear();
@@ -178,9 +178,10 @@ namespace Festispec.UI.ViewModels
                 {
                     await _questionnaireService.RemoveQuestion(q.Id);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    OpenValidationPopup($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}");
+                    ValidationError = $"Er is iets niet goedgegaan tijdens het verwijderen van de vraag(en)";
+                    PopupIsOpen = true;
                 }
 
             RemovedQuestions.Clear();

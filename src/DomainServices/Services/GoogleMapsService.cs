@@ -3,6 +3,7 @@ using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,14 @@ namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService : IGoogleMapsService
     {
-        private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
+        private readonly string API_KEY;
         private readonly HttpClient _client;
         private readonly FestispecContext _db;
         private readonly string _sessionToken;
 
         private readonly ISyncService<DistanceResult> _syncService;
 
-        public GoogleMapsService(FestispecContext db, ISyncService<DistanceResult> syncService)
+        public GoogleMapsService(FestispecContext db, ISyncService<DistanceResult> syncService, IConfiguration config)
         {
             _client = new HttpClient
             {
@@ -34,6 +35,7 @@ namespace Festispec.DomainServices.Services
                 .Select(s => s[new Random().Next(s.Length)]).ToArray());
             _db = db;
             _syncService = syncService;
+            API_KEY = config["ApiKeys:Google"];
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
@@ -96,8 +98,8 @@ namespace Festispec.DomainServices.Services
 
             var distanceResult = new DistanceResult
             {
-                Origin = origin,
-                Destination = destination,
+                Origin = await _db.Addresses.FirstOrDefaultAsync(a => a.Id == origin.Id),
+                Destination = await _db.Addresses.FirstOrDefaultAsync(a => a.Id == destination.Id),
                 Distance = Math.Round((double) result.Rows[0].Elements[0].Distance.DistanceValue / 1000, 2)
             };
 

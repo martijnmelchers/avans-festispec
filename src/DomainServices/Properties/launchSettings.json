@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DomainServices": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Environment": "Debug"
+      }
+    }
+  }
+}

@@ -30,7 +30,6 @@ namespace Festispec.Models.GraphConverters
                 int count = quest.Answers.Count(a =>
                 {
                     var answer = (MultipleChoiceAnswer) a;
-                    ;
                     return answer.MultipleChoiceAnswerKey == i;
                 });
 

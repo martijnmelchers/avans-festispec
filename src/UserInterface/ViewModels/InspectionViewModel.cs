@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +15,6 @@ namespace Festispec.UI.ViewModels
 {
     internal class InspectionViewModel : BaseDeleteCheckViewModel
     {
-        private readonly IEmployeeService _employeeService;
-        private readonly IFestivalService _festivalService;
         private readonly IGoogleMapsService _googleService;
         private readonly IInspectionService _inspectionService;
         private readonly IFrameNavigationService _navigationService;
@@ -26,45 +23,55 @@ namespace Festispec.UI.ViewModels
 
         private DateTime _originalStartTime;
 
-        private List<PlannedInspection> _plannedInspections;
-
         private string _search;
 
         private DateTime _selectedDate;
 
         private DateTime _startTime;
+        private Festival _festival;
+        private Questionnaire _selectedQuestionnaire;
 
         public InspectionViewModel(
             IInspectionService inspectionService,
-            IFestivalService festivalService,
             IFrameNavigationService navigationService,
-            IEmployeeService employeeService,
             IGoogleMapsService googleService
         )
         {
             _inspectionService = inspectionService;
             _navigationService = navigationService;
-            _festivalService = festivalService;
-            _employeeService = employeeService;
             _googleService = googleService;
 
             CheckBoxCommand = new RelayCommand<AdvancedEmployee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(() => _navigationService.NavigateTo("FestivalInfo", Festival.Id));
 
-            _plannedInspections = new List<PlannedInspection>();
-
-            EmployeesToAdd = new ObservableCollection<Employee>();
-            EmployeesToRemove = new ObservableCollection<Employee>();
-            EmployeesAdded = new ObservableCollection<Employee>();
+            PlannedInspections = new List<PlannedInspection>();
+            Questionnaires = new List<Questionnaire>();
+            OriginalPlannedInspectionIds = new List<int>();
 
             Task.Run(() => Initialize(_navigationService.Parameter)).Wait();
         }
 
-        public Festival Festival { get; set; }
+        public ICollection<PlannedInspection> PlannedInspections { get; private set; }
+        private IEnumerable<int> OriginalPlannedInspectionIds { get; set; }
+
+        public Festival Festival
+        {
+            get => _festival;
+            set { _festival = value; RaisePropertyChanged(); }
+        }
+
         public ICommand CheckBoxCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+
+        public ICollection<Questionnaire> Questionnaires { get; private set; }
+
+        public Questionnaire SelectedQuestionnaire
+        {
+            get => _selectedQuestionnaire;
+            set { _selectedQuestionnaire = value; RaisePropertyChanged(); }
+        }
 
         public ICollectionView Employees { get; set; }
 
@@ -78,20 +85,9 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public List<DateTime> GetDateOptions
-        {
-            get
-            {
-                if (Festival == null)
-                    return new List<DateTime>();
-
-                var dateOptions = new List<DateTime>();
-                foreach (DateTime day in EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate))
-                    dateOptions.Add(day);
-
-                return dateOptions;
-            }
-        }
+        public List<DateTime> GetDateOptions => Festival == null
+            ? new List<DateTime>()
+            : EachDay(Festival.OpeningHours.StartDate, Festival.OpeningHours.EndDate).ToList();
 
         public DateTime SelectedDate
         {
@@ -141,23 +137,17 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        public ObservableCollection<Employee> EmployeesToAdd { get; }
-        private ObservableCollection<Employee> EmployeesToRemove { get; }
-        public ObservableCollection<Employee> EmployeesAdded { get; }
-
-        public Questionnaire Questionnaire { get; set; }
-
         private bool Filter(object item)
         {
-            Employee employee = (item as AdvancedEmployee).Employee;
-            if (EmployeeHasNoPlannedInspection(employee) && EmployeeIsAvailable(employee))
-            {
-                if (string.IsNullOrEmpty(Search))
-                    return true;
-                return employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-            }
+            if (!(item is AdvancedEmployee advancedEmployee))
+                return false;
 
-            return false;
+            Employee employee = advancedEmployee.Employee;
+            if (!EmployeeHasNoPlannedInspection(employee) || !EmployeeIsAvailable(employee)) return false;
+
+            if (string.IsNullOrEmpty(Search))
+                return true;
+            return employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private bool EmployeeIsAvailable(Employee employee)
@@ -172,12 +162,11 @@ namespace Festispec.UI.ViewModels
 
         private bool EmployeeHasNoPlannedInspection(Employee employee)
         {
-            foreach (PlannedEvent item in employee.PlannedEvents)
-                if (item is PlannedInspection)
-                {
-                    // check if new or edit
-                    if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
-                        return true;
+            foreach (PlannedInspection item in employee.PlannedEvents.ToList().OfType<PlannedInspection>())
+            {
+                // check if new or edit
+                if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
+                    return true;
 
                     if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
                         (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
@@ -192,47 +181,49 @@ namespace Festispec.UI.ViewModels
             if (parameter.PlannedInspectionId > 0)
             {
                 PlannedInspection temp = await _inspectionService.GetPlannedInspection(parameter.PlannedInspectionId);
-                Festival = await _festivalService.GetFestivalAsync(temp.Festival.Id);
+                Festival = temp.Festival;
+                Questionnaires = temp.Festival.Questionnaires;
                 _startTime = temp.StartTime;
                 _endTime = (DateTime)temp.EndTime;
                 Questionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
 
-                _plannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival, temp.StartTime);
-                _plannedInspections.ForEach(p => EmployeesAdded.Add(p.Employee));
+                PlannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival.Id, temp.StartTime);
+                OriginalPlannedInspectionIds = PlannedInspections.Select(pi => pi.Id);
             }
             else if (parameter.FestivalId > 0)
             {
-                Festival = await _festivalService.GetFestivalAsync(parameter.FestivalId);
+                Festival = await _inspectionService.GetFestivalAsync(parameter.FestivalId);
+                Questionnaires = Festival.Questionnaires;
             }
 
-            if (Festival == null)
-                throw new Exception();
-
-            _originalStartTime = _startTime;
-            RaisePropertyChanged(nameof(Festival));
-            RaisePropertyChanged(nameof(GetDateOptions));
-            RaisePropertyChanged(nameof(Questionnaire));
-            RaisePropertyChanged(nameof(StartTime));
-            RaisePropertyChanged(nameof(EndTime));
-            RaisePropertyChanged(nameof(SelectedDate));
-            RaisePropertyChanged(nameof(CheckBox));
-
-            List<Employee> employees = _employeeService.GetAllInspectors();
+            if (Festival == null) throw new Exception();
+            
             var advancedEmployees = new List<AdvancedEmployee>();
-            foreach (Employee employee in employees)
+            foreach (Employee employee in _inspectionService.GetAllInspectors())
             {
                 double distance = await _googleService.CalculateDistance(Festival.Address, employee.Address);
 
                 advancedEmployees.Add(new AdvancedEmployee
-                    {Employee = employee, Distance = $"{distance} km", DoubleDistance = distance});
+                {
+                    Employee = employee,
+                    Distance = $"{distance} km",
+                    DoubleDistance = distance
+                });
             }
 
             Employees =
                 (CollectionView) CollectionViewSource.GetDefaultView(advancedEmployees.OrderBy(e => e.DoubleDistance));
+
+            _originalStartTime = _startTime;
+            RaisePropertyChanged(nameof(Festival));
+            RaisePropertyChanged(nameof(Questionnaire));
+            RaisePropertyChanged(nameof(GetDateOptions));
+            RaisePropertyChanged(nameof(StartTime));
+            RaisePropertyChanged(nameof(EndTime));
+            RaisePropertyChanged(nameof(SelectedDate));
+            RaisePropertyChanged(nameof(CheckBox));
             RaisePropertyChanged(nameof(Employees));
-            Employees.Filter = Filter;
-            Employees.Filter += Filter;
 
             _inspectionService.Sync();
         }
@@ -245,71 +236,47 @@ namespace Festispec.UI.ViewModels
 
         private void CheckBox(AdvancedEmployee advancedEmployee)
         {
-            Employee employee = advancedEmployee.Employee;
-            if (EmployeesToAdd.All(e => e.Id != employee.Id) && EmployeesAdded.All(e => e.Id != employee.Id))
+            PlannedInspection existing =
+                PlannedInspections.FirstOrDefault(pi => pi.Employee.Id == advancedEmployee.Employee.Id);
+
+            if (existing == null)
             {
-                EmployeesToAdd.Add(employee);
+                PlannedInspections.Add(new PlannedInspection
+                {
+                    StartTime = _startTime,
+                    EndTime = _endTime,
+                    EventTitle = $"Ingeplande inspectie voor {advancedEmployee.Employee.Name}",
+                    Employee = advancedEmployee.Employee,
+                    Questionnaire = SelectedQuestionnaire,
+                    Festival = Festival
+                });
             }
-            else if (EmployeesToAdd.Any(e => e.Id == employee.Id))
-            {
-                EmployeesToAdd.Remove(employee);
-            }
-            else if (EmployeesAdded.Any(e => e.Id == employee.Id))
-            {
-                EmployeesToRemove.Add(employee);
-                EmployeesAdded.Remove(employee);
-            }
+            else
+                PlannedInspections.Remove(existing);
         }
 
         private async void Save()
         {
-            foreach (PlannedInspection p in _plannedInspections)
+            try
             {
-                p.StartTime = _startTime;
-                p.EndTime = _endTime;
-                p.Questionnaire = Questionnaire;
+                await _inspectionService.ProcessPlannedInspections(PlannedInspections);
+
+                foreach (int originalPlannedInspectionId in OriginalPlannedInspectionIds)
+                {
+                    if (PlannedInspections.All(pi => pi.Id != originalPlannedInspectionId))
+                        await _inspectionService.RemoveInspection(originalPlannedInspectionId, "Inspectie geannuleerd");
+                }
+
+                _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-
-            foreach (Employee q in EmployeesToAdd)
-                try
-                {
-                    await _inspectionService.CreatePlannedInspection(Festival, Questionnaire, _startTime, _endTime,
-                        "test", q);
-                }
-                catch (EntityExistsException)
-                {
-                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
-                }
-                catch (InvalidDataException)
-                {
-                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
-                }
-                catch (Exception)
-                {
-                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
-                }
-
-            EmployeesToAdd.Clear();
-            foreach (Employee q in EmployeesToRemove)
-                try
-                {
-                    PlannedInspection plannedInspection =
-                        await _inspectionService.GetPlannedInspection(Festival, q, _originalStartTime);
-                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Niet meer nodig");
-                }
-                catch (QuestionHasAnswersException)
-                {
-                    OpenValidationPopup("De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.");
-                }
-                catch (InvalidDataException)
-                {
-                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
-                }
-
-            EmployeesToRemove.Clear();
-            await _inspectionService.SaveChanges();
-
-            if (!PopupIsOpen) _navigationService.NavigateTo("FestivalInfo", Festival.Id);
+            catch (InvalidDataException)
+            {
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
+            }
+            catch (Exception e)
+            {
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})");
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -8,29 +8,14 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
     <PackageReference Include="EntityFramework" Version="6.3.0" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Migrations\201911201708219_ChangedMultipleChoiceSeed.resx">
-      <DependentUpon>201911201708219_ChangedMultipleChoiceSeed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\201912132346428_AddLatLng.resx">
-      <DependentUpon>201912132346428_AddLatLng.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\201912261037448_AddressToSeperateTable.resx">
-      <DependentUpon>201912261037448_AddressToSeperateTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\202001071621587_AddDistanceResult.resx">
-      <DependentUpon>202001071621587_AddDistanceResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\201912301434056_AccountActive.resx">
-      <DependentUpon>201912301434056_AccountActive.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
-      <DependentUpon>202001061200392_INotify.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Migrations\202001091540426_EndDateNullable.resx">
       <DependentUpon>202001091540426_EndDateNullable.cs</DependentUpon>
     </EmbeddedResource>

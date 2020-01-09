@@ -37,15 +37,6 @@ namespace Festispec.DomainServices.Services
                 .ToList();
         }
 
-        public List<Employee> GetAllInspectors()
-        {
-            return _db.Employees
-                .Include(e => e.Address)
-                .Include(e => e.PlannedEvents)
-                .Where(e => e.Account.Role == Role.Inspector)
-                .ToList();
-        }
-
         public async Task<Employee> CreateEmployeeAsync(FullName name, string iban, string username, string password,
             Role role, Address address, ContactDetails contactDetails)
         {
@@ -185,6 +176,7 @@ namespace Festispec.DomainServices.Services
             FestispecContext db = _employeeSyncService.GetSyncContext();
         
             List<Employee> employees = db.Employees
+                .Include(e => e.Address)
                 .Include(e => e.Certificates)
                 .Include(e => e.Account).ToList();
 

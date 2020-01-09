@@ -25,11 +25,6 @@ namespace Festispec.DomainServices.Services
             return _employeeSyncService.GetAll().ToList();
         }
 
-        public List<Employee> GetAllInspectors()
-        {
-            return _employeeSyncService.GetAll().Where(e => e.Account.Role == Role.Inspector).ToList();
-        }
-
         public Employee GetEmployee(int employeeId)
         {
             return _employeeSyncService.GetEntity(employeeId);

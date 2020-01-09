@@ -12,5 +12,7 @@ namespace Festispec.Models
         [Required] public DateTime StartDate { get; set; }
 
         [Required] public DateTime EndDate { get; set; }
+
+        public override string ToString() => $"Openingstijden: {StartTime:hh}:{StartTime:mm} - {EndTime:hh}:{EndTime:mm}";
     }
 }

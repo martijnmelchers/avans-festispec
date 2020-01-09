@@ -189,6 +189,11 @@
                                            CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource EyeGreen}"/>
                                 </Hyperlink>
+                            <Button MinWidth="30" Height="30" Command="{Binding DataContext.OpenCopyQuestionnaireCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Path=Id}" Style="{StaticResource ButtonGreen}" >
+                                <Button.Content>
+                                    <Image Height="20" Source="{StaticResource copyImage}"/>
+                                </Button.Content>
+                            </Button>
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
@@ -199,12 +204,12 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp"
+            <Button Content="Nieuwe vragenlijst" Command="{ Binding NewQuestionnaireCommand}"
                     Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Grid.Row="2"/>
         </Grid>
 
         <!-- POP UPS -->
-        <Popup x:Name="CreateQuestionnairePopUp" Placement="Center" AllowsTransparency="True" Width="550">
+        <Popup x:Name="CreateQuestionnairePopUp" Placement="Center" AllowsTransparency="True" Width="550" IsOpen="{Binding CreateQuestionnairePopupIsOpen}">
             <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
                 <StackPanel Orientation="Vertical" Background="White">
                     <StackPanel Orientation="Vertical" Margin="0,0,0,15">
@@ -228,6 +233,37 @@
                                 Click="ToggleNewQuestionnairePopUp" Height="50" Width="185" Grid.Column="0" />
                         <Button HorizontalAlignment="Right" Content="Aanmaken" Style="{DynamicResource ButtonGreen}"
                                 Click="ToggleNewQuestionnairePopUp" Command="{Binding CreateQuestionnaireCommand}"
+                                Height="50" Width="185" Grid.Column="2" />
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="CopyQuestionnairePopUp" Placement="Center" AllowsTransparency="True" Width="550" IsOpen="{Binding CopyQuestionnairePopupIsOpen}">
+            <Border Padding="30" CornerRadius="5" Background="White" BorderBrush="#CFCFCF" BorderThickness="3">
+                <StackPanel Orientation="Vertical" Background="White">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <TextBlock Text="NIEUWE VRAGENLIJST" Style="{DynamicResource Header}" />
+                        <Rectangle HorizontalAlignment="Left" Height="7" Width="120" RadiusY="2.5" RadiusX="2.5"
+                                   Fill="#FF4A4A" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+                        <Label Content="Naam" />
+                        <TextBox HorizontalAlignment="Left" Text="{Binding QuestionnaireName}" Width="475" Height="50" />
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
+                                Click="ToggleNewQuestionnairePopUp" Height="50" Width="185" Grid.Column="0" />
+                        <Button HorizontalAlignment="Right" Content="Aanmaken" Style="{DynamicResource ButtonGreen}"
+                                Click="ToggleNewQuestionnairePopUp" Command="{Binding CopyQuestionnaireCommand}"
                                 Height="50" Width="185" Grid.Column="2" />
                     </Grid>
 

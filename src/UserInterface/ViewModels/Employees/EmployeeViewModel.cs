@@ -33,7 +33,12 @@ namespace Festispec.UI.ViewModels.Employees
             }
             else
             {
-                Employee = new Employee {Account = new Account()};
+                Employee = new Employee
+                {
+                    Account = new Account(),
+                    Name = new FullName(),
+                    ContactDetails = new ContactDetails()
+                };
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
             }
 
@@ -74,6 +79,12 @@ namespace Festispec.UI.ViewModels.Employees
 
         private async void AddEmployee(PasswordWithVerification passwordWithVerification)
         {
+            if (string.IsNullOrEmpty(CurrentAddress))
+            {
+                OpenValidationPopup("Er is geen adres ingevuld.");
+                return;
+            }
+
             IntPtr valuePtr = IntPtr.Zero;
             try
             {

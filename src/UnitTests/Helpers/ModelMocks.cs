@@ -214,6 +214,7 @@ namespace Festispec.UnitTests.Helpers
 
         public static Festival festivalThunderDome = new Festival()
         {
+            Id = 2,
             FestivalName = "ThunderDome",
 
             Description = "Op 26 oktober 2019 keert Thunderdome terug naar de Jaarbeurs in Utrecht. " +

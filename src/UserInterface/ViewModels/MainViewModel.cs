@@ -21,7 +21,7 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             _authenticationService = authenticationService;
             IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
-            NavigateCommand = new RelayCommand<string>(page => _navigationService.NavigateTo(page), IsNotOnSamePage, true);
+            NavigateCommand = new RelayCommand<string>(NavigateToPage, IsNotOnSamePage, true);
             LoginCommand = new RelayCommand<object>(Login);
         }
 
@@ -49,6 +49,12 @@ namespace Festispec.UI.ViewModels
         public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
         
         public Visibility IsOffline { get; set; }
+        
+        private void NavigateToPage(string page)
+        {
+            _navigationService.NavigateTo(page);
+            NavigateCommand.RaiseCanExecuteChanged();
+        }
 
         private void Login(object passwordBox)
         {
