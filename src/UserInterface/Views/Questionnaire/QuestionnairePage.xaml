@@ -22,7 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
@@ -30,8 +30,8 @@
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="5,10,5,5" />
-            <controls:TextUnderline Grid.Row="0" Grid.Column="0" Margin="5,10,5,5"/>
+            <TextBlock Text="Vragen" Style="{DynamicResource Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="10,20,10,10" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" Margin="10,20,10,10"/>
 
             <ListView ItemsSource="{Binding Questions}"  BorderThickness="0" Name="Question" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,0,0,0">
                 <ListView.ItemContainerStyle>
@@ -52,10 +52,10 @@
                                         <DataTemplate DataType="{x:Type models:MultipleChoiceQuestion}">
                                             <StackPanel>
                                                 <Label Content="Antwoorden" />
-                                                <ListView ItemsSource="{Binding OptionCollection}" MinHeight="50">
+                                                <ListView ItemsSource="{Binding OptionCollection}" MinHeight="50" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Width="720"
+                                                            <TextBox Width="975"
                                                                      Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                      IsReadOnly="{Binding DataContext , Converter={StaticResource CanEditQuestionConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}, AncestorLevel=2}}" />
                                                         </DataTemplate>
@@ -99,7 +99,7 @@
                                                         Width="200"
                                                         Command="{Binding DataContext.SelectReferenceQuestionCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}"
                                                         CommandParameter="{Binding}" Content="Referentie vraag"
-                                                        IsEnabled="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                                                        IsEnabled="{Binding DataContext , Converter={StaticResource HasAnswerConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
                                                 <Label Content="Geselecteerde vraag" />
                                                 <TextBlock Text="{Binding Question.Contents}" />
                                             </StackPanel>
@@ -108,27 +108,40 @@
                                         <DataTemplate DataType="{x:Type models:UploadPictureQuestion}" />
                                     </ContentControl.Resources>
                                 </ContentControl>
-                                <Button Content="Verwijderen"
-                                        Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                
+                                <Button Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                         Visibility="{Binding DataContext, Converter={StaticResource HideButtonConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
-                                        CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="230"
-                                        Height="45" Margin="10" />
+                                        CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="50"
+                                        Height="50" Margin="10" MinWidth="50">
+                                    <Button.Content>
+                                        <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                                    </Button.Content>
+                                </Button>
                             </StackPanel>
                         </Expander>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
+            <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10">
+                
             <ComboBox Margin="10"
                       ItemsSource="{Binding Path=DataContext.QuestionType, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                       SelectedItem="{Binding DataContext.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                      Grid.Column="0" Grid.Row="2" />
+                      Width="700" Height="50"/>
             <Button Margin="10" Content="Nieuwe vraag" Command="{Binding AddQuestionCommand}"
-                    Style="{DynamicResource ButtonGreen}" Grid.Column="1" Grid.Row="2" />
+                    Style="{DynamicResource ButtonGreen}" Height="50"  />
             <Button Margin="10" Content="Opslaan" Command="{Binding SaveQuestionnaireCommand}"
-                    Style="{DynamicResource ButtonGreen}" Grid.Column="2" Grid.Row="2" />
-            <Button Margin="10" Content="Verwijderen" Command="{Binding DeleteQuestionnaireCommand}"
-                    Style="{DynamicResource ButtonRed}" Grid.Column="3" Grid.Row="2" />
+                    Style="{DynamicResource ButtonGreen}" Height="50" />
+            
+            <Button Command="{Binding DeleteQuestionnaireCommand}"
+                Visibility="{Binding DataContext, Converter={StaticResource HideButtonConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                Style="{DynamicResource ButtonRed}" Width="50"
+                Height="50" Margin="0" MinWidth="50">
+            <Button.Content>
+                <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+            </Button.Content>
+            </Button>
+            </StackPanel>
 
             <Popup x:Name="ReferenceQuestionSelector" Placement="Center" AllowsTransparency="True" Width="550"
                    IsOpen="{Binding IsOpen}">
