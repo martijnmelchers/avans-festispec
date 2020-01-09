@@ -27,7 +27,7 @@ namespace Festispec.UI.ViewModels
             IFestivalService festivalService,
             ICustomerService customerService,
             IEmployeeService employeeService,
-            IConfiguration configuration
+            IConfiguration config
         )
         {
             _festivalService = festivalService;
@@ -37,7 +37,7 @@ namespace Festispec.UI.ViewModels
 
             CheckboxCheckedCommand = new RelayCommand(FilterPoints);
             BackCommand = new RelayCommand(Back);
-            BingMapsTileLayer.ApiKey = configuration["ApiKeys:Bing"];
+            BingMapsTileLayer.ApiKey = config["ApiKeys:Bing"];
 
             LoadPoints();
             FilterPoints();
