@@ -47,41 +47,7 @@ namespace Festispec.DomainServices.Services
                 throw new NoRowsChangedException();
 
             return availability;
-        }
-
-        public async Task<Availability> AddUnavailabilityPartOfDay(int employeeId, DateTime beginDateTime, DateTime endDateTime, string reason)
-        {
-            if (beginDateTime < DateTime.Now || endDateTime < DateTime.Now)
-                throw new DateHasPassedException();
-
-            if (endDateTime < beginDateTime)
-                throw new EndDateEarlierThanStartDateException();
-
-            if (beginDateTime.Date != endDateTime.Date)
-                throw new StartAndEndDateDifferentDaysException();
-
-            var employee = _db.Employees.FirstOrDefault(e => e.Id == employeeId);
-
-            var availability = new Availability()
-            {
-                IsAvailable = false,
-                Employee = employee,
-                StartTime = beginDateTime,
-                EndTime = endDateTime,
-                Reason = reason,
-                EventTitle = "Niet beschikbaar"
-            };
-
-            if (!availability.Validate())
-                throw new InvalidDataException();
-
-            _db.PlannedEvents.Add(availability);
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
-
-            return availability;
-        }
+        }  
 
         public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
         {

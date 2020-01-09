@@ -8,9 +8,7 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface IAvailabilityService
     {
-        Task<Availability> AddUnavailabilityEntireDay(int employeeId, DateTime date, string reason);
-
-        Task<Availability> AddUnavailabilityPartOfDay(int employeeId, DateTime beginDateTime, DateTime endDateTime, string reason);
+        Task<Availability> AddUnavailabilityEntireDay(int employeeId, DateTime date, string reason);        
 
         Task RemoveUnavailablity(int availabilityId);
 

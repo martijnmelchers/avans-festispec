@@ -50,23 +50,7 @@ namespace Festispec.UnitTests
         public async void EnteringPassedDateShouldThrowError()
         {
             await Assert.ThrowsAsync<DateHasPassedException>(() => _availabilityService.AddUnavailabilityEntireDay(1, new DateTime(2000, 10, 10), null));
-        }
-
-        [Fact]
-        public async void AddUnavailabilityPartOfDay()
-        {
-            var availability = await _availabilityService.AddUnavailabilityPartOfDay(1, new DateTime(2500, 10, 11, 10, 0, 0), new DateTime(2500, 10, 11, 12, 0, 0), null);
-
-            Assert.NotNull(availability);
-
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async void EndDateEarlierThanStartDateShouldThrowError()
-        {
-            await Assert.ThrowsAsync<EndDateEarlierThanStartDateException>(() => _availabilityService.AddUnavailabilityPartOfDay(1, new DateTime(2500, 10, 11, 10, 0, 0), new DateTime(2500, 10, 11, 8, 0, 0), null));
-        }
+        }        
 
         [Fact]
         public void GetUnavailabilitiesForDay()
