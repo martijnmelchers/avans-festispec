@@ -45,21 +45,19 @@ namespace Festispec.UI.ViewModels.Festivals
 
         public async void UpdateFestival()
         {
-            if (string.IsNullOrEmpty(CurrentAddress))
-            {
-                MessageBox.Show("Please select an address");
-                return;
-            }
             try
             {
                 await _festivalService.UpdateFestival(Festival);
                 _festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-            catch (InvalidDataException i)
+            catch (InvalidDataException)
             {
-                ValidationError = $"Ingevoerde data incorrect. Denk bijvoorbeeld aan het toevoegen van een huisnummer bij het adres.({i.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Ingevoerde data incorrect.");
+            }
+            catch (InvalidAddressException)
+            {
+                OpenValidationPopup("Ingevoerd adres incorrect, denk aan het invullen van een huisnummer.");
             }
         }
 
@@ -80,7 +78,7 @@ namespace Festispec.UI.ViewModels.Festivals
             }
             catch (GoogleMapsApiException)
             {
-                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
             catch (GoogleZeroResultsException)
             {
@@ -102,7 +100,6 @@ namespace Festispec.UI.ViewModels.Festivals
                 OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
         }
-
         #endregion
     }
 }
