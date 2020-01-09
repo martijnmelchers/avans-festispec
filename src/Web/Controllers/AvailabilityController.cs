@@ -40,6 +40,7 @@ namespace Festispec.Web.Controllers
                 
             }
             dictionary.Add(1578355200000, 1);
+            dictionary.Add(1578441600000, 1);
             return dictionary;
         }
 
@@ -56,11 +57,12 @@ namespace Festispec.Web.Controllers
             }
             catch (DateHasPassedException)
             {
+                ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
                 TempData["DateError"] = "Datum mag niet in het verleden zijn!";
                 return View("Index");
             }
-            
 
+            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
             return View("Index");
         }
     }

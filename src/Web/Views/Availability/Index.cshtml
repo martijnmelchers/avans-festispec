@@ -15,19 +15,18 @@
                 multidate: true
             });
 
-            $('.datepicker').on('changeDate', function(evt) {
-    console.log(evt.date);
-  });
-          
-  $('.btn').on('click', function() {
-    var the_date = $('.datepicker:first').datepicker('getDates');
-    console.log(the_date);
-  });
+            changeDaysBackground(); 
+            $('.datepicker').on('changeDate', function (evt) {
+                changeDaysBackground(); 
+                console.log(evt.date);
+                 });
 
-
+            $('.btn').on('click', function () {
+                changeDaysBackground(); 
+                var the_date = $('.datepicker:first').datepicker('getDates');
+                console.log(the_date);
+                });
         });
-
-        
 
         function changeDaysBackground() {
             console.log("changeBackground");
@@ -36,9 +35,9 @@
             document.querySelectorAll(".datepicker-days td").forEach(i => {
                if(data[i.dataset.date] == 1)
                     $(i).addClass("change")
-            
+
             });
-            
+
         }
     </script>
     <style>
@@ -46,6 +45,8 @@
             background-color: red;
         }
     </style>
+
+    @ViewBag.SuccesBody;
 
     <div id="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
