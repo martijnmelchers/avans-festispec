@@ -236,7 +236,8 @@ textarea {
     padding: 10px 34px 10px 34px;
     width: 200px;
     font-family: Montserrat;
-    color: #FFFFFF;   
+    color: #FFFFFF; 
+    text-align: center;
 }
 
 .green-button:focus {
@@ -254,10 +255,8 @@ textarea {
     text-align: center;
 }
 
-#background-availability {
+.background-availability {
     padding: 15px;
-    top: 132px;
-    left: 20px;
     width: 100%;
     height: auto;
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -272,9 +271,25 @@ textarea {
     letter-spacing: 0;
     color: #707070;
     opacity: 1;
+    margin-bottom: 0;
 }
 
-.availability-paragraph-title {    
+.title-bar {
+    min-width: 65px;
+    max-width: 65px;
+    height: 5px;
+    background: #FF4E4E;
+    border-radius: 20px;
+    margin-bottom: 18px;
+}
+
+#datepicker-background {
+    border: solid 1px gray;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.availability-paragraph-title {
     text-align: left;
     font: Bold 15px Montserrat;
     letter-spacing: 0;
@@ -309,9 +324,16 @@ textarea {
     margin: 5px 0 0 0;
 }
 
-.circle {
+.square {
     min-width: 30px;
     max-width: 30px;
     height: 30px;
-    border-radius: 25px;    
+    border-radius: 4px;    
+}
+
+#availability-submit-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
