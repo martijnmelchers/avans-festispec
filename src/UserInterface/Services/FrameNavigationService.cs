@@ -14,18 +14,18 @@ namespace Festispec.UI.Services
     public class FrameNavigationService : IFrameNavigationService, INotifyPropertyChanged
     {
         #region Fields
+
         private readonly Dictionary<string, Uri> _pagesByKey;
         private readonly List<string> _historic;
         private string _currentPageKey;
+
         #endregion
 
-        #region Properties                                              
+        #region Properties
+
         public string CurrentPageKey
         {
-            get
-            {
-                return _currentPageKey;
-            }
+            get => _currentPageKey;
 
             private set
             {
@@ -36,18 +36,21 @@ namespace Festispec.UI.Services
                 OnPropertyChanged(nameof(CurrentPageKey));
             }
         }
+
         public object Parameter { get; private set; }
 
-        public IEnumerable<string> Pages { get => _pagesByKey.Keys; }
+        public IEnumerable<string> Pages => _pagesByKey.Keys;
 
         #endregion
 
         #region Ctors and Methods
+
         public FrameNavigationService()
         {
             _pagesByKey = new Dictionary<string, Uri>();
             _historic = new List<string>();
         }
+
         public void GoBack()
         {
             if (_historic.Count > 1)
@@ -56,6 +59,7 @@ namespace Festispec.UI.Services
                 NavigateTo(_historic.Last(), null);
             }
         }
+
         public void NavigateTo(string pageKey)
         {
             NavigateTo(pageKey, null);
@@ -91,13 +95,12 @@ namespace Festispec.UI.Services
 
         private static FrameworkElement GetDescendantFromName(DependencyObject parent, string name)
         {
-            var count = VisualTreeHelper.GetChildrenCount(parent);
+            int count = VisualTreeHelper.GetChildrenCount(parent);
 
             if (count < 1)
                 return null;
 
             for (var i = 0; i < count; i++)
-            {
                 if (VisualTreeHelper.GetChild(parent, i) is FrameworkElement frameworkElement)
                 {
                     if (frameworkElement.Name == name)
@@ -108,7 +111,7 @@ namespace Festispec.UI.Services
                     if (frameworkElement != null)
                         return frameworkElement;
                 }
-            }
+
             return null;
         }
 
@@ -118,6 +121,7 @@ namespace Festispec.UI.Services
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }

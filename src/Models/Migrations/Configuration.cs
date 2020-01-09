@@ -25,26 +25,67 @@ namespace Festispec.Models.Migrations
             //  to avoid creating duplicate seed data.
 
 
-
             //  context.SaveChanges();
 
             try
             {
-                var employee = CreateEmployee(context);
+                var address = new Address
+                {
+                    Id = 1,
+                    StreetName = "Isolatorweg",
+                    HouseNumber = 36,
+                    ZipCode = "1014AS",
+                    City = "Amsterdam",
+                    Country = "Nederland",
+                    Latitude = 52.39399f,
+                    Longitude = 4.8507514f
+                };
+
+                var address2 = new Address
+                {
+                    Id = 2,
+                    Country = "Duitsland",
+                    StreetName = "Flughafen-Ring",
+                    HouseNumber = 16,
+                    City = "Weeze",
+                    ZipCode = "NW47652",
+                    Latitude = 51.5924149f,
+                    Longitude = 6.1545434f
+                };
+
+                var address3 = new Address
+                {
+                    Id = 3,
+                    City = "Utrecht",
+                    Country = "Nederland",
+                    HouseNumber = 59,
+                    StreetName = "Chopinstraat",
+                    ZipCode = "3533EL",
+                    Latitude = 52.0857048f,
+                    Longitude = 5.08541441f
+                };
+
+                var address4 = new Address
+                {
+                    City = "Amsterdam",
+                    Country = "Nederland",
+                    HouseNumber = 14,
+                    StreetName = "Lutmastraat",
+                    ZipCode = "1072JL",
+                    Latitude = 52.350400f,
+                    Longitude = 4.892710f
+                };
+
+                context.Addresses.AddOrUpdate(address, address2, address3, address4);
+
+                Employee employee = CreateEmployee(context, address3);
 
                 var customer = new Customer
                 {
                     Id = 1,
                     CustomerName = "Q-DANCE",
                     KvkNr = 34212891,
-                    Address = new Address
-                    {
-                        StreetName = "Isolatorweg",
-                        HouseNumber = 36,
-                        ZipCode = "1014AS",
-                        City = "Amsterdam",
-                        Country = "Nederland"
-                    },
+                    Address = address,
                     ContactDetails = new ContactDetails
                     {
                         EmailAddress = "info@q-dance.com",
@@ -88,14 +129,7 @@ namespace Festispec.Models.Migrations
                     FestivalName = "Q-BASE",
                     Customer = customer,
                     Description = "Nachtfestival over de grens",
-                    Address = new Address
-                    {
-                        Country = "Duitsland",
-                        StreetName = "Flughafen-Ring",
-                        HouseNumber = 16,
-                        City = "Weeze",
-                        ZipCode = "NW47652"
-                    },
+                    Address = address2,
                     OpeningHours = new OpeningHours
                     {
                         StartTime = new TimeSpan(18, 0, 0),
@@ -108,9 +142,9 @@ namespace Festispec.Models.Migrations
                 context.Festivals.AddOrUpdate(festival);
 
                 customer.Festivals = new List<Festival>
-            {
-                festival
-            };
+                {
+                    festival
+                };
 
                 context.Customers.AddOrUpdate(customer);
 
@@ -118,7 +152,7 @@ namespace Festispec.Models.Migrations
                 {
                     Id = 1,
                     Name = "Tester",
-                    Festival = festival,
+                    Festival = festival
                 };
 
                 context.Questionnaires.AddOrUpdate(questionnaire);
@@ -147,13 +181,14 @@ namespace Festispec.Models.Migrations
 
 
                 #region DrawQuestion
+
                 var drawQuestion = new DrawQuestion
                 {
                     Id = 1,
                     Category = questionCategory,
                     PicturePath = "/drawings/map_defqon.png",
                     Questionnaire = questionnaire,
-                    Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?",
+                    Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?"
                 };
 
                 var drawQuestionAnswer = new FileAnswer
@@ -166,16 +201,18 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(drawQuestionAnswer);
                 context.Questions.AddOrUpdate(drawQuestion);
+
                 #endregion
 
                 #region MultipleChoiceQuestion
+
                 var multipleChoiceQuestion = new MultipleChoiceQuestion
                 {
                     Id = 2,
                     Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                     Options = "Ja~Nee",
-                    OptionCollection = new ObservableCollection<StringObject>()
+                    OptionCollection = new ObservableCollection<StringObject>
                     {
                         new StringObject("Option1")
                     },
@@ -200,9 +237,11 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(multipleChoiceQuestionAnswer);
                 context.Questions.AddOrUpdate(multipleChoiceQuestion);
+
                 #endregion
 
                 #region NumericQuestion
+
                 var numericQuestion = new NumericQuestion
                 {
                     Id = 3,
@@ -210,8 +249,7 @@ namespace Festispec.Models.Migrations
                     Contents = "Hoeveel EHBO-posten zijn er aanwezig?",
                     Minimum = 0,
                     Maximum = 99,
-                    Questionnaire = questionnaire,
-
+                    Questionnaire = questionnaire
                 };
 
                 var numericQuestionAnswer = new NumericAnswer
@@ -224,9 +262,11 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(numericQuestionAnswer);
                 context.Questions.AddOrUpdate(numericQuestion);
+
                 #endregion
 
                 #region RatingQuestion
+
                 var ratingQuestion = new RatingQuestion
                 {
                     Id = 4,
@@ -234,7 +274,7 @@ namespace Festispec.Models.Migrations
                     Contents = "Op een schaal van 1 tot 5, is de beveiliging voldoende aanwezig op het terrein?",
                     HighRatingDescription = "Er is veel beveiliging",
                     LowRatingDescription = "Er is amper beveiliging",
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var ratingQuestionAnswer = new NumericAnswer
@@ -251,20 +291,22 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region StringQuestion
+
                 var stringQuestion = new StringQuestion
                 {
                     Id = 5,
                     Category = questionCategory,
                     Contents = "Geef een korte samenvatting van het vluchtplan.",
                     IsMultiline = true,
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var stringQuestionAnswer = new StringAnswer
                 {
                     Id = 5,
                     Question = stringQuestion,
-                    AnswerContents = "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
+                    AnswerContents =
+                        "In geval van een calamiteit is voor de bezoekers duidelijk te zien dat er vanaf de mainstage al vier vluchtroutes bestaan.",
                     PlannedInspection = plannedInspection
                 };
 
@@ -274,12 +316,13 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region PictureQuestion
+
                 var pictureQuestion = new UploadPictureQuestion
                 {
                     Id = 6,
                     Category = questionCategory,
                     Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
-                    Questionnaire = questionnaire,
+                    Questionnaire = questionnaire
                 };
 
                 var pictureQuestionAnswer = new FileAnswer
@@ -296,6 +339,7 @@ namespace Festispec.Models.Migrations
                 #endregion
 
                 #region ReferenceQuestion
+
                 var referenceQuestion = new ReferenceQuestion
                 {
                     Id = 7,
@@ -315,6 +359,7 @@ namespace Festispec.Models.Migrations
 
                 context.Answers.AddOrUpdate(referenceQuestionAnswer);
                 context.Questions.AddOrUpdate(referenceQuestion);
+
                 #endregion
 
                 var report = new Report
@@ -322,48 +367,85 @@ namespace Festispec.Models.Migrations
                     Id = 1,
                     Festival = festival,
                     ReportEntries = new List<ReportEntry>
-                {
-                    new ReportTextEntry
                     {
-                        Id = 1,
-                        Order = 1,
-                        Header = "Het vluchtplan",
-                        Question = stringQuestion,
-                        Text =
-                            "Het vluchtplan was uitgebreid en zit goed in elkaar, maar de inspecteurs hadden nog wel een aantal dingen op te merken."
-                    },
-                    new ReportGraphEntry
-                    {
-                        Id = 2,
-                        Order = 2,
-                        GraphType = GraphType.Pie,
-                        GraphXAxisType = GraphXAxisType.MultipleChoiceOption,
-                        Question = multipleChoiceQuestion
+                        new ReportTextEntry
+                        {
+                            Id = 1,
+                            Order = 1,
+                            Header = "Het vluchtplan",
+                            Question = stringQuestion,
+                            Text =
+                                "Het vluchtplan was uitgebreid en zit goed in elkaar, maar de inspecteurs hadden nog wel een aantal dingen op te merken."
+                        },
+                        new ReportGraphEntry
+                        {
+                            Id = 2,
+                            Order = 2,
+                            GraphType = GraphType.Pie,
+                            GraphXAxisType = GraphXAxisType.MultipleChoiceOption,
+                            Question = multipleChoiceQuestion
+                        }
                     }
-                }
                 };
 
                 context.Reports.AddOrUpdate(report);
+
+                var employeeInspector = new Employee
+                {
+                    Id = 2,
+                    Iban = "NL01RABO12789410",
+                    Name = new FullName
+                    {
+                        First = "Jan",
+                        Last = "Dirksen"
+                    },
+                    Account = new Account
+                    {
+                        Id = 1,
+
+                        // Voorletter + Achternaam + geboortejaar
+                        Username = "JDirksen89",
+                        Password = BCrypt.Net.BCrypt.HashPassword("TestWachtwoord"),
+                        Role = Role.Inspector
+                    },
+                    Address = address4,
+                    ContactDetails = new ContactDetails
+                    {
+                        EmailAddress = "jdirksen89@gmail.com",
+                        PhoneNumber = "+31987654321"
+                    },
+                    Certificates = new List<Certificate>
+                    {
+                        new Certificate
+                        {
+                            Id = 2,
+                            CertificateTitle = "Inspection Certificate",
+                            CertificationDate = new DateTime(2019, 3, 4, 00, 00, 00),
+                            ExpirationDate = new DateTime(2021, 3, 4, 00, 00, 00)
+                        }
+                    }
+                };
+
+                context.Employees.AddOrUpdate(employeeInspector);
 
                 context.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                foreach (DbEntityValidationResult eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
+                    foreach (DbValidationError ve in eve.ValidationErrors)
                         Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
                             ve.PropertyName, ve.ErrorMessage);
-                    }
                 }
+
                 throw;
             }
         }
 
-        private static Employee CreateEmployee(FestispecContext context)
+        private static Employee CreateEmployee(FestispecContext context, Address address)
         {
             var employee = new Employee
             {
@@ -383,14 +465,7 @@ namespace Festispec.Models.Migrations
                     Password = BCrypt.Net.BCrypt.HashPassword("test123!"),
                     Role = Role.Employee
                 },
-                Address = new Address
-                {
-                    City = "Utrecht",
-                    Country = "Nederland",
-                    HouseNumber = 59,
-                    StreetName = "Chopinstraat",
-                    ZipCode = "3533EL"
-                },
+                Address = address,
                 ContactDetails = new ContactDetails
                 {
                     EmailAddress = "hjanssen80@gmail.com",
@@ -424,7 +499,5 @@ namespace Festispec.Models.Migrations
 
             return employee;
         }
-
-
     }
 }

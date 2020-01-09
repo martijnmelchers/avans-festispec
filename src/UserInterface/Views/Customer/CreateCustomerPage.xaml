@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
-      xmlns:enums="clr-namespace:Festispec.UI.Enums"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:CustomerViewModel}">
@@ -31,67 +31,89 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="545" />
             </Grid.ColumnDefinitions>
-            
-            <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
-            <Rectangle Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="7" Margin="0,53,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+
+            <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="3" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Bedrijfsgegevens -->
             <Label Content="Bedrijfsgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
 
             <Label Content="Naam bedrijf" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.CustomerName}" Grid.Row="3" Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox Grid.Row="3" Grid.Column="0"
+                     Text="{Binding Customer.CustomerName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <Label Content="KvK-nummer" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.KvkNr, Mode=OneWayToSource}" PreviewTextInput="NumericTextBlockOnPreviewTextInput" Grid.Row="5"
-                     Grid.Column="0" Margin="0,0,55,0" />
+            <TextBox Grid.Row="5" Grid.Column="0"
+                     Text="{Binding Customer.KvkNr, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Postcode" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
+            <Label Content="Adres" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.ZipCode}" Width="220" 
-                     HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" />
+            <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="365,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap"
+                     VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350" />
 
-            <Label Content="Huisnummer" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="250,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.HouseNumber, Mode=OneWayToSource}"
-                     PreviewTextInput="NumericTextBlockOnPreviewTextInput" Width="150" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="250, 0, 0, 0" />
+            <TextBlock Text="{Binding CurrentAddress}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0"
+                       Style="{DynamicResource DefaultText}" TextWrapping="Wrap" />
 
-            <Label Content="Toevoeging" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="430,0,0,0" />
-            <TextBox Text="{Binding Customer.Address.Suffix}"
-                     Width="115" HorizontalAlignment="Left"
-                     Grid.Row="7" Grid.Column="0" Margin="430, 0, 0, 0" />
-
-            <Label Content="Straatnaam" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.StreetName}" Grid.Row="9" Grid.Column="0" Margin="0,0,55,0" />
-
-            <Label Content="Stad" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" />
-            <TextBox Text="{Binding Customer.Address.City}" Grid.Row="11" Grid.Column="0" Margin="0,0,55,0" />
-
-            <Label Content="Land" VerticalAlignment="Center" Grid.Row="12" Grid.Column="0" />
-            <ComboBox Grid.Row="13" Grid.Column="0" Margin="0,0,55,0"
-                      Text="{Binding Path=Customer.Address.Country, Mode=TwoWay}"
-                      ItemsSource="{Binding Source={x:Static enums:Countries.CountryOptions}}" SelectedIndex="0" />
+            <ListView VerticalAlignment="Center" HorizontalAlignment="Center" ItemsSource="{Binding Suggestions}"
+                      BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5"
+                      Height="250" Width="545">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
+                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}"
+                                       Text="{Binding Description}" VerticalAlignment="Center" MaxWidth="450"
+                                       Padding="20,10,20,10" Grid.Column="0" />
+                            <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
+                                <Hyperlink
+                                    Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                    CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
+                                    <Image Height="30" Source="{StaticResource SelectLocationGreen}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
             <!-- Contactgegevens -->
-            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="55,0,0,0" />
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
-            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="55,0,0,0" />
-            <TextBox Text="{Binding Customer.ContactDetails.EmailAddress}" Grid.Column="1" Grid.Row="3"
-                     Margin="55,0,0,0" />
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
+            <TextBox Grid.Column="2" Grid.Row="3"
+                     Text="{Binding Customer.ContactDetails.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="55,0,0,0" />
-            <TextBox Text="{Binding Customer.ContactDetails.PhoneNumber}" Grid.Column="1" Grid.Row="5"
-                     Margin="55,0,0,0" />
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="15">
-                <Button Content="Annuleren" Command="{Binding CancelCommand}"
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
+            <TextBox Grid.Column="2" Grid.Row="5"
+                     Text="{Binding Customer.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+                <Button Content="Annuleren" Command="{Binding NavigateToCustomerListCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
-                <Button Content="Klant toevoegen" Command="{Binding SaveCommand}" 
+                <Button Content="Klant toevoegen" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
 
         </Grid>
+
+        <controls:ValidationPopup Caption="Klant toevoegen" />
     </Grid>
 </Page>

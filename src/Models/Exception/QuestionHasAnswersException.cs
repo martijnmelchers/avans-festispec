@@ -2,7 +2,6 @@
 {
     public class QuestionHasAnswersException : System.Exception
     {
-
         public QuestionHasAnswersException()
         {
         }
@@ -11,7 +10,8 @@
         {
         }
 
-        public QuestionHasAnswersException(string message, System.Exception innerException) : base(message, innerException)
+        public QuestionHasAnswersException(string message, System.Exception innerException) : base(message,
+            innerException)
         {
         }
     }

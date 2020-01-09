@@ -7,8 +7,7 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        [Required, MaxLength(20)]
-        public string Role { get; set; }
+        [Required] [MaxLength(20)] public string Role { get; set; }
 
         public FullName Name { get; set; }
 

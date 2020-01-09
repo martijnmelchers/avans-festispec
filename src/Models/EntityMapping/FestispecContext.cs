@@ -1,11 +1,11 @@
-﻿using Festispec.Models.Answers;
-using Festispec.Models.Questions;
-using Festispec.Models.Reports;
 using System;
 using System.Data.Entity;
-using System.IO;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.Models.Answers;
+using Festispec.Models.Questions;
+using Festispec.Models.Reports;
 
 namespace Festispec.Models.EntityMapping
 {
@@ -13,13 +13,6 @@ namespace Festispec.Models.EntityMapping
     {
         public FestispecContext() : base("Server=localhost;Database=Festispec;Trusted_Connection=True;")
         {
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Configuration.LazyLoadingEnabled = true;
-
-            modelBuilder.Configurations.AddFromAssembly(typeof(FestispecContext).Assembly);
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
@@ -39,7 +32,15 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<ReportEntry> ReportEntries { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<DistanceResult> DistanceResults { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Configuration.LazyLoadingEnabled = true;
+
+            modelBuilder.Configurations.AddFromAssembly(typeof(FestispecContext).Assembly);
+        }
 
         public override int SaveChanges()
         {
@@ -55,12 +56,13 @@ namespace Festispec.Models.EntityMapping
 
         private void AddTimestamps()
         {
-            foreach (var entity in ChangeTracker.Entries().Where(x => x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified)))
+            foreach (DbEntityEntry entity in ChangeTracker.Entries().Where(x =>
+                x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified)))
             {
                 if (entity.State == EntityState.Added)
-                    ((Entity)entity.Entity).CreatedAt = DateTime.UtcNow;
+                    ((Entity) entity.Entity).CreatedAt = DateTime.UtcNow;
 
-                ((Entity)entity.Entity).UpdatedAt = DateTime.UtcNow;
+                ((Entity) entity.Entity).UpdatedAt = DateTime.UtcNow;
             }
         }
     }

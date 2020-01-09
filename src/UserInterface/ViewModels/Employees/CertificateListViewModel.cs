@@ -11,30 +11,38 @@ namespace Festispec.UI.ViewModels.Employees
 {
     public class CertificateListViewModel
     {
-        private readonly IFrameNavigationService _navigationService;
-
         private string _search;
 
-        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public CertificateListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService,
+            IOfflineService offlineService)
         {
-            _navigationService = navigationService;
-
-            if (!(_navigationService.Parameter is int employeeId))
+            if (!(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
 
             Employee = employeeService.GetEmployee(employeeId);
-            AddNewCertificateCommand = new RelayCommand(NavigateToAddNewCertificate);
-            EditCertificateCommand = new RelayCommand<int>(NavigateToEditCertificate);
-            NavigateBackCommand = new RelayCommand(NavigateBack);
+            AddNewCertificateCommand =
+                new RelayCommand(() => navigationService.NavigateTo("CreateCertificate", Employee),
+                    () => offlineService.IsOnline, true);
+            NavigateToEmployeeInfoCommand =
+                new RelayCommand(() => navigationService.NavigateTo("EmployeeInfo", Employee.Id));
+            EditCertificateCommand =
+                new RelayCommand<int>(
+                    certificateId => navigationService.NavigateTo("UpdateCertificate", certificateId),
+                    _ => offlineService.IsOnline, true);
 
             CertificateList = (CollectionView) CollectionViewSource.GetDefaultView(Employee.Certificates);
             CertificateList.Filter = Filter;
+
+            employeeService.Sync();
         }
+
+        public Employee Employee { get; }
 
         public CollectionView CertificateList { get; }
 
         public ICommand AddNewCertificateCommand { get; }
         public ICommand EditCertificateCommand { get; }
+        public ICommand NavigateToEmployeeInfoCommand { get; }
 
         public string Search
         {
@@ -46,27 +54,10 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public ICommand NavigateBackCommand { get; }
-
-        public Employee Employee { get; }
-
-        private bool Filter(object item) =>
-            string.IsNullOrEmpty(Search) ||
-            ((Certificate) item).CertificateTitle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
-
-        private void NavigateBack()
+        private bool Filter(object item)
         {
-            _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
-        }
-
-        private void NavigateToEditCertificate(int certificateId)
-        {
-            _navigationService.NavigateTo("UpdateCertificate", certificateId);
-        }
-
-        private void NavigateToAddNewCertificate()
-        {
-            _navigationService.NavigateTo("CreateCertificate", Employee);
+            return string.IsNullOrEmpty(Search) ||
+                   ((Certificate) item).CertificateTitle.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
 }

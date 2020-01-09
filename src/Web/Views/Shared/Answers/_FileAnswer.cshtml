@@ -1,0 +1,27 @@
+@model Festispec.Models.Answers.FileAnswer
+
+<h4>@Model.Question.Contents</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4"> 
+        <form asp-action="SaveFileAnswer" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input name="QuestionId" type="hidden" value="@Model.Question.Id" />
+            <input name="PlannedInspectionId" type="hidden" value="@Model.PlannedInspection.Id" />
+            <input name="file" type="file" />
+            <p>@Model.UploadedFilePath</p>
+            <div class="form-group">
+                @Html.TextAreaFor(e => e.AnswerContents)
+                <span asp-validation-for="AnswerContents" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Id" class="form-control" type="hidden" value="@Model.Id" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
