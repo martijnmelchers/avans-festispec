@@ -1,8 +1,5 @@
-using Festispec.Models;
-using Festispec.Models.Questions;
-using Festispec.Models.Answers;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {

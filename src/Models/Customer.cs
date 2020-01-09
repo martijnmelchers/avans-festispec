@@ -5,18 +5,16 @@ namespace Festispec.Models
 {
     public class Customer : Entity
     {
-        public int Id { get; set; }
-
         public Customer()
         {
             ContactDetails = new ContactDetails();
         }
 
-        [Required]
-        public int KvkNr { get; set; }
+        public int Id { get; set; }
 
-        [Required, MaxLength(20)]
-        public string CustomerName { get; set; }
+        [Required] public int KvkNr { get; set; }
+
+        [Required] [MaxLength(20)] public string CustomerName { get; set; }
 
         public Address Address { get; set; }
 

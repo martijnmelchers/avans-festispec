@@ -4,7 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
-      xmlns:enums="clr-namespace:Festispec.UI.Enums"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
@@ -37,7 +36,8 @@
                 <ColumnDefinition Width="545" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" />
+            <TextBlock Text="NIEUWE KLANT AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="3" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
             <!-- Bedrijfsgegevens -->
@@ -53,14 +53,17 @@
 
             <Label Content="Adres" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
                    Grid.Column="0" />
-            <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken" 
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="365,0,0,0"/>
-            <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap" 
-                     VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350"/>
+            <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="365,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap"
+                     VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350" />
 
-            <TextBlock Text="{Binding CurrentAddress}" Grid.Row="8" Grid.Column="0" Style="{DynamicResource DefaultText}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding CurrentAddress}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0"
+                       Style="{DynamicResource DefaultText}" TextWrapping="Wrap" />
 
-            <ListView VerticalAlignment="Center" HorizontalAlignment="Center"  ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5" Height="250" Width="545">
+            <ListView VerticalAlignment="Center" HorizontalAlignment="Center" ItemsSource="{Binding Suggestions}"
+                      BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5"
+                      Height="250" Width="545">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -69,10 +72,15 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="3"/>
-                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="450"   Padding="20,10,20,10" Grid.Column="0"/>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
+                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}"
+                                       Text="{Binding Description}" VerticalAlignment="Center" MaxWidth="450"
+                                       Padding="20,10,20,10" Grid.Column="0" />
                             <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
-                                <Hyperlink Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
+                                <Hyperlink
+                                    Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                    CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource SelectLocationGreen}" />
                                 </Hyperlink>
                             </TextBlock>
@@ -85,7 +93,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            
+
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
@@ -103,9 +111,7 @@
                 <Button Content="Klant toevoegen" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
-
         </Grid>
-
         <controls:ValidationPopup Caption="Klant toevoegen" />
     </Grid>
 </Page>

@@ -6,7 +6,6 @@ namespace Festispec.Models.Google
     {
         public string Status { get; set; }
 
-        [JsonProperty("result")]
-        public Place Place { get; set; }
+        [JsonProperty("result")] public Place Place { get; set; }
     }
 }

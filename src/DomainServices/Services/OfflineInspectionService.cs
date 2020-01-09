@@ -11,33 +11,53 @@ namespace Festispec.DomainServices.Services
 {
     public class OfflineInspectionService : IInspectionService
     {
-        private readonly ISyncService<PlannedInspection> _syncService;
+        private readonly ISyncService<PlannedInspection> _plannedInspectionSyncService;
+        private readonly ISyncService<Employee> _employeeSyncService;
+        private readonly ISyncService<Festival> _festivalSyncService;
 
-        public OfflineInspectionService(ISyncService<PlannedInspection> syncService)
+        public OfflineInspectionService(ISyncService<PlannedInspection> plannedInspectionSyncService,
+            ISyncService<Employee> employeeSyncService, ISyncService<Festival> festivalSyncService)
         {
-            _syncService = syncService;
+            _plannedInspectionSyncService = plannedInspectionSyncService;
+            _employeeSyncService = employeeSyncService;
+            _festivalSyncService = festivalSyncService;
         }
-    
+
+        public List<Employee> GetAllInspectors()
+        {
+            return _employeeSyncService.GetAll().Where(e => e.Account.Role == Role.Inspector).ToList();
+        }
+
+        public Task<PlannedInspection> CreatePlannedInspection(int festivalId, int questionnaireId, DateTime startTime,
+            DateTime endTime,
+            string eventTitle, int employeeId)
+        {
+            throw new InvalidOperationException();
+        }
+
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
-            return await _syncService.GetEntityAsync(plannedInspectionId);
+            return await _plannedInspectionSyncService.GetEntityAsync(plannedInspectionId);
         }
 
-        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee,
+            DateTime startTime)
         {
-            PlannedInspection plannedInspection = (await _syncService.GetAllAsync()).FirstOrDefault(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
-            
+            PlannedInspection plannedInspection = (await _plannedInspectionSyncService.GetAllAsync()).FirstOrDefault(
+                e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(startTime) &&
+                     e.IsCancelled == null);
+
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
 
             return plannedInspection;
         }
 
-        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
+        public async Task<List<PlannedInspection>> GetPlannedInspections(int festivalId, DateTime startTime)
         {
-            var plannedInspection = (await _syncService.GetAllAsync()).Where(e =>
-                e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToList();
-            
+            var plannedInspection = (await _plannedInspectionSyncService.GetAllAsync()).Where(e =>
+                e.Festival.Id == festivalId && e.StartTime.Equals(startTime) && e.IsCancelled == null).ToList();
+
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
 
@@ -46,14 +66,15 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
-            return (await _syncService.GetAllAsync()).Where(e =>
+            return (await _plannedInspectionSyncService.GetAllAsync()).Where(e =>
                 e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) ==
                 EntityFunctions.TruncateTime(DateTime.Now)).ToList();
         }
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            var plannedInspections = _syncService.GetAll().Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
+            var plannedInspections = _plannedInspectionSyncService.GetAll()
+                .Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null).ToList();
 
             return plannedInspections
                 .GroupBy(u => u.StartTime)
@@ -61,23 +82,22 @@ namespace Festispec.DomainServices.Services
                 .ToList();
         }
 
-        public Task<PlannedInspection> CreatePlannedInspection(Festival festival)
+        public Task RemoveInspection(int plannedInspectionId, string cancellationReason)
         {
             throw new InvalidOperationException();
         }
 
-        public Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime, DateTime endTime,
-            string eventTitle, Employee employee)
+        public Task<int> SaveChanges()
         {
             throw new InvalidOperationException();
         }
 
-        public Task RemoveInspection(int plannedInspectionId, string cancellationreason)
+        public async Task<Festival> GetFestivalAsync(int festivalId)
         {
-            throw new InvalidOperationException();
+            return await _festivalSyncService.GetEntityAsync(festivalId);
         }
 
-        public Task SaveChanges()
+        public Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections)
         {
             throw new InvalidOperationException();
         }

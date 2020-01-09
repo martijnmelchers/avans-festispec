@@ -1,34 +1,70 @@
-﻿<Page x:Class="Festispec.UI.Views.FestivalListPage"
+﻿<Page x:Class="Festispec.UI.Views.Festival.FestivalListPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalListPage"
       d:DataContext="{d:DesignInstance Type=festivals:FestivalListViewModel}">
-
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="200,50,200,50" />
-        <TextBlock Text="FESTIVAL ZOEKEN" Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top"/>
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120" RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A"/>
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1370" Height="800" />
+    <Grid Width="1320" Height="750">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
 
-        <TextBox FontSize="30" HorizontalAlignment="Left" Margin="1154,100,0,0" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" Height="64"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1563,110,0,0" VerticalAlignment="Top" Width="44" Source="{StaticResource SearchGreen}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding Festivals}" Margin="300,200,300,150">
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type models:Festival}">
-                    <DockPanel Width="1270">
-                        <Label HorizontalAlignment="Left" FontSize="30" Height="50" Content="{Binding FestivalName}"/>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Button Command="{Binding DataContext.OpenFestivalCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding DataContext , RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}" Style="{DynamicResource ButtonGreen}" Width="200" Height="50">Openen</Button>
-                        </StackPanel>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <TextBlock Text="FESTIVALS ZOEKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0" />
+        <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+
+        <TextBox HorizontalAlignment="Right" FontSize="30"
+                     Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="466"
+                     Height="64" Grid.Row="0" Grid.Column="1" />
+        <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}"
+                   Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" />
+
+            <ListView ItemsSource="{Binding Festivals}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:Festival}">
+                        <Grid Height="60">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="185" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <Label Content="{Binding FestivalName}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <Label
+                                    Content="{Binding Address}"
+                                    FontWeight="Light" VerticalAlignment="Center" />
+                            </StackPanel>
+
+
+                            <Button Grid.Column="1" Content="Weergeven"
+                                    Command="{Binding DataContext.OpenFestivalCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                    CommandParameter="{Binding Id}" Style="{DynamicResource ButtonGreen}"
+                                    Height="50" Width="185" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <controls:ValidationPopup Caption="Festival Info" />
     </Grid>
 </Page>

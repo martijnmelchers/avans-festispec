@@ -1,4 +1,4 @@
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Interfaces
 {
     public interface IOfflineService
     {

@@ -80,7 +80,7 @@ namespace Festispec.DomainServices.Services
             var dictionary = new Dictionary<long, Availability>();
             foreach (Availability availability in list)
             {
-                foreach (DateTime day in EachDay(availability.StartTime, availability.EndTime))
+                foreach (DateTime day in EachDay(availability.StartTime, (DateTime)availability.EndTime))
                 {
                     long epoch = (long)(day - new DateTime(1970, 1, 1)).TotalSeconds;
                     dictionary.Add(epoch, availability);

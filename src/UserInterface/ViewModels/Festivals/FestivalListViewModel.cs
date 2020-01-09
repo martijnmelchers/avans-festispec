@@ -11,19 +11,26 @@ namespace Festispec.UI.ViewModels.Festivals
 {
     public class FestivalListViewModel
     {
-        private bool Filter(object item)
+        private readonly IFrameNavigationService _navigationService;
+
+        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
         {
-            return string.IsNullOrEmpty(Search) ||
-                   ((Festival) item).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            _navigationService = navigationService;
+
+            OpenFestivalCommand = new RelayCommand<int>(OpenFestival);
+            Festivals = (CollectionView) CollectionViewSource.GetDefaultView(festivalService.GetFestivals());
+            Festivals.Filter = Filter;
+
+            festivalService.Sync();
         }
 
         public ICollectionView Festivals { get; set; }
 
         private string _search;
 
-        public string Search 
-        { 
-            get => _search; 
+        public string Search
+        {
+            get => _search;
             set
             {
                 _search = value;
@@ -34,22 +41,16 @@ namespace Festispec.UI.ViewModels.Festivals
 
         public ICommand OpenFestivalCommand { get; set; }
 
-        private readonly IFrameNavigationService _navigationService;
-
-        public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
+        private bool Filter(object item)
         {
-            _navigationService = navigationService;
-
-            OpenFestivalCommand = new RelayCommand<Festival>(OpenFestival);
-            Festivals = (CollectionView)CollectionViewSource.GetDefaultView(festivalService.GetFestivals());
-            Festivals.Filter = Filter;
-            
-            festivalService.Sync();
+            if (string.IsNullOrEmpty(Search))
+                return true;
+            return (item as Festival).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private void OpenFestival(Festival festival)
+        private void OpenFestival(int festivalId)
         {
-            _navigationService.NavigateTo("FestivalInfo", festival.Id);
+            _navigationService.NavigateTo("FestivalInfo", festivalId);
         }
     }
 }

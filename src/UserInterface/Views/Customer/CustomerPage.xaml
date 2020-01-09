@@ -46,27 +46,30 @@
 
             <Label Content="Adres" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
                    Grid.Row="6" Grid.Column="0" />
-            <TextBlock Text="{Binding Customer.Address}" Style="{StaticResource DefaultText}" FontWeight="Light" TextWrapping="Wrap"
-                   HorizontalAlignment="Left" Grid.Row="7" Grid.RowSpan="2" Grid.Column="0" />
+            <TextBlock Text="{Binding Customer.Address}" Style="{StaticResource DefaultText}" FontWeight="Light"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left" Grid.Row="7" Grid.RowSpan="2" Grid.Column="0" />
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
 
             <Label Content="Email adres" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
-            <Label Content="{Binding Customer.ContactDetails.EmailAddress}" FontWeight="Light" Grid.Column="2" Grid.Row="3" />
+            <Label Content="{Binding Customer.ContactDetails.EmailAddress}" FontWeight="Light" Grid.Column="2"
+                   Grid.Row="3" />
 
             <Label Content="Telefoonnummer" FontWeight="Bold" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
-            <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" FontWeight="Light" Grid.Column="2" Grid.Row="5" />
+            <Label Content="{Binding Customer.ContactDetails.PhoneNumber}" FontWeight="Light" Grid.Column="2"
+                   Grid.Row="5" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="10">
-                <Button Content="Festival toevoegen" Command="{Binding AddFestivalCommand}" IsEnabled="{Binding CanEditCustomer}"
+                <Button Content="Festival toevoegen" Command="{Binding AddFestivalCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="10">
                 <Button Content="Terug" Command="{Binding NavigateToCustomerListCommand}"
                         Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
-                <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}" IsEnabled="{Binding CanEditCustomer}"
+                <Button Content="Wijzigen" Command="{Binding EditCustomerCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
         </Grid>
