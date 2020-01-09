@@ -8,7 +8,7 @@
       xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       mc:Ignorable="d"
-      d:DesignHeight="1080" d:DesignWidth="1920"
+      d:DesignHeight="1011" d:DesignWidth="1920"
       Title="InspectionPage"
       d:DataContext="{d:DesignInstance Type=viewModels:InspectionViewModel}">
     <Page.Resources>
@@ -36,8 +36,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Festival.FestivalName}" Style="{StaticResource Header}" Grid.ColumnSpan="2" Margin="0,20,0,0"
-                       Grid.Row="0" />
+
+            <TextBlock Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='Inspectie voor {0}'}"
+                       Style="{StaticResource Header}" Grid.ColumnSpan="2" Margin="0,20,0,0" Grid.Row="0" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" Margin="0,20,0,0" />
             
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
@@ -45,7 +46,7 @@
                 <Label Content=" " />
                 <Label Content="{Binding Festival.Address.City}" />
             </StackPanel>
-            <Label Content="28 juni 2020 - 30 juni 2020" Grid.Column="1" Grid.Row="1" Margin="25,0,0,0" />
+            <Label Content="{Binding Festival.OpeningHours}" Grid.Column="1" Grid.Row="1" Margin="25,0,0,0" />
             <Label Content="Selecteer een datum" Grid.Column="0" Grid.Row="2" />
             <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}"
                       SelectedItem="{Binding SelectedDate}" Margin="0,0,25,0" />
@@ -67,7 +68,7 @@
                 <ListView ItemsSource="{Binding Employees}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}">
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="{x:Type models:AdvancedEmployee}">
-                            <Grid Width="675">
+                            <Grid Width="650">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -115,6 +116,5 @@
             <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1"
                     Grid.Row="9" Command="{Binding SaveCommand}" HorizontalAlignment="Right" />
         </Grid>
-       
     </Grid>
 </Page>
