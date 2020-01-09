@@ -153,9 +153,11 @@ namespace Festispec.UI.ViewModels
         private bool EmployeeIsAvailable(Employee employee)
         {
             return employee.PlannedEvents.OfType<Availability>().All(item =>
-                _startTime.Ticks < item.StartTime.Ticks
-                && _endTime.Ticks < item.StartTime.Ticks || _startTime.Ticks > item.EndTime.Ticks
-                && _endTime.Ticks > item.EndTime.Ticks);
+                _endTime != null && 
+                (
+                    _startTime.Ticks < item.StartTime.Ticks && _endTime.Ticks < item.StartTime.Ticks
+                    || _startTime.Ticks > ((DateTime)item.EndTime).Ticks && _endTime.Ticks > ((DateTime)item.EndTime).Ticks)
+                );
         }
 
         private bool EmployeeHasNoPlannedInspection(Employee employee)
@@ -166,10 +168,10 @@ namespace Festispec.UI.ViewModels
                 if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
                     return true;
 
-                if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
-                    (_startTime.Ticks <= item.EndTime.Ticks || _endTime.Ticks <= item.EndTime.Ticks))
-                    return false;
-            }
+                    if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
+                        (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
+                        return false;
+                }
 
             return true;
         }
@@ -182,7 +184,7 @@ namespace Festispec.UI.ViewModels
                 Festival = temp.Festival;
                 Questionnaires = temp.Festival.Questionnaires;
                 _startTime = temp.StartTime;
-                _endTime = temp.EndTime;
+                _endTime = (DateTime)temp.EndTime;
                 SelectedQuestionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
 
