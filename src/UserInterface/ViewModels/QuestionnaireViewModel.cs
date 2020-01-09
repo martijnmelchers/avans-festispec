@@ -14,7 +14,6 @@ using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 
@@ -172,7 +171,7 @@ namespace Festispec.UI.ViewModels
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ValidationError = $"Er is iets niet goedgegaan tijdens het toevoegen van de vraag(en)";
                     PopupIsOpen = true;
@@ -186,7 +185,7 @@ namespace Festispec.UI.ViewModels
                 {
                     await _questionnaireService.RemoveQuestion(q.Id);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ValidationError = $"Er is iets niet goedgegaan tijdens het verwijderen van de vraag(en)";
                     PopupIsOpen = true;
@@ -214,7 +213,8 @@ namespace Festispec.UI.ViewModels
                 {
                     var response = await UploadImage(WEB_URL, stream, fileDialog.SafeFileName);
                     var path = await response.Content.ReadAsStringAsync();
-                    var drawQuestion = (DrawQuestion)question;
+               
+                    var drawQuestion = AddedQuestions.Where(q => q.Equals(question)).FirstOrDefault() as DrawQuestion;
                     drawQuestion.PicturePath = path;
                     MessageBox.Show("Het bestand is geupload.");
                 }
