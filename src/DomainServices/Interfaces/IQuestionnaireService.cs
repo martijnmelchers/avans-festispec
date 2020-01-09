@@ -21,5 +21,9 @@ namespace Festispec.DomainServices.Interfaces
 
         List<Question> GetQuestionsFromQuestionnaire(int questionnaireId);
         List<Answer> GetAnswers();
+
+
+        Task<List<PlannedInspection>> GetPlannedInspections(int employeeId);
+        Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
     }
 }
