@@ -9,13 +9,12 @@ using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
     public class FestivalViewModel : ViewModelBase
     {
         private readonly IFestivalService _festivalService;
         private readonly IInspectionService _inspectionService;
-        private readonly IOfflineService _offlineService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IQuestionnaireService _questionnaireService;
 
@@ -28,18 +27,27 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
-            _offlineService = offlineService;
 
             RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline, true);
-            EditFestivalCommand = new RelayCommand(EditFestival, () => offlineService.IsOnline, true);
+            EditFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateFestival", Festival.Id),
+                () => offlineService.IsOnline, true);
             OpenQuestionnaireCommand = new RelayCommand<int>(OpenQuestionnaire);
             CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline, true);
-            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
-            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete, _ => offlineService.IsOnline, true);
+            ConfirmDeleteQuestionnaireCommand =
+                new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
+            DeleteQuestionnaireCommand =
+                new RelayCommand<int>(id => _deletetingQuestionnareId = id, _ => offlineService.IsOnline, true);
             GenerateReportCommand = new RelayCommand(GenerateReport);
-            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
-            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline, true);
-            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline, true);
+            DeletePlannedInspectionsCommand =
+                new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(plannedInspections =>
+                    _navigationService.NavigateTo("Inspection",
+                        new {PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1}),
+                _ => offlineService.IsOnline, true);
+            CreatePlannedInspectionCommand =
+                new RelayCommand(
+                    () => _navigationService.NavigateTo("Inspection",
+                        new {PlannedInspectionId = -1, FestivalId = Festival.Id}), () => offlineService.IsOnline, true);
 
             CanEdit = offlineService.IsOnline;
 
@@ -88,11 +96,6 @@ namespace Festispec.UI.ViewModels
             RaisePropertyChanged(nameof(FestivalLocation));
             RaisePropertyChanged(nameof(FestivalTimes));
             RaisePropertyChanged(nameof(PlannedInspections));
-        }
-
-        public void EditFestival()
-        {
-            _navigationService.NavigateTo("UpdateFestival", Festival.Id);
         }
 
         public async void RemoveFestival()
@@ -147,11 +150,6 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-        private void PrepareQuestionnaireDelete(int id)
-        {
-            _deletetingQuestionnareId = id;
-        }
-
         private void GenerateReport()
         {
             _navigationService.NavigateTo("GenerateReport", Festival.Id);
@@ -159,15 +157,10 @@ namespace Festispec.UI.ViewModels
 
         #region PlannedInspections
 
-        public IEnumerable<IEnumerable<PlannedInspection>> PlannedInspections
-        {
-            get
-            {
-                if (Festival != null)
-                    return _inspectionService.GetPlannedInspectionsGrouped(Festival);
-                return new List<List<PlannedInspection>>();
-            }
-        }
+        public IEnumerable<IEnumerable<PlannedInspection>> PlannedInspections => 
+            Festival != null 
+                ? _inspectionService.GetPlannedInspectionsGrouped(Festival)
+                : new List<List<PlannedInspection>>();
 
         public async void DeletePlannedInspection(List<PlannedInspection> plannedInspections)
         {
@@ -188,23 +181,6 @@ namespace Festispec.UI.ViewModels
                 }
 
             RaisePropertyChanged("PlannedInspections");
-        }
-
-        public void OpenPlannedInspection(PlannedInspection plannedInspection)
-        {
-            _navigationService.NavigateTo("Inspection",
-                new {PlannedInspectionId = plannedInspection.Id, FestivalId = -1});
-        }
-
-        public void CreatePlannedInspection()
-        {
-            _navigationService.NavigateTo("Inspection", new {PlannedInspectionId = -1, FestivalId = Festival.Id});
-        }
-
-        public void EditPlannedInspection(List<PlannedInspection> plannedInspections)
-        {
-            _navigationService.NavigateTo("Inspection",
-                new {PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1});
         }
 
         #endregion PlannedInspections

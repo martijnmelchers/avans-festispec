@@ -133,13 +133,13 @@
         <Label Content="Medewerkers" Margin="250,177,1515,0" VerticalAlignment="Top" />
         <Label Content="Festivals" Margin="250,206,1515,0" VerticalAlignment="Top" />
         <Label Content="Klanten" Margin="250,235,1515,0" VerticalAlignment="Top" />
-        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding MedewerkerChecked}"
+        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding EmployeeChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,178,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
         <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding FestivalChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,207,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
-        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding KlantChecked}"
+        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding CustomerChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,236,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
 

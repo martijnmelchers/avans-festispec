@@ -25,7 +25,7 @@ namespace Festispec.UI.ViewModels
             _googleService = googleMapsService;
             Festival = _festivalService.GetFestival((int) _navigationService.Parameter);
             UpdateFestivalCommand = new RelayCommand(UpdateFestival);
-            CancelCommand = new RelayCommand(Cancel);
+            CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("FestivalInfo", Festival.Id));
 
             #region Google Search
 
@@ -68,11 +68,6 @@ namespace Festispec.UI.ViewModels
                 MessageBox.Show("De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.",
                     "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void Cancel()
-        {
-            _navigationService.NavigateTo("FestivalInfo", Festival.Id);
         }
 
         #region Google Search
