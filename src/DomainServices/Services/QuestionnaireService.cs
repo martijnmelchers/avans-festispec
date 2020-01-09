@@ -4,6 +4,8 @@ using Festispec.Models.Answers;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
 using Festispec.Models.Questions;
+using Festispec.Models;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,10 +16,12 @@ namespace Festispec.DomainServices.Services
     public class QuestionnaireService : IQuestionnaireService
     {
         private readonly FestispecContext _db;
+        private readonly ISyncService<Questionnaire> _syncService;
 
-        public QuestionnaireService(FestispecContext db)
+        public QuestionnaireService(FestispecContext db, ISyncService<Questionnaire> syncService)
         {
             _db = db;
+            _syncService = syncService;
         }
 
         #region Questionnaire Management
@@ -181,5 +185,20 @@ namespace Festispec.DomainServices.Services
         }
 
         #endregion Question Management
+
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+            
+            List<Questionnaire> questionnaires = db.Questionnaires
+                .Include(q => q.Festival)
+                .Include(q => q.Questions)
+                .Include(q => q.Questions.Select(qu => qu.Answers))
+                .ToList();
+
+            _syncService.Flush();
+            _syncService.AddEntities(questionnaires);
+            _syncService.SaveChanges();
+        }
     }
 }

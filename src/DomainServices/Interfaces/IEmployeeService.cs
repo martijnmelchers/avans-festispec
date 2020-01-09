@@ -4,12 +4,11 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IEmployeeService
+    public interface IEmployeeService : ISyncable
     {
-        List<Employee> GetAllEmployees();
-        List<Employee> GetAllInspectors();
-        
-        List<Employee> GetAllEmployeesActiveAndNonActive();
+        IEnumerable<Employee> GetAllEmployees();
+        IEnumerable<Employee> GetAllEmployeesActiveAndNonActive();
+        IEnumerable<Employee> GetAllInspectors();
         
         Employee GetEmployee(int employeeId);
         Task<Employee> GetEmployeeAsync(int employeeId);

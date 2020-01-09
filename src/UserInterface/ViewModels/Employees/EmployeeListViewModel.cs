@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -13,14 +14,17 @@ namespace Festispec.UI.ViewModels.Employees
         private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
-            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
+
+            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee, () => offlineService.IsOnline);
             ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
 
             EmployeeList = (CollectionView) CollectionViewSource.GetDefaultView(employeeService.GetAllEmployeesActiveAndNonActive());
             EmployeeList.Filter = Filter;
+            
+            employeeService.Sync();
         }
 
         public CollectionView EmployeeList { get; }

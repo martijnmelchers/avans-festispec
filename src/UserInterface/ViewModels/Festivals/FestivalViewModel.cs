@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
@@ -45,26 +46,29 @@ namespace Festispec.UI.ViewModels
         public ICommand EditPlannedInspectionCommand { get; set; }
         public ICommand CreatePlannedInspectionCommand { get; set; }
 
-        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService)
+        public bool CanEdit { get; set; }
+
+        public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService, IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
 
-            RemoveFestivalCommand = new RelayCommand(RemoveFestival);
-            EditFestivalCommand = new RelayCommand(EditFestival);
+            RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline);
+            EditFestivalCommand = new RelayCommand(EditFestival, () => offlineService.IsOnline);
             OpenQuestionnaireCommand = new RelayCommand<int>(OpenQuestionnaire);
-            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire);
-            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire);
-            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete);
+            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline);
+            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline);
+            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete, _ => offlineService.IsOnline);
             GenerateReportCommand = new RelayCommand(GenerateReport);
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline);
+            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline);
 
-            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection);
-            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection);
-            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection);
+            CanEdit = offlineService.IsOnline;
 
-            Initialize((int)_navigationService.Parameter);
+            Task.Run(async () => Initialize((int)_navigationService.Parameter));
         }
 
         #region PlannedInspections
@@ -157,6 +161,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 var questionnaire = await _questionnaireService.CreateQuestionnaire(QuestionnaireName, Festival);
+                _festivalService.Sync();
                 OpenQuestionnaire(questionnaire.Id);
             }
             catch (Exception e)
@@ -173,8 +178,9 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
+                _festivalService.Sync();
             }
-            catch (QuestionHasAnswersException e)
+            catch(QuestionHasAnswersException e)
             {
                 MessageBox.Show($"Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
