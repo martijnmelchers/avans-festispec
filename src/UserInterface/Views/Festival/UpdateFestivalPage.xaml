@@ -4,12 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:val="clr-namespace:Festispec.UI.Validation"
-      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="UpdateFestivalPage"
-      d:DataContext="{d:DesignInstance Type=viewModels:UpdateFestivalViewModel}">
+      d:DataContext="{d:DesignInstance Type=festivals:UpdateFestivalViewModel}">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1450" Height="900" />

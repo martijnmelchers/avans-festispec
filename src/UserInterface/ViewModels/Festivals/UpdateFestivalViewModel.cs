@@ -6,10 +6,9 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
     internal class UpdateFestivalViewModel : BaseValidationViewModel
     {
