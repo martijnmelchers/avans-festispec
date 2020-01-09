@@ -229,15 +229,19 @@ textarea {
     font-size: 23px;
 }
 
-#login-button {
-    margin-top: 30px;
+.green-button {
     background-color: #00D68D;
     border-width: 0px;
     border-radius: 35px;
     padding: 10px 34px 10px 34px;
     width: 200px;
     font-family: Montserrat;
-    color: #FFFFFF;
+    color: #FFFFFF;   
+}
+
+.green-button:focus {
+  outline: none;
+  background-color: #00cb85;
 }
 
 #login-error {
