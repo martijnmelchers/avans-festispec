@@ -96,8 +96,8 @@ namespace Festispec.DomainServices.Services
 
             var distanceResult = new DistanceResult
             {
-                Origin = origin,
-                Destination = destination,
+                Origin = await _db.Addresses.FirstOrDefaultAsync(a => a.Id == origin.Id),
+                Destination = await _db.Addresses.FirstOrDefaultAsync(a => a.Id == destination.Id),
                 Distance = Math.Round((double) result.Rows[0].Elements[0].Distance.DistanceValue / 1000, 2)
             };
 
