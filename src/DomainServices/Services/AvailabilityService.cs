@@ -49,28 +49,6 @@ namespace Festispec.DomainServices.Services
             return availability;
         }  
 
-        public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
-        {
-            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && EntityFunctions.TruncateTime(a.StartTime) == EntityFunctions.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
-        }
-
-
-        public Dictionary<int, Availability> GetUnavailabilitiesForMonth(int employeeId, int month, int year)
-        {
-            if (month > 12)
-                throw new InvalidDataException();
-
-            Dictionary<int, Availability> availabilities = new Dictionary<int, Availability>();
-
-            for (var x =1; x <= DateTime.DaysInMonth(year,month); x++)
-            {
-                
-                availabilities.Add(x, GetUnavailabilityForDay(employeeId, new DateTime(year, month, x)));
-            }
-
-            return availabilities;
-        }
-
         public async Task RemoveUnavailablity(int availabilityId)
         {
             var availability = _db.Availabilities.FirstOrDefault(a => a.Id == availabilityId);

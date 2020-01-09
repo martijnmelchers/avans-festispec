@@ -53,24 +53,6 @@ namespace Festispec.UnitTests
         }        
 
         [Fact]
-        public void GetUnavailabilitiesForDay()
-        {
-            var availabilities = _availabilityService.GetUnavailabilityForDay(1, new DateTime(2019, 12, 28));
-
-            Assert.NotNull(availabilities[0]);
-        }
-
-        [Fact]
-        public void GetUnavailabilitiesForMonth()
-        {
-            var availabilities = _availabilityService.GetUnavailabilitiesForMonth(1, 12, 2019);
-
-            Assert.NotNull(availabilities[28][0]);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => availabilities[29][0]);
-        }
-
-        [Fact]
         public void RemoveUnavailablity()
         {
             _availabilityService.RemoveUnavailablity(2);
