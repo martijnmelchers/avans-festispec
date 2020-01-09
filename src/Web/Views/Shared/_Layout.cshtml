@@ -6,9 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <title>@ViewData["Title"] - Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>    
+    <link rel="stylesheet" href="~/css/site.css" />   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js"></script>
@@ -17,7 +15,8 @@
     @RenderSection("Scripts", required: false)
 </head>
 <body>    
-    @if (ViewData["Title"] == null || ViewData["Title"].ToString() != "Login") {
+    @if (ViewData["Title"] == null || ViewData["Title"].ToString() != "Login")
+    {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -52,7 +51,7 @@
             </div>
         </nav>
     </header>
-    
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
