@@ -11,6 +11,7 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
 using Festispec.UI.ViewModels.Festivals;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI
@@ -73,7 +74,7 @@ namespace Festispec.UI
             // Initialise the application directory structure for WPF.
             // Make sure to add your custom paths here.
             FestispecPaths.Setup();
-            
+
             // Run an initial offline sync in a background thread
             Task.Run(() =>
             {

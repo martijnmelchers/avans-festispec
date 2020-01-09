@@ -19,7 +19,7 @@ namespace Festispec.DomainServices.Services
         
         public async Task<List<Prediction>> GetSuggestions(string input)
         {
-            return new List<Prediction>();
+            return await Task.FromResult(new List<Prediction>());
         }
 
         public Task<Address> GetAddress(string placeId)

@@ -33,7 +33,12 @@ namespace Festispec.UI.ViewModels.Employees
             }
             else
             {
-                Employee = new Employee {Account = new Account()};
+                Employee = new Employee
+                {
+                    Account = new Account(),
+                    Name = new FullName(),
+                    ContactDetails = new ContactDetails()
+                };
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
             }
 

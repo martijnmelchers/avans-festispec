@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 using Festispec.Models.Reports;
+using Microsoft.Extensions.Configuration;
 
 namespace Festispec.Models.EntityMapping
 {

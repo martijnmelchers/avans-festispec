@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "Environment": "Debug",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
