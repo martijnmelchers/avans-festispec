@@ -123,6 +123,7 @@ namespace Festispec.DomainServices.Services
             FestispecContext db = _syncService.GetSyncContext();
         
             List<Customer> customers = db.Customers
+                .Include(c => c.Address)
                 .Include(c => c.ContactPersons)
                 .Include(c => c.Festivals).ToList();
             
