@@ -122,15 +122,17 @@
 
                             <StackPanel Orientation="Vertical" Width="250" Grid.Column="1">
                                 <Button Command="{Binding DataContext.EditPlannedInspectionCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
-                                        CommandParameter= "{Binding}"
-                                        Style="{DynamicResource ButtonGreen}" Height="50" Width="50" Margin="0,10,0,0">
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource ButtonGreen}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,0"
+                                        HorizontalAlignment="Right">
                                     <Button.Content>
                                         <Image Height="25" Source="{StaticResource EditWhite}"/>
                                     </Button.Content>
                                 </Button>
                                 <Button Command="{Binding DataContext.DeletePlannedInspectionsCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                                         CommandParameter="{Binding}"
-                                        Style="{DynamicResource ButtonRed}" Height="50" Width="50" Margin="0,10,0,10">
+                                        Style="{DynamicResource ButtonRed}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,10"
+                                        HorizontalAlignment="Right">
                                     <Button.Content>
                                         <Image Height="25" Source="{StaticResource TrashcanWhite}" />
                                     </Button.Content>
@@ -141,7 +143,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Content="Nieuwe Inspectie" Style= "{StaticResource ButtonGreen}"
+            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}"
                     Command="{Binding DataContext.CreatePlannedInspectionCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}"
                     Height="50" Width= "250" Grid.Row= "2"/>
         </Grid>
@@ -167,7 +169,6 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Rectangle Style="{DynamicResource InnerContextBox}" Height="50"
                                        HorizontalAlignment="Stretch" Grid.ColumnSpan="4"/>
@@ -178,18 +179,6 @@
                                            CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
                                     <Image Height="30" Source="{StaticResource EyeGreen}"/>
                                 </Hyperlink>
-                            </TextBlock>
-                            <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}}"
-                                       Grid.Column="3" Padding="0,0,20,0" VerticalAlignment="Center">
-                                <Hyperlink Click="ToggleDeleteQuestionnairePopUp"
-                                           Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                           CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
-                                    <Image Height="25" Source="{StaticResource TrashcanRed}"/>
-                                </Hyperlink>
-                            </TextBlock>
-                            <TextBlock Visibility= "{Binding ., Converter={StaticResource HasQuestionsConverter}, ConverterParameter=true}"
-                                       Grid.Column= "3" Padding= "0,0,20,0" VerticalAlignment= "Center">
-                                <Image Height= "25" Source= "{StaticResource TrashcanGray}"/>
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
