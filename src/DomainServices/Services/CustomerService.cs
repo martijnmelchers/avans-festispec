@@ -91,8 +91,8 @@ namespace Festispec.DomainServices.Services
                 throw new CustomerHasFestivalsException();
 
             _db.ContactPersons.RemoveRange(customer.ContactPersons);
-            _db.Customers.Remove(customer);
             await _addressService.RemoveAddress(customer.Address);
+            _db.Customers.Remove(customer);
 
             return await SaveChangesAsync();
         }
