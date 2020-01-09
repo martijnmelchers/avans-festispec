@@ -3,7 +3,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 <form asp-action="Index">
     <script>
         const data = @Html.Raw(ViewBag.SuccesBody);
@@ -58,14 +57,13 @@
     </script>
     <style>
         .change {
-            background-color: red;
+            background-color: #FF4E4E;
         }
     </style>
 
-
     <div id="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
-        <div class="datepicker">
+        <div class="datepicker" style="display: flex; justify-content: center; margin-bottom: 15px">
 
         </div>
         <div class="span5 col-md-5" id="sandbox-container">
@@ -73,15 +71,25 @@
             <div>
             </div>
         </div>
+
         <div class="legend-item">
-            <div id="blue-circle"></div> <p>Beschikbaar</p>
+            <span class="circle" style="background-color: #286090"></span> <p>Geselecteerd</p>
         </div>
         <div class="legend-item">
-            <div id="green-circle"></div> <p>Aangegeven beschikbaarheid</p>
+            <span class="circle" style="background-color: #FF4E4E"></span> <p>Niet beschikbaar</p>
+        </div>
+        <div class="legend-item">
+            <span class="circle" style="background-color: #FFFFFF; border: solid 1px #707070"></span> <p>Beschikbaar</p>
         </div>
 
         <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
-        <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
+        <p class="availability-paragraph">
+            Selecteer de dagen dat je niet beschikbaar bent,
+            op deze dagen zullen wij je niet inplannen voor inspecties.
+            <br/>
+            Als je een dag selecteerd die is gemarkeerd als niet beschikbaar zal deze
+            weer verandert worden naar beschikbaar.
+        </p>
         <input type="submit" id="save" value="Opslaan" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
     </div>
 
