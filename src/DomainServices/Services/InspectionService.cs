@@ -91,7 +91,7 @@ namespace Festispec.DomainServices.Services
                 else
                 {
                     await CreatePlannedInspection(plannedInspection.Festival.Id, plannedInspection.Questionnaire.Id,
-                        plannedInspection.StartTime, plannedInspection.EndTime, plannedInspection.EventTitle,
+                        plannedInspection.StartTime, (DateTime)plannedInspection.EndTime, plannedInspection.EventTitle,
                         plannedInspection.Employee.Id);
                 }
             }

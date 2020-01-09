@@ -34,6 +34,28 @@ namespace Festispec.UnitTests.Helpers
             EndTime = new TimeSpan(1, 0, 0)
         };
 
+        public static Employee Employee1 = new Employee()
+        {
+            Id = 1,
+            Account = new Account()
+            {
+                Id = 1,
+                Username = "JohnDoe",
+                Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                Role = Role.Inspector
+            }
+        };
+
+        public static Availability Sickness = new Availability()
+        {
+            Id = 1,
+            Employee = Employee1,
+            IsAvailable = false,
+            Reason = "Ik heb griep",
+            EventTitle = "Afwezig wegens ziekte",
+            StartTime = new DateTime(2019, 12, 28)
+        };
+
         public static Customer Customer1 = new Customer()
         {
             Id = 1,
@@ -274,6 +296,21 @@ namespace Festispec.UnitTests.Helpers
             Customer1,
             Customer2,
             CustomerThunderDome
+        };
+
+        public List<PlannedEvent> PlannedEvents = new List<PlannedEvent>
+        {
+            Sickness
+        };
+
+        public List<Availability> Availability = new List<Availability>
+        {
+            Sickness
+        };
+
+        public List<Employee> Employees1 = new List<Employee>
+        {
+            Employee1
         };
         
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();

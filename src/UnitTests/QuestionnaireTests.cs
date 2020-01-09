@@ -214,7 +214,7 @@ namespace Festispec.UnitTests
         {
             Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
 
-            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId, "test");
+            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId, "Copied questionnaire");
 
             Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
 
