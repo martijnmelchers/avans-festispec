@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
@@ -195,6 +197,40 @@ namespace Festispec.DomainServices.Services
         }
 
         #endregion Question Management
+
+
+
+
+        #region  inspection
+
+        public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
+        {
+            List<PlannedInspection> plannedInspections = await _db.PlannedInspections
+                .Include(e => e.Employee)
+                .Where(e => e.Employee.Id == employeeId && EntityFunctions.TruncateTime(e.StartTime) == EntityFunctions.TruncateTime(DateTime.Now))
+                .ToListAsync();
+
+            if (plannedInspections.Count < 1)
+                throw new EntityNotFoundException();
+
+            return plannedInspections;
+        }
+        
+        
+        public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
+        {
+            PlannedInspection plannedInspection = await _db.PlannedInspections
+                .Include(pi => pi.Festival)
+                .Include(pi => pi.Festival.Address)
+                .FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
+
+            if (plannedInspection == null)
+                throw new EntityNotFoundException();
+
+            return plannedInspection;
+        }
+
+        #endregion
 
         public void Sync()
         {
