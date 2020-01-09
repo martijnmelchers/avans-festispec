@@ -48,7 +48,7 @@
             <Label Content="Festivalgegevens" HorizontalAlignment="Left" Grid.Row="1" FontSize="20"
                VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
 
-            <Label Content="Naam" HorizontalAlignment="Left" FontSize="20"
+            <Label Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
                Style="{DynamicResource MediumLabel}" Grid.Row="2" Grid.Column="0" />
             <TextBox Name="TextBoxFestivalName" HorizontalAlignment="Left" Width="520" Height="50" Grid.Row="3" Grid.Column="0">
                 <TextBox.Text>
@@ -60,7 +60,7 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Label Content="Beschrijving" HorizontalAlignment="Left" FontSize="20"
+            <Label Content="Beschrijving" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
                Style="{DynamicResource MediumLabel}" Grid.Row="4" Grid.Column="0" />
             <TextBox Name="TextBoxDescription" HorizontalAlignment="Left" VerticalAlignment="Top"
                      TextWrapping="Wrap" Width="520" Height="150" Grid.Row="5" Grid.RowSpan="3" Grid.Column="0">
@@ -73,15 +73,15 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Label Content="Adres" HorizontalAlignment="Left" FontSize="20"
+            <Label Content="Adres" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
                Style="{DynamicResource MediumLabel}" Grid.Row="8" Grid.Column="0" />
             <TextBox Text="{Binding SearchQuery}" TextWrapping="Wrap"
                 HorizontalAlignment="Left" Height="50" Width="316" Grid.Row="9" Grid.Column="0" />
             <Button Content="Zoeken" Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}"
-                HorizontalAlignment="Right" Height="50" Grid.Row="9" Grid.Column="0" Margin="0,0,30,0" />
+                HorizontalAlignment="Right" Height="50" Width="150" Grid.Row="9" Grid.Column="0" Margin="0,0,30,0" />
 
             <TextBlock Name="Address" Text="{Binding CurrentAddress}" Style="{DynamicResource DefaultText}"
-               HorizontalAlignment="Left" TextWrapping="Wrap" Height="50" Width="521" Grid.Row="10" Grid.Column="0"/>
+               VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="10" Grid.Column="0"/>
 
             <ListView VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding Suggestions}"
                   BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="185" Width="520" 
@@ -119,12 +119,10 @@
             <Label Content="Tijdgegevens" HorizontalAlignment="Left" FontSize="20" Style="{DynamicResource MediumLabel}" 
                    Grid.Row="1" Grid.Column="2"/>
 
-            <Label Content="{Binding Festival.Customer.CustomerName}" HorizontalAlignment="Left" Margin="301,176,0,0"
-               FontSize="15" VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
-            <Label Content="Begindatum (dd-mm-yyyy)" Margin="920,280,0,0" HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-            <TextBox Name="TextBoxStartDate" HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top"
-                 Height="50" Width="340">
+            <Label Content="Begindatum (dd-mm-yyyy)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="2" Grid.Column="2"/>
+            <TextBox Name="TextBoxStartDate" HorizontalAlignment="left" VerticalAlignment="Top"
+                 Height="50" Width="300" Grid.Row="3" Grid.Column="2">
                 <TextBox.Text>
                     <Binding Path="Festival.OpeningHours.StartDate" StringFormat="dd/MM/yyyy"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -136,10 +134,10 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Label Content="Einddatum (dd-mm-yyyy)" Margin="1280,280,0,0" HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-            <TextBox Name="TextBoxEndDate" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top"
-                 Height="50" Width="340">
+            <Label Content="Einddatum (dd-mm-yyyy)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="2" Grid.Column="4"/>
+            <TextBox Name="TextBoxEndDate" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Height="50" Width="300" Grid.Row="3" Grid.Column="4">
                 <TextBox.Text>
                     <Binding Path="Festival.OpeningHours.EndDate" StringFormat="dd/MM/yyyy"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -151,9 +149,10 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Label Content="Begintijd (hh:mm)" Margin="920,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="TextBoxStartTime" HorizontalAlignment="Right" Margin="0,395,660,0" VerticalAlignment="Top"
-                 Width="340" Height="50">
+            <Label Content="Begintijd (hh:mm)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="4" Grid.Column="2"/>
+            <TextBox Name="TextBoxStartTime" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Width="300" Height="50" Grid.Row="5" Grid.Column="2">
                 <TextBox.Text>
                     <Binding Path="Festival.OpeningHours.StartTime" StringFormat="{}{0:hh}:{0:mm}"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -164,9 +163,11 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Label Content="Eindtijd (hh:mm)" Margin="1280,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="TextBoxEndTime" HorizontalAlignment="Right" Margin="0,395,300,0" VerticalAlignment="Top"
-                 Width="340" Height="50">
+
+            <Label Content="Eindtijd (hh:mm)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="4" Grid.Column="4"/>
+            <TextBox Name="TextBoxEndTime" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Width="300" Height="50" Grid.Row="5" Grid.Column="4">
                 <TextBox.Text>
                     <Binding Path="Festival.OpeningHours.EndTime" StringFormat="{}{0:hh}:{0:mm}"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -178,11 +179,11 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Button Content="Annuleren" HorizontalAlignment="Right" Margin="0,0,502,99" VerticalAlignment="Bottom"
-                Height="44" Style="{StaticResource ButtonRed}" Command="{Binding CancelCommand}" />
+            <StackPanel Orientation="Horizontal" Grid.Row="16" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Button Content="Annuleren" Height="50" Width="150" Style="{StaticResource ButtonRed}" 
+                    Command="{Binding CancelCommand}" Margin="0,0,10,0"/>
 
-            <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,100" VerticalAlignment="Bottom"
-                Height="44" Command="{Binding UpdateFestivalCommand}">
+            <Button Content="Opslaan" Height="50" Width="150" Command="{Binding UpdateFestivalCommand}">
                 <Button.Style>
                     <Style BasedOn="{StaticResource ButtonGreen}" TargetType="{x:Type Button}">
                         <Setter Property="IsEnabled" Value="false" />
@@ -210,6 +211,7 @@
                     </Style>
                 </Button.Style>
             </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
