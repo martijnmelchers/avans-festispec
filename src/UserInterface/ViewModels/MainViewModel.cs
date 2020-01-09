@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
@@ -37,11 +38,14 @@ namespace Festispec.UI.ViewModels
         public string CurrentName => IsLoggedIn ? CurrentAccount.Employee.Name.First : "Gast";
 
         public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
+        
+        public Visibility IsOffline { get; set; }
 
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService)
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
         {
             _navigationService = navigationService;
             _authenticationService = authenticationService;
+            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
             NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
             LoginCommand = new RelayCommand<object>(Login);
         }
@@ -56,6 +60,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
+                _authenticationService.Sync();
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException a)

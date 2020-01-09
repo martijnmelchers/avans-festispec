@@ -12,10 +12,13 @@ namespace Festispec.DomainServices.Services
     public class FestivalService : IFestivalService
     {
         private readonly FestispecContext _db;
+        private readonly ISyncService<Festival> _syncService;
         private readonly IAddressService _addressService;
-        public FestivalService(FestispecContext db, IAddressService addressService)
+
+        public FestivalService(FestispecContext db, ISyncService<Festival> syncService, IAddressService addressService)
         {
             _db = db;
+            _syncService = syncService;
             _addressService = addressService;
         }
 
@@ -88,6 +91,21 @@ namespace Festispec.DomainServices.Services
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+            
+            List<Festival> festivals = db.Festivals
+                .Include(f => f.Address)
+                .Include(f => f.Questionnaires)
+                .Include(f => f.Questionnaires.Select(q => q.Questions))
+                .Include(f => f.PlannedInspections).ToList();
+
+            _syncService.Flush();
+            _syncService.AddEntities(festivals);
+            _syncService.SaveChanges();
         }
     }
 }

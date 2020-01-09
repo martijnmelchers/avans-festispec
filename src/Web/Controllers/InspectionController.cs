@@ -57,9 +57,8 @@ namespace Festispec.Web.Controllers
             catch (Exception)
             {
                 if (Request.Cookies["CurrentUserId"] == null)
-                {
-                    return RedirectToAction("Login", "Authentication");
-                }
+                     return RedirectToAction("Login", "Authentication");
+
                 answers = new List<Answer>();
             }
 
@@ -72,6 +71,11 @@ namespace Festispec.Web.Controllers
                     question1 = (question as Festispec.Models.Questions.ReferenceQuestion).Question;
                     question1.Id = question.Id;
                     question1.Contents = question.Contents;
+                    question1.Answers = question.Answers;
+
+                    foreach (var item in question1.Answers)
+                        item.Question = question1;
+
                 }
 
                 if (!question1.Answers.Any(e => e.PlannedInspection.Id == plannedInspection.Id))
@@ -79,27 +83,27 @@ namespace Festispec.Web.Controllers
                     switch (question1)
                     {
                         case Festispec.Models.Questions.NumericQuestion _:
-                            answers.Add(new NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new NumericAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         case Festispec.Models.Questions.RatingQuestion _:
-                            answers.Add(new NumericAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new NumericAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         case Festispec.Models.Questions.MultipleChoiceQuestion _:
-                            answers.Add(new MultipleChoiceAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new MultipleChoiceAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         case StringQuestion _:
-                            answers.Add(new StringAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new StringAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         case DrawQuestion _:
-                            answers.Add(new FileAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new FileAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         case UploadPictureQuestion _:
-                            answers.Add(new FileAnswer() { Question = question, PlannedInspection = plannedInspection });
+                            answers.Add(new FileAnswer() { Question = question1, PlannedInspection = plannedInspection });
                             break;
 
                         default:
@@ -146,14 +150,21 @@ namespace Festispec.Web.Controllers
         {
             FileAnswer fileAnswer = new FileAnswer();
             int questionId = int.Parse(Request.Form["QuestionId"].ToString());
-            fileAnswer.Question = await _questionnaireService.GetQuestion(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
+            fileAnswer.Id = int.Parse(Request.Form["Id".ToString()]);
+            fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
             fileAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(int.Parse(Request.Form["PlannedInspectionId"].ToString()));
 
             var filePath = await UploadFile(file);
             fileAnswer.UploadedFilePath = filePath;
+            fileAnswer.AnswerContents = Request.Form["AnswerContents"].ToString();
 
             if (fileAnswer.Id != 0)
+            {
                 (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = fileAnswer.UploadedFilePath;
+                (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).AnswerContents = fileAnswer.AnswerContents;
+
+            }
+
             else await _questionnaireService.CreateAnswer(fileAnswer);
             await _questionnaireService.SaveChangesAsync();
             return RedirectToAction("Details", new { id = fileAnswer.PlannedInspection.Id });
