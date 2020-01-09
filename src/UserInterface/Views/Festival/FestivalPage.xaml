@@ -259,6 +259,8 @@
                 </StackPanel>
             </Border>
         </Popup>
+        <controls:ValidationPopup Caption="Festival Pagina" />
+        <controls:DeleteCheckPopup Caption="WAARSCHUWING" Subtext="Weet je zeker dat je dit festival wilt verwijderen?" />
     </Grid>
 
 
