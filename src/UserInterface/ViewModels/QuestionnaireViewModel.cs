@@ -16,7 +16,7 @@ using Microsoft.Win32;
 
 namespace Festispec.UI.ViewModels
 {
-    internal class QuestionnaireViewModel : ViewModelBase, IActivateable<int>
+    internal class QuestionnaireViewModel : BaseValidationViewModel, IActivateable<int>
     {
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
@@ -168,8 +168,7 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"An error occured while adding a question. The occured error is: {e.GetType()}",
-                        $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    OpenValidationPopup($"An error occured while adding a question. The occured error is: {e.GetType()}");
                 }
 
             AddedQuestions.Clear();
@@ -181,9 +180,7 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(
-                        $"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}",
-                        $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                    OpenValidationPopup($"An error occured while removing question with the id: {q.Id}. The occured error is: {e.GetType()}");
                 }
 
             RemovedQuestions.Clear();

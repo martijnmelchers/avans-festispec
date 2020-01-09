@@ -11,7 +11,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Festispec.UI.ViewModels.Festivals
 {
-    public class FestivalViewModel : ViewModelBase
+    public class FestivalViewModel : BaseValidationViewModel
     {
         private readonly IFestivalService _festivalService;
         private readonly IInspectionService _inspectionService;
@@ -107,8 +107,7 @@ namespace Festispec.UI.ViewModels.Festivals
             }
             catch (FestivalHasQuestionnairesException e)
             {
-                MessageBox.Show("Dit festival kan niet worden verwijderd omdat er al vragenlijsten zijn aangemaakt.",
-                    $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                OpenValidationPopup("Dit festival kan niet worden verwijderd omdat er al vragenlijsten zijn aangemaakt.");
             }
         }
 
@@ -127,9 +126,7 @@ namespace Festispec.UI.ViewModels.Festivals
             }
             catch (Exception e)
             {
-                MessageBox.Show(
-                    "Er is een fout opgetreden tijdens het aanmaken van de vragenlijst. Probeer het opnieuw.",
-                    $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                OpenValidationPopup("Er is een fout opgetreden tijdens het aanmaken van de vragenlijst. Probeer het opnieuw.");
             }
         }
 
@@ -141,12 +138,11 @@ namespace Festispec.UI.ViewModels.Festivals
             try
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
-               // _festivalService.Sync();
+                _festivalService.Sync();
             }
-            catch(QuestionHasAnswersException e)
+            catch(QuestionHasAnswersException)
             {
-                MessageBox.Show("Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.",
-                    $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                OpenValidationPopup("Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.");
             }
         }
 
@@ -171,16 +167,14 @@ namespace Festispec.UI.ViewModels.Festivals
                 }
                 catch (QuestionHasAnswersException)
                 {
-                    MessageBox.Show("De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.",
-                        "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    OpenValidationPopup("De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.");
                 }
                 catch (InvalidDataException)
                 {
-                    MessageBox.Show("De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.",
-                        "Kan inspectie niet verwijderen.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    OpenValidationPopup("De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.");
                 }
 
-            RaisePropertyChanged("PlannedInspections");
+            RaisePropertyChanged(nameof(PlannedInspections));
         }
 
         #endregion PlannedInspections

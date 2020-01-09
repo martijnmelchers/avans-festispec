@@ -197,6 +197,7 @@
                 </Button.Style>
             </Button>
 
+            <controls:ValidationPopup Caption="Festival aanmaken" />
         </Grid>
     </Grid>
 </Page>

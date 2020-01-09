@@ -59,7 +59,7 @@
 
             <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="7"/>
             <Label Content="Beschrijving" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="7" Margin="30,0,0,0"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="8" FontWeight="Light" Width="450">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="8" Grid.RowSpan="2" FontWeight="Light" Width="450">
                 <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
             </Label>
 
