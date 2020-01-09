@@ -254,7 +254,7 @@ namespace Festispec.UI.ViewModels
                 {
                     OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
