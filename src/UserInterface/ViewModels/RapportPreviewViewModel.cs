@@ -25,6 +25,7 @@ namespace Festispec.UI.ViewModels
     {
         private readonly IQuestionnaireService _questionnaireService;
         private readonly GraphSelectorFactory _graphFactory;
+        private readonly IFrameNavigationService _navigationService;
         private string _pdfHtml;
         
         private readonly Dictionary<Image, string> _imageSources = new Dictionary<Image, string>();
@@ -37,6 +38,7 @@ namespace Festispec.UI.ViewModels
             )
         {
             _questionnaireService = questionnaireService;
+            _navigationService = navigationService;
             _graphFactory = graphSelector;
 
             GeneratePdfCommand = new RelayCommand(SavePdf);
@@ -44,10 +46,8 @@ namespace Festispec.UI.ViewModels
 
             SelectedFestival = festivalService.GetFestival((int)navigationService.Parameter);
 
-            if (SelectedFestival.Questionnaires.Count == 0)
-                navigationService.NavigateTo("FestivalInfo", navigationService.Parameter);
-
             GenerateReport();
+
         }
 
         public ObservableCollection<FrameworkElement> Controls { get; set; }
@@ -67,6 +67,13 @@ namespace Festispec.UI.ViewModels
 
         private void GenerateReport()
         {
+            if(SelectedFestival.Questionnaires.Count == 0)
+            {
+                _navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id);
+                return;
+            }
+
+
             int questionnaireId = SelectedFestival.Questionnaires.FirstOrDefault().Id;
             List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
 
