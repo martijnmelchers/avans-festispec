@@ -1,9 +1,9 @@
-﻿@model Festispec.Models.Availability
+﻿
 @{
     ViewData["Title"] = "Index";
 }
 
-<form asp-action="Index">
+
     <script>
         const data = @Html.Raw(ViewBag.SuccesBody);
 
@@ -23,7 +23,7 @@
                 
                  });
 
-            $('.btn').on('click', function () {
+            $('.green-button').on('click', function () {
                 changeDaysBackground();
                 var the_date = $('.datepicker:first').datepicker('getDates').forEach(e => Dates.push(e.toLocaleDateString('nl-NL')));
                 console.log(the_date);
@@ -61,37 +61,45 @@
         }
     </style>
 
-    <div id="background-availability">
+    <div class="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
-        <div class="datepicker" style="display: flex; justify-content: center; margin-bottom: 15px">
+        <div class="title-bar"></div>
+        <div id="datepicker-background">
+            <div class="datepicker" style="display: flex; justify-content: center; margin-bottom: 15px">
 
+            </div>
         </div>
         <div class="span5 col-md-5" id="sandbox-container">
-            <p id="date-error" style="color : red ; font-weight: bold">@TempData["DateError"]</p>
+            <p id="date-error" style="color : red ; font-weight: bold;">@TempData["DateError"]</p>
             <div>
             </div>
         </div>
 
         <div class="legend-item">
-            <span class="circle" style="background-color: #286090"></span> <p>Geselecteerd</p>
+            <span class="square" style="background-color: #286090"></span> <p>Geselecteerd</p>
         </div>
         <div class="legend-item">
-            <span class="circle" style="background-color: #FF4E4E"></span> <p>Niet beschikbaar</p>
+            <span class="square" style="background-color: #FF4E4E"></span> <p>Niet beschikbaar</p>
         </div>
         <div class="legend-item">
-            <span class="circle" style="background-color: #FFFFFF; border: solid 1px #707070"></span> <p>Beschikbaar</p>
+            <span class="square" style="background-color: #FFFFFF; border: solid 1px #707070"></span> <p>Beschikbaar</p>
         </div>
 
         <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
-        <p class="availability-paragraph">
+        <div class="availability-paragraph">
+            <p>
             Selecteer de dagen dat je niet beschikbaar bent,
             op deze dagen zullen wij je niet inplannen voor inspecties.
-            <br/>
-            Als je een dag selecteerd die is gemarkeerd als niet beschikbaar zal deze
-            weer verandert worden naar beschikbaar.
-        </p>
-        <input type="submit" id="save" value="Opslaan" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
+            </p>
+            <p>
+            Als je een dag selecteert die is gemarkeerd als niet beschikbaar, zal deze
+            weer veranderd worden naar beschikbaar.
+            </p>
+        </div>
+        <div id="availability-submit-container">
+            <input type="submit" id="save" value="Opslaan" class="green-button"/>
+        </div>
     </div>
 
-</form>
+
 
