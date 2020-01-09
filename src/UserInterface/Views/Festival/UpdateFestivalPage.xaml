@@ -45,7 +45,7 @@
                    Grid.Column="0" Grid.Row="0" />
             <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
-            <Label Content="Festivalgegevens" HorizontalAlignment="Left" Grid.Row="1" FontSize="20"
+            <Label Content="Festivalgegevens" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" FontSize="20"
                VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
 
             <Label Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
@@ -80,8 +80,8 @@
             <Button Content="Zoeken" Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}"
                 HorizontalAlignment="Right" Height="50" Width="150" Grid.Row="9" Grid.Column="0" Margin="0,0,30,0" />
 
-            <TextBlock Name="Address" Text="{Binding CurrentAddress}" Style="{DynamicResource DefaultText}"
-               VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="10" Grid.Column="0"/>
+            <TextBlock Text="{Binding CurrentAddress}" Style="{DynamicResource DefaultText}"
+                       VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="10" Grid.Column="0"/>
 
             <ListView VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding Suggestions}"
                   BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="185" Width="520" 
