@@ -56,7 +56,7 @@ namespace Festispec.UI.ViewModels
             _removedQuestions = new ObservableCollection<Question>();
 
 
-            AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
+            AddQuestionCommand = new RelayCommand(AddQuestion);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline);
             DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire, () => offlineService.IsOnline);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline);
