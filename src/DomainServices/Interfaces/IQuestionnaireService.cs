@@ -14,7 +14,7 @@ namespace Festispec.DomainServices.Interfaces
         Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId);
         Task<bool> RemoveQuestion(int questionId);
         Task RemoveQuestionnaire(int questionnaireId);
-        Task<Questionnaire> CopyQuestionnaire(int questionnaireId);
+        Task<Questionnaire> CopyQuestionnaire(int questionnaireId, string questionnaireName);
         Task<Question> GetQuestion(int questionId);
         Task<Answer> CreateAnswer(Answer answer);
         void Save();

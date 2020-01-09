@@ -5,7 +5,6 @@ namespace Festispec.Models
 {
     public class Employee : Entity
     {
-
         public int Id { get; set; }
 
         public FullName Name { get; set; }

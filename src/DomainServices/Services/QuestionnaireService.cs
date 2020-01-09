@@ -56,7 +56,7 @@ namespace Festispec.DomainServices.Services
             if (existing != null)
                 throw new EntityExistsException();
 
-            Festival festival = _db.Festivals.FirstOrDefault(f => f.Id == festivalId);
+            Festival festival = await _db.Festivals.FirstOrDefaultAsync(f => f.Id == festivalId);
 
             var questionnaire = new Questionnaire(name, festival);
 
@@ -84,18 +84,19 @@ namespace Festispec.DomainServices.Services
                 throw new NoRowsChangedException();
         }
 
-        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
+        public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId, string questionnaireName)
         {
             Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
 
             Questionnaire newQuestionnaire =
-                await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival.Id);
+                await CreateQuestionnaire(questionnaireName, oldQuestionnaire.Festival.Id);
+            
+            foreach (var e in oldQuestionnaire.Questions)
+            {
+                await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e));
+            }
 
-            oldQuestionnaire.Questions.ToList().ForEach(async e =>
-                await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return newQuestionnaire;
         }

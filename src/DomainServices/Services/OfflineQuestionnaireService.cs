@@ -53,7 +53,7 @@ namespace Festispec.DomainServices.Services
             throw new System.InvalidOperationException();
         }
 
-        public Task<Questionnaire> CopyQuestionnaire(int questionnaireId)
+        public Task<Questionnaire> CopyQuestionnaire(int questionnaireId, string questionnaireName)
         {
             throw new System.InvalidOperationException();
         }

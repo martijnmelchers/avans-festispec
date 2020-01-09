@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
@@ -20,6 +21,9 @@ namespace Festispec.UI.ViewModels.Festivals
 
         private Festival _festival;
 
+        private bool _createQuestionnairePopupIsOpen { get; set; } = false;
+        private bool _copyQuestionnairePopupIsOpen { get; set; } = false;
+
         public FestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService,
             IQuestionnaireService questionnaireService, IInspectionService inspectionService, IOfflineService offlineService)
         {
@@ -35,6 +39,9 @@ namespace Festispec.UI.ViewModels.Festivals
             CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline, true);
             ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
             DeleteQuestionnaireCommand = new RelayCommand<int>(id => _deletetingQuestionnareId = id, _ => offlineService.IsOnline, true);
+            NewQuestionnaireCommand = new RelayCommand(NewQuestionnaire);
+            OpenCopyQuestionnaireCommand = new RelayCommand<int>(openCopyQuestionnaire);
+            CopyQuestionnaireCommand = new RelayCommand(CopyQuestionnaire);
             GenerateReportCommand = new RelayCommand(GenerateReport);
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(plannedInspections =>
@@ -55,6 +62,24 @@ namespace Festispec.UI.ViewModels.Festivals
                 RaisePropertyChanged(nameof(Festival));
             }
         }
+        public bool CreateQuestionnairePopupIsOpen
+        {
+            get => _createQuestionnairePopupIsOpen;
+            set
+            {
+                _createQuestionnairePopupIsOpen = value;
+                RaisePropertyChanged(nameof(CreateQuestionnairePopupIsOpen));
+            }
+        } 
+        public bool CopyQuestionnairePopupIsOpen
+        {
+            get => _copyQuestionnairePopupIsOpen;
+            set
+            {
+                _copyQuestionnairePopupIsOpen = value;
+                RaisePropertyChanged(nameof(CopyQuestionnairePopupIsOpen));
+            }
+        } 
 
         public bool CanEdit { get; set; }
 
@@ -62,12 +87,16 @@ namespace Festispec.UI.ViewModels.Festivals
         public string FestivalData { get; set; }
         public string FestivalTimes { get; set; }
         public string QuestionnaireName { get; set; }
+        private int _copyQuestionnaireId { get; set; }
         private int _deletetingQuestionnareId { get; set; }
 
         public ICommand EditFestivalCommand { get; set; }
         public ICommand RemoveFestivalCommand { get; set; }
         public ICommand CreateQuestionnaireCommand { get; set; }
         public ICommand ConfirmDeleteQuestionnaireCommand { get; set; }
+        public ICommand NewQuestionnaireCommand { get; set; }
+        public ICommand CopyQuestionnaireCommand { get; set; }
+        public ICommand OpenCopyQuestionnaireCommand { get; set; }
         public ICommand GenerateReportCommand { get; set; }
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
@@ -103,20 +132,21 @@ namespace Festispec.UI.ViewModels.Festivals
             }
         }
 
-        public void OpenQuestionnaire(int id)
-        {
-            _navigationService.NavigateTo("Questionnaire", id);
-        }
+        public void OpenQuestionnaire(int id) => _navigationService.NavigateTo("Questionnaire", id);
+
+
+        public void NewQuestionnaire() => CreateQuestionnairePopupIsOpen = true;
 
         public async void CreateQuestionnaire()
         {
+            CreateQuestionnairePopupIsOpen = false;
             try
             {
                 var questionnaire = await _questionnaireService.CreateQuestionnaire(QuestionnaireName, Festival.Id);
                 _festivalService.Sync();
                 OpenQuestionnaire(questionnaire.Id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 OpenValidationPopup("Er is een fout opgetreden tijdens het aanmaken van de vragenlijst. Probeer het opnieuw.");
             }
@@ -135,6 +165,25 @@ namespace Festispec.UI.ViewModels.Festivals
             catch(QuestionHasAnswersException)
             {
                 OpenValidationPopup("Deze vragenlijst kan niet worden verwijderd omdat er al vragen zijn beantwoord.");
+            }
+        }
+        public void openCopyQuestionnaire(int copyQuestionnaireId)
+        {
+            CopyQuestionnairePopupIsOpen = true;
+            _copyQuestionnaireId = copyQuestionnaireId;
+        }
+
+        private async void CopyQuestionnaire()
+        {
+            try
+            {
+                Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(_copyQuestionnaireId, QuestionnaireName);
+                CopyQuestionnairePopupIsOpen = false;
+                _navigationService.NavigateTo("Questionnaire", newQuestionnaire.Id);
+            }
+            catch (Exception)
+            {
+                OpenValidationPopup("De vragenlijst niet copieren.");
             }
         }
 

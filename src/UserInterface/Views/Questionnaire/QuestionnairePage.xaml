@@ -15,6 +15,7 @@
         <converters:CanEditQuestionConverter x:Key="CanEditQuestionConverter" />
         <converters:CanEditQuestionConverterInverse x:Key="CanEditQuestionConverterInverse" />
         <converters:HideButtonConverter x:Key="HideButtonConverter"/>
+        <converters:ToTypeConverter x:Key="ToTypeConverter"/>
     </Page.Resources>
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1250" />
@@ -42,7 +43,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="{x:Type models:Question}">
-                        <Expander Header="Vraag"  Width="1000" IsExpanded="True" Margin="0,10,0,0">
+                        <Expander Header="{Binding DataContext, Converter={StaticResource ToTypeConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"  Width="1000" IsExpanded="True" Margin="0,10,0,0">
                             <StackPanel>
                                 <Label Content="Vraag" />
                                 <TextBox Text="{Binding Contents}"
@@ -62,7 +63,7 @@
                                                     </ListView.ItemTemplate>
                                                 </ListView>
                                                 <Button Margin="10" Style="{DynamicResource ButtonGreen}" Height="50"
-                                                        Width="200" Content="Add option"
+                                                        Width="200" Content="Optie toevoegen"
                                                         Command="{Binding DataContext.AddOptionToQuestion, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                                                         CommandParameter="{Binding}"
                                                         IsEnabled="{Binding DataContext , Converter={StaticResource CanEditQuestionConverterInverse}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />

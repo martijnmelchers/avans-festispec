@@ -4,12 +4,9 @@ using Festispec.Models.EntityMapping;
 using Festispec.Models;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Festispec.UnitTests.Helpers;
 using Xunit;
 using Festispec.Models.Exception;
-using Festispec.Models.Answers;
 
 namespace Festispec.UnitTests
 {

@@ -1,9 +1,6 @@
 ﻿using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
@@ -217,7 +214,7 @@ namespace Festispec.UnitTests
         {
             Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
 
-            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId);
+            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId, "test");
 
             Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
 
