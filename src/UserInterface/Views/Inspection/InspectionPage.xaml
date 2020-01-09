@@ -46,7 +46,10 @@
                 <Label Content=" " />
                 <Label Content="{Binding Festival.Address.City}" />
             </StackPanel>
-            <Label Content="{Binding Festival.OpeningHours}" Grid.Column="1" Grid.Row="1" Margin="25,0,0,0" />
+
+            <Label Grid.Column="1" Grid.Row="1" Margin="25,0,0,0" >
+                <TextBlock Text="{Binding Festival.OpeningHours}" TextWrapping="Wrap"/>
+            </Label>
             <Label Content="Selecteer een datum" Grid.Column="0" Grid.Row="2" />
             <ComboBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding GetDateOptions}"
                       SelectedItem="{Binding SelectedDate}" Margin="0,0,25,0" />
