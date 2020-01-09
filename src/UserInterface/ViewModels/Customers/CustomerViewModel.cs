@@ -71,6 +71,12 @@ namespace Festispec.UI.ViewModels.Customers
 
         private async void AddCustomer()
         {
+            if (string.IsNullOrEmpty(CurrentAddress))
+            {
+                OpenValidationPopup("Er is geen adres ingevuld.");
+                return;
+            }
+
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
