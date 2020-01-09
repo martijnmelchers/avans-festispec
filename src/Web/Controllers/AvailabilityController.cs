@@ -14,13 +14,10 @@ namespace Festispec.Web.Controllers
     {
 
         private IAvailabilityService _availibilityService;
-        private int _currentEmployeeId;
 
         public AvailabilityController(IAvailabilityService availibilityService)
         {
             _availibilityService = availibilityService;
-            //_currentEmployeeId = Int32.Parse(Request.Cookies["CurrentUserID"]);
-            _currentEmployeeId = 1;
         }
         public async Task <IActionResult> Index()
         {
@@ -31,7 +28,7 @@ namespace Festispec.Web.Controllers
         public async Task<Dictionary<string, int>> ConvertAvailibiltyToJson()
         {
             var dictionary = new Dictionary<string, int>();
-            var availibilityDictionary = await _availibilityService.GetUnavailabilitiesForFuture(_currentEmployeeId, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            var availibilityDictionary = await _availibilityService.GetUnavailabilitiesForFuture(Int32.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
             foreach (var availability in availibilityDictionary)
             {
@@ -59,9 +56,9 @@ namespace Festispec.Web.Controllers
             {
                 foreach (DateTime time in dateTimes)
                 {
-                    var existing = _availibilityService.GetUnavailabilityForDay(1, time);
+                    var existing = _availibilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
                     if (existing == null)
-                        await _availibilityService.AddUnavailabilityEntireDay(1, time, "test");
+                        await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
 
                     else
                         await _availibilityService.RemoveUnavailablity(existing.Id);
