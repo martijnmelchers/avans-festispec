@@ -118,11 +118,6 @@
         </Setter>
         <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
         <Setter Property="FontWeight" Value="Regular" />
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextColor}" />
-            </Setter.Value>
-        </Setter>
         <Setter Property="FontSize" Value="15" />
 
 

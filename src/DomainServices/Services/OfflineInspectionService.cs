@@ -23,9 +23,9 @@ namespace Festispec.DomainServices.Services
             return await _syncService.GetEntityAsync(plannedInspectionId);
         }
 
-        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime)
+        public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime startTime)
         {
-            PlannedInspection plannedInspection = (await _syncService.GetAllAsync()).FirstOrDefault(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null);
+            PlannedInspection plannedInspection = (await _syncService.GetAllAsync()).FirstOrDefault(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(startTime) && e.IsCancelled == null);
             
             if (plannedInspection == null)
                 throw new EntityNotFoundException();
@@ -33,10 +33,10 @@ namespace Festispec.DomainServices.Services
             return plannedInspection;
         }
 
-        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime)
+        public async Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime startTime)
         {
             var plannedInspection = (await _syncService.GetAllAsync()).Where(e =>
-                e.Festival.Id == festival.Id && e.StartTime.Equals(StartTime) && e.IsCancelled == null).ToList();
+                e.Festival.Id == festival.Id && e.StartTime.Equals(startTime) && e.IsCancelled == null).ToList();
             
             if (plannedInspection == null)
                 throw new EntityNotFoundException();

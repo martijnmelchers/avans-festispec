@@ -15,11 +15,8 @@ namespace Festispec.UI.Validation
             Match match = Regex.Match(input, @"^\d{2}:\d{2}$");
             if (!match.Success)
                 return new ValidationResult(false, "Field must be in hh/mm format");
-            TimeSpan time;
-            bool canParse = TimeSpan.TryParse(input, out time);
-            if (!canParse)
-                return new ValidationResult(false, "Field must be a valid timespan value");
-            return new ValidationResult(true, null);
+            bool canParse = TimeSpan.TryParse(input, out TimeSpan _);
+            return !canParse ? new ValidationResult(false, "Field must be a valid timespan value") : new ValidationResult(true, null);
         }
     }
 }
