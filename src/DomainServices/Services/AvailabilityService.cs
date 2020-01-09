@@ -49,6 +49,11 @@ namespace Festispec.DomainServices.Services
             return availability;
         }  
 
+        public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
+        {
+            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && EntityFunctions.TruncateTime(a.StartTime) == EntityFunctions.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
+        }
+
         public async Task RemoveUnavailablity(int availabilityId)
         {
             var availability = _db.Availabilities.FirstOrDefault(a => a.Id == availabilityId);

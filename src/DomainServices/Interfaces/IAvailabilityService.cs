@@ -14,6 +14,8 @@ namespace Festispec.DomainServices.Interfaces
 
         Task SaveChanges();
 
+        Availability GetUnavailabilityForDay(int employeeId, DateTime date);
+
         Task<Dictionary<long, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate);
     }
 }
