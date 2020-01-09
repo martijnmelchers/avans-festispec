@@ -48,13 +48,15 @@ namespace Festispec.DomainServices.Services
             return _db.SaveChanges();
         }
 
-        public async Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
+        public async Task<Questionnaire> CreateQuestionnaire(string name, int festivalId)
         {
             Questionnaire existing = await _db.Questionnaires.Include(x => x.Festival)
-                .FirstOrDefaultAsync(x => x.Name == name && x.Festival.Id == festival.Id);
+                .FirstOrDefaultAsync(x => x.Name == name && x.Festival.Id == festivalId);
 
             if (existing != null)
                 throw new EntityExistsException();
+
+            Festival festival = _db.Festivals.FirstOrDefault(f => f.Id == festivalId);
 
             var questionnaire = new Questionnaire(name, festival);
 
@@ -87,7 +89,7 @@ namespace Festispec.DomainServices.Services
             Questionnaire oldQuestionnaire = GetQuestionnaire(questionnaireId);
 
             Questionnaire newQuestionnaire =
-                await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival);
+                await CreateQuestionnaire($"{oldQuestionnaire.Name} Copy", oldQuestionnaire.Festival.Id);
 
             oldQuestionnaire.Questions.ToList().ForEach(async e =>
                 await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e)));

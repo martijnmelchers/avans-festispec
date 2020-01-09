@@ -43,8 +43,8 @@ namespace Festispec.UI.ViewModels
 
         public ObservableCollection<PointItem> Points { get; set; } = new ObservableCollection<PointItem>();
 
-        public bool MedewerkerChecked { get; set; } = true;
-        public bool KlantChecked { get; set; } = true;
+        public bool EmployeeChecked { get; set; } = true;
+        public bool CustomerChecked { get; set; } = true;
         public bool FestivalChecked { get; set; } = true;
 
         public ICommand CheckboxCheckedCommand { get; set; }
@@ -125,7 +125,7 @@ namespace Festispec.UI.ViewModels
                 switch (point.DestinationView)
                 {
                     case "CustomerInfo":
-                        if (KlantChecked)
+                        if (CustomerChecked)
                             Points.Add(point);
                         break;
 
@@ -135,7 +135,7 @@ namespace Festispec.UI.ViewModels
                         break;
 
                     case "EmployeeInfo":
-                        if (MedewerkerChecked)
+                        if (EmployeeChecked)
                             Points.Add(point);
                         break;
                 }

@@ -188,7 +188,7 @@ namespace Festispec.UI
         {
             lock (_instanceLock)
             {
-                return _instance ?? (_instance = new AppServices());
+                return _instance ??= new AppServices();
             }
         }
     }

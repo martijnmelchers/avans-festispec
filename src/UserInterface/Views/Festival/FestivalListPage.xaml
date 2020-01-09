@@ -65,5 +65,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+        <controls:ValidationPopup Caption="Festival Info" />
     </Grid>
 </Page>

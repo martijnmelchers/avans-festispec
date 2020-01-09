@@ -23,7 +23,7 @@ namespace Festispec.DomainServices.Services
             return _syncService.GetEntity(questionnaireId);
         }
 
-        public Task<Questionnaire> CreateQuestionnaire(string name, Festival festival)
+        public Task<Questionnaire> CreateQuestionnaire(string name, int festivalId)
         {
             throw new System.InvalidOperationException();
         }

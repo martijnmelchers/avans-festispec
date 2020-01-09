@@ -6,17 +6,6 @@ namespace Festispec.Models
 {
     public class Festival : Entity
     {
-        public Festival(string festivalname, string description, Customer customer)
-        {
-            FestivalName = festivalname;
-            Description = description;
-            Customer = customer;
-        }
-
-        public Festival()
-        {
-        }
-
         public int Id { get; set; }
 
         [Required] [MaxLength(45)] public string FestivalName { get; set; }
