@@ -6,17 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
-      <PackageReference Include="EntityFramework" Version="6.3.0" />
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Migrations\201911201708219_ChangedMultipleChoiceSeed.resx">
       <DependentUpon>201911201708219_ChangedMultipleChoiceSeed.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\201912122307273_initial.resx">
-      <DependentUpon>201912122307273_initial.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\202001081644430_Initial.resx">
+      <DependentUpon>202001081644430_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Migrations\202001061329354_beschikbaarheid.resx">
       <DependentUpon>202001061329354_beschikbaarheid.cs</DependentUpon>

@@ -1,0 +1,143 @@
+﻿<Page x:Class="Festispec.UI.Views.Employee.CreateEmployeePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Employees"
+      xmlns:enums="clr-namespace:Festispec.UI.Enums"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      mc:Ignorable="d"
+      Title="EmployeePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
+      d:DataContext="{d:DesignInstance Type=customers:EmployeeViewModel}">
+
+    <Grid>
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1250" Height="850" />
+        <Grid Width="1200" Height="820">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="545" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="NIEUWE MEDEWERKER AANMAKEN" Style="{DynamicResource Header}" Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="3" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
+
+            <!-- Medewerkersgegevens -->
+            <Label Content="Medewerkersgegevens" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+
+            <Label Content="Voornaam" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
+            <TextBox HorizontalAlignment="Left" Width="190" Grid.Row="3" Grid.Column="0"
+                     Text="{Binding Path=Employee.Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Tussenv." VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="220,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="100" Grid.Row="3" Grid.Column="0" Margin="220,0,0,0"
+                     Text="{Binding Path=Employee.Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Achternaam" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="350,0,0,0" />
+            <TextBox HorizontalAlignment="Left" Width="195" Grid.Row="3" Grid.Column="0" Margin="350,0,0,0"
+                     Text="{Binding Path=Employee.Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Rekeningnummer (IBAN)" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
+            <TextBox Grid.Row="5" Grid.Column="0"
+                     Text="{Binding Path=Employee.Iban, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Adres" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="6"
+                   Grid.Column="0" />
+            <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken" 
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Height="50" Margin="365,0,0,0"/>
+            <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap" 
+                     VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350"/>
+
+            <TextBlock Text="{Binding CurrentAddress}" Grid.Row="8" Grid.Column="0" Style="{DynamicResource DefaultText}" TextWrapping="Wrap"/>
+
+            <ListView VerticalAlignment="Center" HorizontalAlignment="Center"  ItemsSource="{Binding Suggestions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Grid.Row="9" Grid.RowSpan="5" Height="250" Width="545">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="3"/>
+                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}" Text="{Binding Description}"  VerticalAlignment="Center" MaxWidth="450"   Padding="20,10,20,10" Grid.Column="0"/>
+                            <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
+                                <Hyperlink Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
+                                    <Image Height="30" Source="{StaticResource SelectLocationGreen}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <!-- Contactgegevens -->
+            <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
+
+            <Label Content="Email adres" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" />
+            <TextBox Grid.Column="2" Grid.Row="3"
+                     Text="{Binding Path=Employee.ContactDetails.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
+            <TextBox Grid.Column="2" Grid.Row="5"
+                     Text="{Binding Path=Employee.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <!-- Accountgegevens -->
+            <Label Content="Accountgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" />
+
+            <Label Content="Gebruikersnaam" VerticalAlignment="Center" Grid.Column="2" Grid.Row="7" />
+            <TextBox Grid.Column="2" Grid.Row="8"
+                     Text="{Binding Path=Employee.Account.Username, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}" />
+
+            <Label Content="Wachtwoord" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" />
+            <PasswordBox Name="Password" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="10" Width="257.5" />
+
+            <Label Content="Verificatie" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" Margin="287.5,0,0,0" />
+            <PasswordBox Name="PasswordRepeat" Grid.Column="2" Grid.Row="10" Margin="287.5,0,0,0" Width="257.5" />
+
+            <Label Content="Rol" VerticalAlignment="Center" Grid.Column="2" Grid.Row="11" />
+            <ComboBox Grid.Column="2" Grid.Row="12" ItemsSource="{Binding Source={x:Static enums:Roles.AvailableRoles}}"
+                      SelectedItem="{Binding Employee.Account.Role}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource RoleTranslatorConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
+                <Button Content="Annuleren" Command="{Binding NavigateBackCommand}"
+                        Style="{DynamicResource ButtonRed}" Height="50" Width="250" Margin="0,0,10,0" />
+
+                <Button Content="Medewerker toevoegen" Click="Continue_OnClick" Height="50" Width="275"
+                        Style="{DynamicResource ButtonGreen}" />
+            </StackPanel>
+        </Grid>
+
+        <controls:ValidationPopup Caption="Medewerker toevoegen" />
+    </Grid>
+</Page>

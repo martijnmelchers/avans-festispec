@@ -6,23 +6,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Festispec.DomainServices.Services
 {
     public class FestivalService : IFestivalService
     {
         private readonly FestispecContext _db;
+        private readonly ISyncService<Festival> _syncService;
+        private readonly IAddressService _addressService;
 
-        public FestivalService(FestispecContext db)
+        public FestivalService(FestispecContext db, ISyncService<Festival> syncService, IAddressService addressService)
         {
             _db = db;
+            _syncService = syncService;
+            _addressService = addressService;
         }
 
         public async Task<Festival> CreateFestival(Festival festival)
         {
-            if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
-                throw new Models.Exception.InvalidDataException();
+            if (!festival.Validate() || !festival.OpeningHours.Validate())
+                throw new InvalidDataException();
+
+            festival.Address = await _addressService.SaveAddress(festival.Address);
 
             _db.Festivals.Add(festival);
 
@@ -37,6 +42,7 @@ namespace Festispec.DomainServices.Services
                 .Include(f => f.Questionnaires)
                 .Include(f => f.Questionnaires.Select(q => q.Questions.Select(qe => qe.Answers)))
                 .Include(f => f.PlannedInspections)
+                .Include(f => f.Address)
                 .FirstOrDefaultAsync(f => f.Id == festivalId);
 
             if (festival == null)
@@ -50,6 +56,7 @@ namespace Festispec.DomainServices.Services
             var festival = _db.Festivals
                 .Include(f => f.Questionnaires)
                 .Include(f => f.PlannedInspections)
+                .Include(f => f.Address)
                 .FirstOrDefault(f => f.Id == festivalId);
 
             if (festival == null)
@@ -60,13 +67,15 @@ namespace Festispec.DomainServices.Services
 
         public ICollection<Festival> GetFestivals()
         {
-            return _db.Festivals.ToList();
+            return _db.Festivals.Include(f => f.Address).ToList();
         }
 
         public async Task UpdateFestival(Festival festival)
         {
-            if (!festival.Validate() || !festival.Address.Validate() || !festival.OpeningHours.Validate())
-                throw new System.IO.InvalidDataException();
+            if (!festival.Validate() || !festival.OpeningHours.Validate() || !festival.Address.Validate())
+                throw new InvalidDataException();
+
+            festival.Address = await _addressService.SaveAddress(festival.Address);
 
             await _db.SaveChangesAsync();
         }
@@ -77,10 +86,26 @@ namespace Festispec.DomainServices.Services
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
-            
+
+            await _addressService.RemoveAddress(festival.Address);
             _db.Festivals.Remove(festival);
 
             await _db.SaveChangesAsync();
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+            
+            List<Festival> festivals = db.Festivals
+                .Include(f => f.Address)
+                .Include(f => f.Questionnaires)
+                .Include(f => f.Questionnaires.Select(q => q.Questions))
+                .Include(f => f.PlannedInspections).ToList();
+
+            _syncService.Flush();
+            _syncService.AddEntities(festivals);
+            _syncService.SaveChanges();
         }
     }
 }

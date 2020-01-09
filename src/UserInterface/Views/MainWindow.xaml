@@ -8,39 +8,38 @@
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid x:Name="MainGrid">
 
-        <Grid Visibility="{Binding HideNavbar}" Height="69" VerticalAlignment="Top" Background="#FFFFFF">
-            <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" Grid.Column="0" />
+        <DockPanel Height="69" VerticalAlignment="Top" Background="#FFFFFF">
+            <Image HorizontalAlignment="Left" Height="39" Margin="45,0,0,0" VerticalAlignment="Center" Width="222" Source="/Assets/festispec logo.png" />
 
-            <TextBlock HorizontalAlignment="Left" Margin="424,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="HomePage" Content="Home" />
-            </TextBlock>
+            <StackPanel Visibility="{Binding HideNavbar}" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,25,0">
+                <TextBlock VerticalAlignment="Center" Width="154">
+                    <Label Visibility="{Binding IsOffline}" Style="{StaticResource HeaderLabelRed}" Content="Offline" />
+                </TextBlock>
+                
+                <TextBlock VerticalAlignment="Center" Width="147">
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="HomePage" Content="Home" />
+                </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Margin="571,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="CustomerList" Content="Klanten" />
-            </TextBlock>
+                <TextBlock VerticalAlignment="Center" Width="164">
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="CustomerList" Content="Klanten" />
+                </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Margin="735,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="FestivalList" Content="Festivals" />
-            </TextBlock>
+                <TextBlock VerticalAlignment="Center" Width="178">
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="FestivalList" Content="Festivals" />
+                </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Margin="913,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Questionnaire" Content="Inspecties" />
-            </TextBlock>
+                <TextBlock VerticalAlignment="Center" Width="257">
+                    <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="EmployeeList" Content="Medewerkers" />
+                </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Margin="1116,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Inspecteurs" Content="Inspecteurs" />
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" Margin="1342,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                <Button Command="{Binding NavigateCommand}" Style="{StaticResource ActiveLinkButton}" CommandParameter="Medewerkers" Content="Medewerkers" />
-            </TextBlock>
-
-            <Button Height="37" Content="{Binding CurrentName, StringFormat='Hallo, {0}'}" HorizontalAlignment="Left" Margin="1637,17,0,0"
-                    VerticalAlignment="Top" FontSize="30" FontFamily="{DynamicResource Montserrat}" Foreground="#707070" Background="#FFFFFF"
-                    BorderThickness="0" IsEnabled="{Binding IsLoggedIn}" />
-            <Image HorizontalAlignment="Left" Height="25" Margin="1599,0,0,0" VerticalAlignment="Center" Width="22" Source="/Assets/user.png" />
-            <Image HorizontalAlignment="Left" Height="19" Margin="1841,0,0,0" VerticalAlignment="Center" Width="31" Source="/Assets/Chevron.png" />
-        </Grid>
+                <Image Height="25" VerticalAlignment="Center" Width="22" Margin="8,22,8,22" Source="/Assets/user.png" />
+                <Button Height="37" Content="{Binding CurrentName}" ContentStringFormat="Hallo, {0}"
+                        VerticalAlignment="Center" FontSize="30" FontFamily="{DynamicResource Montserrat}"
+                        Foreground="#707070" Background="#FFFFFF"
+                        BorderThickness="0" IsEnabled="{Binding IsLoggedIn}" />
+                <Image Height="19" VerticalAlignment="Center" Width="31" Margin="8,25,0,25" Source="/Assets/Chevron.png" />
+            </StackPanel>
+        </DockPanel>
 
         <Frame x:Name="MainFrame" Margin="0,74,0,0" NavigationUIVisibility="Hidden" />
     </Grid>
