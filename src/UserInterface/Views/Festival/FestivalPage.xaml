@@ -3,8 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:converters="clr-namespace:Festispec.UI.Converters"
-      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
+      xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      xmlns:Converters="clr-namespace:Festispec.UI.Converters"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalPage"
@@ -13,163 +15,185 @@
         <converters:HasQuestionsConverter x:Key="HasQuestionsConverter" />
         <converters:TextTrimmerConverter x:Key="TextTrimmerConverter" />
     </Page.Resources>
+
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="120,50,1185,80" />
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="795,50,618,80" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='INFORMATIE {0}'}"
-            Style="{DynamicResource Header}" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top" />
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="180,180,0,0" VerticalAlignment="Top" Width="120"
-                   RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
+        <!-- Festival Informatie -->
+        <Rectangle Style="{DynamicResource ContentBox}" Width="550" Height="850" Grid.Column="0"/>
+        <Grid Width="500" Height="800" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
 
-        <Image Source="{StaticResource LocationGreen}" HorizontalAlignment="Left" Height="24" Margin="180,200,0,0"
-               VerticalAlignment="Top" Width="20" />
-        <Label Content="Locatie" Margin="210,200" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Label Content="{Binding FestivalLocation}" HorizontalAlignment="Left" Margin="180,230" VerticalAlignment="Top"
-               FontSize="18" Style="{DynamicResource MediumLabel}" />
+            <TextBlock Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='INFORMATIE {0}'}"
+                       Style="{DynamicResource Header}" Grid.Column="0" Grid.Row="0"/>
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0"/>
 
-        <Image Source="{StaticResource CalendarGreen}" HorizontalAlignment="Left" Height="24" Margin="180,270,0,0"
-               VerticalAlignment="Top" Width="20" />
-        <Label Content="Festivaldata" Margin="210,270" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" Margin="180,300" VerticalAlignment="Top"
-               FontSize="18" Style="{DynamicResource MediumLabel}" />
+            <Image Source="{StaticResource LocationGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="1" />
+            <Label Content="Locatie" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="1" Margin="30,0,0,0"/>
+            <Label Content="{Binding FestivalLocation}" Grid.Row="2" FontWeight="Light"/>
 
-        <Image Source="{StaticResource ClockGreen}" HorizontalAlignment="Left" Height="24" Margin="180,340,0,0"
-               VerticalAlignment="Top" Width="20" />
-        <Label Content="Festivaltijden" Margin="210,340" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" Margin="180,370" VerticalAlignment="Top"
-               FontSize="18" Style="{DynamicResource MediumLabel}" />
+            <Image Source="{StaticResource CalendarGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="3" />
+            <Label Content="Festivaldata" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="3" Margin="30,0,0,0"/>
+            <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4" FontWeight="Light"/>
 
-        <Image Source="{StaticResource EditGreen}" HorizontalAlignment="Left" Height="24" Margin="180,410,0,0"
-               VerticalAlignment="Top" Width="20" />
-        <Label Content="Beschrijving" Margin="210,410" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Label HorizontalAlignment="Left" Margin="180,440,0,0" VerticalAlignment="Top" FontSize="18"
-               Style="{DynamicResource MediumLabel}" Width="465">
-            <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
-        </Label>
+            <Image Source="{StaticResource ClockGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="5"/>
+            <Label Content="Festivaltijden" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="5" Margin="30,0,0,0" />
+            <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6" FontWeight="Light" />
 
-        <Button Content="Verwijderen" HorizontalAlignment="Left" Margin="133,0,0,116" VerticalAlignment="Bottom"
-                Style="{DynamicResource ButtonRed}" Height="44" Width="190" Command="{Binding RemoveFestivalCommand}"
-                RenderTransformOrigin="-1.516,0.568" />
+            <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="7"/>
+            <Label Content="Beschrijving" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="7" Margin="30,0,0,0"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="8" FontWeight="Light" Width="450">
+                <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
+            </Label>
 
-        <Grid>
-            <Rectangle Style="{DynamicResource ContentBox}" Margin="1357,50,56,80" />
-            <TextBlock Text="VRAGENLIJSTEN" Style="{DynamicResource Header}" HorizontalAlignment="Left"
-                       Margin="1403,100,0,0" VerticalAlignment="Top" />
-            <Rectangle HorizontalAlignment="Left" Height="7" Margin="1403,145,0,0" VerticalAlignment="Top" Width="120"
-                       RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="11">
+                <Button Command="{Binding RemoveFestivalCommand}"
+                        Style="{DynamicResource ButtonRed}" MinWidth="50" Height="50" Margin="0,0,10,0">
+                    <Button.Content>
+                        <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                    </Button.Content>
+                </Button>
 
-            <ListView Margin="1403,172,108,172" ItemsSource="{Binding Festival.Questionnaires}" BorderBrush="{x:Null}"
-                      Background="{x:Null}" Foreground="{x:Null}">
+                <Button Command="{Binding EditFestivalCommand}" 
+                        Style="{DynamicResource ButtonGreen}" Height="50" MinWidth="50" Margin="0,0,10,0">
+                    <Button.Content>
+                        <Image Height="25" Source="{StaticResource EditWhite}"/>
+                    </Button.Content>
+                </Button>
+
+                <Button Content="Rapport" Command="{Binding GenerateReportCommand}"
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="190" Margin="0,0,10,0" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Inspecties -->
+        <Rectangle Style="{DynamicResource ContentBox}" Width="550" Height="850" Grid.Column="1"/>
+        <Grid Width="500" Height="800" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="INSPECTIES" Style="{DynamicResource Header}" Grid.Row="0"/>
+            <controls:TextUnderline Grid.Row="0"/>
+
+            <ListView ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}" 
+                      Background="{x:Null}" Width="500" Grid.Row="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid MaxWidth="500">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240"/>
+                                <ColumnDefinition Width="240"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Style="{DynamicResource InspectionTextblock}" Text="{Binding [0].EventTitle}"/>
+                                <ListView ItemsSource="{Binding}" BorderThickness= "0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding Employee.Name}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock Style="{DynamicResource InspectionTextblock}" Text="{Binding [0].Questionnaire.Name}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding [0].StartTime, StringFormat=HH:mm}"/>
+                                    <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text=" - "/>
+                                    <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding [0].EndTime, StringFormat=HH:mm}"/>
+                                </StackPanel>
+                                <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding [0].StartTime, StringFormat=D}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Width="250" Grid.Column="1">
+                                <Button Command="{Binding DataContext.EditPlannedInspectionCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource ButtonGreen}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,0"
+                                        HorizontalAlignment="Right">
+                                    <Button.Content>
+                                        <Image Height="25" Source="{StaticResource EditWhite}"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Command="{Binding DataContext.DeletePlannedInspectionsCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                        CommandParameter="{Binding}"
+                                        Style="{DynamicResource ButtonRed}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,10"
+                                        HorizontalAlignment="Right">
+                                    <Button.Content>
+                                        <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}"
+                    Command="{Binding DataContext.CreatePlannedInspectionCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}"
+                    Height="50" Width= "250" Grid.Row= "2"/>
+        </Grid>
+
+        <!-- Vragenlijsten -->
+        <Rectangle Style="{DynamicResource ContentBox}" Width="550" Height="850" Grid.Column="2"/>
+        <Grid Width="500" Height="800" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="VRAGENLIJSTEN" Style="{DynamicResource Header}" Grid.Row="0"/>
+            <controls:TextUnderline Grid.Row="0"/>
+
+            <ListView ItemsSource="{Binding Festival.Questionnaires}" BorderBrush="{x:Null}"
+                      Background="{x:Null}" Foreground="{x:Null}" Grid.Row="1">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Rectangle Style="{DynamicResource InnerContextBox}" Height="50"
-                                       HorizontalAlignment="Stretch" Grid.ColumnSpan="4" />
-                            <Label
-                                Content="{Binding Name, Converter={StaticResource TextTrimmerConverter}, ConverterParameter=20}"
-                                VerticalAlignment="Center" Padding="20,0,0,0" Grid.Column="0" />
+                                       HorizontalAlignment="Stretch" Grid.ColumnSpan="4"/>
+                            <Label Content="{Binding Name, Converter={StaticResource TextTrimmerConverter}, ConverterParameter=20}"
+                                   VerticalAlignment="Center" Padding="20,0,0,0" Grid.Column="0"/>
                             <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
-                                <Hyperlink
-                                    Command="{Binding DataContext.OpenQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                    CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
-                                    <Image Height="30" Source="{StaticResource EyeGreen}" />
-                                </Hyperlink>
-                            </TextBlock>
-                            <TextBlock Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}}"
-                                       Grid.Column="3" Padding="0,0,20,0" VerticalAlignment="Center">
-                                <Hyperlink Click="ToggleDeleteQuestionnairePopUp"
-                                           Command="{Binding DataContext.DeleteQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                <Hyperlink Command="{Binding DataContext.OpenQuestionnaireCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                                            CommandParameter="{Binding Id}" Style="{DynamicResource NoStyles}">
-                                    <Image Height="25" Source="{StaticResource TrashcanRed}" />
+                                    <Image Height="30" Source="{StaticResource EyeGreen}"/>
                                 </Hyperlink>
-                            </TextBlock>
-                            <TextBlock
-                                Visibility="{Binding ., Converter={StaticResource HasQuestionsConverter}, ConverterParameter=true}"
-                                Grid.Column="3" Padding="0,0,20,0" VerticalAlignment="Center">
-                                <Image Height="25" Source="{StaticResource TrashcanGray}" />
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp" Style="{DynamicResource ButtonGreen}" HorizontalAlignment="Right" Margin="0,0,165,104" VerticalAlignment="Bottom" Height="48" Width="289"
-                    IsEnabled="{Binding CanEdit}"/>
+            <Button Content="Nieuwe vragenlijst" Click="ToggleNewQuestionnairePopUp"
+                    Style="{DynamicResource ButtonGreen}" Height="50" Width="250" Grid.Row="2"/>
         </Grid>
-
-        <Button Content="Wijzigen" HorizontalAlignment="Left" Margin="332,0,0,116" VerticalAlignment="Bottom"
-                Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding EditFestivalCommand}" />
-
-        <Grid Margin="800,100,625,100">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="8*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBlock Text="INSPECTIES" Style="{DynamicResource Header}" HorizontalAlignment="Left"
-                           VerticalAlignment="Top" />
-                <Rectangle HorizontalAlignment="Left" Height="7" VerticalAlignment="Top" Width="120" RadiusY="2.5"
-                           RadiusX="2.5" Fill="#FF4A4A" />
-
-            </StackPanel>
-            <ListView ItemsSource="{Binding PlannedInspections}" BorderBrush="{x:Null}" Grid.Row="1"
-                      Background="{x:Null}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="9*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding [0].EventTitle}" />
-                                <ListView ItemsSource="{Binding}" BorderThickness="0">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Employee.Name}" />
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                                <TextBlock Text="{Binding [0].Questionnaire.Name}" />
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding [0].StartTime, StringFormat=HH:mm}" />
-                                    <TextBlock Text=" - " />
-                                    <TextBlock Text="{Binding [0].EndTime, StringFormat=HH:mm}" />
-                                </StackPanel>
-                                <TextBlock Text="{Binding [0].StartTime, StringFormat=D}" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <Button Content="Edit" Width="150" Height="40" Margin="150,0,0,10"
-                                        Style="{StaticResource ButtonGreen}"
-                                        Command="{Binding DataContext.EditPlannedInspectionCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                        CommandParameter="{Binding}" />
-                                <Button Content="Delete" Width="150" Height="40" Margin="150,0,0,10"
-                                        Style="{StaticResource ButtonRed}"
-                                        Command="{Binding DataContext.DeletePlannedInspectionsCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                        CommandParameter="{Binding}" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Content="Nieuwe Inspectie" Style="{StaticResource ButtonGreen}"
-                    Command="{Binding DataContext.CreatePlannedInspectionCommand, RelativeSource={ RelativeSource AncestorType={x:Type Page}}}"
-                    Height="48" Width="289" Grid.Row="2" />
-        </Grid>
-
 
         <!-- POP UPS -->
         <Popup x:Name="CreateQuestionnairePopUp" Placement="Center" AllowsTransparency="True" Width="550">
@@ -235,8 +259,6 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Button Content="Rapport" HorizontalAlignment="Left" Margin="539,0,0,116" VerticalAlignment="Bottom"
-                Style="{DynamicResource ButtonGreen}" Height="44" Width="190" Command="{Binding GenerateReportCommand}" />
     </Grid>
 
 
