@@ -1,0 +1,27 @@
+﻿@model Festispec.Models.Availability
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Ziek Melden</h1>
+<form asp-action="Index">
+
+    <div class="card">
+        <label class="control-label"> Reden:</label>
+        <input asp-for="Reason" title="Reden:" />
+
+    </div>
+    <br />
+    <div class="card">
+        <label class="control-label"> Verwachte eindtijd (optioneel):</label>
+        <input asp-for="EndTime" type="date" title="Verwachte eind tijd" min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+        <p id="date-error" style="color : red ; font-weight: bold">@TempData["DateError"]</p>
+    </div>
+    <br />
+    <div class="card">
+        <input type="submit" value="Bevestigen" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
+    </div>
+    
+
+</form>
