@@ -21,9 +21,7 @@ namespace Web.Controllers
         {
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             if (_sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])))
-            {
                 return View("Better");
-            }
             
             return View();
         }

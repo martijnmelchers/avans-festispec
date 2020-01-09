@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:customers="clr-namespace:Festispec.UI.ViewModels.Customers"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       mc:Ignorable="d"
       Title="CustomerPage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
       d:DataContext="{d:DesignInstance Type=customers:CustomerListViewModel}">
@@ -34,21 +35,27 @@
             <Image HorizontalAlignment="Right" Height="44" Width="44" Source="{StaticResource SearchGreen}"
                    Grid.Row="0" Grid.Column="1" Margin="0,0,10,0" />
 
-            <ListView ItemsSource="{Binding CustomerList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <ListView ItemsSource="{Binding CustomerList}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="{x:Null}"
+                      Background="{x:Null}" Foreground="{x:Null}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type models:Customer}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="185" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Content="{Binding CustomerName}" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <Label Content="{Binding CustomerName}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <Label
+                                    Content="{Binding Address}"
+                                    FontWeight="Light" VerticalAlignment="Center" />
+                            </StackPanel>
 
                             <Button Grid.Column="1" Content="Weergeven"
                                     Command="{Binding DataContext.ViewCustomerCommand, RelativeSource={RelativeSource AncestorType=Page}}"

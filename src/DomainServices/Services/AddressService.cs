@@ -1,9 +1,9 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using System.Data.Entity;
+using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
-using System.Data.Entity;
-using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
@@ -21,7 +21,8 @@ namespace Festispec.DomainServices.Services
             if (!address.Validate())
                 throw new InvalidAddressException();
 
-            var existing = await _db.Addresses.FirstOrDefaultAsync(a => a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == a.Longitude);
+            Address existing = await _db.Addresses.FirstOrDefaultAsync(a =>
+                a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == a.Longitude);
 
             if (existing != null)
                 return existing;
@@ -34,7 +35,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveAddress(Address address)
         {
-            int existing = 0;
+            var existing = 0;
             existing += await _db.Festivals.Include(f => f.Address).CountAsync(a => a.Address.Id == address.Id);
             existing += await _db.Employees.Include(e => e.Address).CountAsync(e => e.Address.Id == address.Id);
             existing += await _db.Customers.Include(c => c.Address).CountAsync(c => c.Address.Id == address.Id);

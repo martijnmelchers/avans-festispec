@@ -1,23 +1,28 @@
-﻿using Festispec.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IInspectionService
+    public interface IInspectionService : ISyncable
     {
         #region planned Event
+
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
-        Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime StartTime);
-        Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime StartTime);
+        Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime startTime);
+        Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime startTime);
         Task<List<PlannedInspection>> GetPlannedInspections(int employeeId);
         List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival);
         Task<PlannedInspection> CreatePlannedInspection(Festival festival);
-        Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire, DateTime startTime,
+
+        Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire,
+            DateTime startTime,
             DateTime endTime, string eventTitle, Employee employee);
+
         Task RemoveInspection(int plannedInspectionId, string cancellationreason);
         Task SaveChanges();
+
         #endregion
     }
 }

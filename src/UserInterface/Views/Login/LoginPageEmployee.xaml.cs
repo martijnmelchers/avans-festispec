@@ -1,13 +1,9 @@
 ﻿using Festispec.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Controls;
 
 namespace Festispec.UI.Views.Login
 {
-    /// <summary>
-    /// Interaction logic for LoginPageEmployee.xaml
-    /// </summary>
-    public partial class LoginPageEmployee : Page
+    public partial class LoginPageEmployee
     {
         public LoginPageEmployee()
         {

@@ -21,7 +21,7 @@ namespace Festispec.UI.ViewModels.Employees
 
             if (navigationService.Parameter == null || !(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
-
+            
             Account = employeeService.GetAccountForEmployee(employeeId);
             NavigateBackCommand = new RelayCommand(NavigateBack);
             SaveCommand = new RelayCommand<PasswordWithVerification>(SaveChanges);
@@ -53,15 +53,13 @@ namespace Festispec.UI.ViewModels.Employees
             {
                 if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
                 {
-                    ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.");
                     return;
                 }
 
                 if (passwordWithVerification.Password.Length < 5)
                 {
-                    ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Het wachtwoord moet tussen 5 en 100 karakters zijn.");
                     return;
                 }
 
@@ -80,12 +78,12 @@ namespace Festispec.UI.ViewModels.Employees
 
             if (!Account.Validate())
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 return;
             }
 
             _employeeService.SaveChangesAsync();
+            _employeeService.Sync();
             NavigateBack();
         }
     }

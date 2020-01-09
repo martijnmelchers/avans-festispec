@@ -7,13 +7,13 @@ namespace Festispec.Models.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.3.0")]
-    public sealed partial class EndTimeNullable : IMigrationMetadata
+    public sealed partial class EndDateNullable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(EndTimeNullable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(EndDateNullable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202001081943477_EndTimeNullable"; }
+            get { return "202001091540426_EndDateNullable"; }
         }
         
         string IMigrationMetadata.Source

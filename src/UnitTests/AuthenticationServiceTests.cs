@@ -4,7 +4,6 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UnitTests.Helpers;
 using Moq;
-using System.Collections.Generic;
 using Festispec.Models.EntityMapping;
 using Xunit;
 
@@ -28,7 +27,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Accounts).Object);
 
             // Create AuthenticationService
-            _authenticationService = new AuthenticationService(_dbMock.Object);
+            _authenticationService = new AuthenticationService(_dbMock.Object, new JsonSyncService<Account>(_dbMock.Object));
         }
 
         #region Registration Tests

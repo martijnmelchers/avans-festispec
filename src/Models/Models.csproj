@@ -31,8 +31,8 @@
     <EmbeddedResource Update="Migrations\202001061200392_INotify.resx">
       <DependentUpon>202001061200392_INotify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\202001081943477_EndTimeNullable.resx">
-      <DependentUpon>202001081943477_EndTimeNullable.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\202001091540426_EndDateNullable.resx">
+      <DependentUpon>202001091540426_EndDateNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

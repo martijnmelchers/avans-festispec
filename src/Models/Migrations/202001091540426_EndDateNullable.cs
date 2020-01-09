@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class EndTimeNullable : DbMigration
+    public partial class EndDateNullable : DbMigration
     {
         public override void Up()
         {

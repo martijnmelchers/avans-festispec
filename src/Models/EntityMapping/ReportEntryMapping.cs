@@ -1,5 +1,5 @@
-﻿using Festispec.Models.Reports;
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
+using Festispec.Models.Reports;
 
 namespace Festispec.Models.EntityMapping
 {

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Festispec.DomainServices.Services
+﻿namespace Festispec.Models.Exception
 {
-    public class CustomerHasContactPersonsException : Exception
+    public class CustomerHasContactPersonsException : System.Exception
     {
         public CustomerHasContactPersonsException()
         {
@@ -12,7 +10,7 @@ namespace Festispec.DomainServices.Services
         {
         }
 
-        public CustomerHasContactPersonsException(string message, Exception inner) : base(message, inner)
+        public CustomerHasContactPersonsException(string message, System.Exception inner) : base(message, inner)
         {
         }
     }

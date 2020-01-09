@@ -1,11 +1,11 @@
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.EntityMapping;
-using Festispec.Models.Exception;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.EntityMapping;
+using Festispec.Models.Exception;
 
 namespace Festispec.DomainServices.Services
 {
@@ -13,12 +13,14 @@ namespace Festispec.DomainServices.Services
     {
         private readonly FestispecContext _db;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ISyncService<Employee> _employeeSyncService;
         private readonly IAddressService _addressService;
 
-        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, IAddressService addressService)
+        public EmployeeService(FestispecContext db, IAuthenticationService authenticationService, ISyncService<Employee> employeeSyncService, IAddressService addressService)
         {
             _db = db;
             _authenticationService = authenticationService;
+            _employeeSyncService = employeeSyncService;
             _addressService = addressService;
         }
 
@@ -176,6 +178,21 @@ namespace Festispec.DomainServices.Services
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _employeeSyncService.GetSyncContext();
+        
+            List<Employee> employees = db.Employees
+                .Include(e => e.Certificates)
+                .Include(e => e.Account).ToList();
+
+            employees.ForEach(e => e.Account.ToSafeAccount());
+            
+            _employeeSyncService.Flush();
+            _employeeSyncService.AddEntities(employees);
+            _employeeSyncService.SaveChanges();
         }
     }
 }
