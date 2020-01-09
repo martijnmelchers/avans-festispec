@@ -87,7 +87,7 @@ namespace Festispec.DomainServices.Services
             throw new InvalidOperationException();
         }
 
-        public Task SaveChanges()
+        public Task<int> SaveChanges()
         {
             throw new InvalidOperationException();
         }
@@ -95,6 +95,11 @@ namespace Festispec.DomainServices.Services
         public async Task<Festival> GetFestivalAsync(int festivalId)
         {
             return await _festivalSyncService.GetEntityAsync(festivalId);
+        }
+
+        public Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections)
+        {
+            throw new InvalidOperationException();
         }
 
         public void Sync()
