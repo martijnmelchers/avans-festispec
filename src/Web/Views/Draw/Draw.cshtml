@@ -41,11 +41,21 @@ var h = window.innerHeight;
 $("#btnUpload").on("click", function(e) {
     e.preventDefault();
 
-    var file = canvas.canvas.toDataURL("image/png");
-    dataUrl = file.replace('data:image/png;base64,', '');
-    var obj = { QuestionId: @Model.Question.Id, ImageData: dataUrl };
+    canvas.canvas.toBlob(function (blob) {
+        var formData = new FormData();
+        formData.append('file', blob, 'test.png');
+        formData.append('QuestionId', ' @Model.Question.Id');
+        formData.append('plannedInspectionId', ' @Model.PlannedInspection.Id');
+        $.ajax({
+            type: "POST",
+            url: "/Draw/Draw",
+            data: formData,
+            processData: false,
+            contentType: false
+        })
+
+    });
     
-    $.post("/Draw/Draw", { imageData: JSON.stringify(obj) });
     window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
 
 });

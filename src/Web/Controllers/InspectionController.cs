@@ -125,6 +125,20 @@ namespace Festispec.Web.Controllers
             await _questionnaireService.SaveChangesAsync();
             return RedirectToAction("Details", new { id = stringAnswer.PlannedInspection.Id });
         }
+        //DrawQuestion answer
+        [HttpPost]
+        public async Task<ActionResult> SaveDrawAnswer(FileAnswer fileAnswer)
+        {
+            int questionId = int.Parse(Request.Form["QuestionId"].ToString());
+            fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
+            fileAnswer.PlannedInspection = await _inspectionService.GetPlannedInspection(fileAnswer.PlannedInspection.Id);
+
+            if (fileAnswer.Id != 0)
+                (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = fileAnswer.UploadedFilePath;
+            else await _questionnaireService.CreateAnswer(fileAnswer);
+            await _questionnaireService.SaveChangesAsync();
+            return RedirectToAction("Draw", "Draw", new { id = fileAnswer.PlannedInspection.Answers.FirstOrDefault(e=> e.Question.Id == questionId).Id });
+        }
 
         //file answer
         [HttpPost]
