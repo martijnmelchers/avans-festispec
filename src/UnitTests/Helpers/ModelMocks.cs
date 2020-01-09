@@ -192,6 +192,7 @@ namespace Festispec.UnitTests.Helpers
 
         public static Festival festivalThunderDome = new Festival()
         {
+            Id = 2,
             FestivalName = "ThunderDome",
 
             Description = "Op 26 oktober 2019 keert Thunderdome terug naar de Jaarbeurs in Utrecht. " +
@@ -369,7 +370,10 @@ namespace Festispec.UnitTests.Helpers
 
         public List<Address> Addresses { get; } = new List<Address>();
 
-        public List<Festival> Festivals { get; } = new List<Festival>();
+        public List<Festival> Festivals { get; } = new List<Festival>()
+        {
+            FestivalPinkPop
+        };
 
         public ModelMocks()
         {

@@ -1,13 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using Festispec.Models.Answers;
 using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
 using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Festispec.Models.GraphConverters
 {
@@ -15,20 +11,20 @@ namespace Festispec.Models.GraphConverters
     {
         public List<GraphableSeries> TypeToChart(Question question)
         {
-            List<GraphableSeries> series = new List<GraphableSeries>();
-            var plannedInspections = question.Answers.Select(x => x.PlannedInspection);
-            
-            foreach (var plannedInspection in plannedInspections)
+            var series = new List<GraphableSeries>();
+            IEnumerable<PlannedInspection> plannedInspections = question.Answers.Select(x => x.PlannedInspection);
+
+            foreach (PlannedInspection plannedInspection in plannedInspections)
             {
-                var serie = new GraphableSeries()
+                var serie = new GraphableSeries
                 {
                     Title = plannedInspection.EventTitle,
                     Values = new ChartValues<int>()
                 };
 
-                var answer = question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
+                Answer answer = question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
 
-                var numAnswer = (NumericAnswer)answer;
+                var numAnswer = (NumericAnswer) answer;
                 serie.Values.Add(numAnswer.IntAnswer);
                 series.Add(serie);
             }

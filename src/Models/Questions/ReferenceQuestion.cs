@@ -1,43 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Festispec.Models.Questions
 {
-    public class ReferenceQuestion : Questions.Question, INotifyPropertyChanged
+    public class ReferenceQuestion : Question, INotifyPropertyChanged
     {
-        public ReferenceQuestion(string contents, Questionnaire questionnaire, Question question) : base(contents, questionnaire) 
+        private Question _question;
+
+        public ReferenceQuestion(string contents, Questionnaire questionnaire, Question question) : base(contents,
+            questionnaire)
         {
             Question = question;
         }
-        public ReferenceQuestion() : base() { }
 
-        private Question _question;
+        public ReferenceQuestion()
+        {
+        }
+
         public Question Question
         {
-            get
-            {
-                return _question;
-            }
+            get => _question;
             set
             {
                 _question = value;
                 NotifyPropertyChanged();
             }
         }
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
 
         public override GraphType GraphType => Question.GraphType;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

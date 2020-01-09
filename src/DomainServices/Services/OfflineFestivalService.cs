@@ -15,7 +15,7 @@ namespace Festispec.DomainServices.Services
             _syncService = syncService;
         }
         
-        public Task<Festival> CreateFestival(Festival festival)
+        public Task<Festival> CreateFestival(Festival festival, int customerId)
         {
             throw new System.InvalidOperationException();
         }

@@ -23,12 +23,12 @@ namespace Festispec.DomainServices.Services
 
         public Account AssembleAccount(string username, string password, Role requiredRole)
         {
-            var existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
+            Account existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (existing != null)
                 throw new EntityExistsException();
 
-            var account = new Account()
+            var account = new Account
             {
                 Username = username,
                 Password = BCrypt.Net.BCrypt.HashPassword(password),
@@ -51,7 +51,7 @@ namespace Festispec.DomainServices.Services
             if (account.Role != requiredRole)
                 throw new NotAuthorizedException();
 
-            if(account.IsNonActive != null)
+            if (account.IsNonActive != null)
                 throw new NotAuthorizedException();
             
             return LoggedIn = account.ToSafeAccount();
@@ -59,7 +59,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task ChangePassword(string username, string password, string newPassword)
         {
-            var account = _db.Accounts.FirstOrDefault(x => x.Username == username);
+            Account account = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");

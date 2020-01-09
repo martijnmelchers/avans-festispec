@@ -1,27 +1,36 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Festispec.DomainServices.Services;
 
 namespace Festispec.UI.ViewModels
 {
     public class MainViewModel : BaseValidationViewModel
     {
-        public RelayCommand<string> NavigateCommand { get; set; }
-        private readonly IFrameNavigationService _navigationService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IFrameNavigationService _navigationService;
         private Account _currentAccount;
+
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
+        {
+            _navigationService = navigationService;
+            _authenticationService = authenticationService;
+            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
+            NavigateCommand = new RelayCommand<string>(NavigateToPage, IsNotOnSamePage, true);
+            LoginCommand = new RelayCommand<object>(Login);
+        }
+
+        public RelayCommand<string> NavigateCommand { get; set; }
 
         public ICommand LoginCommand { get; set; }
         public bool IsLoggedIn => CurrentAccount != null;
 
-        public Account CurrentAccount
+        private Account CurrentAccount
         {
             get => _currentAccount;
             set
@@ -40,22 +49,14 @@ namespace Festispec.UI.ViewModels
         public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
         
         public Visibility IsOffline { get; set; }
-
-        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
-        {
-            _navigationService = navigationService;
-            _authenticationService = authenticationService;
-            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
-            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
-            LoginCommand = new RelayCommand<object>(Login);
-        }
-
-        public void Navigate(string page)
+        
+        private void NavigateToPage(string page)
         {
             _navigationService.NavigateTo(page);
+            NavigateCommand.RaiseCanExecuteChanged();
         }
 
-        public void Login(object passwordBox)
+        private void Login(object passwordBox)
         {
             try
             {
@@ -63,15 +64,13 @@ namespace Festispec.UI.ViewModels
                 _authenticationService.Sync();
                 _navigationService.NavigateTo("HomePage");
             }
-            catch (AuthenticationException a)
+            catch (AuthenticationException)
             {
-                ValidationError = $"Incorrecte Gebruikersnaam of Wachtwoord. ({a.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup("Incorrecte gebruikersnaam of wachtwoord.");
             }
-            catch (NotAuthorizedException n)
+            catch (NotAuthorizedException)
             {
-                ValidationError = $"Niet toegestaan deze data in te zien. ({n.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup("Niet toegestaan deze data in te zien.");
             }
         }
 
@@ -80,11 +79,9 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo("LoginPageEmployee");
         }
 
-        public bool IsNotOnSamePage(string page)
+        private bool IsNotOnSamePage(string page)
         {
-            if (_navigationService.CurrentPageKey != null)
-                return !_navigationService.CurrentPageKey.Equals(page);
-            return true;
+            return _navigationService.CurrentPageKey == null || !_navigationService.CurrentPageKey.Equals(page);
         }
     }
 }

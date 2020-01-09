@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Festispec.Models.Exception
+﻿namespace Festispec.Models.Exception
 {
     public class CustomerHasFestivalsException : System.Exception
     {
