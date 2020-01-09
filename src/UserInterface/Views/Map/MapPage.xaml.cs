@@ -1,24 +1,18 @@
-using System.Windows.Controls;
 using Festispec.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI.Views.Map
 {
-    /// <summary>
-    ///     Interaction logic for MapPage.xaml
-    /// </summary>
-    public partial class MapPage : Page
+    public partial class MapPage
     {
-        private readonly IServiceScope _scope;
-
         public MapPage()
         {
             InitializeComponent();
 
-            _scope = AppServices.Instance.ServiceProvider.CreateScope();
-            Unloaded += (sender, e) => _scope.Dispose();
+            IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MapViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<MapViewModel>();
         }
     }
 }

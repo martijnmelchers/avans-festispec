@@ -9,11 +9,16 @@ namespace Festispec.UI.ViewModels
         public bool DeletePopupIsOpen
         {
             get => _deletePopupIsOpen;
-            set
+            private set
             {
                 _deletePopupIsOpen = value;
                 RaisePropertyChanged();
             }
+        }
+
+        protected void OpenDeletePopup()
+        {
+            DeletePopupIsOpen = true;
         }
 
         public ICommand DeleteCommand { get; protected set; }

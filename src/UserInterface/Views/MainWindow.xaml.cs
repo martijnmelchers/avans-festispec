@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Windows;
 using Festispec.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Festispec.UI
+namespace Festispec.UI.Views
 {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private readonly IServiceScope _scope;
-
         public MainWindow()
         {
             InitializeComponent();
 
-            _scope = AppServices.Instance.ServiceProvider.CreateScope();
-            Unloaded += (sender, e) => _scope.Dispose();
+            IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<MainViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<MainViewModel>();
             ContentRendered += MainWindow_ContentRendered;
         }
 

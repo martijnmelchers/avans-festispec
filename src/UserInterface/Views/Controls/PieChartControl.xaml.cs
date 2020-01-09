@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
 
 namespace Festispec.UI.Views.Controls
 {
-    /// <summary>
-    ///     Interaction logic for PieChartControl.xaml
-    /// </summary>
-    public partial class PieChartControl : UserControl
+    public partial class PieChartControl
     {
         public PieChartControl(List<GraphableSeries> values)
         {
@@ -19,12 +15,12 @@ namespace Festispec.UI.Views.Controls
             SeriesCollection = new SeriesCollection();
 
 
-            foreach (GraphableSeries GraphableSeries in values)
+            foreach (GraphableSeries graphableSeries in values)
                 SeriesCollection.Add(
                     new PieSeries
                     {
-                        Title = GraphableSeries.Title,
-                        Values = GraphableSeries.Values,
+                        Title = graphableSeries.Title,
+                        Values = graphableSeries.Values,
                         DataLabels = true
                     });
 

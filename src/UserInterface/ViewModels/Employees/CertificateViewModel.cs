@@ -37,7 +37,7 @@ namespace Festispec.UI.ViewModels.Employees
             EmployeeId = Certificate.Employee.Id;
             NavigateBackCommand = new RelayCommand(NavigateBack);
             DeleteCommand = new RelayCommand(RemoveCertificate);
-            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true);
+            OpenDeleteCheckCommand = new RelayCommand(OpenDeletePopup);
         }
 
         public Certificate Certificate { get; }
@@ -65,8 +65,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             if (!Certificate.Validate())
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 return;
             }
 
@@ -78,8 +77,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van het certificaat ({e.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van het certificaat ({e.GetType()})");
             }
         }
 
@@ -87,8 +85,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             if (!Certificate.Validate())
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 return;
             }
 
@@ -103,8 +100,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van het certificaat ({e.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van het certificaat ({e.GetType()})");
             }
         }
     }

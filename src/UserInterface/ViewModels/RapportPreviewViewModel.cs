@@ -149,11 +149,11 @@ namespace Festispec.UI.ViewModels
             try
             {
                 renderer.RenderHtmlAsPdf(_pdfHtml).SaveAs(renderPath);
-                OpenPopup($"Het rapport is succesvol gegeneerd! Het is opgeslagen op je desktop onder de naam: Rapport {SelectedFestival.FestivalName}.pdf");
+                OpenValidationPopup($"Het rapport is succesvol gegeneerd! Het is opgeslagen op je desktop onder de naam: Rapport {SelectedFestival.FestivalName}.pdf");
             }
             catch (IOException)
             {
-                OpenPopup("Er is een fout opgetreden tijdens het schrijven van het rapport. Controleer of het bestand gesloten is en je toegang hebt om bestanden te generen");
+                OpenValidationPopup("Er is een fout opgetreden tijdens het schrijven van het rapport. Controleer of het bestand gesloten is en je toegang hebt om bestanden te generen");
             }
         }
 

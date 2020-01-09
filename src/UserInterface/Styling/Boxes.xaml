@@ -10,7 +10,7 @@
                 <SolidColorBrush Opacity="0" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Border.Effect">
+        <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect Color="Black" Opacity="0.2" BlurRadius="20" ShadowDepth="0" />
             </Setter.Value>
