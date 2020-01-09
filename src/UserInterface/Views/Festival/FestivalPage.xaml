@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       xmlns:converters="clr-namespace:Festispec.UI.Converters"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
@@ -37,33 +36,42 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="75"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding Festival.FestivalName, Converter={StaticResource UpperCaseConverter}, StringFormat='INFORMATIE {0}'}"
-                       Style="{DynamicResource Header}" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="INFORMATIE" Style="{DynamicResource Header}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0"/>
             <controls:TextUnderline Grid.Row="0" Grid.Column="0"/>
 
-            <Image Source="{StaticResource LocationGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="1" />
-            <Label Content="Locatie" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="1" Margin="30,0,0,0"/>
-            <Label Content="{Binding FestivalLocation}" Grid.Row="2" FontWeight="Light"/>
+            <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="1" />
+            <Label Content="Naam" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="1" Margin="30,0,0,0"/>
+            <Label Grid.Row="2" FontWeight="Light">
+                <TextBlock Text="{Binding Festival.FestivalName}" TextWrapping="Wrap"/>
+            </Label>
 
-            <Image Source="{StaticResource CalendarGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="3" />
-            <Label Content="Festivaldata" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="3" Margin="30,0,0,0"/>
-            <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4" FontWeight="Light"/>
+            <Image Source="{StaticResource LocationGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="3" />
+            <Label Content="Locatie" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="3" Margin="30,0,0,0"/>
+            <Label Grid.Row="4" FontWeight="Light">
+                <TextBlock Text="{Binding FestivalLocation}" TextWrapping="Wrap"/>
+            </Label>
 
-            <Image Source="{StaticResource ClockGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="5"/>
-            <Label Content="Festivaltijden" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="5" Margin="30,0,0,0" />
-            <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6" FontWeight="Light" />
+            <Image Source="{StaticResource CalendarGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="5" />
+            <Label Content="Festivaldata" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="5" Margin="30,0,0,0"/>
+            <Label Content="{Binding FestivalData}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6" FontWeight="Light"/>
 
-            <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="7"/>
-            <Label Content="Beschrijving" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="7" Margin="30,0,0,0"/>
-            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="8" Grid.RowSpan="2" FontWeight="Light" Width="450">
+            <Image Source="{StaticResource ClockGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="7"/>
+            <Label Content="Festivaltijden" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="7" Margin="30,0,0,0" />
+            <Label Content="{Binding FestivalTimes}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="8" FontWeight="Light" />
+
+            <Image Source="{StaticResource EditGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="9"/>
+            <Label Content="Beschrijving" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="9" Margin="30,0,0,0"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="10" FontWeight="Light" Width="450">
                 <TextBlock Text="{Binding Festival.Description}" TextWrapping="Wrap" />
             </Label>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="11">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="13">
                 <Button Command="{Binding RemoveFestivalCommand}"
                         Style="{DynamicResource ButtonRed}" MinWidth="50" Height="50" Margin="0,0,10,0">
                     <Button.Content>

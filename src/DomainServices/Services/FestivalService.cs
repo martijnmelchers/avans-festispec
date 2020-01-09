@@ -74,7 +74,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task UpdateFestival(Festival festival)
         {
-            if (!festival.Validate() || !festival.OpeningHours.Validate() || !festival.Address.Validate())
+            if (!festival.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
 
             festival.Address = await _addressService.SaveAddress(festival.Address);
