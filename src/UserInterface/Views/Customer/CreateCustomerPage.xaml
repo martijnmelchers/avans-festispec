@@ -111,9 +111,7 @@
                 <Button Content="Klant toevoegen" Command="{Binding SaveCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
-
         </Grid>
-
         <controls:ValidationPopup Caption="Klant toevoegen" />
     </Grid>
 </Page>
