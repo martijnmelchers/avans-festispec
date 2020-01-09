@@ -26,6 +26,7 @@ namespace Festispec.Web.Controllers
         // GET: Inspection
         public async Task<ActionResult> Index()
         {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             List<PlannedInspection> plannedInspections;
             try
             {

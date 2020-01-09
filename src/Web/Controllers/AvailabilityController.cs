@@ -13,14 +13,15 @@ namespace Festispec.Web.Controllers
     public class AvailabilityController : Controller
     {
 
-        private IAvailabilityService _availibilityService;
+        private IAvailabilityService _availabilityService;
 
         public AvailabilityController(IAvailabilityService availibilityService)
         {
-            _availibilityService = availibilityService;
+            _availabilityService = availibilityService;
         }
         public async Task<IActionResult> Index()
         {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             try
             {
                 ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
@@ -36,7 +37,7 @@ namespace Festispec.Web.Controllers
         public async Task<Dictionary<string, int>> ConvertAvailibiltyToJson()
         {
             var dictionary = new Dictionary<string, int>();
-            var availibilityDictionary = await _availibilityService.GetUnavailabilitiesForFuture(Int32.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            var availibilityDictionary = await _availabilityService.GetUnavailabilitiesForFuture(Int32.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
             foreach (var availability in availibilityDictionary)
             {
@@ -63,11 +64,11 @@ namespace Festispec.Web.Controllers
 
             foreach (DateTime time in dateTimes)
             {
-                var existing = _availibilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
+                var existing = _availabilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
                 if (existing == null)
                     try
                     {
-                        await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
+                        await _availabilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
                     }
                     catch (Exception)
                     {
@@ -77,7 +78,7 @@ namespace Festispec.Web.Controllers
                 {
                     try
                     {
-                        await _availibilityService.RemoveUnavailablity(existing.Id);
+                        await _availabilityService.RemoveUnavailablity(existing.Id);
                     }
                     catch (Exception)
                     {
