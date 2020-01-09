@@ -7,25 +7,41 @@
 <form asp-action="Index">
     <script>
         const data = @Html.Raw(ViewBag.SuccesBody);
+
         $(document).ready(function () {
+            var Dates = [];
             $('.datepicker').datepicker({
                 language: "nl",
                 todayHighlight: true,
                 clearBtn: true,
-                multidate: true
+                multidate: true,
             });
 
-            changeDaysBackground(); 
+            changeDaysBackground();
             $('.datepicker').on('changeDate', function (evt) {
-                changeDaysBackground(); 
+                changeDaysBackground();
                 console.log(evt.date);
+                
                  });
 
             $('.btn').on('click', function () {
-                changeDaysBackground(); 
-                var the_date = $('.datepicker:first').datepicker('getDates');
+                changeDaysBackground();
+                var the_date = $('.datepicker:first').datepicker('getDates').forEach(e => Dates.push(e.toLocaleDateString('nl-NL')));
                 console.log(the_date);
+                
                 });
+
+            $('#save').on('click', function (e) {
+                e.preventDefault();
+                console.log(Dates);
+                $.ajax({
+                    type: "POST",
+                    url: "/Availability/Index",
+                    data: { data: Dates }
+                });
+                setTimeout(() => window.location.href = '@Url.Action("Index", "Availability")', 1000);
+                    
+            });
         });
 
         function changeDaysBackground() {
@@ -46,7 +62,6 @@
         }
     </style>
 
-    @ViewBag.SuccesBody;
 
     <div id="background-availability">
         <h1 id="availability-title">Beschikbaarheid</h1>
@@ -67,7 +82,7 @@
 
         <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
         <p class="availability-paragraph">Selecteer de data dat je beschikbaar bent, op deze data kan je worden ingepland voor een inspectie</p>
-        <input type="submit" value="Opslaan" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
+        <input type="submit" id="save" value="Opslaan" class="btn btn-primary" style="align-content: center; white-space: nowrap" />
     </div>
 
 </form>

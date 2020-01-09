@@ -71,7 +71,7 @@ namespace Festispec.UnitTests
         [Fact]
         public void GetUnavailabilitiesForDay()
         {
-            var availabilities = _availabilityService.GetUnavailabilitiesForDay(1, new DateTime(2019, 12, 28));
+            var availabilities = _availabilityService.GetUnavailabilityForDay(1, new DateTime(2019, 12, 28));
 
             Assert.NotNull(availabilities[0]);
         }

@@ -28,38 +28,49 @@ namespace Festispec.Web.Controllers
             return View();
         }
 
-        public async Task<Dictionary<long, int>> ConvertAvailibiltyToJson()
+        public async Task<Dictionary<string, int>> ConvertAvailibiltyToJson()
         {
-            var dictionary = new Dictionary<long, int>();
+            var dictionary = new Dictionary<string, int>();
             var availibilityDictionary = await _availibilityService.GetUnavailabilitiesForFuture(_currentEmployeeId, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
             foreach (var availability in availibilityDictionary)
             {
-                if (!availability.Value.IsAvailable)
-                    dictionary.Add(availability.Key, 1);
+                if (!availability.Value.IsAvailable || !availibilityDictionary.ContainsKey(availability.Key))
+                    dictionary.Add($"{availability.Key}000", 1);
                 
             }
-            dictionary.Add(1578355200000, 1);
-            dictionary.Add(1578441600000, 1);
             return dictionary;
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Index(List<DateTime> dateTimes)
+        public async Task<IActionResult> Index(String joehoe)
         {
+            List<DateTime> dateTimes = new List<DateTime>();
+            foreach (var item in Request.Form.Keys)
+            {
+                var test = Request.Form[item].ToString();
+                foreach (var s in test.Split(','))
+                {
+                    dateTimes.Add(DateTime.Parse(s));
+                }
+            }
             try
             {
                 foreach (DateTime time in dateTimes)
                 {
-                    await _availibilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "");
+                    var existing = _availibilityService.GetUnavailabilityForDay(1, time);
+                    if (existing == null)
+                        await _availibilityService.AddUnavailabilityEntireDay(1, time, "test");
+
+                    else
+                        await _availibilityService.RemoveUnavailablity(existing.Id);
+                    
                 }
             }
-            catch (DateHasPassedException)
+            catch (Exception e)
             {
-                ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
-                TempData["DateError"] = "Datum mag niet in het verleden zijn!";
-                return View("Index");
+
             }
 
             ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());

@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,24 +83,23 @@ namespace Festispec.DomainServices.Services
             return availability;
         }
 
-        public List<Availability> GetUnavailabilitiesForDay(int employeeId, DateTime date)
+        public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
         {
-            var availabilities = _db.Availabilities.Where(a => a.Employee.Id == employeeId && a.StartTime.Date == date.Date && a.EventTitle == "Niet beschikbaar").ToList();
-
-            return availabilities;
+            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && EntityFunctions.TruncateTime(a.StartTime) == EntityFunctions.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
         }
 
-        public Dictionary<int, List<Availability>> GetUnavailabilitiesForMonth(int employeeId, int month, int year)
+
+        public Dictionary<int, Availability> GetUnavailabilitiesForMonth(int employeeId, int month, int year)
         {
             if (month > 12)
                 throw new InvalidDataException();
 
-            Dictionary<int, List<Availability>> availabilities = new Dictionary<int, List<Availability>>();
+            Dictionary<int, Availability> availabilities = new Dictionary<int, Availability>();
 
             for (var x =1; x <= DateTime.DaysInMonth(year,month); x++)
             {
                 
-                availabilities.Add(x, GetUnavailabilitiesForDay(employeeId, new DateTime(year, month, x)));
+                availabilities.Add(x, GetUnavailabilityForDay(employeeId, new DateTime(year, month, x)));
             }
 
             return availabilities;
