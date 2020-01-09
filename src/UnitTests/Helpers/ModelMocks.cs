@@ -34,7 +34,7 @@ namespace Festispec.UnitTests.Helpers
             EndTime = new TimeSpan(1, 0, 0)
         };
 
-        public static Employee Employee = new Employee()
+        public static Employee Employee1 = new Employee()
         {
             Id = 1,
             Account = new Account()
@@ -49,7 +49,7 @@ namespace Festispec.UnitTests.Helpers
         public static Availability Sickness = new Availability()
         {
             Id = 1,
-            Employee = Employee,
+            Employee = Employee1,
             IsAvailable = false,
             Reason = "Ik heb griep",
             EventTitle = "Afwezig wegens ziekte",
@@ -103,7 +103,7 @@ namespace Festispec.UnitTests.Helpers
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", FestivalPinkPop)
-        {        
+        {
             Id = 1
         };
 
@@ -175,7 +175,7 @@ namespace Festispec.UnitTests.Helpers
                     Id = 3
                 }
             }
-        };               
+        };
 
         public List<Account> Accounts { get; set; }
 
@@ -191,7 +191,7 @@ namespace Festispec.UnitTests.Helpers
         };
 
         public static Employee Employee = new Employee()
-        {            
+        {
             Iban = "NL91ABNA0417164300",
 
             Account = new Account
@@ -244,7 +244,7 @@ namespace Festispec.UnitTests.Helpers
 
                 EndDate = new DateTime(2019, 12, 14)
             }
-        };  
+        };
 
         public static PlannedInspection PlannedInspectionPinkpop = new PlannedInspection()
         {
@@ -291,7 +291,7 @@ namespace Festispec.UnitTests.Helpers
                     PlannedInspection = PlannedInspectionThunderDome,
 
                     Question = QuestionnaireThunderDome.Questions.FirstOrDefault()
-                }                      
+                }
             }
         };
 
@@ -311,22 +311,24 @@ namespace Festispec.UnitTests.Helpers
         public List<PlannedEvent> PlannedEvents = new List<PlannedEvent>
         {
             Sickness,
-            Unavailability
+            Unavailability,
+            Sickness
         };
 
         public List<Availability> Availability = new List<Availability>
         {
             Sickness,
-            Unavailability
+            Unavailability,
+            Sickness
         };
 
-        public List<Employee> Employees = new List<Employee>
+        public List<Employee> Employees1 = new List<Employee>
         {
-            Employee
+            Employee1
         };
 
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();
-        
+
         public List<Employee> Employees = new List<Employee>
         {
             new Employee
@@ -419,7 +421,10 @@ namespace Festispec.UnitTests.Helpers
 
         public List<Address> Addresses { get; } = new List<Address>();
 
-        public List<Festival> Festivals { get; } = new List<Festival>();
+        public List<Festival> Festivals { get; } = new List<Festival>()
+        {
+            FestivalPinkPop
+        };
 
         public ModelMocks()
         {
