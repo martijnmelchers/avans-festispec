@@ -15,12 +15,14 @@
                 multidate: true
             });
 
-            changeDaysBackground();
-            $('.datepicker').on('changeDate', function(evt) {
+            changeDaysBackground(); 
+            $('.datepicker').on('changeDate', function (evt) {
+                changeDaysBackground(); 
                 console.log(evt.date);
                  });
 
-            $('.btn').on('click', function() {
+            $('.btn').on('click', function () {
+                changeDaysBackground(); 
                 var the_date = $('.datepicker:first').datepicker('getDates');
                 console.log(the_date);
                 });
@@ -69,3 +71,4 @@
     </div>
 
 </form>
+
