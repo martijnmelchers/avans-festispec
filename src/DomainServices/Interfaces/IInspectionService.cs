@@ -5,7 +5,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IInspectionService
+    public interface IInspectionService : ISyncable
     {
         #region planned Event
 

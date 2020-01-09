@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
@@ -10,19 +11,20 @@ namespace Festispec.UI.ViewModels.Employees
 {
     public class EmployeeListViewModel
     {
-        private readonly IFrameNavigationService _navigationService;
         private string _search;
 
-        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService)
+        public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
-            _navigationService = navigationService;
-            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee);
-            ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
+
+            AddNewEmployeeCommand = new RelayCommand(() => navigationService.NavigateTo("CreateEmployee"), () => offlineService.IsOnline, true);
+            ViewEmployeeCommand = new RelayCommand<int>(employeeId => navigationService.NavigateTo("EmployeeInfo", employeeId));
 
             EmployeeList =
                 (CollectionView) CollectionViewSource.GetDefaultView(
                     employeeService.GetAllEmployeesActiveAndNonActive());
             EmployeeList.Filter = Filter;
+            
+            employeeService.Sync();
         }
 
         public CollectionView EmployeeList { get; }
@@ -38,16 +40,6 @@ namespace Festispec.UI.ViewModels.Employees
                 _search = value;
                 EmployeeList.Filter += Filter;
             }
-        }
-
-        private void NavigateToAddNewEmployee()
-        {
-            _navigationService.NavigateTo("CreateEmployee");
-        }
-
-        private void NavigateToViewEmployee(int employeeId)
-        {
-            _navigationService.NavigateTo("EmployeeInfo", employeeId);
         }
 
         private bool Filter(object item)

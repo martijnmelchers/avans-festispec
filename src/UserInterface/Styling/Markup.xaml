@@ -58,6 +58,16 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <Style x:Key="HeaderLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="#707070"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"/>
+        <Setter Property="FontSize" Value="30"/>
+    </Style>
+    
+    <Style x:Key="HeaderLabelRed" BasedOn="{StaticResource HeaderLabel}" TargetType="Label">
+        <Setter Property="Foreground" Value="#FF4E4E"/>
+    </Style>
 
     <Style x:Key="ActiveLink" TargetType="Hyperlink">
         <Setter Property="Foreground" Value="#707070" />

@@ -4,10 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
 
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="MapPage">
+      Title="MapPage"
+      d:DataContext="{d:DesignInstance Type=viewModels:MapViewModel}">
 
 
     <Page.Resources>
@@ -131,13 +133,13 @@
         <Label Content="Medewerkers" Margin="250,177,1515,0" VerticalAlignment="Top" />
         <Label Content="Festivals" Margin="250,206,1515,0" VerticalAlignment="Top" />
         <Label Content="Klanten" Margin="250,235,1515,0" VerticalAlignment="Top" />
-        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding MedewerkerChecked}"
+        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding EmployeeChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,178,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
         <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding FestivalChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,207,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
-        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding KlantChecked}"
+        <CheckBox Command="{Binding CheckboxCheckedCommand}" IsChecked="{Binding CustomerChecked}"
                   RenderTransformOrigin="0.119,0.188" Margin="0,236,1675,0" HorizontalAlignment="Right" Height="24"
                   VerticalAlignment="Top" />
 

@@ -11,12 +11,14 @@ namespace Festispec.DomainServices.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IAddressService _addressService;
         private readonly FestispecContext _db;
+        private readonly ISyncService<Customer> _syncService;
+        private readonly IAddressService _addressService;
 
-        public CustomerService(FestispecContext db, IAddressService addressService)
+        public CustomerService(FestispecContext db, ISyncService<Customer> syncService, IAddressService addressService)
         {
             _db = db;
+            _syncService = syncService;
             _addressService = addressService;
         }
 
@@ -108,6 +110,25 @@ namespace Festispec.DomainServices.Services
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();
+        }
+
+        public bool CanDeleteCustomer(Customer customer)
+        {
+            return customer.Festivals.Count == 0
+                   && customer.ContactPersons.Count == 0;
+        }
+
+        public void Sync()
+        {
+            FestispecContext db = _syncService.GetSyncContext();
+        
+            List<Customer> customers = db.Customers
+                .Include(c => c.ContactPersons)
+                .Include(c => c.Festivals).ToList();
+            
+            _syncService.Flush();
+            _syncService.AddEntities(customers);
+            _syncService.SaveChanges();
         }
     }
 }

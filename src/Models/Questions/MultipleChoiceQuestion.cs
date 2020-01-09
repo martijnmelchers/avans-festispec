@@ -9,8 +9,9 @@ namespace Festispec.Models.Questions
     public class MultipleChoiceQuestion : Question
     {
         private static readonly string STRING_SEPERATOR = "~";
+        private string _options;
 
-        public MultipleChoiceQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire)
+        public MultipleChoiceQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire) 
         {
         }
 
@@ -22,7 +23,11 @@ namespace Festispec.Models.Questions
         public override GraphType GraphType => GraphType.Pie;
 
         // This property contains the options comma seperated
-        public string Options { get; set; }
+        public string Options
+        {
+            get => _options;
+            set { _options = value; StringToObjects(); }
+        }
 
         [NotMapped]
         [Required]

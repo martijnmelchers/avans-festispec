@@ -63,7 +63,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="left" Grid.Column="0" Grid.Row="10">
                 <Button Content="Festival toevoegen" Command="{Binding AddFestivalCommand}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
+                        Style="{DynamicResource ButtonGreen}" Height="50" Width="250"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="10">

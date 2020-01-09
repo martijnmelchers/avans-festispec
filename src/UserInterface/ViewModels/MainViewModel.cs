@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
@@ -44,8 +45,18 @@ namespace Festispec.UI.ViewModels
         public string CurrentUsername { get; set; }
         public string CurrentName => IsLoggedIn ? CurrentAccount.Employee.Name.First : "Gast";
 
-        public Visibility HideNavbar =>
-            !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
+        public Visibility HideNavbar => !IsLoggedIn ? Visibility.Hidden : Visibility.Visible; //navbar visible or hidden.
+        
+        public Visibility IsOffline { get; set; }
+
+        public MainViewModel(IFrameNavigationService navigationService, IAuthenticationService authenticationService, IOfflineService offlineService)
+        {
+            _navigationService = navigationService;
+            _authenticationService = authenticationService;
+            IsOffline = offlineService.IsOnline ? Visibility.Hidden : Visibility.Visible;
+            NavigateCommand = new RelayCommand<string>(Navigate, IsNotOnSamePage);
+            LoginCommand = new RelayCommand<object>(Login);
+        }
 
         public void Navigate(string page)
         {
@@ -56,8 +67,8 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox) passwordBox).Password,
-                    Role.Employee);
+                CurrentAccount = _authenticationService.Login(CurrentUsername, ((PasswordBox)passwordBox).Password, Role.Employee);
+                _authenticationService.Sync();
                 _navigationService.NavigateTo("HomePage");
             }
             catch (AuthenticationException a)

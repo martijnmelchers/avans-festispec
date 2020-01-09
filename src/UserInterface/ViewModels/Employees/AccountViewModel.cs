@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.UI.Exceptions;
 using Festispec.UI.Interfaces;
@@ -21,7 +22,7 @@ namespace Festispec.UI.ViewModels.Employees
 
             if (navigationService.Parameter == null || !(navigationService.Parameter is int employeeId))
                 throw new InvalidNavigationException();
-
+            
             Account = employeeService.GetAccountForEmployee(employeeId);
             NavigateBackCommand = new RelayCommand(NavigateBack);
             SaveCommand = new RelayCommand<PasswordWithVerification>(SaveChanges);
@@ -86,6 +87,7 @@ namespace Festispec.UI.ViewModels.Employees
             }
 
             _employeeService.SaveChangesAsync();
+            _employeeService.Sync();
             NavigateBack();
         }
     }

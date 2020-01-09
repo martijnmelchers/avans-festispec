@@ -6,7 +6,7 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Festispec.UI.ViewModels.Customers
 {
@@ -14,18 +14,20 @@ namespace Festispec.UI.ViewModels.Customers
     {
         private readonly ICustomerService _customerService;
         private readonly IGoogleMapsService _googleService;
+        private readonly IOfflineService _offlineService;
         private readonly IFrameNavigationService _navigationService;
 
         public CustomerViewModel(ICustomerService customerService, IFrameNavigationService navigationService,
-            IGoogleMapsService googleMapsService)
+            IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _customerService = customerService;
             _navigationService = navigationService;
+            _offlineService = offlineService;
 
             if (_navigationService.Parameter is int customerId)
             {
                 Customer = _customerService.GetCustomer(customerId);
-                CanDeleteCustomer = Customer.Festivals.Count == 0 && Customer.ContactPersons.Count == 0;
+                CanDeleteCustomer = _customerService.CanDeleteCustomer(Customer);
                 SaveCommand = new RelayCommand(UpdateCustomer);
                 CurrentAddress = $"Huidige adres: {Customer.Address}";
             }
@@ -36,13 +38,17 @@ namespace Festispec.UI.ViewModels.Customers
                 SaveCommand = new RelayCommand(AddCustomer);
             }
 
-            EditCustomerCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateCustomer", Customer.Id));
-            AddFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("CreateFestival", Customer.Id));
-            NavigateToCustomerListCommand = new RelayCommand(NavigateToCustomerList);
-            NavigateToCustomerInfoCommand = new RelayCommand(NavigateToCustomerInfo);
+            EditCustomerCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateCustomer", Customer.Id),
+                () => offlineService.IsOnline, true);
+            AddFestivalCommand = new RelayCommand(() => _navigationService.NavigateTo("CreateFestival", Customer.Id),
+                () => offlineService.IsOnline, true);
+            NavigateToCustomerListCommand = new RelayCommand(() => _navigationService.NavigateTo("CustomerList"));
+            NavigateToCustomerInfoCommand = new RelayCommand(() => _navigationService.NavigateTo("CustomerInfo", Customer.Id));
 
-            DeleteCommand = new RelayCommand(RemoveCustomer);
-            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteCustomer);
+            DeleteCommand = new RelayCommand(RemoveCustomer, () => offlineService.IsOnline, true);
+            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, () => CanDeleteCustomer, true);
+            
+            customerService.Sync();
 
             #region Google Search
 
@@ -65,23 +71,13 @@ namespace Festispec.UI.ViewModels.Customers
         public ICommand SearchCommand { get; }
         public RelayCommand<string> SelectCommand { get; }
 
-
-        private void NavigateToCustomerInfo()
-        {
-            _navigationService.NavigateTo("CustomerInfo", Customer.Id);
-        }
-
-        private void NavigateToCustomerList()
-        {
-            _navigationService.NavigateTo("CustomerList");
-        }
-
         private async void AddCustomer()
         {
             try
             {
                 await _customerService.CreateCustomerAsync(Customer);
-                NavigateToCustomerList();
+                _customerService.Sync();
+                _navigationService.NavigateTo("CustomerList");
             }
             catch (InvalidAddressException)
             {
@@ -106,7 +102,8 @@ namespace Festispec.UI.ViewModels.Customers
             try
             {
                 await _customerService.UpdateCustomerAsync(Customer);
-                NavigateToCustomerInfo();
+                _customerService.Sync();
+                _navigationService.NavigateTo("CustomerInfo", Customer.Id);
             }
             catch (InvalidAddressException)
             {
@@ -132,7 +129,7 @@ namespace Festispec.UI.ViewModels.Customers
                 throw new InvalidOperationException("Cannot remove this customer");
 
             await _customerService.RemoveCustomerAsync(Customer.Id);
-            NavigateToCustomerList();
+            _navigationService.NavigateTo("CustomerList");
         }
 
         #region Google Search

@@ -11,11 +11,10 @@ using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
     internal class CreateFestivalViewModel : ViewModelBase
     {
-        private readonly ICustomerService _customerService;
         private readonly IGoogleMapsService _googleService;
 
         private readonly IFrameNavigationService _navigationService;
@@ -30,13 +29,12 @@ namespace Festispec.UI.ViewModels
                 Address = new Address()
             };
             _festivalService = festivalService;
-            _customerService = customerService;
             _navigationService = navigationService;
 
             if (navigationService.Parameter == null || !(navigationService.Parameter is int customerId))
                 throw new InvalidNavigationException();
 
-            Festival.Customer = _customerService.GetCustomer(customerId);
+            Festival.Customer = customerService.GetCustomer(customerId);
             CreateFestivalCommand = new RelayCommand(CreateFestival);
 
             #region Google Search
@@ -65,6 +63,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.CreateFestival(Festival);
+                //_festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (InvalidAddressException)

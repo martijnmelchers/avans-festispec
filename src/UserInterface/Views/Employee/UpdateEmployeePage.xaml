@@ -68,7 +68,7 @@
             <TextBox HorizontalAlignment="Left" Grid.Row="7" Text="{Binding SearchQuery}" TextWrapping="Wrap"
                      VerticalAlignment="Top" Grid.Column="0" Height="50" Width="350" />
 
-            <TextBlock Text="{Binding CurrentAddress}" Grid.Row="8" Grid.Column="0"
+            <TextBlock Text="{Binding CurrentAddress}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0"
                        Style="{DynamicResource DefaultText}" TextWrapping="Wrap" />
 
             <ListView VerticalAlignment="Center" HorizontalAlignment="Center" ItemsSource="{Binding Suggestions}"

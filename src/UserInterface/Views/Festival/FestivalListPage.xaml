@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       xmlns:local="clr-namespace:Festispec.UI.Views"
+      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="FestivalListPage">
+      Title="FestivalListPage"
+      d:DataContext="{d:DesignInstance Type=festivals:FestivalListViewModel}">
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1370" Height="800" />
     <Grid Width="1320" Height="750">
