@@ -186,7 +186,7 @@ namespace Festispec.DomainServices.Services
 
         public List<Answer> GetAnswers()
         {
-            return _db.Answers.ToList();
+            return _db.Answers.Include(a => a.Question).ToList();
         }
 
         public async Task<Question> GetQuestion(int questionId)

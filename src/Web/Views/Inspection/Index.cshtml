@@ -1,9 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lijst van inspecties";
 }
 
 @model IEnumerable<Festispec.Models.PlannedInspection>
+
+    <h1>Inspecties voor vandaag:</h1>
 
 @foreach (var item in Model)
 {
