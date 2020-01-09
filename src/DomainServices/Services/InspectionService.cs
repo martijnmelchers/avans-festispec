@@ -21,7 +21,7 @@ namespace Festispec.DomainServices.Services
             _db = db;
             _syncService = syncService;
         }
-        
+
         public List<Employee> GetAllInspectors()
         {
             return _db.Employees
@@ -54,7 +54,6 @@ namespace Festispec.DomainServices.Services
             int employeeId
         )
         {
-            // TODO This breaks when using the existing context. It works when using a new one. Why? No-one knows.
             PlannedInspection existing = _db.PlannedInspections
                 .FirstOrDefault(x =>
                     x.Questionnaire.Id == questionnaireId && x.Festival.Id == festivalId &&
@@ -82,16 +81,34 @@ namespace Festispec.DomainServices.Services
 
             return null;
         }
-
-        public async Task SaveChanges()
+        
+        public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections)
         {
-            await _db.SaveChangesAsync();
+            foreach (PlannedInspection plannedInspection in plannedInspections)
+            {
+                if (plannedInspection.Id != 0)
+                    _db.Entry(plannedInspection).State = EntityState.Modified;
+                else
+                {
+                    await CreatePlannedInspection(plannedInspection.Festival.Id, plannedInspection.Questionnaire.Id,
+                        plannedInspection.StartTime, plannedInspection.EndTime, plannedInspection.EventTitle,
+                        plannedInspection.Employee.Id);
+                }
+            }
+
+            return await SaveChanges();
+        }
+
+        public async Task<int> SaveChanges()
+        {
+            return await _db.SaveChangesAsync();
         }
 
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
             PlannedInspection plannedInspection = await _db.PlannedInspections
                 .Include(pi => pi.Festival)
+                .Include(pi => pi.Festival.Address)
                 .FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
 
             if (plannedInspection == null)
@@ -99,7 +116,7 @@ namespace Festispec.DomainServices.Services
 
             return plannedInspection;
         }
-        
+
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
             List<PlannedInspection> plannedInspections = _db.PlannedInspections
@@ -150,13 +167,11 @@ namespace Festispec.DomainServices.Services
 
             return plannedInspections;
         }
-
-
+        
         public async Task RemoveInspection(int plannedInspectionId, string cancellationReason)
         {
             PlannedInspection plannedInspection = await GetPlannedInspection(plannedInspectionId);
-
-
+            
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
                 throw new QuestionHasAnswersException();
@@ -177,6 +192,7 @@ namespace Festispec.DomainServices.Services
             
             List<PlannedInspection> plannedInspections = db.PlannedInspections
                 .Include(i => i.Festival)
+                .Include(i => i.Festival.Address)
                 .Include(i => i.Employee)
                 .Include(i => i.Employee.Address).ToList();
 
@@ -184,7 +200,5 @@ namespace Festispec.DomainServices.Services
             _syncService.AddEntities(plannedInspections);
             _syncService.SaveChanges();
         }
-        
-        
     }
 }

@@ -146,7 +146,7 @@ namespace Festispec.UI.ViewModels.Festivals
                 _festivalService.Sync();
                 OpenQuestionnaire(questionnaire.Id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 OpenValidationPopup("Er is een fout opgetreden tijdens het aanmaken van de vragenlijst. Probeer het opnieuw.");
             }
