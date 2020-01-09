@@ -57,7 +57,7 @@ namespace Festispec.UI.ViewModels.Festivals
             }
             catch (InvalidAddressException)
             {
-                OpenValidationPopup("Ingevoerd adres incorrect, denk aan het invullen van een huisnummer.");
+                OpenValidationPopup("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
         }
 
