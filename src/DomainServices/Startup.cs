@@ -1,4 +1,3 @@
-using Festispec.DomainServices.Enums;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;

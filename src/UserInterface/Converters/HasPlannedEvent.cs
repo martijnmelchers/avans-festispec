@@ -10,9 +10,9 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var EmployeesToAdd = values[0] as ObservableCollection<Employee>;
-            var EmployeesAdded = values[1] as ObservableCollection<Employee>;
-            return EmployeesToAdd.Contains(values[2] as Employee) || EmployeesAdded.Contains(values[2] as Employee);
+            var employeesToAdd = values[0] as ObservableCollection<Employee>;
+            var employeesAdded = values[1] as ObservableCollection<Employee>;
+            return employeesToAdd.Contains(values[2] as Employee) || employeesAdded.Contains(values[2] as Employee);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
