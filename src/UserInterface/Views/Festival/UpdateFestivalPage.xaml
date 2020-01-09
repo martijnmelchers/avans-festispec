@@ -213,5 +213,6 @@
             </Button>
             </StackPanel>
         </Grid>
+        <controls:ValidationPopup Caption="Foutieve invoer" />
     </Grid>
 </Page>
