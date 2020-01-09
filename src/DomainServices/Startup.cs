@@ -1,4 +1,3 @@
-using Festispec.DomainServices.Enums;
 using Festispec.DomainServices.Factories;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
@@ -48,6 +47,7 @@ namespace Festispec.DomainServices
             // Register all your factories here
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
+            services.AddSingleton(new GraphSelectorFactory());
 
             return services; 
         }

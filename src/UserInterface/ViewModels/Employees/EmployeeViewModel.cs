@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
@@ -15,14 +14,15 @@ namespace Festispec.UI.ViewModels.Employees
     public class EmployeeViewModel : BaseDeleteCheckViewModel
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IFrameNavigationService _navigationService;
         private readonly IGoogleMapsService _googleService;
+        private readonly IFrameNavigationService _navigationService;
 
-        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IGoogleMapsService googleMapsService, IOfflineService offlineService)
+        public EmployeeViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService,
+            IGoogleMapsService googleMapsService, IOfflineService offlineService)
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
-            ViewCertificatesCommand = new RelayCommand(ViewCertificates);
+            ViewCertificatesCommand = new RelayCommand(() => _navigationService.NavigateTo("CertificateList", Employee.Id));
 
             if (_navigationService.Parameter is int customerId)
             {
@@ -33,22 +33,24 @@ namespace Festispec.UI.ViewModels.Employees
             }
             else
             {
-                Employee = new Employee { Account = new Account() };
+                Employee = new Employee {Account = new Account()};
                 SaveCommand = new RelayCommand<PasswordWithVerification>(AddEmployee);
             }
 
             CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id));
-            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline);
-            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline);
+            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline, true);
+            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline, true);
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
-            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteEmployee);
+            OpenDeleteCheckCommand = new RelayCommand(OpenDeletePopup, () => CanDeleteEmployee, true);
 
             #region Google Search
+
             _googleService = googleMapsService;
             SearchCommand = new RelayCommand(Search);
             SelectCommand = new RelayCommand<string>(Select);
+
             #endregion
         }
 
@@ -65,11 +67,6 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand SearchCommand { get; }
         public RelayCommand<string> SelectCommand { get; }
 
-        private void ViewCertificates()
-        {
-            _navigationService.NavigateTo("CertificateList", Employee.Id);
-        }
-
         private void NavigateBack()
         {
             _navigationService.NavigateTo("EmployeeList");
@@ -77,20 +74,24 @@ namespace Festispec.UI.ViewModels.Employees
 
         private async void AddEmployee(PasswordWithVerification passwordWithVerification)
         {
+            if (string.IsNullOrEmpty(CurrentAddress))
+            {
+                OpenValidationPopup("Er is geen adres ingevuld.");
+                return;
+            }
+
             IntPtr valuePtr = IntPtr.Zero;
             try
             {
                 if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
                 {
-                    ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.");
                     return;
                 }
 
                 if (passwordWithVerification.Password.Length < 5)
                 {
-                    ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Het wachtwoord moet tussen 5 en 100 karakters zijn.");
                     return;
                 }
 
@@ -109,18 +110,16 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (InvalidAddressException)
             {
-                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
             catch (InvalidDataException)
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})");
             }
             finally
             {
@@ -137,16 +136,15 @@ namespace Festispec.UI.ViewModels.Employees
                 _employeeService.Sync();
                 _navigationService.NavigateTo("EmployeeInfo", Employee.Id);
             }
-            catch(InvalidAddressException)
+            catch (InvalidAddressException)
             {
-                ValidationError = "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
-                PopupIsOpen = true;
-            } 
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})");
+            }
         }
 
         private async void RemoveEmployee()
@@ -159,6 +157,7 @@ namespace Festispec.UI.ViewModels.Employees
         }
 
         #region Google Search
+
         public ObservableCollection<Prediction> Suggestions { get; set; }
         public string SearchQuery { get; set; }
         public string CurrentAddress { get; set; }
@@ -167,37 +166,36 @@ namespace Festispec.UI.ViewModels.Employees
         {
             try
             {
-                Suggestions = new ObservableCollection<Prediction>(await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
+                Suggestions =
+                    new ObservableCollection<Prediction>(
+                        await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
             catch (GoogleZeroResultsException)
             {
-                ValidationError = "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
-
-
-
         }
 
         public async void Select(string id)
         {
             try
             {
-                var address = await _googleService.GetAddress(id);
+                Address address = await _googleService.GetAddress(id);
                 Employee.Address = address;
                 CurrentAddress = $"Geselecteerde adres: {Employee.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError = "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
         }
 

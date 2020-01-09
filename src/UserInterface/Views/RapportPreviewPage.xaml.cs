@@ -1,19 +1,19 @@
 ﻿using Festispec.UI.ViewModels;
-using Festispec.UI.ViewModels.Festivals;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Festispec.UI.Views.Festival
+namespace Festispec.UI.Views
 {
-    public partial class UpdateFestivalPage
+    public partial class RapportPreviewPage
     {
-        public UpdateFestivalPage()
+        public RapportPreviewPage()
         {
             InitializeComponent();
+
 
             IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
             Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = scope.ServiceProvider.GetRequiredService<UpdateFestivalViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<RapportPreviewViewModel>();
         }
     }
 }

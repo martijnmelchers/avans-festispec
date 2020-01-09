@@ -1,11 +1,11 @@
-using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.Models.EntityMapping;
-using Festispec.Models.Exception;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.EntityMapping;
+using Festispec.Models.Exception;
 
 namespace Festispec.DomainServices.Services
 {
@@ -24,25 +24,16 @@ namespace Festispec.DomainServices.Services
             _addressService = addressService;
         }
 
-        public IEnumerable<Employee> GetAllEmployees() //returns all active accounts.
+        public List<Employee> GetAllEmployees() //returns all active accounts.
         {
             return _db.Employees.Where(e => e.Account.IsNonActive == null).Include(e => e.Address).ToList();
         }
 
-        public IEnumerable<Employee> GetAllEmployeesActiveAndNonActive()
+        public List<Employee> GetAllEmployeesActiveAndNonActive()
         {
             return _db.Employees
                 .Include(e => e.Address)
                 .Include(e => e.PlannedEvents)
-                .ToList();
-        }
-
-        public IEnumerable<Employee> GetAllInspectors()
-        {
-            return _db.Employees
-                .Include(e => e.Address)
-                .Include(e => e.PlannedEvents)
-                .Where(e => e.Account.Role == Role.Inspector)
                 .ToList();
         }
 

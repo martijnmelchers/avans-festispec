@@ -6,7 +6,8 @@
         {
         }
 
-        public GoogleZeroResultsException(string message, System.Exception innerException) : base(message, innerException)
+        public GoogleZeroResultsException(string message, System.Exception innerException) : base(message,
+            innerException)
         {
         }
 

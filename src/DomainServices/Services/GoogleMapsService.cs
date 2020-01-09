@@ -16,10 +16,11 @@ namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService : IGoogleMapsService
     {
-        private readonly HttpClient _client;
         private const string API_KEY = "AIzaSyB75U9ewy-e0nrRb4WKXXTTdalclxoipTs";
-        private readonly string _sessionToken;
+        private readonly HttpClient _client;
         private readonly FestispecContext _db;
+        private readonly string _sessionToken;
+
         private readonly ISyncService<DistanceResult> _syncService;
 
         public GoogleMapsService(FestispecContext db, ISyncService<DistanceResult> syncService)
@@ -29,14 +30,16 @@ namespace Festispec.DomainServices.Services
                 BaseAddress = new Uri("https://maps.googleapis.com/maps/api/")
             };
 
-            _sessionToken =  new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)]).ToArray());
+            _sessionToken = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
+                .Select(s => s[new Random().Next(s.Length)]).ToArray());
             _db = db;
             _syncService = syncService;
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
         {
-            var request = await _client.GetAsync($"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
+            HttpResponseMessage request = await _client.GetAsync(
+                $"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
             var result = JsonConvert.DeserializeObject<AutocompleteResponse>(await request.Content.ReadAsStringAsync());
 
             if (result.Status.Equals(GoogleStatusCodes.ZeroResults))
@@ -50,13 +53,16 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Address> GetAddress(string placeId)
         {
-            var request = await _client.GetAsync($"place/details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
+            HttpResponseMessage request = await _client.GetAsync(
+                $"place/details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
             var result = JsonConvert.DeserializeObject<PlaceDetailResponse>(await request.Content.ReadAsStringAsync());
 
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
                 throw new GoogleMapsApiException();
 
-            int.TryParse(Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, "[^.0-9]", ""), out int houseNumber);
+            int.TryParse(
+                Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, "[^.0-9]", ""),
+                out int houseNumber);
 
             return new Address
             {
@@ -65,7 +71,8 @@ namespace Festispec.DomainServices.Services
                 HouseNumber = houseNumber,
                 Country = GetComponent(result.Place, "country")?.LongName,
                 StreetName = GetComponent(result.Place, "route")?.LongName,
-                Suffix = Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, @"[\d-]", string.Empty),
+                Suffix = Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, @"[\d-]",
+                    string.Empty),
                 Latitude = result.Place.Geometry.Location.Latitude,
                 Longitude = result.Place.Geometry.Location.Longitude
             };
@@ -73,18 +80,21 @@ namespace Festispec.DomainServices.Services
 
         public async Task<double> CalculateDistance(Address origin, Address destination)
         {
-            var existing = await _db.DistanceResults.FirstOrDefaultAsync(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
+            DistanceResult existing = await _db.DistanceResults
+                .FirstOrDefaultAsync(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
 
             if (existing != null)
                 return existing.Distance;
 
-            var request = await _client.GetAsync($"distancematrix/json?units=metric&origins={origin.Latitude.ToString().Replace(",", ".")},{origin.Longitude.ToString().Replace(",", ".")}&destinations={destination.Latitude.ToString().Replace(",", ".")},{destination.Longitude.ToString().Replace(",", ".")}&language=nl&key={API_KEY}");
-            var result = JsonConvert.DeserializeObject<DistanceMatrixResponse>(await request.Content.ReadAsStringAsync());
+            HttpResponseMessage request = await _client.GetAsync(
+                $"distancematrix/json?units=metric&origins={origin.Latitude.ToString().Replace(",", ".")},{origin.Longitude.ToString().Replace(",", ".")}&destinations={destination.Latitude.ToString().Replace(",", ".")},{destination.Longitude.ToString().Replace(",", ".")}&language=nl&key={API_KEY}");
+            var result =
+                JsonConvert.DeserializeObject<DistanceMatrixResponse>(await request.Content.ReadAsStringAsync());
 
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
                 throw new GoogleMapsApiException();
 
-            var distanceResult = new DistanceResult()
+            var distanceResult = new DistanceResult
             {
                 Origin = origin,
                 Destination = destination,

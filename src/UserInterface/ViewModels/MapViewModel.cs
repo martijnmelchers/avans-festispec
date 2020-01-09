@@ -1,33 +1,25 @@
-using GalaSoft.MvvmLight;
 using System.Collections.Generic;
-using System.Windows.Media;
-using MapControl;
 using System.Collections.ObjectModel;
-using Festispec.DomainServices.Interfaces;
-using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
+using System.Windows.Media;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MapControl;
 
 namespace Festispec.UI.ViewModels
 {
     public class MapViewModel : ViewModelBase
     {
+        private readonly ICustomerService _customerService;
+        private readonly IEmployeeService _employeeService;
 
-        public ObservableCollection<PointItem> Points { get; set; } = new ObservableCollection<PointItem>();
-        private List<PointItem> CachePoints = new List<PointItem>();
 
-        public bool MedewerkerChecked { get; set; } = true;
-        public bool KlantChecked      { get; set; } = true;
-        public bool FestivalChecked   { get; set; } = true;
-
-        
-        private IFestivalService _festivalService;
-        private IFrameNavigationService _navigationService;
-        private ICustomerService _customerService;
-        private IEmployeeService _employeeService;
-
-        public ICommand CheckboxCheckedCommand { get; set; }
-        public ICommand BackCommand { get; set; }
+        private readonly IFestivalService _festivalService;
+        private readonly IFrameNavigationService _navigationService;
+        private readonly List<PointItem> CachePoints = new List<PointItem>();
 
         public MapViewModel(
             IFrameNavigationService navigationService,
@@ -36,10 +28,10 @@ namespace Festispec.UI.ViewModels
             IEmployeeService employeeService
         )
         {
-            _festivalService   = festivalService;
+            _festivalService = festivalService;
             _navigationService = navigationService;
-            _customerService   = customerService;
-            _employeeService   = employeeService;
+            _customerService = customerService;
+            _employeeService = employeeService;
 
             CheckboxCheckedCommand = new RelayCommand(FilterPoints);
             BackCommand = new RelayCommand(Back);
@@ -48,6 +40,15 @@ namespace Festispec.UI.ViewModels
             LoadPoints();
             FilterPoints();
         }
+
+        public ObservableCollection<PointItem> Points { get; set; } = new ObservableCollection<PointItem>();
+
+        public bool EmployeeChecked { get; set; } = true;
+        public bool CustomerChecked { get; set; } = true;
+        public bool FestivalChecked { get; set; } = true;
+
+        public ICommand CheckboxCheckedCommand { get; set; }
+        public ICommand BackCommand { get; set; }
 
         private void Back()
         {
@@ -59,16 +60,15 @@ namespace Festispec.UI.ViewModels
             LoadCustomers();
             LoadFestivals();
             LoadEmployees();
-        }    
+        }
 
 
         private void LoadCustomers()
         {
-            var customers = _customerService.GetAllCustomers();
+            List<Customer> customers = _customerService.GetAllCustomers();
 
-            foreach (var customer in customers)
-            {
-                CachePoints.Add(new PointItem()
+            foreach (Customer customer in customers)
+                CachePoints.Add(new PointItem
                 {
                     Name = customer.CustomerName,
                     Location = new Location(customer.Address.Latitude, customer.Address.Longitude),
@@ -77,16 +77,14 @@ namespace Festispec.UI.ViewModels
                     Parent = this,
                     DotColor = new SolidColorBrush(Colors.Blue)
                 });
-            }
         }
 
         private void LoadFestivals()
         {
-            var festivals = _festivalService.GetFestivals();
+            ICollection<Festival> festivals = _festivalService.GetFestivals();
 
-            foreach (var festival in festivals)
-            {
-                CachePoints.Add(new PointItem()
+            foreach (Festival festival in festivals)
+                CachePoints.Add(new PointItem
                 {
                     Name = festival.FestivalName,
                     Location = new Location(festival.Address.Latitude, festival.Address.Longitude),
@@ -95,16 +93,14 @@ namespace Festispec.UI.ViewModels
                     Parent = this,
                     DotColor = new SolidColorBrush(Colors.Red)
                 });
-            }
         }
 
         private void LoadEmployees()
         {
-            var employees = _employeeService.GetAllEmployees();
+            List<Employee> employees = _employeeService.GetAllEmployees();
 
-            foreach (var employee in employees)
-            {
-                CachePoints.Add(new PointItem()
+            foreach (Employee employee in employees)
+                CachePoints.Add(new PointItem
                 {
                     Name = employee.Name.ToString(),
                     Location = new Location(employee.Address.Latitude, employee.Address.Longitude),
@@ -113,7 +109,6 @@ namespace Festispec.UI.ViewModels
                     Parent = this,
                     DotColor = new SolidColorBrush(Colors.Aqua)
                 });
-            }
         }
 
         public void Navigate(string destinationView, object destinationParameter)
@@ -126,31 +121,24 @@ namespace Festispec.UI.ViewModels
         {
             Points.Clear();
             // Check which items are checked and add them to the points list.
-            foreach(var point in CachePoints)
-            {
+            foreach (PointItem point in CachePoints)
                 switch (point.DestinationView)
                 {
                     case "CustomerInfo":
-                        if (KlantChecked)
+                        if (CustomerChecked)
                             Points.Add(point);
-                    break;
+                        break;
 
                     case "FestivalInfo":
                         if (FestivalChecked)
                             Points.Add(point);
-                    break;
+                        break;
 
                     case "EmployeeInfo":
-                        if (MedewerkerChecked)
+                        if (EmployeeChecked)
                             Points.Add(point);
-                    break;
-
-                    default:
-                    break;
+                        break;
                 }
-            }
-
         }
-
     }
 }
