@@ -11,16 +11,14 @@ namespace Festispec.UI.ViewModels.Festivals
 {
     public class FestivalListViewModel
     {
-        private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
 
         public FestivalListViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
         {
-            _festivalService = festivalService;
             _navigationService = navigationService;
 
             OpenFestivalCommand = new RelayCommand<int>(OpenFestival);
-            Festivals = (CollectionView) CollectionViewSource.GetDefaultView(_festivalService.GetFestivals());
+            Festivals = (CollectionView) CollectionViewSource.GetDefaultView(festivalService.GetFestivals());
             Festivals.Filter = Filter;
 
             festivalService.Sync();
@@ -28,7 +26,7 @@ namespace Festispec.UI.ViewModels.Festivals
 
         public ICollectionView Festivals { get; set; }
 
-        private string _search { get; set; }
+        private string _search;
 
         public string Search
         {
@@ -42,8 +40,6 @@ namespace Festispec.UI.ViewModels.Festivals
         }
 
         public ICommand OpenFestivalCommand { get; set; }
-
-        public ICommand EditFestivalCommand { get; set; }
 
         private bool Filter(object item)
         {

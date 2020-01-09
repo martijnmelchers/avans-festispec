@@ -47,14 +47,14 @@ namespace Festispec.UI.ViewModels
             _removedQuestions = new ObservableCollection<Question>();
 
             AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
-            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline);
-            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire, () => offlineService.IsOnline);
-            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline);
+            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline, true);
+            DeleteQuestionaireCommand = new RelayCommand(DeleteQuestionaire, () => offlineService.IsOnline, true);
+            SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline, true);
             OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
-            AddOptionToQuestion = new RelayCommand<Question>(AddOption, _ => offlineService.IsOnline);
+            AddOptionToQuestion = new RelayCommand<Question>(AddOption, _ => offlineService.IsOnline, true);
             ReturnCommand = new RelayCommand(NavigateToFestivalInfo);
-            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion, _ => offlineService.IsOnline);
-            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion, _ => offlineService.IsOnline);
+            SelectReferenceQuestionCommand = new RelayCommand<ReferenceQuestion>(SelectReferenceQuestion, _ => offlineService.IsOnline, true);
+            SetReferenceQuestionCommand = new RelayCommand<Question>(SetReferenceQuestion, _ => offlineService.IsOnline, true);
 
             QuestionList = (CollectionView) CollectionViewSource.GetDefaultView(_allQuestions());
             QuestionList.Filter = Filter;
@@ -155,7 +155,7 @@ namespace Festispec.UI.ViewModels
 
         public bool CanAddQuestion()
         {
-            return Selecteditem != null && _offlineService.IsOnline;
+            return Selecteditem != null;
         }
 
         public void DeleteQuestion(Question item)

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Festispec.UI.ViewModels
 {
@@ -16,6 +15,7 @@ namespace Festispec.UI.ViewModels
     {
         private readonly IFestivalService _festivalService;
         private readonly IInspectionService _inspectionService;
+        private readonly IOfflineService _offlineService;
         private readonly IFrameNavigationService _navigationService;
         private readonly IQuestionnaireService _questionnaireService;
 
@@ -28,17 +28,18 @@ namespace Festispec.UI.ViewModels
             _navigationService = navigationService;
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
+            _offlineService = offlineService;
 
-            RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline);
-            EditFestivalCommand = new RelayCommand(EditFestival, () => offlineService.IsOnline);
+            RemoveFestivalCommand = new RelayCommand(RemoveFestival, () => offlineService.IsOnline, true);
+            EditFestivalCommand = new RelayCommand(EditFestival, () => offlineService.IsOnline, true);
             OpenQuestionnaireCommand = new RelayCommand<int>(OpenQuestionnaire);
-            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline);
-            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline);
-            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete, _ => offlineService.IsOnline);
+            CreateQuestionnaireCommand = new RelayCommand(CreateQuestionnaire, () => offlineService.IsOnline, true);
+            ConfirmDeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
+            DeleteQuestionnaireCommand = new RelayCommand<int>(PrepareQuestionnaireDelete, _ => offlineService.IsOnline, true);
             GenerateReportCommand = new RelayCommand(GenerateReport);
-            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline);
-            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline);
-            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline);
+            DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
+            EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(EditPlannedInspection, _ => offlineService.IsOnline, true);
+            CreatePlannedInspectionCommand = new RelayCommand(CreatePlannedInspection, () => offlineService.IsOnline, true);
 
             CanEdit = offlineService.IsOnline;
 
