@@ -52,7 +52,9 @@
 
             <Image Source="{StaticResource LocationGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="3" />
             <Label Content="Locatie" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="3" Margin="30,0,0,0"/>
-            <Label Content="{Binding FestivalLocation}" Grid.Row="4" FontWeight="Light"/>
+            <Label Grid.Row="4" FontWeight="Light">
+                <TextBlock Text="{Binding FestivalLocation}" TextWrapping="Wrap"/>
+            </Label>
 
             <Image Source="{StaticResource CalendarGreen}" Height="24" Width="20" HorizontalAlignment="Left" Grid.Row="5" />
             <Label Content="Festivaldata" VerticalContentAlignment="Center" Height="50" HorizontalAlignment="Left" Width="150" Grid.Row="5" Margin="30,0,0,0"/>
