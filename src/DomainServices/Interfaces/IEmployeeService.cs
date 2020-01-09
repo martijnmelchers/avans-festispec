@@ -7,7 +7,6 @@ namespace Festispec.DomainServices.Interfaces
     public interface IEmployeeService : ISyncable
     {
         List<Employee> GetAllEmployees();
-        List<Employee> GetAllInspectors();
 
         List<Employee> GetAllEmployeesActiveAndNonActive();
 

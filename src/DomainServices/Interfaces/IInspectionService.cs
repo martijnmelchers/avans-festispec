@@ -7,22 +7,26 @@ namespace Festispec.DomainServices.Interfaces
 {
     public interface IInspectionService : ISyncable
     {
-        #region planned Event
 
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
         Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee, DateTime startTime);
-        Task<List<PlannedInspection>> GetPlannedInspections(Festival festival, DateTime startTime);
+        Task<List<PlannedInspection>> GetPlannedInspections(int festivalId, DateTime startTime);
         Task<List<PlannedInspection>> GetPlannedInspections(int employeeId);
         List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival);
-        Task<PlannedInspection> CreatePlannedInspection(Festival festival);
-
-        Task<PlannedInspection> CreatePlannedInspection(Festival festival, Questionnaire questionnaire,
+        
+        List<Employee> GetAllInspectors();
+        
+        Task<PlannedInspection> CreatePlannedInspection(
+            int festivalId,
+            int questionnaireId,
             DateTime startTime,
-            DateTime endTime, string eventTitle, Employee employee);
+            DateTime endTime,
+            string eventTitle,
+            int employeeId
+        );
 
-        Task RemoveInspection(int plannedInspectionId, string cancellationreason);
+        Task RemoveInspection(int plannedInspectionId, string cancellationReason);
         Task SaveChanges();
-
-        #endregion
+        Task<Festival> GetFestivalAsync(int festivalId);
     }
 }
