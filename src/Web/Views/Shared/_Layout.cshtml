@@ -14,7 +14,8 @@
     <script src="~/lib/p5.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     
-    @if (ViewData["Title"] == null || ViewData["Title"].ToString() != "Login") {
+    @if (ViewData["Title"] == null || ViewData["Title"].ToString() != "Login")
+    {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -46,7 +47,7 @@
             </div>
         </nav>
     </header>
-    
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
