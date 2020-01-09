@@ -90,16 +90,13 @@ namespace Festispec.DomainServices.Services
 
             Questionnaire newQuestionnaire =
                 await CreateQuestionnaire(questionnaireName, oldQuestionnaire.Festival.Id);
-
             
-                
             foreach (var e in oldQuestionnaire.Questions)
             {
                 await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e));
             }
 
             await _db.SaveChangesAsync();
-                //throw new NoRowsChangedException();
 
             return newQuestionnaire;
         }

@@ -183,8 +183,7 @@ namespace Festispec.UI.ViewModels.Festivals
             }
             catch (Exception)
             {
-
-                throw;
+                OpenValidationPopup("De vragenlijst niet copieren.");
             }
         }
 
