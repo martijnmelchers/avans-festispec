@@ -95,9 +95,12 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button Height="50" Width="185" Grid.Column="0" Grid.Row="15" Content="Verwijder"
-                    HorizontalAlignment="Left" Style="{DynamicResource ButtonRed}"
-                    Command="{Binding OpenDeleteCheckCommand}" />
+            <Button Grid.Column="0" Grid.Row="15" HorizontalAlignment="Left" Command="{Binding OpenDeleteCheckCommand}"
+                    Style="{DynamicResource ButtonRed}" MinWidth="50" Width="50" Height="50" Margin="0,0,10,0">
+                <Button.Content>
+                    <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                </Button.Content>
+            </Button>
 
             <!-- Contactgegevens -->
             <Label Content="Contactgegevens" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" />
