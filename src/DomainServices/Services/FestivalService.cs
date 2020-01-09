@@ -22,8 +22,10 @@ namespace Festispec.DomainServices.Services
             _addressService = addressService;
         }
 
-        public async Task<Festival> CreateFestival(Festival festival)
+        public async Task<Festival> CreateFestival(Festival festival, int customerId)
         {
+            festival.Customer = await _db.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+            
             if (!festival.Validate() || !festival.OpeningHours.Validate())
                 throw new InvalidDataException();
 

@@ -19,9 +19,10 @@ namespace Festispec.UI.ViewModels.Festivals
 
         private readonly IFrameNavigationService _navigationService;
         private readonly IFestivalService _festivalService;
+        private readonly int _customerId;
 
-        public CreateFestivalViewModel(IFrameNavigationService navigationService, ICustomerService customerService,
-            IFestivalService festivalService, IGoogleMapsService googleMapsService)
+        public CreateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService,
+            IGoogleMapsService googleMapsService)
         {
             Festival = new Festival
             {
@@ -34,7 +35,8 @@ namespace Festispec.UI.ViewModels.Festivals
             if (navigationService.Parameter == null || !(navigationService.Parameter is int customerId))
                 throw new InvalidNavigationException();
 
-            Festival.Customer = customerService.GetCustomer(customerId);
+            _customerId = customerId;
+
             CreateFestivalCommand = new RelayCommand(CreateFestival);
 
             #region Google Search
@@ -62,8 +64,8 @@ namespace Festispec.UI.ViewModels.Festivals
 
             try
             {
-                await _festivalService.CreateFestival(Festival);
-                //_festivalService.Sync();
+                await _festivalService.CreateFestival(Festival, _customerId);
+                _festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (InvalidAddressException)
