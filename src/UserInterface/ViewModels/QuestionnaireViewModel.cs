@@ -27,6 +27,7 @@ namespace Festispec.UI.ViewModels
         private bool _isOpen;
         private int _search;
         private ReferenceQuestion _selectedReferenceQuestion;
+        private string _selectedItem;
 
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
             IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
@@ -42,7 +43,7 @@ namespace Festispec.UI.ViewModels
             AddedQuestions = new ObservableCollection<Question>();
             RemovedQuestions = new ObservableCollection<Question>();
 
-            AddQuestionCommand = new RelayCommand(AddQuestion, CanAddQuestion);
+            AddQuestionCommand = new RelayCommand(AddQuestion, () => SelectedItem != null, true);
             DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline, true);
             DeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline, true);
@@ -58,7 +59,7 @@ namespace Festispec.UI.ViewModels
         }
 
         private Questionnaire Questionnaire { get; set; }
-        public ICommand AddQuestionCommand { get; set; }
+        public RelayCommand AddQuestionCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand DeleteQuestionnaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
@@ -71,7 +72,11 @@ namespace Festispec.UI.ViewModels
         public IEnumerable<string> QuestionType => _questionFactory.QuestionTypes.ToList();
         public ObservableCollection<Question> Questions { get; private set; }
 
-        public string SelectedItem { get; set; }
+        public string SelectedItem
+        {
+            get => _selectedItem;
+            set { _selectedItem = value; AddQuestionCommand.RaiseCanExecuteChanged(); }
+        }
 
 
         public CollectionView QuestionList { get; }
@@ -136,11 +141,6 @@ namespace Festispec.UI.ViewModels
             Question tempQuestion = _questionFactory.GetQuestionType(SelectedItem);
             AddedQuestions.Add(tempQuestion);
             Questions.Add(tempQuestion);
-        }
-
-        private bool CanAddQuestion()
-        {
-            return SelectedItem != null;
         }
 
         public void DeleteQuestion(Question item)

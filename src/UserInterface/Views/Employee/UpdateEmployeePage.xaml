@@ -104,8 +104,12 @@
             </ListView>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="15">
-                <Button Content="Verwijder" Style="{DynamicResource ButtonRed}"
-                        Command="{Binding OpenDeleteCheckCommand}" Height="50" Width="185" />
+                <Button Command="{Binding OpenDeleteCheckCommand}"
+                        Style="{DynamicResource ButtonRed}" MinWidth="50" Width="50" Height="50" Margin="0,0,10,0">
+                    <Button.Content>
+                        <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                    </Button.Content>
+                </Button>
                 <Button Content="Wijzig account" Command="{Binding EditAccountCommand}"
                         Style="{DynamicResource ButtonGreen}" Height="50" Width="250" />
             </StackPanel>
