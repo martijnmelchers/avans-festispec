@@ -95,8 +95,7 @@
                                                      RelativeSource="{RelativeSource AncestorType=Page}" />
                                             <Binding Path="DataContext.EmployeesAdded"
                                                      RelativeSource="{RelativeSource AncestorType=Page}" />
-                                            <Binding Path="Employee" UpdateSourceTrigger="PropertyChanged"
-                                                     Mode="TwoWay" />
+                                            <Binding Path="Employee" />
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>

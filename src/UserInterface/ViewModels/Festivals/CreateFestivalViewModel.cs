@@ -56,12 +56,6 @@ namespace Festispec.UI.ViewModels.Festivals
 
         public async void CreateFestival()
         {
-            if (string.IsNullOrEmpty(CurrentAddress))
-            {
-                OpenValidationPopup("Er is geen adres ingevuld.");
-                return;
-            }
-
             try
             {
                 await _festivalService.CreateFestival(Festival, _customerId);

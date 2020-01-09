@@ -74,6 +74,12 @@ namespace Festispec.UI.ViewModels.Employees
 
         private async void AddEmployee(PasswordWithVerification passwordWithVerification)
         {
+            if (string.IsNullOrEmpty(CurrentAddress))
+            {
+                OpenValidationPopup("Er is geen adres ingevuld.");
+                return;
+            }
+
             IntPtr valuePtr = IntPtr.Zero;
             try
             {

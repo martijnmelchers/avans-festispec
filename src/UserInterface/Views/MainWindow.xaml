@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
         mc:Ignorable="d" Background="#EFEFEF"
-        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Title="Festispec" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
     <Grid x:Name="MainGrid">
 

@@ -4,181 +4,215 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:val="clr-namespace:Festispec.UI.Validation"
-      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="UpdateFestivalPage"
-      d:DataContext="{d:DesignInstance Type=viewModels:UpdateFestivalViewModel}">
+      d:DataContext="{d:DesignInstance Type=festivals:UpdateFestivalViewModel}">
 
     <Grid>
-        <Rectangle Style="{DynamicResource ContentBox}" Margin="250,50,250,50" />
+        <Rectangle Style="{DynamicResource ContentBox}" Width="1450" Height="900" />
+        <Grid Width="1400" Height="870">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="545" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="350" />
+            </Grid.ColumnDefinitions>
 
-        <TextBlock Text="FESTIVAL WIJZIGEN" Style="{DynamicResource Header}" HorizontalAlignment="Left"
-                   Margin="300,100,0,0" VerticalAlignment="Top" />
-        <Rectangle HorizontalAlignment="Left" Height="7" Margin="300,153,0,0" VerticalAlignment="Top" Width="120"
-                   RadiusY="2.5" RadiusX="2.5" Fill="#FF4A4A" />
+            <TextBlock Text="FESTIVAL WIJZIGEN" Style="{DynamicResource Header}" HorizontalAlignment="Left"
+                   Grid.Column="0" Grid.Row="0" />
+            <controls:TextUnderline Grid.Row="0" Grid.Column="0" />
 
-        <Label Content="Festivalgegevens" HorizontalAlignment="Left" Margin="300,230,0,0" FontSize="20"
+            <Label Content="Festivalgegevens" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" FontSize="20"
                VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
-        <Label Content="Tijdgegevens" HorizontalAlignment="Left" Margin="920,230,0,0" FontSize="20"
-               VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
-        <Label Content="{Binding Festival.Customer.CustomerName}" HorizontalAlignment="Left" Margin="301,176,0,0"
-               FontSize="15" VerticalAlignment="Top" Style="{DynamicResource MediumLabel}" />
 
-        <Label Content="Naam" Margin="300,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Name="TextBoxFestivalName" HorizontalAlignment="Left" Margin="301,310,0,0" VerticalAlignment="Top"
-                 Width="520" Height="50">
-            <TextBox.Text>
-                <Binding Path="Festival.FestivalName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+            <Label Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
+               Style="{DynamicResource MediumLabel}" Grid.Row="2" Grid.Column="0" />
+            <TextBox Name="TextBoxFestivalName" HorizontalAlignment="Left" Width="520" Height="50" Grid.Row="3" Grid.Column="0">
+                <TextBox.Text>
+                    <Binding Path="Festival.FestivalName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-        <Label Content="Beschrijving" Margin="300,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Name="TextBoxDescription" HorizontalAlignment="Left" Margin="301,395,0,0" TextWrapping="Wrap"
-                 VerticalAlignment="Top" Width="520" Height="150">
-            <TextBox.Text>
-                <Binding Path="Festival.Description" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+            <Label Content="Beschrijving" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
+               Style="{DynamicResource MediumLabel}" Grid.Row="4" Grid.Column="0" />
+            <TextBox Name="TextBoxDescription" HorizontalAlignment="Left" VerticalAlignment="Top"
+                     TextWrapping="Wrap" Width="520" Height="150" Grid.Row="5" Grid.RowSpan="3" Grid.Column="0">
+                <TextBox.Text>
+                    <Binding Path="Festival.Description" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-        <Label Content="Adres" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="303,550,0,0" />
-        <Button Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}" Content="Zoeken"
-                VerticalAlignment="Top" HorizontalAlignment="Left" Height="50" Margin="641,575,0,0" />
-        <TextBox HorizontalAlignment="Left" Text="{Binding SearchQuery}" TextWrapping="Wrap"
-                 VerticalAlignment="Top" Height="50" Width="316" Margin="300,575,0,0" />
+            <Label Content="Adres" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"
+               Style="{DynamicResource MediumLabel}" Grid.Row="8" Grid.Column="0" />
+            <TextBox Text="{Binding SearchQuery}" TextWrapping="Wrap"
+                HorizontalAlignment="Left" Height="50" Width="316" Grid.Row="9" Grid.Column="0" />
+            <Button Content="Zoeken" Style="{DynamicResource ButtonGreen}" Command="{Binding SearchCommand}"
+                HorizontalAlignment="Right" Height="50" Width="150" Grid.Row="9" Grid.Column="0" Margin="0,0,30,0" />
 
-        <TextBlock Name="Address" Text="{Binding CurrentAddress}" Style="{DynamicResource DefaultText}"
-                   HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="300,635,0,0"
-                   Height="50" Width="521" />
+            <TextBlock Text="{Binding CurrentAddress}" Style="{DynamicResource DefaultText}"
+                       VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="10" Grid.Column="0"/>
 
-        <ListView VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding Suggestions}"
-                  BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="185" Width="520"
-                  Margin="301,685,0,0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch"
+            <ListView VerticalAlignment="Top" HorizontalAlignment="Left" ItemsSource="{Binding Suggestions}"
+                  BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Height="185" Width="520" 
+                  Grid.Row="11" Grid.RowSpan="5" Grid.Column="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Style="{DynamicResource InnerContextBox}" VerticalAlignment="Stretch"
                                    HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
-                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}"
+                            <TextBlock TextWrapping="Wrap" Style="{DynamicResource DefaultText}"
                                    Text="{Binding Description}" VerticalAlignment="Center" MaxWidth="450"
                                    Padding="20,10,20,10" Grid.Column="0" />
-                        <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="2" Padding="0,0,10,0" VerticalAlignment="Center">
                             <Hyperlink
                                 Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
                                 CommandParameter="{Binding PlaceId}" Style="{DynamicResource NoStyles}">
                                 <Image Height="30" Source="{StaticResource SelectLocationGreen}" />
                             </Hyperlink>
-                        </TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-        <Label Content="Begindatum (dd-mm-yyyy)" Margin="920,280,0,0" HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-        <TextBox Name="TextBoxStartDate" HorizontalAlignment="Right" Margin="0,310,660,0" VerticalAlignment="Top"
-                 Height="50" Width="340">
-            <TextBox.Text>
-                <Binding Path="Festival.OpeningHours.StartDate" StringFormat="dd/MM/yyyy"
-                         UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                        <val:DateFormatValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
-        <Label Content="Einddatum (dd-mm-yyyy)" Margin="1280,280,0,0" HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-        <TextBox Name="TextBoxEndDate" HorizontalAlignment="Right" Margin="0,310,300,0" VerticalAlignment="Top"
-                 Height="50" Width="340">
-            <TextBox.Text>
-                <Binding Path="Festival.OpeningHours.EndDate" StringFormat="dd/MM/yyyy"
-                         UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                        <val:DateFormatValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+            <Label Content="Tijdgegevens" HorizontalAlignment="Left" FontSize="20" Style="{DynamicResource MediumLabel}" 
+                   Grid.Row="1" Grid.Column="2"/>
 
-        <Label Content="Begintijd (hh:mm)" Margin="920,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Name="TextBoxStartTime" HorizontalAlignment="Right" Margin="0,395,660,0" VerticalAlignment="Top"
-                 Width="340" Height="50">
-            <TextBox.Text>
-                <Binding Path="Festival.OpeningHours.StartTime" StringFormat="{}{0:hh}:{0:mm}"
+            <Label Content="Begindatum (dd-mm-yyyy)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="2" Grid.Column="2"/>
+            <TextBox Name="TextBoxStartDate" HorizontalAlignment="left" VerticalAlignment="Top"
+                 Height="50" Width="300" Grid.Row="3" Grid.Column="2">
+                <TextBox.Text>
+                    <Binding Path="Festival.OpeningHours.StartDate" StringFormat="dd/MM/yyyy"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                        <val:TimeFormatValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <Label Content="Eindtijd (hh:mm)" Margin="1280,365,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Name="TextBoxEndTime" HorizontalAlignment="Right" Margin="0,395,300,0" VerticalAlignment="Top"
-                 Width="340" Height="50">
-            <TextBox.Text>
-                <Binding Path="Festival.OpeningHours.EndTime" StringFormat="{}{0:hh}:{0:mm}"
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                            <val:DateFormatValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Content="Einddatum (dd-mm-yyyy)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="2" Grid.Column="4"/>
+            <TextBox Name="TextBoxEndDate" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Height="50" Width="300" Grid.Row="3" Grid.Column="4">
+                <TextBox.Text>
+                    <Binding Path="Festival.OpeningHours.EndDate" StringFormat="dd/MM/yyyy"
                          UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                    <Binding.ValidationRules>
-                        <val:FieldNotEmptyValidationRule />
-                        <val:TimeFormatValidationRule />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                            <val:DateFormatValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-        <Button Content="Annuleren" HorizontalAlignment="Right" Margin="0,0,502,99" VerticalAlignment="Bottom"
-                Height="44" Style="{StaticResource ButtonRed}" Command="{Binding CancelCommand}" />
+            <Label Content="Begintijd (hh:mm)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="4" Grid.Column="2"/>
+            <TextBox Name="TextBoxStartTime" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Width="300" Height="50" Grid.Row="5" Grid.Column="2">
+                <TextBox.Text>
+                    <Binding Path="Festival.OpeningHours.StartTime" StringFormat="{}{0:hh}:{0:mm}"
+                         UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                            <val:TimeFormatValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-        <Button Content="Opslaan" HorizontalAlignment="Right" Margin="0,0,300,100" VerticalAlignment="Bottom"
-                Height="44" Command="{Binding UpdateFestivalCommand}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource ButtonGreen}" TargetType="{x:Type Button}">
-                    <Setter Property="IsEnabled" Value="false" />
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition
+            <Label Content="Eindtijd (hh:mm)" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                   Grid.Row="4" Grid.Column="4"/>
+            <TextBox Name="TextBoxEndTime" HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Width="300" Height="50" Grid.Row="5" Grid.Column="4">
+                <TextBox.Text>
+                    <Binding Path="Festival.OpeningHours.EndTime" StringFormat="{}{0:hh}:{0:mm}"
+                         UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:FieldNotEmptyValidationRule />
+                            <val:TimeFormatValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="16" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Button Content="Annuleren" Height="50" Width="150" Style="{StaticResource ButtonRed}" 
+                    Command="{Binding CancelCommand}" Margin="0,0,10,0"/>
+
+            <Button Content="Opslaan" Height="50" Width="150" Command="{Binding UpdateFestivalCommand}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource ButtonGreen}" TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition
                                     Binding="{Binding ElementName=TextBoxFestivalName, Path=(Validation.HasError)}"
                                     Value="false" />
-                                <Condition
+                                    <Condition
                                     Binding="{Binding ElementName=TextBoxDescription, Path=(Validation.HasError)}"
                                     Value="false" />
-                                <Condition Binding="{Binding ElementName=TextBoxStartDate, Path=(Validation.HasError)}"
+                                    <Condition Binding="{Binding ElementName=TextBoxStartDate, Path=(Validation.HasError)}"
                                            Value="false" />
-                                <Condition Binding="{Binding ElementName=TextBoxEndDate, Path=(Validation.HasError)}"
+                                    <Condition Binding="{Binding ElementName=TextBoxEndDate, Path=(Validation.HasError)}"
                                            Value="false" />
-                                <Condition Binding="{Binding ElementName=TextBoxStartTime, Path=(Validation.HasError)}"
+                                    <Condition Binding="{Binding ElementName=TextBoxStartTime, Path=(Validation.HasError)}"
                                            Value="false" />
-                                <Condition Binding="{Binding ElementName=TextBoxEndTime, Path=(Validation.HasError)}"
+                                    <Condition Binding="{Binding ElementName=TextBoxEndTime, Path=(Validation.HasError)}"
                                            Value="false" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="true" />
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            </StackPanel>
+        </Grid>
+        <controls:ValidationPopup Caption="Foutieve invoer" />
     </Grid>
 </Page>

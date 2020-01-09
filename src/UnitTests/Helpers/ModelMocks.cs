@@ -369,7 +369,10 @@ namespace Festispec.UnitTests.Helpers
 
         public List<Address> Addresses { get; } = new List<Address>();
 
-        public List<Festival> Festivals { get; } = new List<Festival>();
+        public List<Festival> Festivals { get; } = new List<Festival>()
+        {
+            FestivalPinkPop
+        };
 
         public ModelMocks()
         {
