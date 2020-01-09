@@ -10,7 +10,7 @@ namespace Festispec.UI.ViewModels
         public bool PopupIsOpen
         {
             get => _popupIsOpen;
-            set
+            private set
             {
                 _popupIsOpen = value;
                 RaisePropertyChanged();
@@ -20,14 +20,14 @@ namespace Festispec.UI.ViewModels
         public string ValidationError
         {
             get => _validationError;
-            set
+            private set
             {
                 _validationError = value;
                 RaisePropertyChanged();
             }
         }
 
-        public void OpenPopup(string message)
+        protected void OpenValidationPopup(string message)
         {
             ValidationError = message;
             PopupIsOpen = true;

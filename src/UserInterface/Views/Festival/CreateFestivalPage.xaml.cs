@@ -1,25 +1,18 @@
-﻿using System.Windows.Controls;
-using Festispec.UI.ViewModels;
-using Festispec.UI.ViewModels.Festivals;
+﻿using Festispec.UI.ViewModels.Festivals;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Festispec.UI.Views
+namespace Festispec.UI.Views.Festival
 {
-    /// <summary>
-    ///     Interaction logic for CreateFestivalPage.xaml
-    /// </summary>
-    public partial class CreateFestivalPage : Page
+    public partial class CreateFestivalPage
     {
-        private readonly IServiceScope _scope;
-
         public CreateFestivalPage()
         {
             InitializeComponent();
 
-            _scope = AppServices.Instance.ServiceProvider.CreateScope();
-            Unloaded += (sender, e) => _scope.Dispose();
+            IServiceScope scope = AppServices.Instance.ServiceProvider.CreateScope();
+            Unloaded += (sender, e) => scope.Dispose();
 
-            DataContext = _scope.ServiceProvider.GetRequiredService<CreateFestivalViewModel>();
+            DataContext = scope.ServiceProvider.GetRequiredService<CreateFestivalViewModel>();
         }
     }
 }

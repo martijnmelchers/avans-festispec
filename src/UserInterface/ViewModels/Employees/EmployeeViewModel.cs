@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
-using Festispec.DomainServices.Services;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
@@ -44,7 +43,7 @@ namespace Festispec.UI.ViewModels.Employees
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
-            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, () => CanDeleteEmployee, true);
+            OpenDeleteCheckCommand = new RelayCommand(OpenDeletePopup, () => CanDeleteEmployee, true);
 
             #region Google Search
 
@@ -80,15 +79,13 @@ namespace Festispec.UI.ViewModels.Employees
             {
                 if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
                 {
-                    ValidationError = "Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Er is geen wachtwoord ingevuld of de wachtwoorden komen niet overeen.");
                     return;
                 }
 
                 if (passwordWithVerification.Password.Length < 5)
                 {
-                    ValidationError = "Het wachtwoord moet tussen 5 en 100 karakters zijn.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("Het wachtwoord moet tussen 5 en 100 karakters zijn.");
                     return;
                 }
 
@@ -107,19 +104,16 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (InvalidAddressException)
             {
-                ValidationError =
-                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
             catch (InvalidDataException)
             {
-                ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                PopupIsOpen = true;
+                OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})");
             }
             finally
             {
@@ -138,14 +132,12 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (InvalidAddressException)
             {
-                ValidationError =
-                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
             }
             catch (Exception e)
             {
-                ValidationError = $"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de medewerker ({e.GetType()})");
             }
         }
 
@@ -175,15 +167,13 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError =
-                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
             catch (GoogleZeroResultsException)
             {
-                ValidationError =
-                    "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
         }
 
@@ -198,9 +188,8 @@ namespace Festispec.UI.ViewModels.Employees
             }
             catch (GoogleMapsApiException)
             {
-                ValidationError =
-                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator";
-                PopupIsOpen = true;
+                OpenValidationPopup(
+                    "Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator");
             }
         }
 

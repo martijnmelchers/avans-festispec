@@ -150,11 +150,14 @@ namespace Festispec.UI.ViewModels
         private bool Filter(object item)
         {
             Employee employee = (item as AdvancedEmployee).Employee;
-            if (!EmployeeHasNoPlannedInspection(employee) || !EmployeeIsAvailable(employee)) return false;
-            if (string.IsNullOrEmpty(Search))
-                return true;
-            return employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            if (EmployeeHasNoPlannedInspection(employee) && EmployeeIsAvailable(employee))
+            {
+                if (string.IsNullOrEmpty(Search))
+                    return true;
+                return employee.Name.ToString().IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
 
+            return false;
         }
 
         private bool EmployeeIsAvailable(Employee employee)
@@ -273,18 +276,15 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (EntityExistsException)
                 {
-                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
                 catch (InvalidDataException)
                 {
-                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
                 catch (Exception)
                 {
-                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
 
             EmployeesToAdd.Clear();
@@ -297,20 +297,17 @@ namespace Festispec.UI.ViewModels
                 }
                 catch (QuestionHasAnswersException)
                 {
-                    ValidationError =
-                        "De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.");
                 }
                 catch (InvalidDataException)
                 {
-                    ValidationError = "De ingevoerde data klopt niet of is involledig.";
-                    PopupIsOpen = true;
+                    OpenValidationPopup("De ingevoerde data klopt niet of is involledig.");
                 }
 
             EmployeesToRemove.Clear();
             await _inspectionService.SaveChanges();
 
-            if (PopupIsOpen == false) _navigationService.NavigateTo("FestivalInfo", Festival.Id);
+            if (!PopupIsOpen) _navigationService.NavigateTo("FestivalInfo", Festival.Id);
         }
     }
 }
