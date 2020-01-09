@@ -32,7 +32,7 @@ namespace Festispec.UI.ViewModels
         private ReferenceQuestion _selectedReferenceQuestion;
         private string _selectedItem;
 
-        private static string WEB_URL = "http://localhost:5000/"; 
+        private static string WEB_URL = "http://localhost:5000/Upload/UploadFile"; 
 
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
             IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
