@@ -176,6 +176,7 @@ namespace Festispec.DomainServices.Services
             FestispecContext db = _employeeSyncService.GetSyncContext();
         
             List<Employee> employees = db.Employees
+                .Include(e => e.Address)
                 .Include(e => e.Certificates)
                 .Include(e => e.Account).ToList();
 
