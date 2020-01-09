@@ -78,16 +78,13 @@ namespace Festispec.UI.ViewModels.Festivals
                         await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
                 RaisePropertyChanged(nameof(Suggestions));
             }
-            catch (GoogleMapsApiException g)
+            catch (GoogleMapsApiException)
             {
-                ValidationError =
-                    $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator. ({g.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
-            catch (GoogleZeroResultsException z)
+            catch (GoogleZeroResultsException)
             {
-                ValidationError = $"Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw. ({z.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
             }
         }
 
@@ -100,11 +97,9 @@ namespace Festispec.UI.ViewModels.Festivals
                 CurrentAddress = $"Geselecteerde adres: {Festival.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));
             }
-            catch (GoogleMapsApiException g)
+            catch (GoogleMapsApiException)
             {
-                ValidationError =
-                    $"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator. ({g.GetType()})";
-                PopupIsOpen = true;
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
             }
         }
 
