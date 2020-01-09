@@ -135,10 +135,10 @@ namespace Festispec.DomainServices.Services
         {
             Questionnaire questionnaire = _db.Questionnaires.FirstOrDefault(q => q.Id == questionnaireId);
 
+            question.Questionnaire = questionnaire;
+
             if (!question.Validate())
                 throw new InvalidDataException();
-
-            questionnaire.Questions.Add(question);
 
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
