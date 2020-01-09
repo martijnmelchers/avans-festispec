@@ -138,7 +138,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _questionnaireService.RemoveQuestionnaire(_deletetingQuestionnareId);
-                _festivalService.Sync();
+               // _festivalService.Sync();
             }
             catch(QuestionHasAnswersException e)
             {

@@ -11,7 +11,7 @@ using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
     internal class CreateFestivalViewModel : ViewModelBase
     {
@@ -63,7 +63,7 @@ namespace Festispec.UI.ViewModels
             try
             {
                 await _festivalService.CreateFestival(Festival);
-                _festivalService.Sync();
+                //_festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
             catch (InvalidAddressException)
