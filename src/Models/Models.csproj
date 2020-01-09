@@ -19,9 +19,6 @@
     <EmbeddedResource Update="Migrations\202001081644430_Initial.resx">
       <DependentUpon>202001081644430_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Migrations\202001061329354_beschikbaarheid.resx">
-      <DependentUpon>202001061329354_beschikbaarheid.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
