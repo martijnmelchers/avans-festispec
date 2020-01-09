@@ -71,7 +71,7 @@ namespace Festispec.Web.Controllers
                     }
                     catch (Exception)
                     {
-                        @ViewData["DateError"] = "1 of meerdere geselecteerde datums mogen niet meer aangepast worden";
+
                     }
                 else
                 {
@@ -81,7 +81,6 @@ namespace Festispec.Web.Controllers
                     }
                     catch (Exception)
                     {
-                        @ViewData["DateError"] = "1 of meerdere geselecteerde datums mogen niet meer aangepast worden";
                     }
                 }
             }
