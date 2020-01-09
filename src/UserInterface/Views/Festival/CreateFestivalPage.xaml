@@ -3,13 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Festispec.UI.Views"
       xmlns:val="clr-namespace:Festispec.UI.Validation"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       xmlns:enums="clr-namespace:Festispec.UI.Enums"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
-      Title="CreateFestivalPage">
+      Title="CreateFestivalPage"
+      d:DataContext="{d:DesignInstance Type=festivals:CreateFestivalViewModel}">
 
     <Grid>
         <Rectangle Style="{DynamicResource ContentBox}" Width="1450" Height="850" />

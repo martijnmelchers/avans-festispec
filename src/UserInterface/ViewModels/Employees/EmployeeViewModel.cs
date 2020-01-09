@@ -23,7 +23,7 @@ namespace Festispec.UI.ViewModels.Employees
         {
             _employeeService = employeeService;
             _navigationService = navigationService;
-            ViewCertificatesCommand = new RelayCommand(ViewCertificates);
+            ViewCertificatesCommand = new RelayCommand(() => _navigationService.NavigateTo("CertificateList", Employee.Id));
 
             if (_navigationService.Parameter is int customerId)
             {
@@ -39,12 +39,12 @@ namespace Festispec.UI.ViewModels.Employees
             }
 
             CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("EmployeeInfo", Employee.Id));
-            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline);
-            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline);
+            EditEmployeeCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateEmployee", Employee.Id), () => offlineService.IsOnline, true);
+            EditAccountCommand = new RelayCommand(() => _navigationService.NavigateTo("UpdateAccount", Employee.Id), () => offlineService.IsOnline, true);
             NavigateBackCommand = new RelayCommand(NavigateBack);
 
             DeleteCommand = new RelayCommand(RemoveEmployee);
-            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, CanDeleteEmployee);
+            OpenDeleteCheckCommand = new RelayCommand(() => DeletePopupIsOpen = true, () => CanDeleteEmployee, true);
 
             #region Google Search
 
@@ -67,11 +67,6 @@ namespace Festispec.UI.ViewModels.Employees
         public ICommand OpenDeleteCheckCommand { get; }
         public ICommand SearchCommand { get; }
         public RelayCommand<string> SelectCommand { get; }
-
-        private void ViewCertificates()
-        {
-            _navigationService.NavigateTo("CertificateList", Employee.Id);
-        }
 
         private void NavigateBack()
         {

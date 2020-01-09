@@ -11,15 +11,13 @@ namespace Festispec.UI.ViewModels.Employees
 {
     public class EmployeeListViewModel
     {
-        private readonly IFrameNavigationService _navigationService;
         private string _search;
 
         public EmployeeListViewModel(IEmployeeService employeeService, IFrameNavigationService navigationService, IOfflineService offlineService)
         {
-            _navigationService = navigationService;
 
-            AddNewEmployeeCommand = new RelayCommand(NavigateToAddNewEmployee, () => offlineService.IsOnline);
-            ViewEmployeeCommand = new RelayCommand<int>(NavigateToViewEmployee);
+            AddNewEmployeeCommand = new RelayCommand(() => navigationService.NavigateTo("CreateEmployee"), () => offlineService.IsOnline, true);
+            ViewEmployeeCommand = new RelayCommand<int>(employeeId => navigationService.NavigateTo("EmployeeInfo", employeeId));
 
             EmployeeList =
                 (CollectionView) CollectionViewSource.GetDefaultView(
@@ -42,16 +40,6 @@ namespace Festispec.UI.ViewModels.Employees
                 _search = value;
                 EmployeeList.Filter += Filter;
             }
-        }
-
-        private void NavigateToAddNewEmployee()
-        {
-            _navigationService.NavigateTo("CreateEmployee");
-        }
-
-        private void NavigateToViewEmployee(int employeeId)
-        {
-            _navigationService.NavigateTo("EmployeeInfo", employeeId);
         }
 
         private bool Filter(object item)

@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Festispec.UI"
+        xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
         mc:Ignorable="d" Background="#EFEFEF"
-        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
     <Grid x:Name="MainGrid">
 
         <DockPanel Height="69" VerticalAlignment="Top" Background="#FFFFFF">
