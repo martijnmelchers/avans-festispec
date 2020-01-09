@@ -121,7 +121,7 @@ namespace Festispec.UI.ViewModels.Festivals
         {
             try
             {
-                var questionnaire = await _questionnaireService.CreateQuestionnaire(QuestionnaireName, Festival);
+                var questionnaire = await _questionnaireService.CreateQuestionnaire(QuestionnaireName, Festival.Id);
                 _festivalService.Sync();
                 OpenQuestionnaire(questionnaire.Id);
             }
