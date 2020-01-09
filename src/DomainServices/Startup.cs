@@ -15,7 +15,7 @@ namespace Festispec.DomainServices
             services.AddTransient<FestispecContext>();
             services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
             services.AddSingleton<IOfflineService, DbPollOfflineService>();
-            string environment = Environment.GetEnvironmentVariable("Environment");
+            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Debug";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.{environment}.json")
