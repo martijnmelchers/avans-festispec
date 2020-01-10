@@ -15,7 +15,7 @@ namespace Festispec.DomainServices
             services.AddTransient<FestispecContext>();
             services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
             services.AddSingleton<IOfflineService, DbPollOfflineService>();
-            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Debug";
+            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Production";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.{environment}.json")
@@ -38,7 +38,6 @@ namespace Festispec.DomainServices
                 services.AddScoped<IAddressService, AddressService>();
                 services.AddScoped<IGoogleMapsService, GoogleMapsService>();
                 services.AddScoped<ISicknessService, SicknessService>();
-                
                 services.AddScoped<IAvailabilityService, AvailabilityService>();
 
                 // Database initialisation code below
