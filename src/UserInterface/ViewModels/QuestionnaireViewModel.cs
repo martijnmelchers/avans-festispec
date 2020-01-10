@@ -15,6 +15,7 @@ using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
 
 namespace Festispec.UI.ViewModels
@@ -26,17 +27,20 @@ namespace Festispec.UI.ViewModels
         private readonly IOfflineService _offlineService;
         private readonly QuestionFactory _questionFactory;
         private readonly IQuestionnaireService _questionnaireService;
+        private readonly IConfiguration _config;
 
         private bool _isOpen;
         private int _search;
         private ReferenceQuestion _selectedReferenceQuestion;
         private string _selectedItem;
 
-        private static string WEB_URL = "http://localhost:5000/Upload/UploadFile"; 
+        private static string WEB_URL = ""; 
 
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
-            IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
+            IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService, IConfiguration config)
         {
+
+            _config = config;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
@@ -211,7 +215,9 @@ namespace Festispec.UI.ViewModels
             {
                 using (var stream = fileDialog.OpenFile())
                 {
-                    var response = await UploadImage(WEB_URL, stream, fileDialog.SafeFileName);
+
+                    var url = $"{_config["Urls:WebApp"]}/Upload/UploadFile";
+                    var response = await UploadImage(url, stream, fileDialog.SafeFileName);
                     var path = await response.Content.ReadAsStringAsync();
                
                     var drawQuestion = AddedQuestions.Where(q => q.Equals(question)).FirstOrDefault() as DrawQuestion;

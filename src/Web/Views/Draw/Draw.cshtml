@@ -51,12 +51,15 @@ $("#btnUpload").on("click", function(e) {
             url: "/Draw/Draw",
             data: formData,
             processData: false,
-            contentType: false
+            contentType: false,
+            success: function () {
+                    window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
+
+            }
         })
 
     });
     
-    //window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
 
 });
 
