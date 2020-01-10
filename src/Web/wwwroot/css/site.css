@@ -236,7 +236,8 @@ textarea {
     padding: 10px 34px 10px 34px;
     width: 200px;
     font-family: Montserrat;
-    color: #FFFFFF;   
+    color: #FFFFFF; 
+    text-align: center;
 }
 
 .green-button:focus {
@@ -251,5 +252,88 @@ textarea {
     margin-top: 15px;
 
     display: flex;
+    text-align: center;
+}
+
+.background-availability {
+    padding: 15px;
+    width: 100%;
+    height: auto;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 20px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+#availability-title {
+    text-align: left;
+    font: Bold 33px Montserrat;
+    letter-spacing: 0;
+    color: #707070;
+    opacity: 1;
+    margin-bottom: 0;
+}
+
+.title-bar {
+    min-width: 65px;
+    max-width: 65px;
+    height: 5px;
+    background: #FF4E4E;
+    border-radius: 20px;
+    margin-bottom: 18px;
+}
+
+#datepicker-background {
+    border: solid 1px gray;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.availability-paragraph-title {
+    text-align: left;
+    font: Bold 15px Montserrat;
+    letter-spacing: 0;
+    color: #707070;
+    opacity: 1;
+}
+
+.availability-paragraph {
+    width: 80%;
+    text-align: left;
+    font: 15px Montserrat;
+    letter-spacing: 0;
+    color: #707070;
+    opacity: 1;
+}
+
+.legend-item {
+    display: flex;
+    margin: 0 0 10px 0;
+}
+
+.legend-item span {
+    margin-right: 10px;
+}
+
+.legend-item p {
+    width: 300px;
+    font: 15px Montserrat;
+    letter-spacing: 0;
+    color: #707070;
+    opacity: 1;
+    margin: 5px 0 0 0;
+}
+
+.square {
+    min-width: 30px;
+    max-width: 30px;
+    height: 30px;
+    border-radius: 4px;    
+}
+
+#availability-submit-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     text-align: center;
 }

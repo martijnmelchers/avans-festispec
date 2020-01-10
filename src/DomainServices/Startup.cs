@@ -39,6 +39,8 @@ namespace Festispec.DomainServices
                 services.AddScoped<IGoogleMapsService, GoogleMapsService>();
                 services.AddScoped<ISicknessService, SicknessService>();
                 
+                services.AddScoped<IAvailabilityService, AvailabilityService>();
+
                 // Database initialisation code below
                 using (var ctx = services.BuildServiceProvider().GetRequiredService<FestispecContext>()) ctx.Database.Initialize(false);
             }

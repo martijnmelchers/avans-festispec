@@ -56,6 +56,17 @@ namespace Festispec.UnitTests.Helpers
             StartTime = new DateTime(2019, 12, 28)
         };
 
+        public static Availability Unavailability = new Availability()
+        {
+            Id = 2,
+            Employee = Employee,
+            IsAvailable = false,
+            Reason = "Ik heb een verjaardag",
+            EventTitle = "Niet beschikbaar",
+            StartTime = new DateTime(2019, 12, 28, 10, 0, 0),
+            EndTime = new DateTime(2019, 12, 28, 16, 0, 0)
+        };
+
         public static Customer Customer1 = new Customer()
         {
             Id = 1,
@@ -76,7 +87,7 @@ namespace Festispec.UnitTests.Helpers
             OpeningHours = OpeningHours,
             Customer = Customer1
         };
-        
+
         public static Customer Customer2 = new Customer()
         {
             Id = 2,
@@ -92,7 +103,7 @@ namespace Festispec.UnitTests.Helpers
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", FestivalPinkPop)
-        {        
+        {
             Id = 1
         };
 
@@ -111,8 +122,8 @@ namespace Festispec.UnitTests.Helpers
 
         public static MultipleChoiceQuestion MultipleChoiceQuestion = new MultipleChoiceQuestion("Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?", Questionnaire1)
         {
-           Options = "Option1,Option2,Option3,Option4",
-           OptionCollection = new ObservableCollection<StringObject>()
+            Options = "Option1,Option2,Option3,Option4",
+            OptionCollection = new ObservableCollection<StringObject>()
            {
               new StringObject("Option1")
            }
@@ -164,7 +175,7 @@ namespace Festispec.UnitTests.Helpers
                     Id = 3
                 }
             }
-        };               
+        };
 
         public List<Account> Accounts { get; set; }
 
@@ -180,7 +191,7 @@ namespace Festispec.UnitTests.Helpers
         };
 
         public static Employee Employee = new Employee()
-        {            
+        {
             Iban = "NL91ABNA0417164300",
 
             Account = new Account
@@ -234,7 +245,7 @@ namespace Festispec.UnitTests.Helpers
 
                 EndDate = new DateTime(2019, 12, 14)
             }
-        };  
+        };
 
         public static PlannedInspection PlannedInspectionPinkpop = new PlannedInspection()
         {
@@ -281,7 +292,7 @@ namespace Festispec.UnitTests.Helpers
                     PlannedInspection = PlannedInspectionThunderDome,
 
                     Question = QuestionnaireThunderDome.Questions.FirstOrDefault()
-                }                      
+                }
             }
         };
 
@@ -290,7 +301,7 @@ namespace Festispec.UnitTests.Helpers
             PlannedInspectionPinkpop,
             PlannedInspectionThunderDome
         };
-        
+
         public List<Customer> Customers = new List<Customer>
         {
             Customer1,
@@ -300,11 +311,15 @@ namespace Festispec.UnitTests.Helpers
 
         public List<PlannedEvent> PlannedEvents = new List<PlannedEvent>
         {
+            Sickness,
+            Unavailability,
             Sickness
         };
 
         public List<Availability> Availability = new List<Availability>
         {
+            Sickness,
+            Unavailability,
             Sickness
         };
 
@@ -312,9 +327,9 @@ namespace Festispec.UnitTests.Helpers
         {
             Employee1
         };
-        
+
         public List<ContactPerson> ContactPersons = new List<ContactPerson>();
-        
+
         public List<Employee> Employees = new List<Employee>
         {
             new Employee
