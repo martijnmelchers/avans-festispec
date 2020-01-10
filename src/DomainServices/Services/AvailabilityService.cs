@@ -75,7 +75,7 @@ namespace Festispec.DomainServices.Services
         {
              var list = await _db.Availabilities
                 .OrderByDescending(c => c.EndTime)
-                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId)
+                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId && c.EventTitle == "Niet beschikbaar")
                 .ToListAsync();
             var dictionary = new Dictionary<long, Availability>();
             foreach (Availability availability in list)
