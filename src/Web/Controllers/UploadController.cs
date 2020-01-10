@@ -11,7 +11,7 @@ namespace Web.Controllers
     {
         public IActionResult Index()
         {
-            return Ok("Saus");
+            return Ok("");
         }
 
 

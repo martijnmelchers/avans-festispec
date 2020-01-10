@@ -12,7 +12,11 @@ namespace Festispec.Models.EntityMapping
 {
     public class FestispecContext : DbContext
     {
-        public FestispecContext() : base("Server=localhost;Database=Festispec;Trusted_Connection=True;")
+        public FestispecContext(IConfiguration config) : base(config["ConnectionString"])
+        {
+        }
+
+        public FestispecContext() : base("Default")
         {
         }
 
