@@ -1,4 +1,5 @@
-﻿using Festispec.DomainServices.Interfaces;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
 using Festispec.Models.Answers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -33,25 +34,27 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Draw(string imageData)
         {
-            JObject j = JObject.Parse(imageData);
-            int questionId = int.Parse(j["QuestionId"].ToString());
-            FileAnswer fileAnswer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == questionId) as FileAnswer;
-
+            int questionId = Convert.ToInt32(Request.Form["QuestionId"]);
+            int plannedInspectionId = Convert.ToInt32(Request.Form["plannedInspectionId"]);
+            PlannedInspection plannedInspection = await _inspectionService.GetPlannedInspection(plannedInspectionId);
+            FileAnswer fileAnswer = plannedInspection.Answers.FirstOrDefault(e=> e.Question.Id == questionId) as FileAnswer;
             fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
 
-            imageData = j["ImageData"].ToString();
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", DateTime.Now.ToString().Replace("/", "-").Replace(" ", "- ").Replace(":", "") + ".png");
 
-            var bytes = Convert.FromBase64String(imageData);
-            using (var imageFile = new FileStream(filePath, FileMode.Create))
+            var formFile = Request.Form.Files[0];
+
+            if (formFile.Length > 0)
             {
-                imageFile.Write(bytes, 0, bytes.Length);
-                imageFile.Flush();
+                using (var imageFile = new FileStream(filePath, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(imageFile);
+                }
             }
 
             if (fileAnswer.Id != 0)
-                (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = fileAnswer.UploadedFilePath;
+                (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = filePath;
             else await _questionnaireService.CreateAnswer(fileAnswer);
             await _questionnaireService.SaveChangesAsync();
 
