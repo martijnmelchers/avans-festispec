@@ -97,7 +97,8 @@ namespace Festispec.DomainServices.Services
             return await _festivalSyncService.GetEntityAsync(festivalId);
         }
 
-        public Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections)
+        public Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
+            Questionnaire questionnaire)
         {
             throw new InvalidOperationException();
         }
