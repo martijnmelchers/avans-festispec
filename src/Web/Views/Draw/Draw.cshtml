@@ -9,10 +9,10 @@ var h = window.innerHeight;
 
         @{
             var questionPicture = ((Festispec.Models.Questions.DrawQuestion)Model.Question).PicturePath;
+            questionPicture = $"{ViewBag.URL}{questionPicture}";
         }
-
-        bg = loadImage("@questionPicture");
-    }
+            const bg = loadImage("@questionPicture");
+     }
     function setup() {
         canvas = createCanvas(w, h);
         background(255);

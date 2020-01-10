@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Festispec.Web.Controllers
 {
@@ -14,11 +15,13 @@ namespace Festispec.Web.Controllers
     {
         private IQuestionnaireService _questionnaireService;
         private IInspectionService _inspectionService;
+        private IConfiguration _configurationService;
 
-        public DrawController(IQuestionnaireService questionnaireService, IInspectionService inspectionService)
+        public DrawController(IQuestionnaireService questionnaireService, IInspectionService inspectionService, IConfiguration configurationService)
         {
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
+            _configurationService = configurationService;
         }
 
         // GET: Draw/Draw/5
@@ -27,6 +30,7 @@ namespace Festispec.Web.Controllers
             if (Request.Cookies["CurrentUserId"] == null)
                 return RedirectToAction("Login", "Authentication");
             FileAnswer answer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == id) as FileAnswer;
+            ViewBag.URL = _configurationService["Urls:WebApp"];
             return View(answer);
         }
 
