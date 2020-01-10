@@ -55,25 +55,9 @@ namespace Festispec.UnitTests
         }
 
         [Fact]
-        public async void EndAbsense()
-        {
-            Assert.True(_sicknessService.IsSick(1));
-
-            await _sicknessService.EndAbsense(1);
-
-            Assert.False(_sicknessService.IsSick(1));
-        }
-
-        [Fact]
         public void IsSick()
         {
             Assert.True(_sicknessService.IsSick(1));
-        }
-
-        [Fact]
-        public void IsNotSick()
-        {
-            Assert.False(_sicknessService.IsSick(2));
         }
     }
 }
