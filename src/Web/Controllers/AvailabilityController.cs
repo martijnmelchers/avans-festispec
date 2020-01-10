@@ -58,7 +58,7 @@ namespace Festispec.Web.Controllers
                 var test = Request.Form[item].ToString();
                 foreach (var s in test.Split(','))
                 {
-                    dateTimes.Add(DateTime.Parse(s));
+                    dateTimes.Add(DateTime.Parse(s, new System.Globalization.CultureInfo("nl-NL")));
                 }
             }
 
