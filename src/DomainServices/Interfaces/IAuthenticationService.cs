@@ -1,14 +1,11 @@
-﻿using Festispec.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthenticationService : ISyncable
     {
-        Task<Account> Register(string username, string password, Role requiredRole);
+        Account AssembleAccount(string username, string password, Role requiredRole);
         Account Login(string username, string password, Role requiredRole);
         Task ChangePassword(string username, string password, string newPassword);
     }

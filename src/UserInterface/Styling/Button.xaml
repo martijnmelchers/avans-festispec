@@ -1,42 +1,41 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <Style x:Key="ButtonBase" TargetType="Button">
-        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="Padding" Value="20,10,20,10" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="MinWidth" Value="180" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2" >
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Background="{TemplateBinding Background}" CornerRadius="25" Padding="9,2,9,2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
     <Style x:Key="ButtonRed" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource Red}"/>
+                <SolidColorBrush Color="{DynamicResource Red}" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource RedHover}"/>
+                        <SolidColorBrush Color="{DynamicResource RedHover}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ButtonGray}"/>
+                        <SolidColorBrush Color="{DynamicResource ButtonGray}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -45,21 +44,21 @@
     <Style x:Key="ButtonGreen" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource Green}"/>
+                <SolidColorBrush Color="{DynamicResource Green}" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource GreenHover}"/>
+                        <SolidColorBrush Color="{DynamicResource GreenHover}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ButtonGray}"/>
+                        <SolidColorBrush Color="{DynamicResource ButtonGray}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -68,16 +67,51 @@
     <Style x:Key="GrayButton" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ButtonGray}"/>
+                <SolidColorBrush Color="{DynamicResource ButtonGray}" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ButtonGrayHover}"/>
+                        <SolidColorBrush Color="{DynamicResource ButtonGrayHover}" />
                     </Setter.Value>
                 </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ActiveLinkButton" TargetType="Button">
+        <Setter Property="Foreground" Value="#707070" />
+        <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderThickness="0,0,0,0" Padding="9,2,9,6" BorderBrush="Black">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#707070" />
+                <Setter Property="FontFamily" Value="{DynamicResource Montserrat}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border BorderThickness="0,0,0,2" Padding="9,2,9,0" BorderBrush="#6075FF">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="FontWeight" Value="SemiBold" />
             </Trigger>
         </Style.Triggers>
     </Style>

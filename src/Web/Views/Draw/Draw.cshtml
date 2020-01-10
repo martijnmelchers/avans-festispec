@@ -1,0 +1,68 @@
+@model Festispec.Models.Answers.FileAnswer
+    <button class="btn btn-success" id="btnUpload">Opslaan</button>
+<script>
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+
+    function preload() {
+
+        @{
+            var questionPicture = ((Festispec.Models.Questions.DrawQuestion)Model.Question).PicturePath;
+        }
+
+        bg = loadImage("@questionPicture");
+    }
+    function setup() {
+        canvas = createCanvas(w, h);
+        background(255);
+
+        var scale = Math.min(width / bg.width,  height/ bg.height);
+
+
+         var x = (width / 2) - (bg.width / 2) * scale;
+        var y = (height / 2) - (bg.height / 2) * scale;
+
+
+        image(bg, x, y, bg.width * scale, bg.height * scale);
+    }
+
+    function draw() {
+        strokeWeight(10);
+        stroke(0);
+
+
+        if (mouseIsPressed) {
+            line(pmouseX, pmouseY, mouseX, mouseY, 10, 10);
+        }
+
+    }
+
+$("#btnUpload").on("click", function(e) {
+    e.preventDefault();
+
+    canvas.canvas.toBlob(function (blob) {
+        var formData = new FormData();
+        formData.append('file', blob, 'test.png');
+        formData.append('QuestionId', ' @Model.Question.Id');
+        formData.append('plannedInspectionId', ' @Model.PlannedInspection.Id');
+        $.ajax({
+            type: "POST",
+            url: "/Draw/Draw",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                    window.location.href = '@Url.Action("Details", "Inspection", new { id = Model.PlannedInspection.Id })';
+
+            }
+        })
+
+    });
+    
+
+});
+
+</script>
+
+

@@ -6,7 +6,8 @@
         {
         }
 
-        public WrongQuestionTypeException(string message, System.Exception innerException) : base(message, innerException)
+        public WrongQuestionTypeException(string message, System.Exception innerException) : base(message,
+            innerException)
         {
         }
 

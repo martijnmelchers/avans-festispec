@@ -1,9 +1,6 @@
 ﻿using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
@@ -27,9 +24,11 @@ namespace Festispec.UnitTests
 
             _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questions).Object);
 
+            _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Festivals).Object);
+
             _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
 
-            _questionnaireService = new QuestionnaireService(_dbMock.Object);
+            _questionnaireService = new QuestionnaireService(_dbMock.Object, new JsonSyncService<Questionnaire>(_dbMock.Object));
         }
 
         [Theory]
@@ -37,8 +36,8 @@ namespace Festispec.UnitTests
         [InlineData("Defqon")]
         public async void CreateQuestionnaire(string name)
         {
-            var festival = ModelMocks.Festival;
-            var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival);
+            var festival = ModelMocks.FestivalPinkPop;
+            var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival.Id);
 
             Assert.Equal(festival, questionnaire.Festival);
             Assert.Equal(name, questionnaire.Name);
@@ -49,7 +48,7 @@ namespace Festispec.UnitTests
         [Fact]
         public async void WithoutFestivalShouldThrowError()
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire("test", null));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire("test", 0));
         }
 
         [Theory]
@@ -57,7 +56,7 @@ namespace Festispec.UnitTests
         [InlineData("PinkPop Ochtend")]
         public async void SameNameShouldThrowError(string name)
         {
-            await Assert.ThrowsAsync<EntityExistsException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
+            await Assert.ThrowsAsync<EntityExistsException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.FestivalPinkPop.Id));
         }
 
         [Theory]
@@ -65,7 +64,7 @@ namespace Festispec.UnitTests
         [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")]
         public async void InvalidDataShouldThrowError(string name)
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.Festival));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, ModelMocks.FestivalPinkPop.Id));
         }
 
         [Theory]
@@ -215,7 +214,7 @@ namespace Festispec.UnitTests
         {
             Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
 
-            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId);
+            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId, "Copied questionnaire");
 
             Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
 
@@ -224,11 +223,5 @@ namespace Festispec.UnitTests
                 Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion)question).Question));
             }
         }
-        //to be implemented
-        /*[Fact]
-        public void AddingDrawQuestion()
-        {
-            Assert.True(false);
-        }*/
     }
 }

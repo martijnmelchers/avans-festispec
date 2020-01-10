@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Lijst van inspecties";
+}
+
+@model IEnumerable<Festispec.Models.PlannedInspection>
+
+    <h1>Inspecties voor vandaag:</h1>
+
+@foreach (var item in Model)
+{
+    <div class="Inspection-row container">
+        <!--<div class="row">
+        <h2 class="col-6">@item.EventTitle</h2>
+        <span class="col-4">@item.StartTime.ToShortDateString() @item.StartTime.ToShortTimeString() - @(((DateTime)item.EndTime).ToShortTimeString()) @(((DateTime)item.EndTime).ToShortTimeString())</span>
+        @Html.ActionLink("Open vragenlijst", "Details", new { id = item.Id }, new { @class="btn btn-primary col-2" })
+    </div>-->
+        <div class="card">
+            <h5 class="card-title">@item.EventTitle</h5>
+            <p class="card-text">@item.StartTime.ToShortDateString() @item.StartTime.ToShortTimeString() - @(((DateTime)item.EndTime).ToShortTimeString()) @(((DateTime)item.EndTime).ToShortTimeString())</p>
+            @Html.ActionLink("Open vragenlijst", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+}

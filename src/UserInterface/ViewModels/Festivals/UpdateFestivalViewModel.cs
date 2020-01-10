@@ -1,64 +1,109 @@
-﻿using Festispec.DomainServices.Interfaces;
-using Festispec.Models;
-using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Festispec.DomainServices.Interfaces;
+using Festispec.Models;
+using Festispec.Models.Exception;
+using Festispec.Models.Google;
+using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight.Command;
 
-namespace Festispec.UI.ViewModels
+namespace Festispec.UI.ViewModels.Festivals
 {
-    class UpdateFestivalViewModel
+    internal class UpdateFestivalViewModel : BaseValidationViewModel
     {
-        private IFestivalService _festivalService;
-        public Festival Festival { get; set; }
-        public ICommand UpdateFestivalCommand { get; set; }
-        public string Suffix { get; set; }
-        public List<string> CountryOptions
-        {
-            get
-            {
-                return new List<string>()
-                {
-                    "Nederland",
-                    "België",
-                    "Duitsland"
-                };
-            }
-        }
-        private IFrameNavigationService _navigationService;
-        public UpdateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService)
+        private readonly IFestivalService _festivalService;
+        private readonly IGoogleMapsService _googleService;
+        private readonly IFrameNavigationService _navigationService;
+
+        public UpdateFestivalViewModel(IFrameNavigationService navigationService, IFestivalService festivalService,
+            IGoogleMapsService googleMapsService)
         {
             _festivalService = festivalService;
             _navigationService = navigationService;
-            Festival = _festivalService.GetFestival((int)_navigationService.Parameter);
+            _googleService = googleMapsService;
+            Festival = _festivalService.GetFestival((int) _navigationService.Parameter);
             UpdateFestivalCommand = new RelayCommand(UpdateFestival);
+            CancelCommand = new RelayCommand(() => _navigationService.NavigateTo("FestivalInfo", Festival.Id));
+
+            #region Google Search
+
+            _googleService = googleMapsService;
+            SearchCommand = new RelayCommand(Search);
+            SelectCommand = new RelayCommand<string>(Select);
+            CurrentAddress = $"Huidige adres: {Festival.Address}";
+
+            #endregion
         }
+
+        public Festival Festival { get; set; }
+        public ICommand UpdateFestivalCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
+        public ICommand SearchCommand { get; }
+        public RelayCommand<string> SelectCommand { get; }
+
         public async void UpdateFestival()
         {
-            if (Festival.Address.Suffix != Suffix)
-            {
-                if (!string.IsNullOrEmpty(Suffix))
-                {
-                    Festival.Address.Suffix = Suffix;
-                }
-                else
-                {
-                    Festival.Address.Suffix = null;
-                }
-            }
-            
             try
             {
                 await _festivalService.UpdateFestival(Festival);
+                _festivalService.Sync();
                 _navigationService.NavigateTo("FestivalInfo", Festival.Id);
             }
-            catch (Exception e)
+            catch (InvalidDataException)
             {
-                MessageBox.Show($"An error occured while adding festival. The occured error is: {e.GetType()}", $"{e.GetType()}", MessageBoxButton.OK, MessageBoxImage.Error);
+                OpenValidationPopup($"Ingevoerde data incorrect.");
+            }
+            catch (InvalidAddressException)
+            {
+                OpenValidationPopup("Er is een ongeldig adres ingevoerd, controleer of je minimaal een straat, postcode en plaats hebt.");
+            }
+            catch (EndDateEarlierThanStartDateException)
+            {
+                OpenValidationPopup("De einddatum moet later zijn dan de startdatum");
             }
         }
+
+        #region Google Search
+
+        public ObservableCollection<Prediction> Suggestions { get; set; }
+        public string SearchQuery { get; set; }
+        public string CurrentAddress { get; set; }
+
+        public async void Search()
+        {
+            try
+            {
+                Suggestions =
+                    new ObservableCollection<Prediction>(
+                        await _googleService.GetSuggestions(SearchQuery ?? string.Empty));
+                RaisePropertyChanged(nameof(Suggestions));
+            }
+            catch (GoogleMapsApiException)
+            {
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps. Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
+            }
+            catch (GoogleZeroResultsException)
+            {
+                OpenValidationPopup($"Er zijn geen resultaten gevonden voor je zoekopdracht, wijzig je opdracht en probeer het opnieuw.");
+            }
+        }
+
+        public async void Select(string id)
+        {
+            try
+            {
+                Address address = await _googleService.GetAddress(id);
+                Festival.Address = address;
+                CurrentAddress = $"Geselecteerde adres: {Festival.Address}";
+                RaisePropertyChanged(nameof(CurrentAddress));
+            }
+            catch (GoogleMapsApiException)
+            {
+                OpenValidationPopup($"Er is een fout opgetreden tijdens het communiceren met Google Maps.Controleer of je toegang tot het internet hebt of neem contact op met je systeemadministrator.");
+            }
+        }
+        #endregion
     }
 }

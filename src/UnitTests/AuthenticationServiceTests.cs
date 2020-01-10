@@ -4,7 +4,6 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UnitTests.Helpers;
 using Moq;
-using System.Collections.Generic;
 using Festispec.Models.EntityMapping;
 using Xunit;
 
@@ -28,7 +27,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Accounts).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Accounts).Object);
 
             // Create AuthenticationService
-            _authenticationService = new AuthenticationService(_dbMock.Object);
+            _authenticationService = new AuthenticationService(_dbMock.Object, new JsonSyncService<Account>(_dbMock.Object));
         }
 
         #region Registration Tests
@@ -36,34 +35,34 @@ namespace Festispec.UnitTests
         [Theory]
         [InlineData("Username1", "Password1234", Role.Employee)]
         [InlineData("Username2", "Password1234", Role.Inspector)]
-        public async void ValidRegisterDataReturnsSafeAccount(string username, string password, Role requiredRole)
+        public void ValidRegisterDataReturnsSafeAccount(string username, string password, Role requiredRole)
         {
             // Register user
-            var account = await _authenticationService.Register(username, password, requiredRole);
+            var account = _authenticationService.AssembleAccount(username, password, requiredRole);
 
-            // Verify if the SaveChangesAsync has been called
-            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            // Verify that the SaveChangesAsync method has not been called
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
 
-            // Check if values have been properly assigned and password has been encryped
+            // Check if values have been properly assigned and password has been encrypted
             Assert.Equal(username, account.Username);
             Assert.Equal(requiredRole, account.Role);
-            Assert.Null(account.Password);
+            Assert.True(BCrypt.Net.BCrypt.Verify(password, account.Password));
         }
 
         [Theory]
         [InlineData("JohnDoe", "Password123", Role.Employee)]
         [InlineData("EricKuipers", "HeelLangWachtwoord", Role.Inspector)]
-        public async void SameUsernameShouldThrowError(string username, string password, Role requiredRole)
+        public void SameUsernameShouldThrowError(string username, string password, Role requiredRole)
         {
-            await Assert.ThrowsAsync<EntityExistsException>(() => _authenticationService.Register(username, password, requiredRole));
+            Assert.Throws<EntityExistsException>(() => _authenticationService.AssembleAccount(username, password, requiredRole));
         }
 
         [Theory]
         [InlineData("123", "123", Role.Employee)]
         [InlineData("123", "123", Role.Inspector)]
-        public async void InvalidDataShouldThrowError(string username, string password, Role requiredRole)
+        public void InvalidDataShouldThrowError(string username, string password, Role requiredRole)
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _authenticationService.Register(username, password, requiredRole));
+            Assert.Throws<InvalidDataException>(() => _authenticationService.AssembleAccount(username, password, requiredRole));
         }
 
         #endregion

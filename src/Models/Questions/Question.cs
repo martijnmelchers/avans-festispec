@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Festispec.Models.Answers;
@@ -14,26 +13,28 @@ namespace Festispec.Models.Questions
             Questionnaire = questionnaire;
             Answers = new List<Answer>();
         }
-        public Question() 
+
+        public Question()
         {
             Answers = new List<Answer>();
         }
 
         public int Id { get; set; }
 
-        [Required, MinLength(5), MaxLength(250)]
+        [Required]
+        [MinLength(5)]
+        [MaxLength(250)]
         public string Contents { get; set; }
 
         public virtual QuestionCategory Category { get; set; }
 
-       
-        public virtual Questionnaire Questionnaire { get; set; }
 
-        public virtual ICollection<Answer> Answers { get; set; }
+        public virtual Questionnaire Questionnaire { get; set; }
 
         public abstract GraphType GraphType { get; }
 
         public int AnswerCount => Answers.Count;
 
+        public virtual ICollection<Answer> Answers { get; set; }
     }
 }

@@ -1,0 +1,38 @@
+﻿<Page x:Class="Festispec.UI.Views.Home.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewModels="clr-namespace:Festispec.UI.ViewModels"
+      mc:Ignorable="d"
+      Title="HomePage" Background="#EFEFEF" d:DesignHeight="1011" d:DesignWidth="1920"
+      d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}">
+
+    <Grid>
+        <Rectangle Style="{DynamicResource ContentBox}" Width="950" Height="550" />
+        <Grid Width="900" Height="500">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{DynamicResource Header}" Text="Welkom op de homepagina van Festispec"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="2" />
+
+            <Label Content="Hier boven vind u de navigatie naar de relevante pagina's" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+
+            <Button Command="{Binding NavigateCommand}" CommandParameter="MapPage" Content="Kaart openen" Height="50"
+                    Width="100" Style="{DynamicResource ButtonGreen}" Margin="360,0,360,0" Grid.Row="4"
+                    Grid.ColumnSpan="2" />
+        </Grid>
+    </Grid>
+</Page>
