@@ -1,7 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Festispec.DomainServices.Factories;
@@ -10,6 +15,7 @@ using Festispec.Models;
 using Festispec.Models.Questions;
 using Festispec.UI.Interfaces;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
 
 namespace Festispec.UI.ViewModels
@@ -21,15 +27,20 @@ namespace Festispec.UI.ViewModels
         private readonly IOfflineService _offlineService;
         private readonly QuestionFactory _questionFactory;
         private readonly IQuestionnaireService _questionnaireService;
+        private readonly IConfiguration _config;
 
         private bool _isOpen;
         private int _search;
         private ReferenceQuestion _selectedReferenceQuestion;
         private string _selectedItem;
 
+        private static string WEB_URL = ""; 
+
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
-            IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService)
+            IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService, IConfiguration config)
         {
+
+            _config = config;
             _questionnaireService = questionnaireService;
             _navigationService = navigationService;
             _questionFactory = questionFactory;
@@ -193,9 +204,27 @@ namespace Festispec.UI.ViewModels
             return question.Answers.Count == 0 && _offlineService.IsOnline;
         }
 
-        public void OpenFileWindow(Question question)
+        public async void OpenFileWindow(Question question)
         {
-            new OpenFileDialog().ShowDialog();
+            OpenFileDialog fileDialog = new OpenFileDialog();
+
+            var dialog = fileDialog.ShowDialog();
+
+            // Check if a file has been selected.
+            if (dialog != null && dialog == true)
+            {
+                using (var stream = fileDialog.OpenFile())
+                {
+
+                    var url = $"{_config["Urls:WebApp"]}/Upload/UploadFile";
+                    var response = await UploadImage(url, stream, fileDialog.SafeFileName);
+                    var path = await response.Content.ReadAsStringAsync();
+               
+                    var drawQuestion = AddedQuestions.Where(q => q.Equals(question)).FirstOrDefault() as DrawQuestion;
+                    drawQuestion.PicturePath = path;
+                    MessageBox.Show("Het bestand is geupload.");
+                }
+            }
         }
 
         public void AddOption(Question question)
@@ -208,6 +237,28 @@ namespace Festispec.UI.ViewModels
         private bool Filter(object item)
         {
             return Search <= 0 || ((Question) item).Questionnaire.Id == Search;
+        }
+
+        private async Task<HttpResponseMessage> UploadImage(string url, Stream image, string fileName)
+        {
+            using (MemoryStream str = new MemoryStream())
+            using (var client = new HttpClient())
+            {
+
+                image.CopyTo(str);
+                byte[] byteArray = str.ToArray();
+                var requestContent = new MultipartFormDataContent();
+                //    here you can specify boundary if you need---^
+                var imageContent = new ByteArrayContent(byteArray);
+                imageContent.Headers.ContentType =
+                    MediaTypeHeaderValue.Parse("image/jpeg");
+
+                requestContent.Add(imageContent, "image", fileName);
+
+                var response =  await client.PostAsync(url, requestContent);
+
+                return response;
+            }
         }
     }
 }

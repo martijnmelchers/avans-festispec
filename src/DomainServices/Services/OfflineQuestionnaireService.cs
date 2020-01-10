@@ -93,6 +93,16 @@ namespace Festispec.DomainServices.Services
             return answers;
         }
 
+        public Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<int> SaveChangesAsync()
         {
             throw new System.InvalidOperationException();
