@@ -14,12 +14,10 @@ namespace Festispec.Web.Controllers
     {
 
         private IAvailabilityService _availabilityService;
-        private System.Globalization.CultureInfo cultureInfo;
 
         public AvailabilityController(IAvailabilityService availibilityService)
         {
             _availabilityService = availibilityService;
-             cultureInfo = new System.Globalization.CultureInfo("nl-NL");
         }
         public async Task<IActionResult> Index()
         {
@@ -60,7 +58,7 @@ namespace Festispec.Web.Controllers
                 var test = Request.Form[item].ToString();
                 foreach (var s in test.Split(','))
                 {
-                    dateTimes.Add(DateTime.Parse(s, cultureInfo));
+                    dateTimes.Add(DateTime.Parse(s));
                 }
             }
 
