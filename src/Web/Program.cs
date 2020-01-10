@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using System.Globalization;
 
 namespace Festispec.Web
 {
@@ -8,9 +7,6 @@ namespace Festispec.Web
     {
         public static void Main(string[] args)
         {
-            var culture = new CultureInfo("nl");
-            CultureInfo.CurrentCulture = culture;
-            CultureInfo.CurrentUICulture = culture;
             CreateHostBuilder(args).Build().Run();
         }
 

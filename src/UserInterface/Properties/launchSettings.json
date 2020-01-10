@@ -3,7 +3,7 @@
     "UserInterface": {
       "commandName": "Project",
       "environmentVariables": {
-        "Environment": "Debug"
+        "Environment": "Production"
       }
     }
   }
