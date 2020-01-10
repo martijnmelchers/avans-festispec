@@ -82,10 +82,12 @@ namespace Festispec.DomainServices.Services
             return null;
         }
         
-        public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections)
+        public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
+            Questionnaire questionnaire)
         {
             foreach (PlannedInspection plannedInspection in plannedInspections)
             {
+                plannedInspection.Questionnaire = questionnaire;
                 if (plannedInspection.Id != 0)
                     _db.Entry(plannedInspection).State = EntityState.Modified;
                 else

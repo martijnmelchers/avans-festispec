@@ -259,7 +259,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                await _inspectionService.ProcessPlannedInspections(PlannedInspections);
+                await _inspectionService.ProcessPlannedInspections(PlannedInspections, SelectedQuestionnaire);
 
                 foreach (int originalPlannedInspectionId in OriginalPlannedInspectionIds)
                 {
