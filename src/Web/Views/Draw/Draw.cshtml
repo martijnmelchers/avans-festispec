@@ -1,6 +1,8 @@
 @model Festispec.Models.Answers.FileAnswer
     <button class="btn btn-success" id="btnUpload">Opslaan</button>
 <script>
+
+
 var w = window.innerWidth;
 var h = window.innerHeight;
 
@@ -9,14 +11,12 @@ var h = window.innerHeight;
 
         @{
             var questionPicture = ((Festispec.Models.Questions.DrawQuestion)Model.Question).PicturePath;
-            questionPicture = $"{ViewBag.URL}{questionPicture}";
         }
-            const bg = loadImage("@questionPicture");
+             bg = loadImage(questionPicture);
      }
     function setup() {
         canvas = createCanvas(w, h);
         background(255);
-
         var scale = Math.min(width / bg.width,  height/ bg.height);
 
 
@@ -25,6 +25,7 @@ var h = window.innerHeight;
 
 
         image(bg, x, y, bg.width * scale, bg.height * scale);
+        
     }
 
     function draw() {
