@@ -23,6 +23,8 @@ namespace Festispec.Web.Controllers
         // GET: Draw/Draw/5
         public ActionResult Draw(int id)
         {
+            if (Request.Cookies["CurrentUserId"] == null)
+                return RedirectToAction("Login", "Authentication");
             FileAnswer answer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == id) as FileAnswer;
             return View(answer);
         }

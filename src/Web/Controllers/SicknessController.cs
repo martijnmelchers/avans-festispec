@@ -19,6 +19,9 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            if (Request.Cookies["CurrentUserId"] == null)
+                return RedirectToAction("Login", "Authentication");
+
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             if (_sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])))
                 return View("Better");
@@ -49,6 +52,8 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Better()
         {
+            if (Request.Cookies["CurrentUserId"] == null)
+                return RedirectToAction("Login", "Authentication");
             await _sicknessService.EndAbsense(int.Parse(Request.Cookies["CurrentUserID"]));
             return View("Index");
         }
