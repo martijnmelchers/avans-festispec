@@ -11,3 +11,6 @@ PublishProfiles/
 
 # IntelliJ/Rider files
 .idea/
+
+# Other
+Uploads/
