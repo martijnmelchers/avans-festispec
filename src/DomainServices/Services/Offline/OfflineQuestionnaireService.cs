@@ -7,7 +7,7 @@ using Festispec.Models.Answers;
 using Festispec.Models.Exception;
 using Festispec.Models.Questions;
 
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Services.Offline
 {
     public class OfflineQuestionnaireService : IQuestionnaireService
     {

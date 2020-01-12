@@ -5,6 +5,7 @@ using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Festispec.DomainServices.Services.Offline;
 
 namespace Festispec.DomainServices
 {

@@ -5,7 +5,7 @@ using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Services.Offline
 {
     public class OfflineEmployeeService : IEmployeeService
     {

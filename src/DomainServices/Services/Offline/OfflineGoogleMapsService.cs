@@ -6,7 +6,7 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.Models.Google;
 
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Services.Offline
 {
     public class OfflineGoogleMapsService : IGoogleMapsService
     {

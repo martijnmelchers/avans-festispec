@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 
-namespace Festispec.DomainServices.Services
+namespace Festispec.DomainServices.Services.Offline
 {
     public class OfflineCustomerService : ICustomerService
     {
