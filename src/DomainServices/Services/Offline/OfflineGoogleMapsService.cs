@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
@@ -8,6 +9,7 @@ using Festispec.Models.Google;
 
 namespace Festispec.DomainServices.Services.Offline
 {
+    [ExcludeFromCodeCoverage]
     public class OfflineGoogleMapsService : IGoogleMapsService
     {
         private readonly ISyncService<DistanceResult> _syncService;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
@@ -6,6 +7,7 @@ using Festispec.Models;
 
 namespace Festispec.DomainServices.Services.Offline
 {
+    [ExcludeFromCodeCoverage]
     public class OfflineFestivalService : IFestivalService
     {
         private readonly ISyncService<Festival> _syncService;
