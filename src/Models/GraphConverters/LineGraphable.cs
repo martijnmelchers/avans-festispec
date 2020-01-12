@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Festispec.Models.Answers;
 using Festispec.Models.Interfaces;
 using Festispec.Models.Questions;
@@ -13,9 +12,8 @@ namespace Festispec.Models.GraphConverters
         {
             var series = new List<GraphableSeries>();
 
-            ICollection<Answer> answers = question.Answers;
-            var serie = new GraphableSeries();
-            serie.Title = question.Contents;
+            var answers = question.Answers;
+            var graphableSeries = new GraphableSeries { Title = question.Contents };
 
             var chartValues = new ChartValues<float>();
             foreach (Answer answer in answers)
@@ -24,8 +22,8 @@ namespace Festispec.Models.GraphConverters
                 chartValues.Add(numAnswer.IntAnswer);
             }
 
-            serie.Values = chartValues;
-            series.Add(serie);
+            graphableSeries.Values = chartValues;
+            series.Add(graphableSeries);
 
             return series;
         }

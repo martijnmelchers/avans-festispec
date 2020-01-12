@@ -10,7 +10,7 @@ namespace Festispec.DomainServices.Interfaces
     {
         Task<Availability> AddUnavailabilityEntireDay(int employeeId, DateTime date, string reason);        
 
-        Task RemoveUnavailablity(int availabilityId);
+        Task RemoveUnavailability(int availabilityId);
 
         Task SaveChanges();
 

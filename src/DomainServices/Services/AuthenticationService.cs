@@ -23,7 +23,7 @@ namespace Festispec.DomainServices.Services
 
         public Account AssembleAccount(string username, string password, Role requiredRole)
         {
-            Account existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
+            var existing = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (existing != null)
                 throw new EntityExistsException();
@@ -59,7 +59,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task ChangePassword(string username, string password, string newPassword)
         {
-            Account account = _db.Accounts.FirstOrDefault(x => x.Username == username);
+            var account = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");
@@ -76,7 +76,7 @@ namespace Festispec.DomainServices.Services
             
             FestispecContext ctx = _syncService.GetSyncContext();
         
-            Account account = ctx.Accounts.Include(a => a.Employee).First(a => a.Id == LoggedIn.Id);
+            var account = ctx.Accounts.Include(a => a.Employee).First(a => a.Id == LoggedIn.Id);
         
             _syncService.Flush();
             _syncService.AddEntity(account);

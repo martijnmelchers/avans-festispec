@@ -40,7 +40,7 @@ namespace Festispec.DomainServices.Services
         public async Task<Employee> CreateEmployeeAsync(FullName name, string iban, string username, string password,
             Role role, Address address, ContactDetails contactDetails)
         {
-            Account account = _authenticationService.AssembleAccount(username, password, role);
+            var account = _authenticationService.AssembleAccount(username, password, role);
 
             var employee = new Employee
             {
@@ -70,7 +70,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            Employee employee = await _db.Employees
+            var employee = await _db.Employees
                 .Include(e => e.Address)
                 .FirstOrDefaultAsync(e => e.Id == employeeId);
 
@@ -82,7 +82,7 @@ namespace Festispec.DomainServices.Services
 
         public Employee GetEmployee(int employeeId)
         {
-            Employee employee = _db.Employees
+            var employee = _db.Employees
                 .Include(e => e.Address)
                 .FirstOrDefault(e => e.Id == employeeId);
 
@@ -94,7 +94,7 @@ namespace Festispec.DomainServices.Services
 
         public Account GetAccountForEmployee(int employeeId)
         {
-            Account account = _db.Accounts.FirstOrDefault(a => a.Id == employeeId);
+            var account = _db.Accounts.FirstOrDefault(a => a.Id == employeeId);
 
             if (account == null)
                 throw new EntityNotFoundException();
@@ -109,7 +109,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<int> RemoveEmployeeAsync(int employeeId)
         {
-            Employee employee = await GetEmployeeAsync(employeeId);
+            var employee = await GetEmployeeAsync(employeeId);
 
             if (employee.PlannedEvents.ToList().Count > 0)
                 throw new EmployeeHasPlannedEventsException();
@@ -147,7 +147,7 @@ namespace Festispec.DomainServices.Services
 
         public Certificate GetCertificate(int certificateId)
         {
-            Certificate certificate = _db.Certificates.FirstOrDefault(a => a.Id == certificateId);
+            var certificate = _db.Certificates.FirstOrDefault(a => a.Id == certificateId);
 
             if (certificate == null)
                 throw new EntityNotFoundException();
@@ -157,7 +157,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<int> RemoveCertificateAsync(int certificateId)
         {
-            Certificate certificate = GetCertificate(certificateId);
+            var certificate = GetCertificate(certificateId);
 
             _db.Certificates.Remove(certificate);
 
@@ -173,9 +173,9 @@ namespace Festispec.DomainServices.Services
 
         public void Sync()
         {
-            FestispecContext db = _employeeSyncService.GetSyncContext();
+            var db = _employeeSyncService.GetSyncContext();
         
-            List<Employee> employees = db.Employees
+            var employees = db.Employees
                 .Include(e => e.Address)
                 .Include(e => e.Certificates)
                 .Include(e => e.Account).ToList();

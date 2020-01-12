@@ -55,7 +55,7 @@ namespace Festispec.UnitTests
         [Fact]
         public void RemoveUnavailablity()
         {
-            _availabilityService.RemoveUnavailablity(2);
+            _availabilityService.RemoveUnavailability(2);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
@@ -63,7 +63,7 @@ namespace Festispec.UnitTests
         [Fact]
         public async void RemovingInvalidUnavailabilityShouldThrowError()
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>(() => _availabilityService.RemoveUnavailablity(10));
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _availabilityService.RemoveUnavailability(10));
         }
     }
 }

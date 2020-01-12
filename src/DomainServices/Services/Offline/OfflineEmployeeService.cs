@@ -75,7 +75,7 @@ namespace Festispec.DomainServices.Services.Offline
 
         public Certificate GetCertificate(int certificateId)
         {
-            foreach (Certificate cert in GetAllEmployees()
+            foreach (var cert in GetAllEmployees()
                 .Select(allEmployee => allEmployee.Certificates.FirstOrDefault(c => c.Id == certificateId))
                 .Where(cert => cert != null))
             {

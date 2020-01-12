@@ -22,10 +22,7 @@ namespace Festispec.DomainServices.Services
             _addressService = addressService;
         }
 
-        public List<Customer> GetAllCustomers()
-        {
-            return _db.Customers.Include(c => c.Address).ToList();
-        }
+        public List<Customer> GetAllCustomers() => _db.Customers.Include(c => c.Address).ToList();
 
         public async Task<Customer> CreateCustomerAsync(string name, int kvkNr, Address address,
             ContactDetails contactDetails)
@@ -57,7 +54,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Customer> GetCustomerAsync(int customerId)
         {
-            Customer customer = await _db.Customers
+            var customer = await _db.Customers
                 .Include(c => c.Festivals)
                 .Include(c => c.Address)
                 .FirstOrDefaultAsync(c => c.Id == customerId);
@@ -70,7 +67,7 @@ namespace Festispec.DomainServices.Services
 
         public Customer GetCustomer(int customerId)
         {
-            Customer customer = _db.Customers
+            var customer = _db.Customers
                 .Include(c => c.Festivals)
                 .Include(c => c.Address)
                 .FirstOrDefault(c => c.Id == customerId);
@@ -83,7 +80,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<int> RemoveCustomerAsync(int customerId)
         {
-            Customer customer = await GetCustomerAsync(customerId);
+            var customer = await GetCustomerAsync(customerId);
 
             if (customer.Festivals?.Count > 0)
                 throw new CustomerHasFestivalsException();
@@ -104,21 +101,15 @@ namespace Festispec.DomainServices.Services
             await SaveChangesAsync();
         }
 
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _db.SaveChangesAsync();
-        }
+        public async Task<int> SaveChangesAsync() => await _db.SaveChangesAsync();
 
-        public bool CanDeleteCustomer(Customer customer)
-        {
-            return customer.Festivals.Count == 0;
-        }
+        public bool CanDeleteCustomer(Customer customer) => customer.Festivals.Count == 0;
 
         public void Sync()
         {
-            FestispecContext db = _syncService.GetSyncContext();
+            var db = _syncService.GetSyncContext();
         
-            List<Customer> customers = db.Customers
+            var customers = db.Customers
                 .Include(c => c.Address)
                 .Include(c => c.Festivals).ToList();
             

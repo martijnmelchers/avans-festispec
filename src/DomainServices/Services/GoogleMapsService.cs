@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -17,7 +18,7 @@ namespace Festispec.DomainServices.Services
 {
     public class GoogleMapsService : IGoogleMapsService
     {
-        private readonly string API_KEY;
+        private readonly string _apiKey;
         private readonly HttpClient _client;
         private readonly FestispecContext _db;
         private readonly string _sessionToken;
@@ -35,13 +36,13 @@ namespace Festispec.DomainServices.Services
                 .Select(s => s[new Random().Next(s.Length)]).ToArray());
             _db = db;
             _syncService = syncService;
-            API_KEY = config["ApiKeys:Google"];
+            _apiKey = config["ApiKeys:Google"];
         }
 
         public async Task<List<Prediction>> GetSuggestions(string input)
         {
             HttpResponseMessage request = await _client.GetAsync(
-                $"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
+                $"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={_apiKey}");
             var result = JsonConvert.DeserializeObject<AutocompleteResponse>(await request.Content.ReadAsStringAsync());
 
             if (result.Status.Equals(GoogleStatusCodes.ZeroResults))
@@ -55,8 +56,8 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Address> GetAddress(string placeId)
         {
-            HttpResponseMessage request = await _client.GetAsync(
-                $"place/details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={API_KEY}");
+            var request = await _client.GetAsync(
+                $"place/details/json?place_id={placeId}&fields=address_component,formatted_address,geometry&sessiontoken={_sessionToken}&language=nl&key={_apiKey}");
             var result = JsonConvert.DeserializeObject<PlaceDetailResponse>(await request.Content.ReadAsStringAsync());
 
             if (!result.Status.Equals(GoogleStatusCodes.Ok))
@@ -64,7 +65,7 @@ namespace Festispec.DomainServices.Services
 
             int.TryParse(
                 Regex.Replace(GetComponent(result.Place, "street_number")?.LongName ?? string.Empty, "[^.0-9]", ""),
-                out int houseNumber);
+                out var houseNumber);
 
             return new Address
             {
@@ -88,8 +89,11 @@ namespace Festispec.DomainServices.Services
             if (existing != null)
                 return existing.Distance;
 
-            HttpResponseMessage request = await _client.GetAsync(
-                $"distancematrix/json?units=metric&origins={origin.Latitude.ToString().Replace(",", ".")},{origin.Longitude.ToString().Replace(",", ".")}&destinations={destination.Latitude.ToString().Replace(",", ".")},{destination.Longitude.ToString().Replace(",", ".")}&language=nl&key={API_KEY}");
+            var request = await _client.GetAsync(
+                "distancematrix/json?units=metric" +
+                $"&origins={origin.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".")},{origin.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".")}" +
+                $"&destinations={destination.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".")},{destination.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".")}" +
+                $"&language=nl&key={_apiKey}");
             var result =
                 JsonConvert.DeserializeObject<DistanceMatrixResponse>(await request.Content.ReadAsStringAsync());
 

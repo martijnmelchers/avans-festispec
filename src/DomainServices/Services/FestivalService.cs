@@ -45,7 +45,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> GetFestivalAsync(int festivalId)
         {
-            Festival festival = await _db.Festivals
+            var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)
                 .Include(f => f.Questionnaires.Select(q => q.Questions.Select(qe => qe.Answers)))
                 .Include(f => f.PlannedInspections)
@@ -60,7 +60,7 @@ namespace Festispec.DomainServices.Services
 
         public Festival GetFestival(int festivalId)
         {
-            Festival festival = _db.Festivals
+            var festival = _db.Festivals
                 .Include(f => f.Questionnaires)
                 .Include(f => f.PlannedInspections)
                 .Include(f => f.Address)
@@ -94,7 +94,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task RemoveFestival(int festivalId)
         {
-            Festival festival = await GetFestivalAsync(festivalId);
+            var festival = await GetFestivalAsync(festivalId);
 
             if (festival.Questionnaires.Count > 0)
                 throw new FestivalHasQuestionnairesException();
@@ -107,9 +107,9 @@ namespace Festispec.DomainServices.Services
 
         public void Sync()
         {
-            FestispecContext db = _syncService.GetSyncContext();
+            var db = _syncService.GetSyncContext();
             
-            List<Festival> festivals = db.Festivals
+            var festivals = db.Festivals
                 .Include(f => f.Address)
                 .Include(f => f.Questionnaires)
                 .Include(f => f.Questionnaires.Select(q => q.Questions))
