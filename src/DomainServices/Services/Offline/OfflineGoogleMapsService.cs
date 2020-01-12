@@ -31,7 +31,7 @@ namespace Festispec.DomainServices.Services.Offline
 
         public async Task<double> CalculateDistance(Address origin, Address destination)
         {
-            DistanceResult existing = (await _syncService.GetAllAsync()).FirstOrDefault(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
+            var existing = (await _syncService.GetAllAsync()).FirstOrDefault(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
 
             if (existing == null)
                 throw new GoogleMapsApiException();

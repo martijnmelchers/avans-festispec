@@ -22,11 +22,6 @@ namespace Festispec.DomainServices.Services.Offline
             throw new System.InvalidOperationException();
         }
 
-        public async Task<Festival> GetFestivalAsync(int festivalId)
-        {
-            return await _syncService.GetEntityAsync(festivalId);
-        }
-
         public Festival GetFestival(int festivalId)
         {
             return _syncService.GetEntity(festivalId);

@@ -48,11 +48,6 @@ namespace Festispec.DomainServices.Services.Offline
             throw new System.InvalidOperationException();
         }
 
-        public Task<Employee> CreateEmployeeAsync(Employee employee)
-        {
-            throw new System.InvalidOperationException();
-        }
-
         public Task UpdateEmployee(Employee employee)
         {
             throw new System.InvalidOperationException();
