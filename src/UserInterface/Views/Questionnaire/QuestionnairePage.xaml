@@ -110,7 +110,7 @@
                                     </ContentControl.Resources>
                                 </ContentControl>
                                 
-                                <Button Command="{Binding DataContext.DeleteQuestionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                <Button Command="{Binding DataContext.OpenDeleteCheckCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                         Visibility="{Binding DataContext, Converter={StaticResource HideButtonConverter}, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
                                         CommandParameter="{Binding}" Style="{DynamicResource ButtonRed}" Width="50"
                                         Height="50" Margin="10" MinWidth="50">
@@ -189,5 +189,6 @@
             </Popup>
         </Grid>
         <controls:ValidationPopup Caption="Vragenlijst bewerken" />
+        <controls:DeleteCheckPopup Caption="WAARSCHUWING" Subtext="Weet je zeker dat je deze vraag wilt verwijderen?" />
     </Grid>
 </Page>

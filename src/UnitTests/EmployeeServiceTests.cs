@@ -254,7 +254,7 @@ namespace Festispec.UnitTests
          }
 
          [Theory]
-        [InlineData(1)]
+        [InlineData(3)]
         public async void RemoveEmployeeRemovesEmployee(int employeeId)
         {
             Assert.True(_employeeService.CanRemoveEmployee(_employeeService.GetEmployee(employeeId)));
