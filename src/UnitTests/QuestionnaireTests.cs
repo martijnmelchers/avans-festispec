@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
@@ -10,6 +11,7 @@ using Festispec.UnitTests.Helpers;
 using Festispec.Models.Exception;
 using System.Linq;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Helpers;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 
@@ -25,11 +27,10 @@ namespace Festispec.UnitTests
             _dbMock = new Mock<FestispecContext>();
 
             _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
-
             _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questions).Object);
-
+            _dbMock.Setup(x => x.Answers).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Answers).Object);
+            _dbMock.Setup(x => x.PlannedInspections).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().PlannedInspections).Object);
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Festivals).Object);
-
             _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
 
             _questionnaireService = new QuestionnaireService(_dbMock.Object, new JsonSyncService<Questionnaire>(_dbMock.Object));
@@ -194,11 +195,13 @@ namespace Festispec.UnitTests
         [InlineData(2)]
         public async void RemovingQuestion(int questionId)
         {
+            Question question = await _questionnaireService.GetQuestion(questionId);
             await _questionnaireService.RemoveQuestion(questionId);
 
             Assert.Null(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == questionId));
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            _dbMock.Object.Questions.Add(question);
         }
 
         [Fact]
@@ -248,7 +251,28 @@ namespace Festispec.UnitTests
             Assert.IsType<StringAnswer>(actual);
             Assert.Equal(expected,actual);
         }
-        
+
+        [Theory]
+        [InlineData(2)]
+        public async void GetPlannedInspectionsShouldReturnListOfPlannedInspections(int employeeId)
+        {
+            List<PlannedInspection> expected = await 
+                _dbMock.Object.PlannedInspections.Where(p => p.Employee.Id == employeeId && QueryHelpers.TruncateTime(p.StartTime) == QueryHelpers.TruncateTime(DateTime.Now)).ToListAsync();
+            List<PlannedInspection> actual = await _questionnaireService.GetPlannedInspections(employeeId);
+            
+            Assert.Equal(expected,actual);
+        }
+
+
+        [Theory]
+        [InlineData(1)]
+        public async void GetPlannedInspectionShouldReturnPlannedInspection(int plannedInspectionId)
+        {
+            PlannedInspection expected =
+                await _dbMock.Object.PlannedInspections.FirstAsync(p => p.Id == plannedInspectionId);
+            PlannedInspection actual = await _questionnaireService.GetPlannedInspection(plannedInspectionId);
+            Assert.Equal(expected,actual);
+        }
         
     }
 }
