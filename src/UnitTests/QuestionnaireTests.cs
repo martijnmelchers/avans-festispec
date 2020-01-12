@@ -233,13 +233,8 @@ namespace Festispec.UnitTests
             List<Question> expected =
                 _dbMock.Object.Questionnaires.First(q => q.Id == questionnaireId).Questions.ToList();
             List<Question> actual = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
-
-            for (int i = 0; i < expected.Count; i++)
-            {
-                Assert.Equal(expected.ElementAt(i), actual.ElementAt(i));
-            }
             
-            // Assert.Equal(expected,actual);
+            Assert.Equal(expected,actual);
         }
         
 
