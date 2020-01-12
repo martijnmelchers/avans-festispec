@@ -1,15 +1,13 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using Festispec.DomainServices.Helpers;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 
 namespace Festispec.DomainServices.Services
 {
@@ -29,7 +27,7 @@ namespace Festispec.DomainServices.Services
 
             var employee = _db.Employees.FirstOrDefault(e => e.Id == employeeId);
 
-            var availability = new Availability()
+            var availability = new Availability
             {
                 IsAvailable = false,
                 Employee = employee,

@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System;
 using System.Linq;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
@@ -46,6 +47,7 @@ namespace Festispec.DomainServices.Services
             return absence;
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task EndAbsence(int employeeId)
         {
             var absence = GetCurrentAbsence(employeeId);
