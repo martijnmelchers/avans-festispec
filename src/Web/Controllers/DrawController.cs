@@ -26,12 +26,12 @@ namespace Festispec.Web.Controllers
         }
 
         // GET: Draw/Draw/5
-        public ActionResult Draw(int id)
+        public async  Task<ActionResult> Draw(int id)
         {
             if (Request.Cookies["CurrentUserId"] == null)
                 return RedirectToAction("Login", "Authentication");
             ViewBag.URL = _configurationService["Urls:WebApp"];
-            return View(_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == id) as FileAnswer);
+            return View(await _questionnaireService.GetAnswer<FileAnswer>(id));
         }
 
         // POST: Draw/Draw/5

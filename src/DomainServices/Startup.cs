@@ -60,6 +60,7 @@ namespace Festispec.DomainServices
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
             services.AddSingleton(new GraphSelectorFactory());
+            services.AddSingleton(new AnswerFactory());
 
             return services; 
         }

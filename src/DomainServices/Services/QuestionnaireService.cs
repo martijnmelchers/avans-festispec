@@ -191,6 +191,16 @@ namespace Festispec.DomainServices.Services
             return _db.Answers.Include(a => a.Question).ToList();
         }
 
+        public Task<Answer> GetAnswer(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TAnswer> GetAnswer<TAnswer>(int id) where TAnswer : Answer
+        {
+            return await _db.Answers.OfType<TAnswer>().FirstOrDefaultAsync(a => a.Id == id);
+        }
+
         public async Task<Question> GetQuestion(int questionId)
         {
             return await _db.Questions.FirstOrDefaultAsync(e => e.Id == questionId);

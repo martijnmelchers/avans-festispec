@@ -95,6 +95,16 @@ namespace Festispec.DomainServices.Services.Offline
             return answers;
         }
 
+        public Task<Answer> GetAnswer(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<TAnswer> GetAnswer<TAnswer>(int id) where TAnswer : Answer
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
             throw new System.NotImplementedException();

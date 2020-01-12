@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers
+namespace Festispec.Web.Controllers
 {
     public class SicknessController : Controller
     {
-        private ISicknessService _sicknessService;
+        private readonly ISicknessService _sicknessService;
 
         public SicknessController(ISicknessService sicknessService)
         {
@@ -23,25 +21,22 @@ namespace Web.Controllers
                 return RedirectToAction("Login", "Authentication");
 
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            if (_sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])))
-                return View("Better");
-            
-            return View();
+            return _sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])) ? View("Better") : View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Availability avalability)
+        public async Task<IActionResult> Index(Availability availability)
         {
             try
             {
-                await _sicknessService.AddAbsense(int.Parse(Request.Cookies["CurrentUserID"]), avalability.Reason, avalability.EndTime);
+                await _sicknessService.AddAbsense(int.Parse(Request.Cookies["CurrentUserID"]), availability.Reason, availability.EndTime);
             }
             catch (DateHasPassedException)
             {
                 TempData["DateError"] = "Datum mag niet in het verleden zijn!";
                 return View("Index");
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 TempData["DateError"] = "Er ging iets fout";
                 return View("Index");
@@ -54,6 +49,7 @@ namespace Web.Controllers
         {
             if (Request.Cookies["CurrentUserId"] == null)
                 return RedirectToAction("Login", "Authentication");
+            
             await _sicknessService.EndAbsense(int.Parse(Request.Cookies["CurrentUserID"]));
             return View("Index");
         }
