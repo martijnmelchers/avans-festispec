@@ -38,6 +38,7 @@ namespace Festispec.UI.ViewModels.Festivals
             DeleteQuestionnaireCommand = new RelayCommand<int>(id => _deletetingQuestionnareId = id, _ => offlineService.IsOnline, true);
             NewQuestionnaireCommand = new RelayCommand(NewQuestionnaire);
             OpenCopyQuestionnaireCommand = new RelayCommand<int>(openCopyQuestionnaire);
+            CloseCopyQuestionnaireCommand = new RelayCommand(CloseCopyQuestionnaire);
             CopyQuestionnaireCommand = new RelayCommand(CopyQuestionnaire);
             GenerateReportCommand = new RelayCommand(GenerateReport);
             DeletePlannedInspectionsCommand = new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
@@ -48,6 +49,11 @@ namespace Festispec.UI.ViewModels.Festivals
             CanEdit = offlineService.IsOnline;
 
             Initialize((int) _navigationService.Parameter);
+        }
+
+        private void CloseCopyQuestionnaire()
+        {
+            CopyQuestionnairePopupIsOpen = false;
         }
 
         public Festival Festival
@@ -94,6 +100,7 @@ namespace Festispec.UI.ViewModels.Festivals
         public ICommand NewQuestionnaireCommand { get; set; }
         public ICommand CopyQuestionnaireCommand { get; set; }
         public ICommand OpenCopyQuestionnaireCommand { get; set; }
+        public ICommand CloseCopyQuestionnaireCommand { get; set; }
         public ICommand GenerateReportCommand { get; set; }
         public RelayCommand<int> OpenQuestionnaireCommand { get; set; }
         public RelayCommand<int> DeleteQuestionnaireCommand { get; set; }
