@@ -10,7 +10,7 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value as Question).AnswerCount > 0 ? Visibility.Hidden : Visibility.Visible;
+            return (value as Question)?.AnswerCount > 0 ? Visibility.Hidden : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

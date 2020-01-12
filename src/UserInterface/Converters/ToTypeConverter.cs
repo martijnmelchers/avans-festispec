@@ -9,28 +9,17 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch (value)
+            return value switch
             {
-                case DrawQuestion _:
-                    return "Teken vraag";
-                case RatingQuestion _:
-                    return "Beoordelings vraag";
-                case StringQuestion _:
-                    return "Open vraag";
-                case MultipleChoiceQuestion _:
-                    return "Meerkeuze vraag";
-                case UploadPictureQuestion _:
-                    return "Foto vraag";
-                case NumericQuestion _:
-                    return "Numerieke vraag";
-                case ReferenceQuestion _:
-                    return "Referentie vraag";
-
-
-
-                default:
-                    return "vraag";
-            }
+                DrawQuestion _ => "Teken vraag",
+                RatingQuestion _ => "Beoordelings vraag",
+                StringQuestion _ => "Open vraag",
+                MultipleChoiceQuestion _ => "Meerkeuze vraag",
+                UploadPictureQuestion _ => "Foto vraag",
+                NumericQuestion _ => "Numerieke vraag",
+                ReferenceQuestion _ => "Referentie vraag",
+                _ => "vraag"
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

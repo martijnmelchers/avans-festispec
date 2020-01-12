@@ -37,7 +37,7 @@ namespace Festispec.DomainServices.Services.Offline
 
         public Question GetQuestionFromQuestionnaire(int questionnaireId, int questionId)
         {
-            Question questionFromQuestionnaire = _syncService.GetEntity(questionnaireId).Questions.FirstOrDefault(q => q.Id == questionId);
+            var questionFromQuestionnaire = _syncService.GetEntity(questionnaireId).Questions.FirstOrDefault(q => q.Id == questionId);
             
             if (questionFromQuestionnaire == null)
                 throw new EntityNotFoundException();
@@ -73,31 +73,9 @@ namespace Festispec.DomainServices.Services.Offline
             throw new System.InvalidOperationException();
         }
 
-        public void Save()
-        {
-            throw new System.InvalidOperationException();
-        }
-
         public List<Question> GetQuestionsFromQuestionnaire(int questionnaireId)
         {
             return _syncService.GetEntity(questionnaireId).Questions.ToList();
-        }
-
-        public List<Answer> GetAnswers()
-        {
-            var answers = new List<Answer>();
-
-            foreach (Question questionnaireQuestion in _syncService.GetAll().ToList().SelectMany(questionnaire => questionnaire.Questions.ToList()))
-            {
-                answers.AddRange(questionnaireQuestion.Answers);
-            }
-
-            return answers;
-        }
-
-        public Task<Answer> GetAnswer(int id)
-        {
-            throw new System.NotImplementedException();
         }
 
         public Task<TAnswer> GetAnswer<TAnswer>(int id) where TAnswer : Answer
