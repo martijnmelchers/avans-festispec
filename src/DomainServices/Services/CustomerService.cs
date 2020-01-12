@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
@@ -105,6 +106,7 @@ namespace Festispec.DomainServices.Services
 
         public bool CanDeleteCustomer(Customer customer) => customer.Festivals.Count == 0;
 
+        [ExcludeFromCodeCoverage]
         public void Sync()
         {
             var db = _syncService.GetSyncContext();

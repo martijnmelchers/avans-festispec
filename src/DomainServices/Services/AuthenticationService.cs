@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Festispec.Models.EntityMapping;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Festispec.DomainServices.Services
 {
@@ -69,6 +70,7 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
+        [ExcludeFromCodeCoverage]
         public void Sync()
         {
             if (LoggedIn == null)

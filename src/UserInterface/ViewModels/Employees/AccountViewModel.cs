@@ -63,7 +63,7 @@ namespace Festispec.UI.ViewModels.Employees
                     return;
                 }
 
-                IntPtr valuePtr = IntPtr.Zero;
+                var valuePtr = IntPtr.Zero;
                 try
                 {
                     valuePtr = Marshal.SecureStringToGlobalAllocUnicode(passwordWithVerification.Password);

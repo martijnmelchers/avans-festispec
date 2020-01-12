@@ -32,9 +32,8 @@ namespace Festispec.UnitTests.Helpers
         public List<Question> Questions { get; }
 
         public List<Answer> Answers { get; }
-
-
-        public List<Address> Addresses { get; } = new List<Address>();
+        
+        public List<Address> Addresses { get; }
 
         public ModelMocks()
         {
@@ -415,6 +414,10 @@ namespace Festispec.UnitTests.Helpers
             Questions.ForEach(q => q.Answers = Answers.FindAll(a => a.Question.Id == q.Id));
             PlannedInspections.ForEach(pi => pi.Answers = Answers.FindAll(a => a.PlannedInspection.Id == pi.Id));
             Availabilities = PlannedEvents.OfType<Availability>().ToList();
+            Addresses = new List<Address>()
+                .Concat(Customers.Select(c => c.Address))
+                .Concat(Employees.Select(e => e.Address))
+                .ToList();
         }
     }
 }

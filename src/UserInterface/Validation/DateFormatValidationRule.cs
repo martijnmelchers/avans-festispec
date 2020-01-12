@@ -10,16 +10,13 @@ namespace Festispec.UI.Validation
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var input = value as string;
-            Match match = Regex.Match(input, @"^\d{2}-\d{2}-\d{4}$");
+            var match = Regex.Match(input, @"^\d{2}-\d{2}-\d{4}$");
             if (!match.Success)
                 return new ValidationResult(false, "Field must be in MM/DD/YYYY format");
-            DateTime date;
-            bool canParse = DateTime.TryParse(input, out date);
+            var canParse = DateTime.TryParse(input, out var date);
             if (!canParse)
                 return new ValidationResult(false, "Field must be a valid datetime value");
-            if (date.CompareTo(new DateTime(1970, 01, 01)) != 1)
-                return new ValidationResult(false, "Date must be later than the year 1970");
-            return new ValidationResult(true, null);
+            return date.CompareTo(new DateTime(1970, 01, 01)) != 1 ? new ValidationResult(false, "Date must be later than the year 1970") : new ValidationResult(true, null);
         }
     }
 }

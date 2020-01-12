@@ -27,8 +27,8 @@ namespace Festispec.UI.ViewModels.Employees
 
         public bool Equal()
         {
-            IntPtr valuePtrPassword = IntPtr.Zero;
-            IntPtr valuePtrVerificationPassword = IntPtr.Zero;
+            var valuePtrPassword = IntPtr.Zero;
+            var valuePtrVerificationPassword = IntPtr.Zero;
 
             try
             {
