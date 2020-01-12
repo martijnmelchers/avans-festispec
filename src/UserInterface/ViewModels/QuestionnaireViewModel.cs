@@ -20,7 +20,7 @@ using Microsoft.Win32;
 
 namespace Festispec.UI.ViewModels
 {
-    internal class QuestionnaireViewModel : BaseDeleteCheckViewModel, IActivateable<int>
+    internal class QuestionnaireViewModel : BaseDeleteCheckViewModel
     {
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
@@ -116,7 +116,8 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public void Initialize(int input)
+
+        private void Initialize(int input)
         {
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
             Questions = new ObservableCollection<Question>(Questionnaire.Questions);

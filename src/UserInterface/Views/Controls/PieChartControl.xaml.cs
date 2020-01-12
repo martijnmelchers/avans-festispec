@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Festispec.Models;
 using LiveCharts;
@@ -15,7 +14,7 @@ namespace Festispec.UI.Views.Controls
             SeriesCollection = new SeriesCollection();
 
 
-            foreach (GraphableSeries graphableSeries in values)
+            foreach (var graphableSeries in values)
                 SeriesCollection.Add(
                     new PieSeries
                     {
@@ -30,17 +29,18 @@ namespace Festispec.UI.Views.Controls
 
         public SeriesCollection SeriesCollection { get; set; }
 
-        public Func<ChartPoint, string> PointLabel { get; set; }
-
-        private void Chart_OnDataClick(object sender, ChartPoint chartpoint)
+        private void Chart_OnDataClick(object sender, ChartPoint chartPoint)
         {
-            var chart = (PieChart) chartpoint.ChartView;
+            var chart = (PieChart) chartPoint.ChartView;
 
             //clear selected slice.
-            foreach (PieSeries series in chart.Series)
+            foreach (var seriesView in chart.Series)
+            {
+                var series = (PieSeries) seriesView;
                 series.PushOut = 0;
+            }
 
-            var selectedSeries = (PieSeries) chartpoint.SeriesView;
+            var selectedSeries = (PieSeries) chartPoint.SeriesView;
             selectedSeries.PushOut = 8;
         }
     }
