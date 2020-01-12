@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -21,8 +22,8 @@ namespace Festispec.DomainServices.Services
             if (!address.Validate())
                 throw new InvalidAddressException();
 
-            var existing = await _db.Addresses.FirstOrDefaultAsync(a =>
-                a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == a.Longitude);
+            Address existing = await _db.Addresses.FirstOrDefaultAsync(a =>
+                a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == address.Longitude);
 
             if (existing != null)
                 return existing;
