@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Festispec.Models.Reports;
 
 namespace Festispec.Models
 {
@@ -15,9 +14,7 @@ namespace Festispec.Models
         [Required] public Address Address { get; set; }
 
         [Required] public virtual Customer Customer { get; set; }
-
-        public virtual Report Report { get; set; }
-
+        
         [Required] public OpeningHours OpeningHours { get; set; }
 
         public virtual ICollection<PlannedInspection> PlannedInspections { get; set; }

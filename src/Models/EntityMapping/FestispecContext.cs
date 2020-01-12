@@ -1,11 +1,10 @@
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
-using Festispec.Models.Reports;
 using Microsoft.Extensions.Configuration;
 
 namespace Festispec.Models.EntityMapping
@@ -26,8 +25,6 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Availability> Availabilities { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
-        public virtual DbSet<ContactPerson> ContactPersons { get; set; }
-        public virtual DbSet<ContactPersonNote> ContactPersonNotes { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Festival> Festivals { get; set; }
@@ -36,8 +33,6 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionCategory> QuestionCategories { get; set; }
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
-        public virtual DbSet<Report> Reports { get; set; }
-        public virtual DbSet<ReportEntry> ReportEntries { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<DistanceResult> DistanceResults { get; set; }
 

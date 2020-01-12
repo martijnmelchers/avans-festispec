@@ -9,7 +9,6 @@ namespace Festispec.Models.EntityMapping
             Property(p => p.KvkNr).IsRequired();
             Property(p => p.CustomerName).IsRequired();
 
-            HasMany(c => c.ContactPersons).WithRequired(l => l.Customer);
             HasMany(c => c.Festivals).WithRequired(f => f.Customer);
         }
     }

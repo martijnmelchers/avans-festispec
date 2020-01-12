@@ -58,7 +58,6 @@ namespace Festispec.DomainServices.Services
         public async Task<Customer> GetCustomerAsync(int customerId)
         {
             Customer customer = await _db.Customers
-                .Include(c => c.ContactPersons)
                 .Include(c => c.Festivals)
                 .Include(c => c.Address)
                 .FirstOrDefaultAsync(c => c.Id == customerId);
@@ -72,7 +71,6 @@ namespace Festispec.DomainServices.Services
         public Customer GetCustomer(int customerId)
         {
             Customer customer = _db.Customers
-                .Include(c => c.ContactPersons)
                 .Include(c => c.Festivals)
                 .Include(c => c.Address)
                 .FirstOrDefault(c => c.Id == customerId);
@@ -90,7 +88,6 @@ namespace Festispec.DomainServices.Services
             if (customer.Festivals?.Count > 0)
                 throw new CustomerHasFestivalsException();
 
-            _db.ContactPersons.RemoveRange(customer.ContactPersons);
             await _addressService.RemoveAddress(customer.Address);
             _db.Customers.Remove(customer);
 
@@ -114,8 +111,7 @@ namespace Festispec.DomainServices.Services
 
         public bool CanDeleteCustomer(Customer customer)
         {
-            return customer.Festivals.Count == 0
-                   && customer.ContactPersons.Count == 0;
+            return customer.Festivals.Count == 0;
         }
 
         public void Sync()
@@ -124,7 +120,6 @@ namespace Festispec.DomainServices.Services
         
             List<Customer> customers = db.Customers
                 .Include(c => c.Address)
-                .Include(c => c.ContactPersons)
                 .Include(c => c.Festivals).ToList();
             
             _syncService.Flush();

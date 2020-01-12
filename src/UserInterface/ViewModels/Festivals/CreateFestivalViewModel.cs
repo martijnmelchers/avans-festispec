@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -8,7 +7,6 @@ using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Festispec.UI.Exceptions;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Festivals
