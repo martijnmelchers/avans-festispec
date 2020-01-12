@@ -160,7 +160,7 @@ namespace Festispec.UnitTests.Helpers
         public static Employee Employee = new Employee()
         {            
             Iban = "NL91ABNA0417164300",
-
+            Id = 12,
             Account = new Account
             {
                 Username = "EricKuipers",
@@ -244,6 +244,32 @@ namespace Festispec.UnitTests.Helpers
             EndTime = new DateTime(2019, 12, 10, 20, 30, 0),
 
             EventTitle = "ThunderDome",
+
+            Employee = Employee,
+
+            Questionnaire = QuestionnaireThunderDome,
+
+            Festival = festivalThunderDome,
+
+            Answers = new List<Answer>()
+            {
+                new StringAnswer()
+                {
+                    PlannedInspection = PlannedInspectionThunderDome,
+
+                    Question = QuestionnaireThunderDome.Questions.FirstOrDefault()
+                }                      
+            }
+        };
+        public static PlannedInspection PlannedInspectionIntents = new PlannedInspection()
+        {
+            Id = 3,
+
+            StartTime = new DateTime(2019, 12, 10, 16, 0, 0),
+
+            EndTime = new DateTime(2019, 12, 10, 20, 30, 0),
+
+            EventTitle = "Intents",
 
             Employee = Employee,
 

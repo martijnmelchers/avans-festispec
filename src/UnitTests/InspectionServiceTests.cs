@@ -6,6 +6,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Festispec.UnitTests.Helpers;
 using Xunit;
 using Festispec.Models.Exception;
@@ -64,6 +65,9 @@ namespace Festispec.UnitTests
                 "Pinkpop",
                 ModelMocks.Employee));
         }
+        
+        
+        
 
         #endregion
 
@@ -85,6 +89,39 @@ namespace Festispec.UnitTests
                 "rhoncus ut, imperdiet";
 
             await Assert.ThrowsAsync<InvalidDataException>(() =>  _inspectionService.RemoveInspection(ModelMocks.PlannedInspectionPinkpop.Id, cancellationReason));
+        }
+        #endregion
+
+        #region getInspections
+
+        [Fact]
+        public async void GetPlannedInspectionShouldReturnPlannedInspection()
+        {
+            PlannedInspection expected = ModelMocks.PlannedInspectionThunderDome;
+            
+            PlannedInspection actual = await _inspectionService.GetPlannedInspection(ModelMocks.festivalThunderDome, ModelMocks.Employee, ModelMocks.PlannedInspectionThunderDome.StartTime);
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public async void GetPlannedInspectionsShouldReturnListOfPlannedInspections()
+        {
+            List<PlannedInspection> expected = new List<PlannedInspection>();
+            expected.Add(ModelMocks.PlannedInspectionThunderDome);
+            
+            List<PlannedInspection> actual = await _inspectionService.GetPlannedInspections(ModelMocks.festivalThunderDome, ModelMocks.PlannedInspectionThunderDome.StartTime);
+            
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async void GetPlannedInspectionsShouldReturnPlannedInspections()
+        {
+            PlannedInspection expected = ModelMocks.PlannedInspectionThunderDome;
+            
+            PlannedInspection actual = await _inspectionService.GetPlannedInspection(2);
+            
+            Assert.Equal(expected, actual);
         }
         #endregion
 
