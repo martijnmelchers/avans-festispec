@@ -1,4 +1,6 @@
-﻿using Festispec.Models.EntityMapping;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Moq;
 using Xunit;
@@ -7,6 +9,8 @@ using Festispec.Models;
 using Festispec.UnitTests.Helpers;
 using Festispec.Models.Exception;
 using System.Linq;
+using System.Threading.Tasks;
+using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 
 namespace Festispec.UnitTests
@@ -221,5 +225,30 @@ namespace Festispec.UnitTests
                 Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion)question).Question));
             }
         }
+
+        [Theory]
+        [InlineData(1)]
+        public void GetQuestionsFromQuestionnaireShouldReturnListOfQuestions(int questionnaireId)
+        {
+            List<Question> expected =
+                _dbMock.Object.Questionnaires.First(q => q.Id == questionnaireId).Questions.ToList();
+            List<Question> actual = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
+            
+            Assert.Equal(expected,actual);
+        }
+        
+
+        [Theory]
+        [InlineData(1)]
+        public async Task GetGenericAnswerTAnswerShouldReturnStringAnswer(int answerId)
+        {
+            Answer expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
+            StringAnswer actual =  await _questionnaireService.GetAnswer<StringAnswer>(answerId);
+
+            Assert.IsType<StringAnswer>(actual);
+            Assert.Equal(expected,actual);
+        }
+        
+        
     }
 }
