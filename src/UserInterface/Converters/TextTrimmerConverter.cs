@@ -12,7 +12,7 @@ namespace Festispec.UI.Converters
 
             try
             {
-                int length = int.Parse(parameter.ToString());
+                var length = int.Parse(parameter.ToString());
 
                 if (result.Length > length)
                     result = result.Substring(0, length) + "...";

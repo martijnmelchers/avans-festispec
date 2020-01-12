@@ -11,7 +11,7 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool invert = bool.Parse(parameter as string ?? "false");
+            var invert = bool.Parse(parameter as string ?? "false");
 
             if (!(value is Questionnaire questionnaire))
                 return Visibility.Hidden;

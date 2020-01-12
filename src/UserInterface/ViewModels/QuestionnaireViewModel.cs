@@ -33,9 +33,7 @@ namespace Festispec.UI.ViewModels
         private int _search;
         private ReferenceQuestion _selectedReferenceQuestion;
         private string _selectedItem;
-
-        private static string WEB_URL = ""; 
-
+        
         public QuestionnaireViewModel(IQuestionnaireService questionnaireService, QuestionFactory questionFactory,
             IFrameNavigationService navigationService, IFestivalService festivalService, IOfflineService offlineService, IConfiguration config)
         {
@@ -72,7 +70,6 @@ namespace Festispec.UI.ViewModels
         private Questionnaire Questionnaire { get; set; }
         public RelayCommand AddQuestionCommand { get; set; }
         public ICommand OpenDeleteCheckCommand { get; set; }
-        public ICommand DeleteQuestionCommand { get; set; }
         public ICommand DeleteQuestionnaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
         public ICommand OpenFileWindowCommand { get; set; }
@@ -89,7 +86,8 @@ namespace Festispec.UI.ViewModels
             get => _selectedItem;
             set { _selectedItem = value; AddQuestionCommand.RaiseCanExecuteChanged(); }
         }
-        public Question SelectedQuestion { get; set; }
+
+        private Question SelectedQuestion { get; set; }
 
 
         public CollectionView QuestionList { get; }
@@ -142,10 +140,11 @@ namespace Festispec.UI.ViewModels
             return Questionnaire.Festival.Questionnaires.SelectMany(item => item.Questions).ToList();
         }
 
-        private void DeleteQuestionnaire()
+        private async void DeleteQuestionnaire()
         {
-            _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
-            _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
+            var festivalId = Questionnaire.Festival.Id;
+            await _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
+            _navigationService.NavigateTo("FestivalInfo", festivalId);
         }
 
         private void DeleteCommandCheck(Question question)
@@ -155,7 +154,7 @@ namespace Festispec.UI.ViewModels
         }
         private void AddQuestion()
         {
-            Question tempQuestion = _questionFactory.GetQuestionType(SelectedItem);
+            var tempQuestion = _questionFactory.GetQuestionType(SelectedItem);
             AddedQuestions.Add(tempQuestion);
             Questions.Add(tempQuestion);
         }
@@ -169,37 +168,37 @@ namespace Festispec.UI.ViewModels
             Questions.Remove(SelectedQuestion);
         }
 
-        public async void SaveQuestionnaire()
+        private async void SaveQuestionnaire()
         {
             var multipleChoiceQuestions = new List<MultipleChoiceQuestion>();
             multipleChoiceQuestions.AddRange(AddedQuestions.OfType<MultipleChoiceQuestion>());
             multipleChoiceQuestions.AddRange(Questions.OfType<MultipleChoiceQuestion>());
 
-            foreach (MultipleChoiceQuestion q in multipleChoiceQuestions)
+            foreach (var q in multipleChoiceQuestions)
                 q.ObjectsToString();
 
-            foreach (Question q in AddedQuestions)
+            foreach (var q in AddedQuestions)
                 try
                 {
                     await _questionnaireService.AddQuestion(Questionnaire.Id, q);
                 }
                 catch (Exception)
                 {
-                    ValidationError = $"Er is iets niet goedgegaan tijdens het toevoegen van de vraag(en)";
+                    ValidationError = "Er is iets niet goedgegaan tijdens het toevoegen van de vraag(en)";
                     PopupIsOpen = true;
 
                 }
 
             AddedQuestions.Clear();
 
-            foreach (Question q in RemovedQuestions)
+            foreach (var q in RemovedQuestions)
                 try
                 {
                     await _questionnaireService.RemoveQuestion(q.Id);
                 }
                 catch (Exception)
                 {
-                    ValidationError = $"Er is iets niet goedgegaan tijdens het verwijderen van de vraag(en)";
+                    ValidationError = "Er is iets niet goedgegaan tijdens het verwijderen van de vraag(en)";
                     PopupIsOpen = true;
                 }
 
@@ -207,35 +206,29 @@ namespace Festispec.UI.ViewModels
             _navigationService.NavigateTo("FestivalInfo", Questionnaire.Festival.Id);
         }
 
-        public bool HasAnswers(Question question)
+        private bool HasAnswers(Question question)
         {
             return question.Answers.Count == 0 && _offlineService.IsOnline;
         }
 
-        public async void OpenFileWindow(Question question)
+        private async void OpenFileWindow(Question question)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
+            var fileDialog = new OpenFileDialog();
 
             var dialog = fileDialog.ShowDialog();
 
             // Check if a file has been selected.
-            if (dialog != null && dialog == true)
-            {
-                using (var stream = fileDialog.OpenFile())
-                {
+            if (dialog == null || dialog != true) return;
+            await using var stream = fileDialog.OpenFile();
+            var url = $"{_config["Urls:WebApp"]}/Upload/UploadFile";
+            var response = await UploadImage(url, stream, fileDialog.SafeFileName);
+            var path = await response.Content.ReadAsStringAsync();
 
-                    var url = $"{_config["Urls:WebApp"]}/Upload/UploadFile";
-                    var response = await UploadImage(url, stream, fileDialog.SafeFileName);
-                    var path = await response.Content.ReadAsStringAsync();
-               
-                    var drawQuestion = AddedQuestions.Where(q => q.Equals(question)).FirstOrDefault() as DrawQuestion;
-                    drawQuestion.PicturePath = path;
-                    MessageBox.Show("Het bestand is geupload.");
-                }
-            }
+            if (AddedQuestions.FirstOrDefault(q => q.Equals(question)) is DrawQuestion drawQuestion) drawQuestion.PicturePath = path;
+            MessageBox.Show("Het bestand is geupload.");
         }
 
-        public void AddOption(Question question)
+        private static void AddOption(Question question)
         {
             var option = (MultipleChoiceQuestion) question;
 
@@ -247,9 +240,9 @@ namespace Festispec.UI.ViewModels
             return Search <= 0 || ((Question) item).Questionnaire.Id == Search;
         }
 
-        private async Task<HttpResponseMessage> UploadImage(string url, Stream image, string fileName)
+        private static async Task<HttpResponseMessage> UploadImage(string url, Stream image, string fileName)
         {
-            using (MemoryStream str = new MemoryStream())
+            await using (var str = new MemoryStream())
             using (var client = new HttpClient())
             {
 

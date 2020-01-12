@@ -13,7 +13,7 @@ namespace Festispec.DomainServices.Services
         private readonly FestispecContext _db;
         private readonly ISyncService<Account> _syncService;
 
-        public Account LoggedIn { get; private set; }
+        private Account LoggedIn { get; set; }
 
         public AuthenticationService(FestispecContext db, ISyncService<Account> syncService)
         {
