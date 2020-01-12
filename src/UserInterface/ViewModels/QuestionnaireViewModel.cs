@@ -20,7 +20,7 @@ using Microsoft.Win32;
 
 namespace Festispec.UI.ViewModels
 {
-    internal class QuestionnaireViewModel : BaseValidationViewModel, IActivateable<int>
+    internal class QuestionnaireViewModel : BaseDeleteCheckViewModel, IActivateable<int>
     {
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
@@ -51,9 +51,10 @@ namespace Festispec.UI.ViewModels
 
             AddedQuestions = new ObservableCollection<Question>();
             RemovedQuestions = new ObservableCollection<Question>();
-
+            OpenDeleteCheckCommand = new RelayCommand<Question>(DeleteCommandCheck,_ => offlineService.IsOnline, true);
             AddQuestionCommand = new RelayCommand(AddQuestion, () => SelectedItem != null, true);
-            DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline, true);
+            // DeleteQuestionCommand = new RelayCommand<Question>(DeleteQuestion, _ => offlineService.IsOnline, true);
+            DeleteCommand = new RelayCommand(DeleteQuestion,() => offlineService.IsOnline, true);
             DeleteQuestionnaireCommand = new RelayCommand(DeleteQuestionnaire, () => offlineService.IsOnline, true);
             SaveQuestionnaireCommand = new RelayCommand(SaveQuestionnaire, () => offlineService.IsOnline, true);
             OpenFileWindowCommand = new RelayCommand<Question>(OpenFileWindow, HasAnswers);
@@ -67,8 +68,10 @@ namespace Festispec.UI.ViewModels
             QuestionList.Filter = Filter;
         }
 
+        
         private Questionnaire Questionnaire { get; set; }
         public RelayCommand AddQuestionCommand { get; set; }
+        public ICommand OpenDeleteCheckCommand { get; set; }
         public ICommand DeleteQuestionCommand { get; set; }
         public ICommand DeleteQuestionnaireCommand { get; set; }
         public ICommand SaveQuestionnaireCommand { get; set; }
@@ -86,6 +89,7 @@ namespace Festispec.UI.ViewModels
             get => _selectedItem;
             set { _selectedItem = value; AddQuestionCommand.RaiseCanExecuteChanged(); }
         }
+        public Question SelectedQuestion { get; set; }
 
 
         public CollectionView QuestionList { get; }
@@ -114,7 +118,6 @@ namespace Festispec.UI.ViewModels
                 RaisePropertyChanged();
             }
         }
-
         public void Initialize(int input)
         {
             Questionnaire = _questionnaireService.GetQuestionnaire(input);
@@ -145,6 +148,11 @@ namespace Festispec.UI.ViewModels
             _questionnaireService.RemoveQuestionnaire(Questionnaire.Id);
         }
 
+        private void DeleteCommandCheck(Question question)
+        {
+            SelectedQuestion = question;
+            OpenDeletePopup();
+        }
         private void AddQuestion()
         {
             Question tempQuestion = _questionFactory.GetQuestionType(SelectedItem);
@@ -152,13 +160,13 @@ namespace Festispec.UI.ViewModels
             Questions.Add(tempQuestion);
         }
 
-        public void DeleteQuestion(Question item)
+        private void DeleteQuestion()
         {
-            if (AddedQuestions.Contains(item))
-                AddedQuestions.Remove(item);
+            if (AddedQuestions.Contains(SelectedQuestion))
+                AddedQuestions.Remove(SelectedQuestion);
             else
-                RemovedQuestions.Add(item);
-            Questions.Remove(item);
+                RemovedQuestions.Add(SelectedQuestion);
+            Questions.Remove(SelectedQuestion);
         }
 
         public async void SaveQuestionnaire()
