@@ -23,9 +23,9 @@ namespace Festispec.UnitTests
             _dbMock = new Mock<FestispecContext>();
             _modelMocks = new ModelMocks();
 
-            _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees1).Object);
+            _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
 
-            _dbMock.Setup(x => x.Availabilities).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Availability).Object);
+            _dbMock.Setup(x => x.Availabilities).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Availabilities).Object);
 
             _dbMock.Setup(x => x.PlannedEvents).Returns(MockHelpers.CreateDbSetMock(_modelMocks.PlannedEvents).Object);
 

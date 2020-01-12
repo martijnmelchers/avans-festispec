@@ -120,7 +120,7 @@ namespace Festispec.UnitTests
         }
 
         [Theory]
-        [InlineData(1)]
+        [InlineData(3)]
         public async void RemoveCustomerRemovesCustomer(int customerId)
         {
             await _customerService.RemoveCustomerAsync(customerId);
