@@ -135,7 +135,7 @@ namespace Festispec.Web.Controllers
             var answerId = int.Parse(Request.Form["Id"]);
             var plannedInspectionId = int.Parse(Request.Form["PlannedInspectionId"].ToString());
 
-            var path = await UploadFile(file);
+            var path = (await UploadFile(file)).Replace(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\"), "");
             var comment = Request.Form["AnswerContents"].ToString();
 
             if (answerId != 0)

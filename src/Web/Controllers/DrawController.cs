@@ -38,11 +38,14 @@ namespace Festispec.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Draw()
         {
-            var questionId = Convert.ToInt32(Request.Form["QuestionId"]);
-            var plannedInspectionId = Convert.ToInt32(Request.Form["plannedInspectionId"]);
+            var questionId = int.Parse(Request.Form["QuestionId"]);
+            var plannedInspectionId = int.Parse(Request.Form["plannedInspectionId"]);
             var plannedInspection = await _inspectionService.GetPlannedInspection(plannedInspectionId);
-
-            if (!(plannedInspection.Answers.FirstOrDefault(e => e.Question.Id == questionId) is FileAnswer fileAnswer))
+            var fileAnswer = plannedInspection.Answers
+                .OfType<FileAnswer>()
+                .FirstOrDefault(e => e.Question.Id == questionId);
+            
+            if (fileAnswer == null)
                 return RedirectToAction("Details", "inspection", new { id = plannedInspection.Id });
 
             fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
@@ -58,10 +61,10 @@ namespace Festispec.Web.Controllers
                 await formFile.CopyToAsync(imageFile);
             }
 
-            var answer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id);
+            var answer = await _questionnaireService.GetAnswer<FileAnswer>(fileAnswer.Id);
 
             if (fileAnswer.Id != 0 && answer != null)
-                ((FileAnswer) answer).UploadedFilePath = filePath.Replace(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\"), "");
+                answer.UploadedFilePath = filePath.Replace(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\"), "");
             else
                 await _questionnaireService.CreateAnswer(fileAnswer);
 
