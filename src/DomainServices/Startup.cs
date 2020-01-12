@@ -5,10 +5,12 @@ using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Festispec.DomainServices.Services.Offline;
 
 namespace Festispec.DomainServices
 {
+    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtension
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services)

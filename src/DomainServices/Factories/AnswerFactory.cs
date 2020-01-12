@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 
 namespace Festispec.DomainServices.Factories
 {
+    [ExcludeFromCodeCoverage]
     public class AnswerFactory
     {
         public Answer GetAnswer(Question question)

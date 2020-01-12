@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
+    [ExcludeFromCodeCoverage]
     public class GoogleMapsService : IGoogleMapsService
     {
         private readonly string _apiKey;
