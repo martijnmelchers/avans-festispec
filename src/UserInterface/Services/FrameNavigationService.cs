@@ -11,7 +11,7 @@ using Festispec.UI.Interfaces;
 namespace Festispec.UI.Services
 {
     /** Courtesy of https://stackoverflow.com/questions/28966819/mvvm-light-5-0-how-to-use-the-navigation-service */
-    public class FrameNavigationService : IFrameNavigationService, INotifyPropertyChanged
+    public sealed class FrameNavigationService : IFrameNavigationService, INotifyPropertyChanged
     {
         #region Fields
 
@@ -39,8 +39,6 @@ namespace Festispec.UI.Services
 
         public object Parameter { get; private set; }
 
-        public IEnumerable<string> Pages => _pagesByKey.Keys;
-
         #endregion
 
         #region Ctors and Methods
@@ -53,11 +51,9 @@ namespace Festispec.UI.Services
 
         public void GoBack()
         {
-            if (_historic.Count > 1)
-            {
-                _historic.RemoveAt(_historic.Count - 1);
-                NavigateTo(_historic.Last(), null);
-            }
+            if (_historic.Count <= 1) return;
+            _historic.RemoveAt(_historic.Count - 1);
+            NavigateTo(_historic.Last(), null);
         }
 
         public void NavigateTo(string pageKey)
@@ -65,12 +61,12 @@ namespace Festispec.UI.Services
             NavigateTo(pageKey, null);
         }
 
-        public virtual void NavigateTo(string pageKey, object parameter)
+        public void NavigateTo(string pageKey, object parameter)
         {
             lock (_pagesByKey)
             {
                 if (!_pagesByKey.ContainsKey(pageKey))
-                    throw new ArgumentException(string.Format("No such page: {0} ", pageKey), nameof(pageKey));
+                    throw new ArgumentException($@"No such page: {pageKey}", nameof(pageKey));
 
 
                 if (GetDescendantFromName(Application.Current.MainWindow, "MainFrame") is Frame frame)
@@ -95,7 +91,7 @@ namespace Festispec.UI.Services
 
         private static FrameworkElement GetDescendantFromName(DependencyObject parent, string name)
         {
-            int count = VisualTreeHelper.GetChildrenCount(parent);
+            var count = VisualTreeHelper.GetChildrenCount(parent);
 
             if (count < 1)
                 return null;
@@ -117,7 +113,7 @@ namespace Festispec.UI.Services
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
