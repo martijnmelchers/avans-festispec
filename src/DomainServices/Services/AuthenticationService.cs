@@ -43,7 +43,7 @@ namespace Festispec.DomainServices.Services
 
         public Account Login(string username, string password, Role requiredRole)
         {
-            Account account = _db.Accounts.FirstOrDefault(x => x.Username == username);
+            var account = _db.Accounts.FirstOrDefault(x => x.Username == username);
 
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");
@@ -74,7 +74,7 @@ namespace Festispec.DomainServices.Services
             if (LoggedIn == null)
                 return;
             
-            FestispecContext ctx = _syncService.GetSyncContext();
+            var ctx = _syncService.GetSyncContext();
         
             var account = ctx.Accounts.Include(a => a.Employee).First(a => a.Id == LoggedIn.Id);
         

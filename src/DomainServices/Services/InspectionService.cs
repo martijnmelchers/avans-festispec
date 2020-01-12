@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.DomainServices.Helpers;
@@ -34,7 +33,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<Festival> GetFestivalAsync(int festivalId)
         {
-            Festival festival = await _db.Festivals
+            var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)
                 .Include(f => f.PlannedInspections)
                 .Include(f => f.Address)
@@ -55,7 +54,7 @@ namespace Festispec.DomainServices.Services
             int employeeId
         )
         {
-            PlannedInspection existing = _db.PlannedInspections
+            var existing = _db.PlannedInspections
                 .FirstOrDefault(x =>
                     x.Questionnaire.Id == questionnaireId && x.Festival.Id == festivalId &&
                     x.Employee.Id == employeeId && x.StartTime.Equals(startTime) && x.IsCancelled == null);
@@ -86,30 +85,35 @@ namespace Festispec.DomainServices.Services
         public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
             Questionnaire questionnaire)
         {
-            foreach (PlannedInspection plannedInspection in plannedInspections)
+            foreach (var plannedInspection in plannedInspections)
             {
                 plannedInspection.Questionnaire = questionnaire;
                 if (plannedInspection.Id != 0)
                     _db.Entry(plannedInspection).State = EntityState.Modified;
                 else
                 {
-                    await CreatePlannedInspection(plannedInspection.Festival.Id, plannedInspection.Questionnaire.Id,
-                        plannedInspection.StartTime, (DateTime)plannedInspection.EndTime, plannedInspection.EventTitle,
-                        plannedInspection.Employee.Id);
+                    if (plannedInspection.EndTime != null)
+                        await CreatePlannedInspection(
+                            plannedInspection.Festival.Id, 
+                            plannedInspection.Questionnaire.Id,
+                            plannedInspection.StartTime, 
+                            (DateTime) plannedInspection.EndTime,
+                            plannedInspection.EventTitle,
+                            plannedInspection.Employee.Id);
                 }
             }
 
             return await SaveChanges();
         }
 
-        public async Task<int> SaveChanges()
+        private async Task<int> SaveChanges()
         {
             return await _db.SaveChangesAsync();
         }
 
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
-            PlannedInspection plannedInspection = await _db.PlannedInspections
+            var plannedInspection = await _db.PlannedInspections
                 .Include(pi => pi.Festival)
                 .Include(pi => pi.Festival.Address)
                 .FirstOrDefaultAsync(e => e.Id == plannedInspectionId);
@@ -122,7 +126,7 @@ namespace Festispec.DomainServices.Services
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)
         {
-            List<PlannedInspection> plannedInspections = _db.PlannedInspections
+            var plannedInspections = _db.PlannedInspections
                 .Include(e => e.Employee.Address)
                 .Where(e => e.Festival.Id == festival.Id && e.IsCancelled == null)
                 .ToList();
@@ -136,7 +140,7 @@ namespace Festispec.DomainServices.Services
         public async Task<PlannedInspection> GetPlannedInspection(Festival festival, Employee employee,
             DateTime startTime)
         {
-            PlannedInspection plannedInspection = await _db.PlannedInspections
+            var plannedInspection = await _db.PlannedInspections
                 .FirstOrDefaultAsync(e => e.Festival.Id == festival.Id && e.Employee.Id == employee.Id && e.StartTime.Equals(startTime) && e.IsCancelled == null);
 
             if (plannedInspection == null)
@@ -160,8 +164,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
-            DateTime now = DateTime.Now.Date;
-            List<PlannedInspection> plannedInspections = await _db.PlannedInspections
+            var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
                 .Where(e => e.Employee.Id == employeeId && QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
                 .ToListAsync();
@@ -174,7 +177,7 @@ namespace Festispec.DomainServices.Services
         
         public async Task RemoveInspection(int plannedInspectionId, string cancellationReason)
         {
-            PlannedInspection plannedInspection = await GetPlannedInspection(plannedInspectionId);
+            var plannedInspection = await GetPlannedInspection(plannedInspectionId);
             
             //Check if submitted answers by employee
             if (plannedInspection.Answers.Count > 0)
@@ -183,7 +186,7 @@ namespace Festispec.DomainServices.Services
             plannedInspection.IsCancelled = DateTime.Now;
             plannedInspection.CancellationReason = cancellationReason;
 
-            //Check if cancellationreason is not longer than 250 characters
+            //Check if cancellation reason is not longer than 250 characters
             if (!plannedInspection.Validate())
                 throw new InvalidDataException();
 
@@ -192,9 +195,9 @@ namespace Festispec.DomainServices.Services
 
         public void Sync()
         {
-            FestispecContext db = _syncService.GetSyncContext();
+            var db = _syncService.GetSyncContext();
             
-            List<PlannedInspection> plannedInspections = db.PlannedInspections
+            var plannedInspections = db.PlannedInspections
                 .Include(i => i.Festival)
                 .Include(i => i.Festival.Address)
                 .Include(i => i.Employee)

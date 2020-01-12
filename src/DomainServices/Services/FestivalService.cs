@@ -43,7 +43,7 @@ namespace Festispec.DomainServices.Services
             return festival;
         }
 
-        public async Task<Festival> GetFestivalAsync(int festivalId)
+        private async Task<Festival> GetFestivalAsync(int festivalId)
         {
             var festival = await _db.Festivals
                 .Include(f => f.Questionnaires)

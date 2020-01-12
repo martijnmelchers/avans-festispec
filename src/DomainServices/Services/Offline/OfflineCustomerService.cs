@@ -52,11 +52,6 @@ namespace Festispec.DomainServices.Services.Offline
             throw new System.InvalidOperationException();
         }
 
-        public Task<int> SaveChangesAsync()
-        {
-            throw new System.InvalidOperationException();
-        }
-
         public bool CanDeleteCustomer(Customer customer)
         {
             return false;

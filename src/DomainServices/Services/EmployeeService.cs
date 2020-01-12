@@ -54,7 +54,7 @@ namespace Festispec.DomainServices.Services
             return await CreateEmployeeAsync(employee);
         }
 
-        public async Task<Employee> CreateEmployeeAsync(Employee employee)
+        private async Task<Employee> CreateEmployeeAsync(Employee employee)
         {
             if (!employee.Validate())
                 throw new InvalidDataException();

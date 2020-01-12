@@ -21,7 +21,7 @@ namespace Festispec.DomainServices.Services
             if (!address.Validate())
                 throw new InvalidAddressException();
 
-            Address existing = await _db.Addresses.FirstOrDefaultAsync(a =>
+            var existing = await _db.Addresses.FirstOrDefaultAsync(a =>
                 a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == a.Longitude);
 
             if (existing != null)

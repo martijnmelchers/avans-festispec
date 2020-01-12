@@ -26,7 +26,7 @@ namespace Festispec.Web.Controllers
         {
             try
             {
-                await _sicknessService.AddAbsense(int.Parse(Request.Cookies["CurrentUserID"]), availability.Reason, availability.EndTime);
+                await _sicknessService.AddAbsence(int.Parse(Request.Cookies["CurrentUserID"]), availability.Reason, availability.EndTime);
             }
             catch (DateHasPassedException)
             {
@@ -44,7 +44,7 @@ namespace Festispec.Web.Controllers
 
         public async Task<IActionResult> Better()
         {
-            await _sicknessService.EndAbsense(int.Parse(Request.Cookies["CurrentUserID"]));
+            await _sicknessService.EndAbsence(int.Parse(Request.Cookies["CurrentUserID"]));
             return View("Index");
         }
     }

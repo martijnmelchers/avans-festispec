@@ -43,7 +43,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<Prediction>> GetSuggestions(string input)
         {
-            HttpResponseMessage request = await _client.GetAsync(
+            var request = await _client.GetAsync(
                 $"place/autocomplete/json?input={Uri.EscapeDataString(input)}&components=country:nl|country:be|country:de&sessiontoken={_sessionToken}&language=nl&key={_apiKey}");
             var result = JsonConvert.DeserializeObject<AutocompleteResponse>(await request.Content.ReadAsStringAsync());
 
@@ -85,7 +85,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<double> CalculateDistance(Address origin, Address destination)
         {
-            DistanceResult existing = await _db.DistanceResults
+            var existing = await _db.DistanceResults
                 .FirstOrDefaultAsync(x => x.Origin.Id == origin.Id && x.Destination.Id == destination.Id);
 
             if (existing != null)
@@ -122,9 +122,9 @@ namespace Festispec.DomainServices.Services
 
         public void Sync()
         {
-            FestispecContext db = _syncService.GetSyncContext();
+            var db = _syncService.GetSyncContext();
             
-            List<DistanceResult> distanceResults = db.DistanceResults
+            var distanceResults = db.DistanceResults
                 .Include(i => i.Destination)
                 .Include(i => i.Origin)
                 .ToList();

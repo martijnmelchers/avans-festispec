@@ -24,7 +24,7 @@ namespace Festispec.DomainServices.Services.Offline
 
         public Account Login(string username, string password, Role requiredRole)
         {
-            Account account = _syncService.GetAll().FirstOrDefault(x => x.Username == username);
+            var account = _syncService.GetAll().FirstOrDefault(x => x.Username == username);
 
             if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
                 throw new AuthenticationException("Username or password are incorrect");

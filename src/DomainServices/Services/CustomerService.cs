@@ -101,7 +101,7 @@ namespace Festispec.DomainServices.Services
             await SaveChangesAsync();
         }
 
-        public async Task<int> SaveChangesAsync() => await _db.SaveChangesAsync();
+        private async Task<int> SaveChangesAsync() => await _db.SaveChangesAsync();
 
         public bool CanDeleteCustomer(Customer customer) => customer.Festivals.Count == 0;
 

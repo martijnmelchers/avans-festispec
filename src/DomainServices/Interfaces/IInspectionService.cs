@@ -26,7 +26,6 @@ namespace Festispec.DomainServices.Interfaces
         );
 
         Task RemoveInspection(int plannedInspectionId, string cancellationReason);
-        Task<int> SaveChanges();
         Task<Festival> GetFestivalAsync(int festivalId);
         Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
             Questionnaire questionnaire);

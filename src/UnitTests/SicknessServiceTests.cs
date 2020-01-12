@@ -39,7 +39,7 @@ namespace Festispec.UnitTests
         [InlineData("Ik heb mijn been gebroken")]
         public async void AddAbsense(string reason)
         {
-            var sickness = await _sicknessService.AddAbsense(1, reason, null);
+            var sickness = await _sicknessService.AddAbsence(1, reason, null);
 
             Assert.NotNull(sickness);
 
@@ -51,7 +51,7 @@ namespace Festispec.UnitTests
         [Fact]
         public async void EnteringPassedDateShouldThrowException()
         {
-            await Assert.ThrowsAsync<DateHasPassedException>(() => _sicknessService.AddAbsense(1, "test", new DateTime(2000, 10, 10)));
+            await Assert.ThrowsAsync<DateHasPassedException>(() => _sicknessService.AddAbsence(1, "test", new DateTime(2000, 10, 10)));
         }
 
         [Fact]

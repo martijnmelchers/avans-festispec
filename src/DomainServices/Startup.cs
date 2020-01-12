@@ -18,17 +18,15 @@ namespace Festispec.DomainServices
             services.AddTransient<FestispecContext>();
             services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
             services.AddSingleton<IOfflineService, DbPollOfflineService>();
-            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Debug";
+            var environment = Environment.GetEnvironmentVariable("Environment") ?? "Debug";
 
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.{environment}.json")
                 .Build();
 
             services.AddSingleton<IConfiguration>(config => configuration);
 
             // Register services for *both* online and offline here
-            services.AddScoped<IExampleService, ExampleService>();
-            
             // Register all your online services here
             if (services.BuildServiceProvider().GetRequiredService<IOfflineService>().IsOnline)
             {

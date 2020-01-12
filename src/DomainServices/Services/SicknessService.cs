@@ -18,7 +18,7 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public async Task<Availability> AddAbsense(int employeeId, string reason, DateTime? endTime)
+        public async Task<Availability> AddAbsence(int employeeId, string reason, DateTime? endTime)
         {
             if (endTime < DateTime.Now)
                 throw new DateHasPassedException();
@@ -46,7 +46,7 @@ namespace Festispec.DomainServices.Services
             return absense;
         }
 
-        public async Task EndAbsense(int employeeId)
+        public async Task EndAbsence(int employeeId)
         {
             var absense = GetCurrentAbsense(employeeId);
 

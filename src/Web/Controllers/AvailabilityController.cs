@@ -28,7 +28,7 @@ namespace Festispec.Web.Controllers
 
         public async Task<Dictionary<string, int>> ConvertAvailabilityToJson()
         {
-            var availabilityDictionary = await _availabilityService.GetUnavailabilitiesForFuture(int.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            var availabilityDictionary = await _availabilityService.GetUnavailabilityForFuture(int.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
             return availabilityDictionary
                 .Where(availability => !availability.Value.IsAvailable || !availabilityDictionary.ContainsKey(availability.Key))

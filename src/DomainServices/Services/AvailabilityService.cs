@@ -9,6 +9,7 @@ using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Festispec.DomainServices.Helpers;
 
 namespace Festispec.DomainServices.Services
 {
@@ -51,7 +52,7 @@ namespace Festispec.DomainServices.Services
 
         public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
         {
-            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && EntityFunctions.TruncateTime(a.StartTime) == EntityFunctions.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
+            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && QueryHelpers.TruncateTime(a.StartTime) == QueryHelpers.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
         }
 
         public async Task RemoveUnavailability(int availabilityId)
@@ -66,30 +67,27 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task SaveChanges()
-        {
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<Dictionary<long, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate)
+        public async Task<Dictionary<long, Availability>> GetUnavailabilityForFuture(int employeeId, DateTime startDate)
         {
              var list = await _db.Availabilities
                 .OrderByDescending(c => c.EndTime)
-                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId && c.EventTitle == "Niet beschikbaar")
+                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId)
+                .Where(c => c.EventTitle == "Niet beschikbaar") // This is really bad practice!
                 .ToListAsync();
             var dictionary = new Dictionary<long, Availability>();
-            foreach (Availability availability in list)
+            foreach (var availability in list)
             {
-                foreach (DateTime day in EachDay(availability.StartTime, (DateTime)availability.EndTime))
+                if (availability.EndTime == null) continue;
+                foreach (var day in EachDay(availability.StartTime, (DateTime) availability.EndTime))
                 {
-                    long epoch = (long)(day - new DateTime(1970, 1, 1)).TotalSeconds;
+                    var epoch = (long) (day - new DateTime(1970, 1, 1)).TotalSeconds;
                     dictionary.Add(epoch, availability);
                 }
             }
             return dictionary;
         }
 
-        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        private static IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;

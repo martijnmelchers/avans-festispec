@@ -17,15 +17,8 @@ namespace Festispec.DomainServices.Interfaces
         Task<Questionnaire> CopyQuestionnaire(int questionnaireId, string questionnaireName);
         Task<Question> GetQuestion(int questionId);
         Task<Answer> CreateAnswer(Answer answer);
-        void Save();
-
         List<Question> GetQuestionsFromQuestionnaire(int questionnaireId);
-        List<Answer> GetAnswers();
-
-        Task<Answer> GetAnswer(int id);
         Task<TAnswer> GetAnswer<TAnswer>(int id) where TAnswer : Answer;
-
-
         Task<List<PlannedInspection>> GetPlannedInspections(int employeeId);
         Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId);
     }
