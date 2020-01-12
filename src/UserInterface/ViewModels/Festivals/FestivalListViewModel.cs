@@ -45,7 +45,7 @@ namespace Festispec.UI.ViewModels.Festivals
         {
             if (string.IsNullOrEmpty(Search))
                 return true;
-            return (item as Festival).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            return ((Festival) item).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void OpenFestival(int festivalId)
