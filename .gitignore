@@ -4,6 +4,7 @@ bin/
 obj/
 packages/
 *.user
+PublishProfiles/
 
 # macOS vomit
 .DS_Store

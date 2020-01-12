@@ -5,8 +5,9 @@ namespace Festispec.Models.Attributes
 {
     public sealed class ListElements : ValidationAttribute
     {
-        private readonly int _minElements;
         private readonly int _maxElements;
+        private readonly int _minElements;
+
         public ListElements(int minElements, int maxElements = -1)
         {
             _minElements = minElements;

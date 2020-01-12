@@ -22,7 +22,7 @@
             <div class="login-field">
                 <label>Wachtwoord:</label>
                 @Html.PasswordFor(m => m.Password, new { Class = "forum-input-box" })
-                <input type="submit" value="Inloggen" id="login-button">
+                <input type="submit" value="Inloggen" class="green-button" style="margin-top: 30px">
                 <p id="login-error">@TempData["LoginError"]</p>
             </div>
         </fieldset>

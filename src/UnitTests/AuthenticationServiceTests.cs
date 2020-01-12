@@ -4,7 +4,6 @@ using Festispec.Models;
 using Festispec.Models.Exception;
 using Festispec.UnitTests.Helpers;
 using Moq;
-using System.Collections.Generic;
 using Festispec.Models.EntityMapping;
 using Xunit;
 

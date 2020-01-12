@@ -1,16 +1,11 @@
-﻿using Festispec.Models;
-using Festispec.Models.Questions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
+using Festispec.Models.Questions;
 
 namespace Festispec.UI.Converters
 {
-
-    class CanEditQuestionConverter : IValueConverter
+    internal class CanEditQuestionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

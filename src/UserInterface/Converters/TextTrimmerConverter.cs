@@ -1,19 +1,14 @@
-﻿using Festispec.DomainServices.Interfaces;
-using Festispec.Models.Questions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace Festispec.UI.Converters
 {
-    class TextTrimmerConverter : IValueConverter
+    internal class TextTrimmerConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string result = value.ToString();
+            var result = value.ToString();
 
             try
             {

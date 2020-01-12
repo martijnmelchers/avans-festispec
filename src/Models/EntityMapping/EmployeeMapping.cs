@@ -6,7 +6,6 @@ namespace Festispec.Models.EntityMapping
     {
         public EmployeeMapping()
         {
-            
             Property(e => e.Iban).IsRequired();
             HasRequired(e => e.Account).WithRequiredPrincipal(a => a.Employee);
 

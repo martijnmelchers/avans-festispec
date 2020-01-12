@@ -23,7 +23,7 @@
                     <Label Content="{Binding Subtext, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                     <Label Content="Doorgaan?" />
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button HorizontalAlignment="Right" Content="Annuleren" Style="{DynamicResource ButtonRed}"
                             Click="ClosePopup"

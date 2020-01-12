@@ -7,13 +7,10 @@ namespace Festispec.Models.Reports
     {
         public int Id { get; set; }
 
-        [Required]
-        public int Order { get; set; }
+        [Required] public int Order { get; set; }
 
-        [Required]
-        public virtual Question Question { get; set; }
+        [Required] public virtual Question Question { get; set; }
 
-        [Required]
-        public virtual Report Report { get; set; }
+        [Required] public virtual Report Report { get; set; }
     }
 }

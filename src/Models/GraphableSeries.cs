@@ -1,8 +1,4 @@
 using LiveCharts;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 
 namespace Festispec.Models
 {
@@ -10,5 +6,5 @@ namespace Festispec.Models
     {
         public string Title { get; set; }
         public IChartValues Values { get; set; }
-    }   
+    }
 }

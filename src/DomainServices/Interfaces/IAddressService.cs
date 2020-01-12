@@ -1,5 +1,5 @@
-﻿using Festispec.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Festispec.Models;
 
 namespace Festispec.DomainServices.Interfaces
 {

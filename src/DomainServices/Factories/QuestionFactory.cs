@@ -1,17 +1,13 @@
-﻿using Festispec.Models.Questions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Festispec.Models.Questions;
 
 namespace Festispec.DomainServices.Factories
 {
     public class QuestionFactory
     {
-        public IEnumerable<string> QuestionTypes { get; }
-
         public QuestionFactory()
         {
-            QuestionTypes = new List<string>()
+            QuestionTypes = new List<string>
             {
                 "Tekenvraag",
                 "Open vraag",
@@ -21,8 +17,10 @@ namespace Festispec.DomainServices.Factories
                 "Numerieke vraag",
                 "Referentievraag"
             };
-
         }
+
+        public IEnumerable<string> QuestionTypes { get; }
+
         public Question GetQuestionType(string type)
         {
             return type switch

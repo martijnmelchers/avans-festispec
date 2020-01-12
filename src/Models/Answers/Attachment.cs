@@ -6,10 +6,8 @@ namespace Festispec.Models.Answers
     {
         public int Id { get; set; }
 
-        [Required]
-        public string FilePath { get; set; }
+        [Required] public string FilePath { get; set; }
 
-        [Required]
-        public virtual Answer Answer { get; set; }
+        [Required] public virtual Answer Answer { get; set; }
     }
 }

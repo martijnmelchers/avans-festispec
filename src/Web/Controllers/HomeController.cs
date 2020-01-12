@@ -20,17 +20,14 @@ namespace Festispec.Web.Controllers
         }
 
         public IActionResult Index()
-        {            
+        {
+            if (Request.Cookies["CurrentUserId"] == null)
+                return RedirectToAction("Login", "Authentication");
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();            
         }
 
-        public IActionResult Privacy()
-        {
-            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            return View();
-        }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
