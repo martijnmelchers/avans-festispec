@@ -123,6 +123,7 @@ namespace Festispec.UnitTests
         [InlineData(3)]
         public async void RemoveCustomerRemovesCustomer(int customerId)
         {
+            Assert.True(_customerService.CanDeleteCustomer(_customerService.GetCustomer(customerId)));
             await _customerService.RemoveCustomerAsync(customerId);
             
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
@@ -143,6 +144,7 @@ namespace Festispec.UnitTests
         [InlineData(2)]
         public async void RemoveCustomerWithFestivalsThrowsException(int customerId)
         {
+            Assert.False(_customerService.CanDeleteCustomer(_customerService.GetCustomer(customerId)));
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
