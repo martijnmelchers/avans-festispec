@@ -233,9 +233,10 @@ namespace Festispec.UnitTests
         [InlineData(1)]
         public void GetQuestionsFromQuestionnaireShouldReturnListOfQuestions(int questionnaireId)
         {
-            List<Question> expected =
-                _dbMock.Object.Questionnaires.First(q => q.Id == questionnaireId).Questions.ToList();
-            List<Question> actual = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
+            var expected = _dbMock.Object.Questions
+                .Where(q => q.Questionnaire.Id == questionnaireId)
+                .ToList();
+            var actual = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
             
             Assert.Equal(expected,actual);
         }
@@ -245,8 +246,8 @@ namespace Festispec.UnitTests
         [InlineData(1)]
         public async Task GetGenericAnswerTAnswerShouldReturnStringAnswer(int answerId)
         {
-            Answer expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
-            StringAnswer actual =  await _questionnaireService.GetAnswer<StringAnswer>(answerId);
+            var expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
+            var actual =  await _questionnaireService.GetAnswer<StringAnswer>(answerId);
 
             Assert.IsType<StringAnswer>(actual);
             Assert.Equal(expected,actual);
