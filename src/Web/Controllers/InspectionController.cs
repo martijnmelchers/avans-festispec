@@ -25,9 +25,6 @@ namespace Festispec.Web.Controllers
         // GET: Inspection
         public async Task<ActionResult> Index()
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
-
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
 
             return View(await _questionnaireService.GetPlannedInspections(int.Parse(Request.Cookies["CurrentUserId"])));
@@ -36,9 +33,6 @@ namespace Festispec.Web.Controllers
         // GET: Inspection/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
-
             var plannedInspection = await _questionnaireService.GetPlannedInspection(id);
             var answers = plannedInspection.Answers
                 .Where(e => e.PlannedInspection.Employee.Id == int.Parse(Request.Cookies["CurrentUserId"]))

@@ -22,15 +22,7 @@ namespace Festispec.Web.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            try
-            {
-                ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailabilityToJson());
-            }
-            catch (Exception)
-            {
-                if (Request.Cookies["CurrentUserId"] == null)
-                    return RedirectToAction("Login", "Authentication");
-            }
+            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailabilityToJson());
             return View();
         }
 

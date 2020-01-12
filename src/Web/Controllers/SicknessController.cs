@@ -17,9 +17,6 @@ namespace Festispec.Web.Controllers
         }
         public IActionResult Index()
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
-
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return _sicknessService.IsSick(int.Parse(Request.Cookies["CurrentUserID"])) ? View("Better") : View();
         }
@@ -47,9 +44,6 @@ namespace Festispec.Web.Controllers
 
         public async Task<IActionResult> Better()
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
-            
             await _sicknessService.EndAbsense(int.Parse(Request.Cookies["CurrentUserID"]));
             return View("Index");
         }

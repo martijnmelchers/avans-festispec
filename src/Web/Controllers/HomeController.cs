@@ -21,8 +21,6 @@ namespace Festispec.Web.Controllers
 
         public IActionResult Index()
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();            
         }
