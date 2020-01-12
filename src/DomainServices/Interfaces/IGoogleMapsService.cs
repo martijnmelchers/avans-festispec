@@ -1,9 +1,7 @@
-﻿using Festispec.Models;
-using Festispec.Models.Google;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Festispec.Models;
+using Festispec.Models.Google;
 
 namespace Festispec.DomainServices.Interfaces
 {

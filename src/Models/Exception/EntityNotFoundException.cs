@@ -2,7 +2,6 @@
 {
     public class EntityNotFoundException : System.Exception
     {
-
         public EntityNotFoundException()
         {
         }

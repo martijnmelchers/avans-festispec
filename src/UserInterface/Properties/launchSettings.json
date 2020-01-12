@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "UserInterface": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Environment": "Production"
+      }
+    }
+  }
+}

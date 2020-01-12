@@ -4,15 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <title>@ViewData["Title"] - Web</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" />   
+    <link rel="icon" type="image/png"  href="~/Images/favicon.png">
 </head>
-<body>
+<body>    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/p5.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css"/>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @if (ViewData["Title"] == null || ViewData["Title"].ToString() != "Login") {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -31,10 +36,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Availability" asp-action="Index">Beschikbaarheid</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="inspection" asp-action="index" >Inspecties</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="inspection" asp-action="index">Inspecties</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sickness" asp-action="Index">Ziek/Beter melden</a>
                         </li>
                         <li>
                             <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Login">Uitloggen</a>
@@ -44,12 +52,13 @@
             </div>
         </nav>
     </header>
-    
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

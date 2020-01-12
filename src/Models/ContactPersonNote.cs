@@ -6,9 +6,8 @@ namespace Festispec.Models
     {
         public int Id { get; set; }
 
-        public ContactPerson ContactPerson { get; set; } 
+        public ContactPerson ContactPerson { get; set; }
 
-        [Required, MaxLength(500)]
-        public string Note { get; set; }
+        [Required] [MaxLength(500)] public string Note { get; set; }
     }
 }

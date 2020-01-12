@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewData["Title"] = "Beschikbaarheid";
+}
+
+
+    <script>
+        const data = @Html.Raw(ViewBag.SuccesBody);
+
+        $(document).ready(function () {
+            var Dates = [];
+            $('.datepicker').datepicker({
+                language: "nl",
+                todayHighlight: true,
+                clearBtn: true,
+                multidate: true,
+            });
+
+            changeDaysBackground();
+            $('.datepicker').on('changeDate', function (evt) {
+                changeDaysBackground();
+                console.log(evt.date);
+                
+                 });
+
+            $('.green-button').on('click', function () {
+                changeDaysBackground();
+                var the_date = $('.datepicker:first').datepicker('getDates').forEach(e => Dates.push(e.toLocaleDateString('nl-NL')));
+                console.log(the_date);
+                
+                });
+
+            $('#save').on('click', function (e) {
+                e.preventDefault();
+                console.log(Dates);
+                $.ajax({
+                    type: "POST",
+                    url: "/Availability/Index",
+                    data: { data: Dates }
+                });
+                setTimeout(() => window.location.href = '@Url.Action("Index", "Availability")', 1000);
+                    
+            });
+        });
+
+        function changeDaysBackground() {
+            console.log("changeBackground");
+            var days = $(".datepicker-days td");
+
+            document.querySelectorAll(".datepicker-days td").forEach(i => {
+               if(data[i.dataset.date] == 1)
+                    $(i).addClass("change")
+
+            });
+
+        }
+    </script>
+    <style>
+        .change {
+            background-color: #FF4E4E;
+            color: #FFFFFF;
+        }
+    </style>
+
+    <div class="background-availability">
+        <h1 id="availability-title">Beschikbaarheid</h1>
+        <div class="title-bar"></div>
+        <div id="datepicker-background">
+            <div class="datepicker" style="display: flex; justify-content: center; margin-bottom: 15px">
+                
+            </div>
+        </div>
+        
+        <div class="span5 col-md-5" id="sandbox-container">
+            <p id="date-error" style="color : red ; font-weight: bold;">@ViewData["DateError"]</p>
+            <div>
+            </div>
+        </div>
+
+        <div class="legend-item">
+            <span class="square" style="background-color: #286090"></span> <p>Geselecteerd</p>
+        </div>
+        <div class="legend-item">
+            <span class="square" style="background-color: #FF4E4E"></span> <p>Niet beschikbaar</p>
+        </div>
+        <div class="legend-item">
+            <span class="square" style="background-color: #FFFFFF; border: solid 1px #707070"></span> <p>Beschikbaar</p>
+        </div>
+
+        <h2 class="availability-paragraph-title">Beschikbaarheid invullen</h2>
+        <div class="availability-paragraph">
+            <p>
+                Selecteer de dagen dat je niet beschikbaar bent,
+                op deze dagen zullen wij je niet inplannen voor inspecties.
+            </p>
+            <p>
+                Als je een dag selecteert die is gemarkeerd als niet beschikbaar, zal deze
+                weer veranderd worden naar beschikbaar.
+            </p>
+        </div>
+        <div id="availability-submit-container">
+            <input type="submit" id="save" value="Opslaan" class="green-button" />
+        </div>
+    </div>
+
+
+

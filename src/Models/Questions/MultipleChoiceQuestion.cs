@@ -1,11 +1,8 @@
-using Festispec.Models.Answers;
-using Festispec.Models.Attributes;
-using Festispec.Models.Interfaces;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Festispec.Models.Attributes;
 
 namespace Festispec.Models.Questions
 {
@@ -17,7 +14,9 @@ namespace Festispec.Models.Questions
         public MultipleChoiceQuestion(string contents, Questionnaire questionnaire) : base(contents, questionnaire) 
         {
         }
-        public MultipleChoiceQuestion() : base() {
+
+        public MultipleChoiceQuestion()
+        {
             OptionCollection = new ObservableCollection<StringObject>();
         }
 
@@ -30,16 +29,21 @@ namespace Festispec.Models.Questions
             set { _options = value; StringToObjects(); }
         }
 
-        [NotMapped, Required, ListElements(1)]
+        [NotMapped]
+        [Required]
+        [ListElements(1)]
         public ObservableCollection<StringObject> OptionCollection { get; set; }
 
         public void ObjectsToString()
         {
             Options = string.Join(STRING_SEPERATOR, OptionCollection);
         }
+
         public void StringToObjects()
         {
-            OptionCollection = new ObservableCollection<StringObject>(Options.Split(STRING_SEPERATOR).Select(str => new StringObject(str)));
+            OptionCollection =
+                new ObservableCollection<StringObject>(Options.Split(STRING_SEPERATOR)
+                    .Select(str => new StringObject(str)));
         }
     }
 }

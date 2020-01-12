@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Festispec.Models.Google
 {
@@ -7,13 +7,11 @@ namespace Festispec.Models.Google
     {
         public string Description { get; set; }
 
-        [JsonProperty("distance_meters")]
-        public int DistanceMeters { get; set; }
+        [JsonProperty("distance_meters")] public int DistanceMeters { get; set; }
 
         public string Id { get; set; }
-        
-        [JsonProperty("place_id")]
-        public string PlaceId { get; set; }
+
+        [JsonProperty("place_id")] public string PlaceId { get; set; }
 
         public string Reference { get; set; }
 

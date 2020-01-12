@@ -1,4 +1,5 @@
 using System.Data.SqlClient;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models.EntityMapping;
 
 namespace Festispec.DomainServices.Services
