@@ -75,7 +75,6 @@ namespace Festispec.UnitTests.Helpers
             Address = Address,
             ContactDetails = ContactDetails,
             Festivals = new List<Festival>(),
-            ContactPersons = new List<ContactPerson>()
         };
 
         public static Festival FestivalPinkPop = new Festival()
@@ -99,7 +98,6 @@ namespace Festispec.UnitTests.Helpers
             {
                 FestivalPinkPop
             },
-            ContactPersons = new List<ContactPerson>()
         };
 
         public static Questionnaire Questionnaire1 = new Questionnaire("PinkPop Ochtend", FestivalPinkPop)
@@ -353,9 +351,7 @@ namespace Festispec.UnitTests.Helpers
         {
             Employee1
         };
-
-        public List<ContactPerson> ContactPersons = new List<ContactPerson>();
-
+        
         public List<Employee> Employees = new List<Employee>
         {
             new Employee

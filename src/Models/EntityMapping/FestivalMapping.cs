@@ -8,8 +8,7 @@ namespace Festispec.Models.EntityMapping
         {
             Property(f => f.FestivalName).IsRequired();
             Property(f => f.Description).IsRequired();
-
-            HasOptional(f => f.Report).WithRequired(r => r.Festival);
+            
             HasRequired(f => f.Customer).WithMany(c => c.Festivals);
 
             HasMany(f => f.Questionnaires).WithRequired(q => q.Festival);

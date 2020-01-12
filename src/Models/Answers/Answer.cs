@@ -11,7 +11,5 @@ namespace Festispec.Models.Answers
         [Required] public virtual Question Question { get; set; }
 
         [Required] public virtual PlannedInspection PlannedInspection { get; set; }
-
-        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }

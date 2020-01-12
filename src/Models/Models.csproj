@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Migrations\202001091540426_EndDateNullable.resx">
-      <DependentUpon>202001091540426_EndDateNullable.cs</DependentUpon>
+    <EmbeddedResource Update="Migrations\202001121533405_Initial.resx">
+      <DependentUpon>202001121533405_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 
