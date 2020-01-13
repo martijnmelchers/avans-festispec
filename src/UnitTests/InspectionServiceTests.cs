@@ -239,5 +239,20 @@ namespace Festispec.UnitTests
                 await _inspectionService.GetPlannedInspections(1, new DateTime(2020, 3, 4, 12, 30, 0));
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(2)]
+        public void GetPlannedInspectionsGroupedShouldReturnCorrectInspectionsAndGrouped(int festivalId)
+        {
+            Festival festival = _modelMocks.Festivals.First(f => f.Id == festivalId);
+            List<List<PlannedInspection>> expected = _dbMock.Object.PlannedInspections
+                .Where(pi => pi.Festival.Id == festivalId)
+                .GroupBy(pi => pi.StartTime).Select(grp => grp.ToList())
+                .ToList();
+
+            List<List<PlannedInspection>> result = _inspectionService.GetPlannedInspectionsGrouped(festival);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
