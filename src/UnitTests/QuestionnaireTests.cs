@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
@@ -131,7 +130,7 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var expectedQuestion = _dbMock.Object.Questions.OfType<StringQuestion>().First();
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
+            var question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
             Assert.Equal(expectedQuestion.Contents, question.Contents);
@@ -145,10 +144,7 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var expectedQuestion = _dbMock.Object.Questions.OfType<MultipleChoiceQuestion>().First();
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
-
-            if (!(question is MultipleChoiceQuestion))
-                throw new WrongQuestionTypeException();
+            var question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
@@ -159,7 +155,7 @@ namespace Festispec.UnitTests
         public async void NoOptionsShouldThrowError()
         {
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
-            MultipleChoiceQuestion question = new MultipleChoiceQuestion("test", questionnaire);
+            var question = new MultipleChoiceQuestion("test", questionnaire);
 
             await Assert.ThrowsAsync<InvalidDataException>(() =>
                 _questionnaireService.AddQuestion(questionnaire.Id, question));
@@ -171,10 +167,7 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var expectedQuestion = _dbMock.Object.Questions.OfType<NumericQuestion>().First();
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
-
-            if (!(question is NumericQuestion))
-                throw new WrongQuestionTypeException();
+            var question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
@@ -190,7 +183,7 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var expectedQuestion = _dbMock.Object.Questions.OfType<UploadPictureQuestion>().First();
 
-            Question question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
+            var question = await _questionnaireService.AddQuestion(questionnaire.Id, expectedQuestion);
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
@@ -202,7 +195,7 @@ namespace Festispec.UnitTests
         [InlineData(2)]
         public async void RemovingQuestion(int questionId)
         {
-            Question question = await _questionnaireService.GetQuestion(questionId);
+            var question = await _questionnaireService.GetQuestion(questionId);
             await _questionnaireService.RemoveQuestion(questionId);
 
             Assert.Null(_dbMock.Object.Questions.FirstOrDefault(q => q.Id == questionId));
@@ -214,7 +207,6 @@ namespace Festispec.UnitTests
         [Fact]
         public void RemovingQuestionWithReferenceShouldThrowError()
         {
-            var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var question = _dbMock.Object.Questions.OfType<ReferenceQuestion>().First();
 
             Assert.ThrowsAsync<QuestionHasReferencesException>(() => _questionnaireService.RemoveQuestion(question.Id));
@@ -224,17 +216,15 @@ namespace Festispec.UnitTests
         [InlineData(3)]
         public async void CopyQuestionnaire(int questionnaireId)
         {
-            Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
+            var oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
 
-            Questionnaire newQuestionnaire =
+            var newQuestionnaire =
                 await _questionnaireService.CopyQuestionnaire(questionnaireId, "Copied questionnaire");
 
-            Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
+            Assert.Equal(oldQuestionnaire.Questions.Count, newQuestionnaire.Questions.Count);
 
-            foreach (Question question in newQuestionnaire.Questions.ToList())
-            {
+            foreach (var question in newQuestionnaire.Questions.ToList())
                 Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion) question).Question));
-            }
         }
 
         [Theory]
