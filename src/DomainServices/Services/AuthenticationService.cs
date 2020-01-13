@@ -14,6 +14,7 @@ namespace Festispec.DomainServices.Services
         private readonly FestispecContext _db;
         private readonly ISyncService<Account> _syncService;
 
+        [ExcludeFromCodeCoverage]
         private Account LoggedIn { get; set; }
 
         public AuthenticationService(FestispecContext db, ISyncService<Account> syncService)

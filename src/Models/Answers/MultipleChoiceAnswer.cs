@@ -2,7 +2,7 @@ using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Answers
 {
-    public class MultipleChoiceAnswer : Answer, IAnswer<int>
+    public class MultipleChoiceAnswer : Answer
     {
         public int MultipleChoiceAnswerKey { get; set; }
 

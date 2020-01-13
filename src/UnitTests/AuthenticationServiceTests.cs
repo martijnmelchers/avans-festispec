@@ -98,6 +98,13 @@ namespace Festispec.UnitTests
         {
             Assert.Throws<NotAuthorizedException>(() => _authenticationService.Login(username, password, requiredRole));
         }
+        
+        [Fact]
+        public void InactiveAccountThrowsError()
+        {
+            Assert.Throws<NotAuthorizedException>(() => _authenticationService.Login("Henk2", "HeelLangWachtwoord", Role.Employee));
+        }
+
 
         #endregion
 

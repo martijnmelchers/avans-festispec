@@ -5,7 +5,7 @@ using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Questions
 {
-    public abstract class Question : Entity, IAnswerable<Answer>
+    public abstract class Question : Entity
     {
         public Question(string contents, Questionnaire questionnaire)
         {

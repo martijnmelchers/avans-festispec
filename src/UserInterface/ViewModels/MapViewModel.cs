@@ -20,7 +20,7 @@ namespace Festispec.UI.ViewModels
 
         private readonly IFestivalService _festivalService;
         private readonly IFrameNavigationService _navigationService;
-        private readonly List<PointItem> CachePoints = new List<PointItem>();
+        private readonly List<PointItem> _cachePoints = new List<PointItem>();
 
         public MapViewModel(
             IFrameNavigationService navigationService,
@@ -67,10 +67,10 @@ namespace Festispec.UI.ViewModels
 
         private void LoadCustomers()
         {
-            List<Customer> customers = _customerService.GetAllCustomers();
+            var customers = _customerService.GetAllCustomers();
 
-            foreach (Customer customer in customers)
-                CachePoints.Add(new PointItem
+            foreach (var customer in customers)
+                _cachePoints.Add(new PointItem
                 {
                     Name = customer.CustomerName,
                     Location = new Location(customer.Address.Latitude, customer.Address.Longitude),
@@ -83,10 +83,10 @@ namespace Festispec.UI.ViewModels
 
         private void LoadFestivals()
         {
-            ICollection<Festival> festivals = _festivalService.GetFestivals();
+            var festivals = _festivalService.GetFestivals();
 
-            foreach (Festival festival in festivals)
-                CachePoints.Add(new PointItem
+            foreach (var festival in festivals)
+                _cachePoints.Add(new PointItem
                 {
                     Name = festival.FestivalName,
                     Location = new Location(festival.Address.Latitude, festival.Address.Longitude),
@@ -99,10 +99,10 @@ namespace Festispec.UI.ViewModels
 
         private void LoadEmployees()
         {
-            List<Employee> employees = _employeeService.GetAllEmployees();
+            var employees = _employeeService.GetAllEmployees();
 
-            foreach (Employee employee in employees)
-                CachePoints.Add(new PointItem
+            foreach (var employee in employees)
+                _cachePoints.Add(new PointItem
                 {
                     Name = employee.Name.ToString(),
                     Location = new Location(employee.Address.Latitude, employee.Address.Longitude),
@@ -123,7 +123,7 @@ namespace Festispec.UI.ViewModels
         {
             Points.Clear();
             // Check which items are checked and add them to the points list.
-            foreach (PointItem point in CachePoints)
+            foreach (var point in _cachePoints)
                 switch (point.DestinationView)
                 {
                     case "CustomerInfo":

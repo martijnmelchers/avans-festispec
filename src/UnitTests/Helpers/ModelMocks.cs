@@ -26,13 +26,13 @@ namespace Festispec.UnitTests.Helpers
         public List<Availability> Sickness { get; }
 
         public List<PlannedEvent> PlannedEvents { get; }
-        
+
         public List<Availability> Availabilities { get; }
 
         public List<Question> Questions { get; }
 
         public List<Answer> Answers { get; }
-        
+
         public List<Address> Addresses { get; }
 
         public ModelMocks()
@@ -96,8 +96,8 @@ namespace Festispec.UnitTests.Helpers
                         EmailAddress = "info@test.nl"
                     }
                 }
-            }; 
-            
+            };
+
             Festivals = new List<Festival>
             {
                 new Festival
@@ -175,7 +175,7 @@ namespace Festispec.UnitTests.Helpers
                 new Employee
                 {
                     Id = 1,
-                    Name = new FullName {First = "Dit", Middle = "is", Last = "Een Test"},
+                    Name = new FullName { First = "Dit", Middle = "is", Last = "Een Test" },
                     Iban = "NL01ABCD1234567890",
                     Account = new Account
                     {
@@ -186,6 +186,7 @@ namespace Festispec.UnitTests.Helpers
                     },
                     Address = new Address
                     {
+                        Id = 1,
                         ZipCode = "1234AB",
                         StreetName = "Teststraat",
                         HouseNumber = 123,
@@ -212,7 +213,7 @@ namespace Festispec.UnitTests.Helpers
                 new Employee
                 {
                     Id = 2,
-                    Name = new FullName {First = "Test", Last = "Ing"},
+                    Name = new FullName { First = "Test", Last = "Ing" },
                     Iban = "NL02DBCA0987654321",
                     Account = new Account
                     {
@@ -248,14 +249,15 @@ namespace Festispec.UnitTests.Helpers
                 new Employee // deze employeet GEEN PlannedEvents geven!
                 {
                     Id = 3,
-                    Name = new FullName {First = "Employee Remove", Last = "Test"},
+                    Name = new FullName { First = "Employee Remove", Last = "Test" },
                     Iban = "NL3457ABNA234578978923457892347892",
                     Account = new Account
                     {
                         Id = 3,
                         Username = "Henk2",
                         Password = "$2y$12$YNZ3G6P9WX.II7.05PpohOQ0PMyaORCPYmBK5DS9wvEvSEiz5UTNy", // HeelLangWachtwoord
-                        Role = Role.Employee
+                        Role = Role.Employee,
+                        IsNonActive = DateTime.Now.Subtract(new TimeSpan(24,0,0))
                     },
                     Address = new Address
                     {
@@ -295,7 +297,7 @@ namespace Festispec.UnitTests.Helpers
                     Festival = Festivals.First(f => f.Id == 2)
                 }
             };
-            
+
             Questions = new List<Question>
             {
                 new RatingQuestion
@@ -336,12 +338,12 @@ namespace Festispec.UnitTests.Helpers
             };
             // reference questions have to be declared separately.
             Questions.Add(new ReferenceQuestion
-                {
-                    Id = 6,
-                    Contents = "Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?",
-                    Questionnaire = Questionnaires.First(q => q.Id == 2),
-                    Question = Questions.First(q => q.Id == 5)
-                });
+            {
+                Id = 6,
+                Contents = "Wat beschrijft het beste de sfeer bij het publiek na de shows bij de main stage?",
+                Questionnaire = Questionnaires.First(q => q.Id == 2),
+                Question = Questions.First(q => q.Id == 5)
+            });
 
             PlannedInspections = new List<PlannedInspection>
             {
@@ -376,7 +378,7 @@ namespace Festispec.UnitTests.Helpers
                     Festival = Festivals.First(f => f.Id == 2)
                 }
             };
-            
+
             Answers = new List<Answer>
             {
                 new StringAnswer
@@ -387,7 +389,7 @@ namespace Festispec.UnitTests.Helpers
                     AnswerContents = "De sfeer was goed."
                 }
             };
-            
+
             Sickness = new List<Availability>
             {
                 new Availability
@@ -400,7 +402,7 @@ namespace Festispec.UnitTests.Helpers
                     StartTime = new DateTime(2019, 12, 28)
                 },
             };
-            
+
             PlannedEvents = new List<PlannedEvent>()
                 .Concat(PlannedInspections)
                 .Concat(Sickness)
@@ -418,7 +420,7 @@ namespace Festispec.UnitTests.Helpers
                     }
                 })
                 .ToList();
-            
+
             // glue it all together.
             Customers.ForEach(c => c.Festivals = Festivals.FindAll(f => f.Customer.Id == c.Id));
             Festivals.ForEach(f =>

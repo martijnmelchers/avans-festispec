@@ -40,7 +40,7 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.PlannedEvents.Add(absence);          
-
+            
             if (await _db.SaveChangesAsync() == 0)
                 throw new NoRowsChangedException();
 
