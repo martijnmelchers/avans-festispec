@@ -47,11 +47,11 @@ namespace Festispec.UI.ViewModels
             _graphFactory = graphSelector;
             _config = config;
             _employeeService = employeeService;
-            
-            GeneratePdfCommand = new RelayCommand(SavePdf);
-            BackCommand = new RelayCommand(() => navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id));
-
             SelectedFestival = festivalService.GetFestival((int)navigationService.Parameter);
+
+            GeneratePdfCommand = new RelayCommand(SavePdf);
+            BackCommand = new RelayCommand(Back);
+
 
             GenerateReport();
 
@@ -101,15 +101,9 @@ namespace Festispec.UI.ViewModels
 
         private void GenerateReport()
         {
-            if(SelectedFestival.Questionnaires.Count == 0)
-            {
-                _navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id);
-                return;
-            }
+            var questionnaire = SelectedFestival.Questionnaires.FirstOrDefault();
 
-
-            int questionnaireId = SelectedFestival.Questionnaires.FirstOrDefault().Id;
-            List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
+            List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaire.Id);
 
             Controls = new ObservableCollection<FrameworkElement>();
 
@@ -387,6 +381,12 @@ namespace Festispec.UI.ViewModels
                     MultipleChoiceAnswer multiplechoiceAnswer => $"<p>{GetEmployee(multiplechoiceAnswer).Name}: {((MultipleChoiceQuestion)multiplechoiceAnswer.Question).OptionCollection[multiplechoiceAnswer.MultipleChoiceAnswerKey].Value.ToString()}</p>"
                 };
             }
+        }
+
+
+        private void Back()
+        {
+            _navigationService.NavigateTo("FestivalInfo", SelectedFestival.Id);
         }
     }
 }
