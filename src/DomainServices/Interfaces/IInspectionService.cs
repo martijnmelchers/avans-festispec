@@ -30,4 +30,6 @@ namespace Festispec.DomainServices.Interfaces
         Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
             Questionnaire questionnaire);
     }
+    
+    
 }
