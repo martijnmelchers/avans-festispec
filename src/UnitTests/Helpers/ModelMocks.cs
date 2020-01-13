@@ -163,6 +163,7 @@ namespace Festispec.UnitTests.Helpers
                     },
                     Address = new Address
                     {
+                        Id = 1,
                         ZipCode = "1234AB",
                         StreetName = "Teststraat",
                         HouseNumber = 123,

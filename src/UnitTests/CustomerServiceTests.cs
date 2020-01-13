@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
@@ -15,7 +16,7 @@ namespace Festispec.UnitTests
     {
         private readonly Mock<FestispecContext> _dbMock;
         private readonly ICustomerService _customerService;
-        private ModelMocks _modelMocks;
+        private readonly ModelMocks _modelMocks;
 
         public CustomerServiceTests()
         {
@@ -146,6 +147,41 @@ namespace Festispec.UnitTests
         {
             Assert.False(_customerService.CanDeleteCustomer(_customerService.GetCustomer(customerId)));
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncUpdatesAddress(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.Address.City = "Teststadje";
+            await _customerService.UpdateCustomerAsync(customer);
+
+            Assert.Equal("Teststadje", _dbMock.Object.Addresses.First(x => x.Id == customer.Address.Id).City);
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncWithInvalidAddressThrowsException(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.Address.City = new string('A', 205);
+            await Assert.ThrowsAsync<InvalidAddressException>(async () => await _customerService.UpdateCustomerAsync(customer));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncWithInvalidDataThrowsException(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.CustomerName = new string('A', 25);
+            await Assert.ThrowsAsync<InvalidDataException>(async () => await _customerService.UpdateCustomerAsync(customer));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
     }
