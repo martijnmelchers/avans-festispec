@@ -173,9 +173,9 @@ namespace Festispec.UnitTests
         [Fact]
         public void GetAllEmployeesReturnsEmployeeList()
         {
-            List<Employee> expected = _modelMocks.Employees;
+            List<Employee> expected = _modelMocks.Employees.Where(e => e.Account.IsNonActive == null).ToList();
             
-            List<Employee> actual = _employeeService.GetAllEmployeesActiveAndNonActive().ToList();
+            List<Employee> actual = _employeeService.GetAllEmployees().ToList();
             Assert.Equal(expected, actual);
         }
         
@@ -184,7 +184,7 @@ namespace Festispec.UnitTests
         {
             List<Employee> expected = _modelMocks.Employees;
             
-            List<Employee> actual = _employeeService.GetAllEmployees().ToList();
+            List<Employee> actual = _employeeService.GetAllEmployeesActiveAndNonActive().ToList();
             Assert.Equal(expected, actual);
         }
 
