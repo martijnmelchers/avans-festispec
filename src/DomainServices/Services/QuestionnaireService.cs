@@ -66,9 +66,7 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.Questionnaires.Add(questionnaire);
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return questionnaire;
         }
@@ -82,8 +80,7 @@ namespace Festispec.DomainServices.Services
 
             _db.Questionnaires.Remove(questionnaire);
 
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Questionnaire> CopyQuestionnaire(int questionnaireId, string questionnaireName)
@@ -92,7 +89,7 @@ namespace Festispec.DomainServices.Services
 
             var newQuestionnaire =
                 await CreateQuestionnaire(questionnaireName, oldQuestionnaire.Festival.Id);
-            
+
             foreach (var e in oldQuestionnaire.Questions)
             {
                 await AddQuestion(newQuestionnaire.Id, new ReferenceQuestion(e.Contents, newQuestionnaire, e));
@@ -112,10 +109,10 @@ namespace Festispec.DomainServices.Services
             var questionnaire = _db.Questionnaires
                 .Include(x => x.Questions)
                 .FirstOrDefault(q => q.Id == questionnaireId);
-            
-            if(questionnaire == null)
+
+            if (questionnaire == null)
                 throw new EntityNotFoundException();
-            
+
             var question = questionnaire.Questions.FirstOrDefault(q => q.Id == questionId);
 
             if (question == null)
@@ -131,9 +128,6 @@ namespace Festispec.DomainServices.Services
                 .Where(q => q.Questionnaire.Id == questionnaireId)
                 .ToList();
 
-            if (questions == null)
-                throw new EntityNotFoundException();
-
             foreach (var q in questions.OfType<MultipleChoiceQuestion>())
                 q.StringToObjects();
 
@@ -146,16 +140,14 @@ namespace Festispec.DomainServices.Services
 
             question.Questionnaire = questionnaire;
 
-            if(questionnaire == null)
+            if (questionnaire == null)
                 throw new EntityNotFoundException();
-            
+
             if (!question.Validate())
                 throw new InvalidDataException();
 
             questionnaire.Questions.Add(question);
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return question;
         }
@@ -204,15 +196,14 @@ namespace Festispec.DomainServices.Services
         #endregion Question Management
 
 
-
-
-        #region  inspection
+        #region inspection
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
-                .Where(e => e.Employee.Id == employeeId && QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
+                .Where(e => e.Employee.Id == employeeId &&
+                            QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
                 .ToListAsync();
 
             if (plannedInspections.Count < 1)
@@ -220,8 +211,8 @@ namespace Festispec.DomainServices.Services
 
             return plannedInspections;
         }
-        
-        
+
+
         public async Task<PlannedInspection> GetPlannedInspection(int plannedInspectionId)
         {
             var plannedInspection = await _db.PlannedInspections
@@ -241,7 +232,7 @@ namespace Festispec.DomainServices.Services
         public void Sync()
         {
             var db = _syncService.GetSyncContext();
-            
+
             var questionnaires = db.Questionnaires
                 .Include(q => q.Festival)
                 .Include(q => q.Questions)

@@ -41,9 +41,7 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.PlannedEvents.Add(availability);
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return availability;
         }  

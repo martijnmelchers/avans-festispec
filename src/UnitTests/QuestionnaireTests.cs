@@ -21,19 +21,23 @@ namespace Festispec.UnitTests
     {
         private readonly Mock<FestispecContext> _dbMock;
         private readonly IQuestionnaireService _questionnaireService;
+
         public QuestionnaireTests()
         {
             // Setup database mocks
             _dbMock = new Mock<FestispecContext>();
 
-            _dbMock.Setup(x => x.Questionnaires).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
+            _dbMock.Setup(x => x.Questionnaires)
+                .Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
             _dbMock.Setup(x => x.Questions).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questions).Object);
             _dbMock.Setup(x => x.Answers).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Answers).Object);
-            _dbMock.Setup(x => x.PlannedInspections).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().PlannedInspections).Object);
+            _dbMock.Setup(x => x.PlannedInspections)
+                .Returns(MockHelpers.CreateDbSetMock(new ModelMocks().PlannedInspections).Object);
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Festivals).Object);
             _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
 
-            _questionnaireService = new QuestionnaireService(_dbMock.Object, new JsonSyncService<Questionnaire>(_dbMock.Object));
+            _questionnaireService =
+                new QuestionnaireService(_dbMock.Object, new JsonSyncService<Questionnaire>(_dbMock.Object));
         }
 
         [Theory]
@@ -41,7 +45,7 @@ namespace Festispec.UnitTests
         [InlineData("Defqon")]
         public async void CreateQuestionnaire(string name)
         {
-            var festival = _dbMock.Object.Festivals.First(f=>f.Id == 1);
+            var festival = _dbMock.Object.Festivals.First(f => f.Id == 1);
             var questionnaire = await _questionnaireService.CreateQuestionnaire(name, festival.Id);
 
             Assert.Equal(festival, questionnaire.Festival);
@@ -61,7 +65,8 @@ namespace Festispec.UnitTests
         [InlineData("PinkPop Ochtend")]
         public async void SameNameShouldThrowError(string name)
         {
-            await Assert.ThrowsAsync<EntityExistsException>(() => _questionnaireService.CreateQuestionnaire(name, _dbMock.Object.Festivals.First(f=> f.Id == 1).Id));
+            await Assert.ThrowsAsync<EntityExistsException>(() =>
+                _questionnaireService.CreateQuestionnaire(name, _dbMock.Object.Festivals.First(f => f.Id == 1).Id));
         }
 
         [Theory]
@@ -69,7 +74,8 @@ namespace Festispec.UnitTests
         [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")]
         public async void InvalidDataShouldThrowError(string name)
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateQuestionnaire(name, _dbMock.Object.Festivals.First(f=>f.Id == 1).Id));
+            await Assert.ThrowsAsync<InvalidDataException>(() =>
+                _questionnaireService.CreateQuestionnaire(name, _dbMock.Object.Festivals.First(f => f.Id == 1).Id));
         }
 
         [Theory]
@@ -87,7 +93,7 @@ namespace Festispec.UnitTests
         [InlineData(100)]
         public void WrongIdShouldThrowError(int id)
         {
-            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionnaire(id)); 
+            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionnaire(id));
         }
 
         [Theory]
@@ -155,7 +161,8 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             MultipleChoiceQuestion question = new MultipleChoiceQuestion("test", questionnaire);
 
-            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.AddQuestion(questionnaire.Id, question));
+            await Assert.ThrowsAsync<InvalidDataException>(() =>
+                _questionnaireService.AddQuestion(questionnaire.Id, question));
         }
 
         [Fact]
@@ -171,8 +178,8 @@ namespace Festispec.UnitTests
 
             Assert.NotNull(_questionnaireService.GetQuestionFromQuestionnaire(questionnaire.Id, question.Id));
 
-            Assert.Equal(expectedQuestion.Minimum, ((NumericQuestion)question).Minimum);
-            Assert.Equal(expectedQuestion.Maximum, ((NumericQuestion)question).Maximum);
+            Assert.Equal(expectedQuestion.Minimum, ((NumericQuestion) question).Minimum);
+            Assert.Equal(expectedQuestion.Maximum, ((NumericQuestion) question).Maximum);
 
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
@@ -210,7 +217,7 @@ namespace Festispec.UnitTests
             var questionnaire = _dbMock.Object.Questionnaires.First(q => q.Id == 1);
             var question = _dbMock.Object.Questions.OfType<ReferenceQuestion>().First();
 
-            Assert.ThrowsAsync<QuestionHasReferencesException>(() => _questionnaireService.RemoveQuestion(question.Id)); 
+            Assert.ThrowsAsync<QuestionHasReferencesException>(() => _questionnaireService.RemoveQuestion(question.Id));
         }
 
         [Theory]
@@ -219,13 +226,14 @@ namespace Festispec.UnitTests
         {
             Questionnaire oldQuestionnaire = _questionnaireService.GetQuestionnaire(questionnaireId);
 
-            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(questionnaireId, "Copied questionnaire");
+            Questionnaire newQuestionnaire =
+                await _questionnaireService.CopyQuestionnaire(questionnaireId, "Copied questionnaire");
 
             Assert.Equal(oldQuestionnaire.Questions.Count(), newQuestionnaire.Questions.Count());
 
-            foreach(Question question in newQuestionnaire.Questions.ToList())
+            foreach (Question question in newQuestionnaire.Questions.ToList())
             {
-                Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion)question).Question));
+                Assert.True(oldQuestionnaire.Questions.Contains(((ReferenceQuestion) question).Question));
             }
         }
 
@@ -237,31 +245,33 @@ namespace Festispec.UnitTests
                 .Where(q => q.Questionnaire.Id == questionnaireId)
                 .ToList();
             var actual = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
-            
-            Assert.Equal(expected,actual);
+
+            Assert.Equal(expected, actual);
         }
-        
+
 
         [Theory]
         [InlineData(1)]
         public async Task GetGenericAnswerTAnswerShouldReturnStringAnswer(int answerId)
         {
             var expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
-            var actual =  await _questionnaireService.GetAnswer<StringAnswer>(answerId);
+            var actual = await _questionnaireService.GetAnswer<StringAnswer>(answerId);
 
             Assert.IsType<StringAnswer>(actual);
-            Assert.Equal(expected,actual);
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
         [InlineData(2)]
         public async void GetPlannedInspectionsShouldReturnListOfPlannedInspections(int employeeId)
         {
-            List<PlannedInspection> expected = await 
-                _dbMock.Object.PlannedInspections.Where(p => p.Employee.Id == employeeId && QueryHelpers.TruncateTime(p.StartTime) == QueryHelpers.TruncateTime(DateTime.Now)).ToListAsync();
-            List<PlannedInspection> actual = await _questionnaireService.GetPlannedInspections(employeeId);
-            
-            Assert.Equal(expected,actual);
+            var expected = await _dbMock.Object.PlannedInspections
+                .Where(p => p.Employee.Id == employeeId)
+                .Where(p => QueryHelpers.TruncateTime(p.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
+                .ToListAsync();
+            var actual = await _questionnaireService.GetPlannedInspections(employeeId);
+
+            Assert.Equal(expected, actual);
         }
 
 
@@ -269,12 +279,9 @@ namespace Festispec.UnitTests
         [InlineData(1)]
         public async void GetPlannedInspectionShouldReturnPlannedInspection(int plannedInspectionId)
         {
-            PlannedInspection expected =
-                await _dbMock.Object.PlannedInspections.FirstAsync(p => p.Id == plannedInspectionId);
-            PlannedInspection actual = await _questionnaireService.GetPlannedInspection(plannedInspectionId);
-            Assert.Equal(expected,actual);
+            var expected = await _dbMock.Object.PlannedInspections.FirstAsync(p => p.Id == plannedInspectionId);
+            var actual = await _questionnaireService.GetPlannedInspection(plannedInspectionId);
+            Assert.Equal(expected, actual);
         }
-        
     }
 }
-
