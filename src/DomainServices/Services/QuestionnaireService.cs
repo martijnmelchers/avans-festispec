@@ -208,12 +208,7 @@ namespace Festispec.DomainServices.Services
                 .ToListAsync();
 
             // LINQ does not like .Date inside an EF query. Or maybe EF doesn't like it. Either way, this works.
-            plannedInspections = plannedInspections.Where(e => e.StartTime.Date == DateTime.Now.Date).ToList();
-
-            if (plannedInspections.Count < 1)
-                throw new EntityNotFoundException();
-
-            return plannedInspections;
+            return plannedInspections.Where(e => e.StartTime.Date == DateTime.Now.Date).ToList();
         }
 
 
