@@ -48,8 +48,12 @@ namespace Festispec.Web.Controllers
 
             fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
 
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads");
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", $"{Guid.NewGuid()}.png");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+            
+            var filePath = Path.Combine(uploadPath, $"{Guid.NewGuid()}.png");
 
             var formFile = Request.Form.Files[0];
 

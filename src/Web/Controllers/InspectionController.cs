@@ -217,7 +217,13 @@ namespace Festispec.Web.Controllers
             if (file == null || file.Length <= 0) return null;
 
             var fileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", fileName);
+
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads");
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+            
+            var filePath = Path.Combine(uploadPath, fileName);
 
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
