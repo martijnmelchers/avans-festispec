@@ -86,6 +86,19 @@ namespace Festispec.UnitTests
                     Latitude = 52.3504f,
                     Longitude = 4.89271f
                 }
+            },
+            new object[]
+            {
+                new Address
+                {
+                    ZipCode = "1072JL",
+                    // Mist straat
+                    HouseNumber = 14,
+                    City = "Amsterdam",
+                    Country =  "Netherlands",
+                    Latitude = 52.3504f,
+                    Longitude = 4.89271f
+                }
             }
         };
 
@@ -110,7 +123,7 @@ namespace Festispec.UnitTests
         [MemberData(nameof(ValidAddresses))]
         public async Task SaveAddressShouldSaveAddress(Address address)
         {
-            Address saved = await _addressService.SaveAddress(address);
+            var saved = await _addressService.SaveAddress(address);
 
             Assert.Equal(address, saved);
             Assert.True(_dbMock.Object.Addresses.Contains(address));
@@ -124,7 +137,7 @@ namespace Festispec.UnitTests
             // save it so it exists in the mock database.
             await _addressService.SaveAddress(address);
 
-            Address existing = await _addressService.SaveAddress(address);
+            var existing = await _addressService.SaveAddress(address);
 
             Assert.Equal(address, existing);
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
@@ -152,7 +165,7 @@ namespace Festispec.UnitTests
         [Fact]
         public async Task RemoveAddressWithUsagesShouldNotRemove()
         {
-            Address address = _modelMocks.Addresses.First();
+            var address = _modelMocks.Addresses.First();
 
             await _addressService.RemoveAddress(address);
 

@@ -154,7 +154,7 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int festivalId, DateTime startTime)
         {
-            List<PlannedInspection> plannedInspections = await _db.PlannedInspections
+            var plannedInspections = await _db.PlannedInspections
                 .Where(e => e.Festival.Id == festivalId && e.StartTime.Equals(startTime) && e.IsCancelled == null)
                 .ToListAsync();
             
