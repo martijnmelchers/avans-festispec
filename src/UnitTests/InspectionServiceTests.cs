@@ -69,6 +69,19 @@ namespace Festispec.UnitTests
             _dbMock.Verify(x=>x.SaveChangesAsync(),Times.Once);
             
         }
+        
+        [Fact]
+        public async void CreatingPlannedInspectionWithInvalidDataShouldReturnError()
+        {
+           await  Assert.ThrowsAsync<InvalidDataException>(()=> _inspectionService.CreatePlannedInspection(
+                _modelMocks.Festivals.FirstOrDefault(f => f.Id == 1).Id,
+                _modelMocks.Questionnaires.First(q => q.Id == 1).Id,
+                new DateTime(2020, 5, 4, 12, 30, 0),
+                new DateTime(2020, 5, 4, 17, 0, 0),
+                "Pinkpopaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                _modelMocks.Employees.First(e => e.Id == 3).Id));
+            
+        }
 
         [Theory]
         [InlineData(2,2,2)]
@@ -167,6 +180,12 @@ namespace Festispec.UnitTests
         }
 
         [Fact]
+        public async void RemovingInspectionShouldRemoveInspection()
+        {
+            await _inspectionService.RemoveInspection(3, "Test reden");
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _inspectionService.GetPlannedInspection(33));
+        }
+        [Fact]
         public async void InvalidDataShouldThrowError()
         {
             PlannedInspection plannedInspection = _modelMocks.PlannedInspections.Find(e => e.Id == 1);
@@ -199,6 +218,7 @@ namespace Festispec.UnitTests
         {
             await Assert.ThrowsAsync<QuestionHasAnswersException>(() =>
                 _inspectionService.RemoveInspection(_modelMocks.Festivals.First(f => f.Id == 1).Id, "slecht weer"));
+
         }
 
 
