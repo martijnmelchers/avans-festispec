@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Festispec.Models.Questions;
 
 namespace Festispec.DomainServices.Factories
 {
+    [ExcludeFromCodeCoverage]
     public class QuestionFactory
     {
         public QuestionFactory()

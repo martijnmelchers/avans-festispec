@@ -85,7 +85,7 @@ namespace Festispec.UI.ViewModels.Employees
                 return;
             }
 
-            IntPtr valuePtr = IntPtr.Zero;
+            var valuePtr = IntPtr.Zero;
             try
             {
                 if (!passwordWithVerification.Equal() || passwordWithVerification.Empty())
@@ -167,7 +167,7 @@ namespace Festispec.UI.ViewModels.Employees
         public string SearchQuery { get; set; }
         public string CurrentAddress { get; set; }
 
-        public async void Search()
+        private async void Search()
         {
             try
             {
@@ -188,11 +188,11 @@ namespace Festispec.UI.ViewModels.Employees
             }
         }
 
-        public async void Select(string id)
+        private async void Select(string id)
         {
             try
             {
-                Address address = await _googleService.GetAddress(id);
+                var address = await _googleService.GetAddress(id);
                 Employee.Address = address;
                 CurrentAddress = $"Geselecteerde adres: {Employee.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));

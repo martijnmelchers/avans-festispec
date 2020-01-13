@@ -12,21 +12,22 @@ namespace Festispec.Models.GraphConverters
         public List<GraphableSeries> TypeToChart(Question question)
         {
             var series = new List<GraphableSeries>();
-            IEnumerable<PlannedInspection> plannedInspections = question.Answers.Select(x => x.PlannedInspection);
+            var plannedInspections = question.Answers.Select(x => x.PlannedInspection);
 
-            foreach (PlannedInspection plannedInspection in plannedInspections)
+            foreach (var plannedInspection in plannedInspections)
             {
-                var serie = new GraphableSeries
+                var graphableSeries = new GraphableSeries
                 {
                     Title = plannedInspection.EventTitle,
                     Values = new ChartValues<int>()
                 };
 
-                Answer answer = question.Answers.FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
+                var answer = question.Answers
+                    .OfType<NumericAnswer>()
+                    .FirstOrDefault(x => x.PlannedInspection.Id == plannedInspection.Id);
 
-                var numAnswer = (NumericAnswer) answer;
-                serie.Values.Add(numAnswer.IntAnswer);
-                series.Add(serie);
+                if (answer != null) graphableSeries.Values.Add(answer.IntAnswer);
+                series.Add(graphableSeries);
             }
 
             return series;

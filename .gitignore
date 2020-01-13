@@ -3,6 +3,7 @@
 bin/
 obj/
 packages/
+*.user
 PublishProfiles/
 
 # macOS vomit
@@ -10,3 +11,6 @@ PublishProfiles/
 
 # IntelliJ/Rider files
 .idea/
+
+# Other
+Uploads/

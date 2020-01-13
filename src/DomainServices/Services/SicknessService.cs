@@ -5,6 +5,7 @@ using Festispec.Models.Exception;
 using System;
 using System.Linq;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
@@ -18,14 +19,14 @@ namespace Festispec.DomainServices.Services
             _db = db;
         }
 
-        public async Task<Availability> AddAbsense(int employeeId, string reason, DateTime? endTime)
+        public async Task<Availability> AddAbsence(int employeeId, string reason, DateTime? endTime)
         {
             if (endTime < DateTime.Now)
                 throw new DateHasPassedException();
 
             var employee = _db.Employees.Include(e => e.Address).FirstOrDefault(e => e.Id == employeeId);
 
-            var absense = new Availability()
+            var absence = new Availability()
             {
                 IsAvailable = false,
                 Employee = employee,
@@ -35,31 +36,29 @@ namespace Festispec.DomainServices.Services
                 EventTitle = "Afwezig wegens ziekte"
             };
 
-            if (!absense.Validate())
+            if (!absence.Validate())
                 throw new InvalidDataException();
 
-            _db.PlannedEvents.Add(absense);          
+            _db.PlannedEvents.Add(absence);
+            await _db.SaveChangesAsync();
 
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
-
-            return absense;
+            return absence;
         }
 
-        public async Task EndAbsense(int employeeId)
+        [ExcludeFromCodeCoverage]
+        public async Task EndAbsence(int employeeId)
         {
-            var absense = GetCurrentAbsense(employeeId);
+            var absence = GetCurrentAbsence(employeeId);
 
-            if (absense == null)
+            if (absence == null)
                 throw new EmployeeNotSickException();
 
-            absense.EndTime = DateTime.Now;
+            absence.EndTime = DateTime.Now;
 
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
         }
 
-        private Availability GetCurrentAbsense(int employeeId)
+        private Availability GetCurrentAbsence(int employeeId)
         {
             return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId
             && a.EventTitle == "Afwezig wegens ziekte"
@@ -68,9 +67,9 @@ namespace Festispec.DomainServices.Services
 
         public bool IsSick(int employeeId)
         {
-            var absense = GetCurrentAbsense(employeeId);
+            var absence = GetCurrentAbsence(employeeId);
 
-            return absense != null;
+            return absence != null;
         }
     }
 }

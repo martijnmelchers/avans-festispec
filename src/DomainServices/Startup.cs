@@ -5,9 +5,12 @@ using Festispec.Models.EntityMapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Festispec.DomainServices.Services.Offline;
 
 namespace Festispec.DomainServices
 {
+    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtension
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
@@ -15,17 +18,15 @@ namespace Festispec.DomainServices
             services.AddTransient<FestispecContext>();
             services.AddScoped(typeof(ISyncService<>), typeof(JsonSyncService<>));
             services.AddSingleton<IOfflineService, DbPollOfflineService>();
-            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Production";
+            string environment = Environment.GetEnvironmentVariable("Environment") ?? "Debug";
 
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.{environment}.json")
                 .Build();
 
             services.AddSingleton<IConfiguration>(config => configuration);
 
             // Register services for *both* online and offline here
-            services.AddScoped<IExampleService, ExampleService>();
-            
             // Register all your online services here
             if (services.BuildServiceProvider().GetRequiredService<IOfflineService>().IsOnline)
             {
@@ -59,6 +60,7 @@ namespace Festispec.DomainServices
             // Example: services.AddSingleton(new ExampleFactory());
             services.AddSingleton(new QuestionFactory());
             services.AddSingleton(new GraphSelectorFactory());
+            services.AddSingleton(new AnswerFactory());
 
             return services; 
         }

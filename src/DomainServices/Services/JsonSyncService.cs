@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Festispec.DomainServices.Services
 {
+    [ExcludeFromCodeCoverage]
     public class JsonSyncService<T> : ISyncService<T> where T : Entity
     {
         private readonly FestispecContext _db;
@@ -52,7 +54,7 @@ namespace Festispec.DomainServices.Services
         {
             if (!File.Exists(_jsonFile))
             {
-                using (FileStream fileStream = File.Create(_jsonFile)) fileStream.Dispose();
+                using (var fileStream = File.Create(_jsonFile)) fileStream.Dispose();
                 Flush();
             }
 
@@ -108,12 +110,6 @@ namespace Festispec.DomainServices.Services
         {
             JsonObject["updatedAt"] = new JValue(DateTime.Now);
             File.WriteAllText(_jsonFile, JsonObject.ToString(Formatting.None));
-        }
-
-        public async void SaveChangesAsync()
-        {
-            JsonObject["updatedAt"] = new JValue(DateTime.Now);
-            await File.WriteAllTextAsync(_jsonFile, JsonObject.ToString(Formatting.None));
         }
 
         public FestispecContext GetSyncContext() => _db;

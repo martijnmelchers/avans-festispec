@@ -9,7 +9,7 @@ namespace Festispec.UI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value as Question).Id != 0;
+            return (value as Question)?.Id != 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

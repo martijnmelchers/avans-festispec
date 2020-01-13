@@ -261,7 +261,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
-                                Click="ToggleNewQuestionnairePopUp" Height="50" Width="185" Grid.Column="0" />
+                                Command="{Binding CloseCopyQuestionnaireCommand}" Height="50" Width="185" Grid.Column="0" />
                         <Button HorizontalAlignment="Right" Content="Aanmaken" Style="{DynamicResource ButtonGreen}"
                                 Click="ToggleNewQuestionnairePopUp" Command="{Binding CopyQuestionnaireCommand}"
                                 Height="50" Width="185" Grid.Column="2" />

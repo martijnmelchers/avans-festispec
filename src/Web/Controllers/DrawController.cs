@@ -13,11 +13,12 @@ namespace Festispec.Web.Controllers
 {
     public class DrawController : Controller
     {
-        private IQuestionnaireService _questionnaireService;
-        private IInspectionService _inspectionService;
-        private IConfiguration _configurationService;
+        private readonly IQuestionnaireService _questionnaireService;
+        private readonly IInspectionService _inspectionService;
+        private readonly IConfiguration _configurationService;
 
-        public DrawController(IQuestionnaireService questionnaireService, IInspectionService inspectionService, IConfiguration configurationService)
+        public DrawController(IQuestionnaireService questionnaireService, IInspectionService inspectionService,
+            IConfiguration configurationService)
         {
             _questionnaireService = questionnaireService;
             _inspectionService = inspectionService;
@@ -25,41 +26,47 @@ namespace Festispec.Web.Controllers
         }
 
         // GET: Draw/Draw/5
-        public ActionResult Draw(int id)
+        public async  Task<ActionResult> Draw(int id)
         {
-            if (Request.Cookies["CurrentUserId"] == null)
-                return RedirectToAction("Login", "Authentication");
-            FileAnswer answer = _questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == id) as FileAnswer;
             ViewBag.URL = _configurationService["Urls:WebApp"];
-            return View(answer);
+            return View(await _questionnaireService.GetAnswer<FileAnswer>(id));
         }
 
         // POST: Draw/Draw/5
         [HttpPost]
-        public async Task<ActionResult> Draw(string imageData)
+        public async Task<ActionResult> Draw()
         {
-            int questionId = Convert.ToInt32(Request.Form["QuestionId"]);
-            int plannedInspectionId = Convert.ToInt32(Request.Form["plannedInspectionId"]);
-            PlannedInspection plannedInspection = await _inspectionService.GetPlannedInspection(plannedInspectionId);
-            FileAnswer fileAnswer = plannedInspection.Answers.FirstOrDefault(e=> e.Question.Id == questionId) as FileAnswer;
+            var questionId = int.Parse(Request.Form["QuestionId"]);
+            var plannedInspectionId = int.Parse(Request.Form["plannedInspectionId"]);
+            var plannedInspection = await _inspectionService.GetPlannedInspection(plannedInspectionId);
+            var fileAnswer = plannedInspection.Answers
+                .OfType<FileAnswer>()
+                .FirstOrDefault(e => e.Question.Id == questionId);
+            
+            if (fileAnswer == null)
+                return RedirectToAction("Details", "inspection", new { id = plannedInspection.Id });
+
             fileAnswer.Question = await _questionnaireService.GetQuestion(questionId);
 
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", DateTime.Now.ToString().Replace("/", "-").Replace(" ", "- ").Replace(":", "") + ".png");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Uploads", $"{Guid.NewGuid()}.png");
 
             var formFile = Request.Form.Files[0];
 
             if (formFile.Length > 0)
             {
-                using (var imageFile = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(imageFile);
-                }
+                await using var imageFile = new FileStream(filePath, FileMode.Create);
+                await formFile.CopyToAsync(imageFile);
             }
 
-            if (fileAnswer.Id != 0)
-                (_questionnaireService.GetAnswers().FirstOrDefault(e => e.Id == fileAnswer.Id) as FileAnswer).UploadedFilePath = filePath;
-            else await _questionnaireService.CreateAnswer(fileAnswer);
+            var answer = await _questionnaireService.GetAnswer<FileAnswer>(fileAnswer.Id);
+
+            if (fileAnswer.Id != 0 && answer != null)
+                answer.UploadedFilePath = filePath.Replace(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\"), "");
+            else
+                await _questionnaireService.CreateAnswer(fileAnswer);
+
+
             await _questionnaireService.SaveChangesAsync();
 
             return RedirectToAction("Details", "inspection", new { id = fileAnswer.PlannedInspection.Id });

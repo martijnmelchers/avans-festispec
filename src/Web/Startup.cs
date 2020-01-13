@@ -1,4 +1,5 @@
 using Festispec.DomainServices;
+using Festispec.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,8 @@ namespace Festispec.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseMiddleware<AuthorizationMiddleware>();
+            
             app.UseRouting();
 
             app.UseAuthorization();

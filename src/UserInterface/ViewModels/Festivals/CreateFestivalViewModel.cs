@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -8,12 +7,11 @@ using Festispec.Models.Exception;
 using Festispec.Models.Google;
 using Festispec.UI.Exceptions;
 using Festispec.UI.Interfaces;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Festivals
 {
-    internal class CreateFestivalViewModel : BaseValidationViewModel
+    public class CreateFestivalViewModel : BaseValidationViewModel
     {
         private readonly IGoogleMapsService _googleService;
 
@@ -54,7 +52,7 @@ namespace Festispec.UI.ViewModels.Festivals
         public ICommand SearchCommand { get; }
         public RelayCommand<string> SelectCommand { get; }
 
-        public async void CreateFestival()
+        private async void CreateFestival()
         {
             try
             {
@@ -82,7 +80,7 @@ namespace Festispec.UI.ViewModels.Festivals
         public string SearchQuery { get; set; }
         public string CurrentAddress { get; set; }
 
-        public async void Search()
+        private async void Search()
         {
             try
             {

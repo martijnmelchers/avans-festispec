@@ -12,7 +12,7 @@ var h = window.innerHeight;
         @{
             var questionPicture = ((Festispec.Models.Questions.DrawQuestion)Model.Question).PicturePath;
         }
-             bg = loadImage(questionPicture);
+             bg = loadImage("@questionPicture");
      }
     function setup() {
         canvas = createCanvas(w, h);

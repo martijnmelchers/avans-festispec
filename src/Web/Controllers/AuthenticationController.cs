@@ -12,7 +12,7 @@ namespace Festispec.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private IAuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
 
         public AuthenticationController(IAuthenticationService authenticationService)
         {
