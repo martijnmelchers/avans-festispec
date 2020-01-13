@@ -144,6 +144,29 @@ namespace Festispec.UnitTests.Helpers
                         StartDate = new DateTime(2019, 12, 10),
                         EndDate = new DateTime(2019, 12, 14)
                     }
+                },
+                new Festival
+                {
+                    Id = 3,
+                    FestivalName = "Intents",
+                    Description = "Op 26 oktober 2019 keert Intents terug naar Brabant. " +
+                                  "een legendarische Hardcore/Hardstyle concept een comeback na een jaar afwezig te zijn geweest.",
+
+                    Customer = Customers.First(c => c.Id == 2),
+                    Address = new Address
+                    {
+                        ZipCode = "5731JR",
+                        StreetName = "Vaanakker",
+                        City = "Mierlo",
+                        Country = "Nederland"
+                    },
+                    OpeningHours = new OpeningHours()
+                    {
+                        StartTime = new TimeSpan(10, 0, 0),
+                        EndTime = new TimeSpan(2, 0, 0),
+                        StartDate = new DateTime(2019, 12, 10),
+                        EndDate = new DateTime(2019, 12, 14)
+                    }
                 }
             };
 

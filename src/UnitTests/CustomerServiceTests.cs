@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Festispec.Models.EntityMapping;
@@ -149,7 +150,7 @@ namespace Festispec.UnitTests
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
-
+        
         [Theory]
         [InlineData(1)]
         public async Task UpdateCustomerAsyncUpdatesAddress(int customerId)

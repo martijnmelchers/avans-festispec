@@ -113,6 +113,15 @@ namespace Festispec.UnitTests
 
         [Theory]
         [InlineData(1)]
+        public async void RemovingQuestionnaireWithAnswersShouldThrowError(int questionnaireId)
+        {
+            await Assert.ThrowsAsync<QuestionHasAnswersException>(() =>
+                _questionnaireService.RemoveQuestionnaire(questionnaireId));
+        }
+        
+
+        [Theory]
+        [InlineData(1)]
         [InlineData(2)]
         public void GetQuestionFromQuestionnaire(int questionId)
         {
@@ -203,7 +212,26 @@ namespace Festispec.UnitTests
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
             _dbMock.Object.Questions.Add(question);
         }
-
+        [Theory]
+        [InlineData(4)]
+        public async void RemovingQuestionWithAnswersShouldThrowError(int questionid)
+        {
+            await Assert.ThrowsAsync<QuestionHasAnswersException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+        }
+        [Theory]
+        [InlineData(99)]
+        public async void RemovingNonExistingQuestionShouldThrowError(int questionid)
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+        }
+        
+        [Theory]
+        [InlineData(5)]
+        public async void RemovingQuestionLinkedToReferenceQuestionShouldThrowError(int questionid)
+        {
+            await Assert.ThrowsAsync<QuestionHasReferencesException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+        }
+        
         [Fact]
         public void RemovingQuestionWithReferenceShouldThrowError()
         {
@@ -273,5 +301,28 @@ namespace Festispec.UnitTests
             var actual = await _questionnaireService.GetPlannedInspection(plannedInspectionId);
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(1)]
+        public async void CreateAnswerShouldAddAnswer(int answerId)
+        {
+            Answer expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
+
+            Answer actual = await _questionnaireService.CreateAnswer(expected);
+            Assert.Equal(expected,actual);
+        }
+        
+        [Fact]
+        public async void CopyQuestionnaireShouldReturnNewQuestionnaire()
+        {
+            Questionnaire old = await _dbMock.Object.Questionnaires.FirstAsync(q => q.Id == 1);
+            
+            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(old.Id, "new Text");
+            
+            Assert.Equal(old.Questions.Count, newQuestionnaire.Questions.Count);
+            Assert.Equal("new Text", newQuestionnaire.Name);
+
+        }
+
     }
 }
