@@ -158,7 +158,7 @@ namespace Festispec.UnitTests.Helpers
                     {
                         Id = 1,
                         Username = "JohnDoe",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                        Password = "$2y$12$jKRUmk7DrgcdTGc5YIoW8uRZWp98aa6b3/MEweMe82CKFKmI2Xerm", // Password123
                         Role = Role.Employee
                     },
                     Address = new Address
@@ -195,7 +195,7 @@ namespace Festispec.UnitTests.Helpers
                     {
                         Id = 2,
                         Username = "EricKuipers",
-                        Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                        Password = "$2y$12$fAj/kSCqzIE5BmSYxn9hmOVo.CSAMUrGcTl6SLV6S5Bx88QD3DbGe", // HeelLangWachtwoord
                         Role = Role.Inspector
                     },
                     Address = new Address
@@ -231,7 +231,7 @@ namespace Festispec.UnitTests.Helpers
                     {
                         Id = 3,
                         Username = "Henk2",
-                        Password = BCrypt.Net.BCrypt.HashPassword("HeelLangWachtwoord"),
+                        Password = "$2y$12$YNZ3G6P9WX.II7.05PpohOQ0PMyaORCPYmBK5DS9wvEvSEiz5UTNy", // HeelLangWachtwoord
                         Role = Role.Employee
                     },
                     Address = new Address
