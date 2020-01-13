@@ -394,7 +394,7 @@ namespace Festispec.UnitTests.Helpers
             {
                 new Availability
                 {
-                    Id = 2,
+                    Id = 4,
                     Employee = Employees.First(e => e.Id == 1),
                     IsAvailable = false,
                     Reason = "Ik heb griep",
@@ -410,7 +410,7 @@ namespace Festispec.UnitTests.Helpers
                 {
                     new Availability
                     {
-                        Id = 3,
+                        Id = 5,
                         Employee = Employees.First(e => e.Id == 2),
                         IsAvailable = false,
                         Reason = "Ik heb een verjaardag",

@@ -106,7 +106,8 @@ namespace Festispec.DomainServices.Services
 
             return await SaveChanges();
         }
-
+        
+        [ExcludeFromCodeCoverage]
         private async Task<int> SaveChanges()
         {
             return await _db.SaveChangesAsync();
@@ -155,9 +156,7 @@ namespace Festispec.DomainServices.Services
             List<PlannedInspection> plannedInspections = await _db.PlannedInspections
                 .Where(e => e.Festival.Id == festivalId && e.StartTime.Equals(startTime) && e.IsCancelled == null)
                 .ToListAsync();
-
-            if (plannedInspections == null)
-                throw new EntityNotFoundException();
+            
 
             return plannedInspections;
         }
