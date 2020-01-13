@@ -202,6 +202,9 @@ namespace Festispec.DomainServices.Services
 
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
+            if (!_db.Employees.Any(e => e.Id == employeeId))
+                throw new EntityNotFoundException();
+            
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
                 .Where(e => e.Employee.Id == employeeId)
