@@ -39,10 +39,8 @@ namespace Festispec.DomainServices.Services
             if (!absence.Validate())
                 throw new InvalidDataException();
 
-            _db.PlannedEvents.Add(absence);          
-            
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            _db.PlannedEvents.Add(absence);
+            await _db.SaveChangesAsync();
 
             return absence;
         }
@@ -57,8 +55,7 @@ namespace Festispec.DomainServices.Services
 
             absence.EndTime = DateTime.Now;
 
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
         }
 
         private Availability GetCurrentAbsence(int employeeId)
