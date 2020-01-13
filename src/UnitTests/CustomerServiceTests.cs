@@ -78,7 +78,7 @@ namespace Festispec.UnitTests
         {
             var address = new Address
             {
-                City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode
+                City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode, Latitude = 69, Longitude = 420
             };
 
             var contactDetails = new ContactDetails
