@@ -83,6 +83,7 @@ namespace Festispec.DomainServices.Services
             return null;
         }
         
+        [ExcludeFromCodeCoverage] // the _db.Entry makes this borderline untestable
         public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
             Questionnaire questionnaire)
         {
