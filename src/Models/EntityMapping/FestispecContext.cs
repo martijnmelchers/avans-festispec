@@ -18,11 +18,9 @@ namespace Festispec.Models.EntityMapping
         public FestispecContext() : base("Default")
         {
         }
-
-
+        
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
-        public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Availability> Availabilities { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -31,7 +29,6 @@ namespace Festispec.Models.EntityMapping
         public virtual DbSet<PlannedEvent> PlannedEvents { get; set; }
         public virtual DbSet<PlannedInspection> PlannedInspections { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
-        public virtual DbSet<QuestionCategory> QuestionCategories { get; set; }
         public virtual DbSet<Questionnaire> Questionnaires { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<DistanceResult> DistanceResults { get; set; }

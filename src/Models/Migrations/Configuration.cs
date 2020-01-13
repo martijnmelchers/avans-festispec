@@ -180,21 +180,12 @@ namespace Festispec.Models.Migrations
 
                 context.PlannedInspections.AddOrUpdate(plannedInspection);
 
-                var questionCategory = new QuestionCategory
-                {
-                    Id = 1,
-                    CategoryName = "Vragen over veiligheid"
-                };
-
-                context.QuestionCategories.AddOrUpdate(questionCategory);
-
 
                 #region DrawQuestion
 
                 var drawQuestion = new DrawQuestion
                 {
                     Id = 1,
-                    Category = questionCategory,
                     PicturePath = "/Uploads/grasso.png",
                     Questionnaire = questionnaire,
                     Contents = "Wat is de kortste looproute van de mainstage naar de nooduitgang?"
@@ -218,7 +209,6 @@ namespace Festispec.Models.Migrations
                 var multipleChoiceQuestion = new MultipleChoiceQuestion
                 {
                     Id = 2,
-                    Category = questionCategory,
                     Contents = "Zijn er evacuatieplannen zichtbaar opgesteld?",
                     Options = "Ja~Nee",
                     OptionCollection = new ObservableCollection<StringObject>
@@ -246,7 +236,6 @@ namespace Festispec.Models.Migrations
                 var numericQuestion = new NumericQuestion
                 {
                     Id = 3,
-                    Category = questionCategory,
                     Contents = "Hoeveel EHBO-posten zijn er aanwezig?",
                     Minimum = 0,
                     Maximum = 99,
@@ -271,7 +260,6 @@ namespace Festispec.Models.Migrations
                 var ratingQuestion = new RatingQuestion
                 {
                     Id = 4,
-                    Category = questionCategory,
                     Contents = "Op een schaal van 1 tot 5, is de beveiliging voldoende aanwezig op het terrein?",
                     HighRatingDescription = "Er is veel beveiliging",
                     LowRatingDescription = "Er is amper beveiliging",
@@ -296,7 +284,6 @@ namespace Festispec.Models.Migrations
                 var stringQuestion = new StringQuestion
                 {
                     Id = 5,
-                    Category = questionCategory,
                     Contents = "Geef een korte samenvatting van het vluchtplan.",
                     IsMultiline = true,
                     Questionnaire = questionnaire
@@ -321,7 +308,6 @@ namespace Festispec.Models.Migrations
                 var pictureQuestion = new UploadPictureQuestion
                 {
                     Id = 6,
-                    Category = questionCategory,
                     Contents = "Plaats een foto van de vluchtroutes op het calamiteitenplan.",
                     Questionnaire = questionnaire
                 };
@@ -344,7 +330,6 @@ namespace Festispec.Models.Migrations
                 var referenceQuestion = new ReferenceQuestion
                 {
                     Id = 7,
-                    Category = questionCategory,
                     Question = pictureQuestion,
                     Contents = pictureQuestion.Contents,
                     Questionnaire = questionnaire

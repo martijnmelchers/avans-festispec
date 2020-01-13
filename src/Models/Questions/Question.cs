@@ -26,9 +26,6 @@ namespace Festispec.Models.Questions
         [MaxLength(250)]
         public string Contents { get; set; }
 
-        public virtual QuestionCategory Category { get; set; }
-
-
         public virtual Questionnaire Questionnaire { get; set; }
 
         public abstract GraphType GraphType { get; }

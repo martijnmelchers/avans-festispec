@@ -22,6 +22,9 @@
     <EmbeddedResource Update="Migrations\202001131333256_CustomerNotes.resx">
       <DependentUpon>202001131333256_CustomerNotes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Migrations\202001131421208_UnusedClasses.resx">
+      <DependentUpon>202001131421208_UnusedClasses.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
