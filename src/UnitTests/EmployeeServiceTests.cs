@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
@@ -171,6 +172,15 @@ namespace Festispec.UnitTests
 
         [Fact]
         public void GetAllEmployeesReturnsEmployeeList()
+        {
+            List<Employee> expected = _modelMocks.Employees.Where(e => e.Account.IsNonActive == null).ToList();
+            
+            List<Employee> actual = _employeeService.GetAllEmployees().ToList();
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public void GetAllEmployeesIncludingNonActiveReturnsCompleteEmployeeList()
         {
             List<Employee> expected = _modelMocks.Employees;
             
@@ -356,6 +366,47 @@ namespace Festispec.UnitTests
         public async void RemoveNonexistentCertificateThrowsException(int certificateId)
         {
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _employeeService.RemoveCertificateAsync(certificateId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateEmployeeAsyncUpdatesAddress(int employeeId)
+        {
+            Employee employee = await _employeeService.GetEmployeeAsync(employeeId);
+
+            employee.Address.City = "Teststadje";
+            employee.Address.Id = 99;
+            await _employeeService.UpdateEmployee(employee);
+
+            Assert.Equal("Teststadje", _dbMock.Object.Addresses.First(x => x.Id == 99).City);
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateEmployeeAsyncWithInvalidAddressThrowsException(int employeeId)
+        {
+            Employee employee = await _employeeService.GetEmployeeAsync(employeeId);
+
+            employee.Address.City = new string('A', 205);
+            await Assert.ThrowsAsync<InvalidAddressException>(async () => await _employeeService.UpdateEmployee(employee));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateEmployeeAsyncWithInvalidDataThrowsException(int employeeId)
+        {
+            Employee employee = await _employeeService.GetEmployeeAsync(employeeId);
+
+            employee.Name = new FullName
+            {
+                First = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                Middle = "AA",
+                Last = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            };
+            await Assert.ThrowsAsync<InvalidDataException>(async () => await _employeeService.UpdateEmployee(employee));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
     }

@@ -158,9 +158,10 @@ namespace Festispec.UnitTests
             Customer customer = await _customerService.GetCustomerAsync(customerId);
 
             customer.Address.City = "Teststadje";
+            customer.Address.Id = 99;
             await _customerService.UpdateCustomerAsync(customer);
 
-            Assert.Equal("Teststadje", _dbMock.Object.Addresses.First(x => x.Id == customer.Address.Id).City);
+            Assert.Equal("Teststadje", _dbMock.Object.Addresses.First(x => x.Id == 99).City);
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
         
