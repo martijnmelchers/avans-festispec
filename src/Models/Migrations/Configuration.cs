@@ -173,8 +173,8 @@ namespace Festispec.Models.Migrations
                     Employee = employeeInspector,
                     Festival = festival,
                     EventTitle = "Inspection " + festival.FestivalName,
-                    StartTime = DateTime.Now,
-                    EndTime = new DateTime(2020, 7, 29, 5, 00, 00),
+                    StartTime = DateTime.Now.Date.Add(new TimeSpan(0, 10, 0, 0)),
+                    EndTime = DateTime.Now.Date.Add(new TimeSpan(0, 20, 0, 0)),
                     Questionnaire = questionnaire,
                 };
 
