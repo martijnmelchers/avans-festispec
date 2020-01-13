@@ -41,12 +41,14 @@ namespace Festispec.DomainServices.Services
 
             return questionnaire;
         }
-
+        
+        [ExcludeFromCodeCoverage]
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();
         }
-
+        
+        [ExcludeFromCodeCoverage]
         public int SaveChanges()
         {
             return _db.SaveChanges();
@@ -202,8 +204,8 @@ namespace Festispec.DomainServices.Services
         {
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
-                .Where(e => e.Employee.Id == employeeId &&
-                            QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
+                .Where(e => e.Employee.Id == employeeId)
+                .Where(e => QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
                 .ToListAsync();
 
             if (plannedInspections.Count < 1)

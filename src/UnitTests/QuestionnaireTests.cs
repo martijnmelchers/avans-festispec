@@ -214,22 +214,22 @@ namespace Festispec.UnitTests
         }
         [Theory]
         [InlineData(4)]
-        public async void RemovingQuestionWithAnswersShouldThrowError(int questionid)
+        public async void RemovingQuestionWithAnswersShouldThrowError(int questionId)
         {
-            await Assert.ThrowsAsync<QuestionHasAnswersException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+            await Assert.ThrowsAsync<QuestionHasAnswersException>( ()=> _questionnaireService.RemoveQuestion(questionId));
         }
         [Theory]
         [InlineData(99)]
-        public async void RemovingNonExistingQuestionShouldThrowError(int questionid)
+        public async void RemovingNonExistingQuestionShouldThrowError(int questionId)
         {
-            await Assert.ThrowsAsync<EntityNotFoundException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+            await Assert.ThrowsAsync<EntityNotFoundException>( ()=> _questionnaireService.RemoveQuestion(questionId));
         }
         
         [Theory]
         [InlineData(5)]
-        public async void RemovingQuestionLinkedToReferenceQuestionShouldThrowError(int questionid)
+        public async void RemovingQuestionLinkedToReferenceQuestionShouldThrowError(int questionId)
         {
-            await Assert.ThrowsAsync<QuestionHasReferencesException>( ()=> _questionnaireService.RemoveQuestion(questionid));
+            await Assert.ThrowsAsync<QuestionHasReferencesException>( ()=> _questionnaireService.RemoveQuestion(questionId));
         }
         
         [Fact]
@@ -299,6 +299,7 @@ namespace Festispec.UnitTests
         {
             var expected = await _dbMock.Object.PlannedInspections.FirstAsync(p => p.Id == plannedInspectionId);
             var actual = await _questionnaireService.GetPlannedInspection(plannedInspectionId);
+            
             Assert.Equal(expected, actual);
         }
 
@@ -306,23 +307,62 @@ namespace Festispec.UnitTests
         [InlineData(1)]
         public async void CreateAnswerShouldAddAnswer(int answerId)
         {
-            Answer expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
-
-            Answer actual = await _questionnaireService.CreateAnswer(expected);
+            var expected = await _dbMock.Object.Answers.FirstAsync(a => a.Id == answerId);
+            var actual = await _questionnaireService.CreateAnswer(expected);
+            
             Assert.Equal(expected,actual);
         }
         
         [Fact]
         public async void CopyQuestionnaireShouldReturnNewQuestionnaire()
         {
-            Questionnaire old = await _dbMock.Object.Questionnaires.FirstAsync(q => q.Id == 1);
-            
-            Questionnaire newQuestionnaire = await _questionnaireService.CopyQuestionnaire(old.Id, "new Text");
+            var old = await _dbMock.Object.Questionnaires.FirstAsync(q => q.Id == 1);
+            var newQuestionnaire = await _questionnaireService.CopyQuestionnaire(old.Id, "new Text");
             
             Assert.Equal(old.Questions.Count, newQuestionnaire.Questions.Count);
             Assert.Equal("new Text", newQuestionnaire.Name);
 
         }
+
+        [Fact]
+        public async void InvalidQuestionnaireIdThrowsError()
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _questionnaireService.AddQuestion(481284, new DrawQuestion()));
+        }
+        
+        [Fact]
+        public async void InvalidAnswerThrowsError()
+        {
+            await Assert.ThrowsAsync<InvalidDataException>(() => _questionnaireService.CreateAnswer(new FileAnswer()));
+        }
+        
+        [Fact]
+        public async void InvalidEmployeeIdThrowsException()
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _questionnaireService.GetPlannedInspections(-020));
+        }
+        
+        [Fact]
+        public async void InvalidPlannedInspectionIdThrowsException()
+        {
+            await Assert.ThrowsAsync<EntityNotFoundException>(() => _questionnaireService.GetPlannedInspection(-10));
+        }
+        
+        [Fact]
+        public void InvalidQuestionnaireIdGetQuestionThrowsError()
+        {
+            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionFromQuestionnaire(-2, -2));
+        }
+        
+        [Fact]
+        public void InvalidQuestionIdGetQuestionThrowsError()
+        {
+            Assert.Throws<EntityNotFoundException>(() => _questionnaireService.GetQuestionFromQuestionnaire(1, -2));
+        }
+
+        
+        
+        
 
     }
 }
