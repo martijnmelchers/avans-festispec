@@ -79,7 +79,7 @@ namespace Festispec.DomainServices.Services
         {
             var questionnaire = GetQuestionnaire(questionnaireId);
 
-            if (questionnaire.Questions.FirstOrDefault(q => q.Answers.Count > 0) != null)
+            if (questionnaire.Questions.Any(q => q.Answers.Count > 0))
                 throw new QuestionHasAnswersException();
 
             _db.Questionnaires.Remove(questionnaire);

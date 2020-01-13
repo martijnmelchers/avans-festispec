@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
@@ -148,5 +149,8 @@ namespace Festispec.UnitTests
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
+
+
+        
     }
 }
