@@ -34,7 +34,9 @@ namespace Festispec.UnitTests
                     HouseNumber = 1,
                     Suffix = "a",
                     City = "Test city",
-                    Country = "Nederland"
+                    Country = "Nederland",
+                    Latitude = 12,
+                    Longitude = 16
                 },
                 new ContactDetails
                 {
