@@ -71,14 +71,9 @@ namespace Festispec.DomainServices.Services
                 .Where(c => c.EventTitle == "Niet beschikbaar") // This is really bad practice!
                 .ToListAsync();
             var dictionary = new Dictionary<long, Availability>();
-            foreach (var availability in list)
+            foreach (Availability availability in list.Where(availability => availability.EndTime != null))
             {
-                if (availability.EndTime == null) continue;
-                foreach (var day in EachDay(availability.StartTime, (DateTime) availability.EndTime))
-                {
-                    var epoch = (long) (day - new DateTime(1970, 1, 1)).TotalSeconds;
-                    dictionary.Add(epoch, availability);
-                }
+                CalculateTimeFromEpoch(availability).ToList().ForEach(l => dictionary.Add(l, availability));
             }
             return dictionary;
         }
@@ -87,6 +82,12 @@ namespace Festispec.DomainServices.Services
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
+        }
+
+        public static IEnumerable<long> CalculateTimeFromEpoch(Availability availability)
+        {
+            return EachDay(availability.StartTime, (DateTime) availability.EndTime)
+                .Select(day => (long) (day - new DateTime(1970, 1, 1)).TotalSeconds);
         }
     }
 }
