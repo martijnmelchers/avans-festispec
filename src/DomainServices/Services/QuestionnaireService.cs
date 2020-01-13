@@ -205,8 +205,10 @@ namespace Festispec.DomainServices.Services
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
                 .Where(e => e.Employee.Id == employeeId)
-                .Where(e => QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
                 .ToListAsync();
+
+            // LINQ does not like .Date inside an EF query. Or maybe EF doesn't like it. Either way, this works.
+            plannedInspections = plannedInspections.Where(e => e.StartTime.Date == DateTime.Now.Date).ToList();
 
             if (plannedInspections.Count < 1)
                 throw new EntityNotFoundException();
