@@ -51,10 +51,11 @@ namespace Festispec.Models.EntityMapping
             AddTimestamps();
             return await base.SaveChangesAsync();
         }
-
-        public virtual DateTime? TruncateTime(DateTime dateTime)
+        
+        [DbFunction("Edm", "TruncateTime")]
+        public static DateTime? TruncateTime(DateTime? dateValue)
         {
-            return DbFunctions.TruncateTime(dateTime);
+            return dateValue?.Date;
         }
 
         private void AddTimestamps()

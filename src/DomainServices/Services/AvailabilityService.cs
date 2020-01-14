@@ -49,7 +49,7 @@ namespace Festispec.DomainServices.Services
         {
             return _db.Availabilities.FirstOrDefault(
                 a => a.Employee.Id == employeeId 
-                     && _db.TruncateTime(a.StartTime) == _db.TruncateTime(date) 
+                     && FestispecContext.TruncateTime(a.StartTime) == FestispecContext.TruncateTime(date) 
                      && a.EventTitle == "Niet beschikbaar");
         }
 
