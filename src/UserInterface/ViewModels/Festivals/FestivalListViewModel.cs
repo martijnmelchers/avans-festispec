@@ -5,11 +5,12 @@ using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Festivals
 {
-    public class FestivalListViewModel
+    public class FestivalListViewModel : ViewModelBase
     {
         private readonly IFrameNavigationService _navigationService;
 
@@ -45,7 +46,7 @@ namespace Festispec.UI.ViewModels.Festivals
         {
             if (string.IsNullOrEmpty(Search))
                 return true;
-            return (item as Festival).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
+            return ((Festival) item).FestivalName.IndexOf(Search, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void OpenFestival(int festivalId)

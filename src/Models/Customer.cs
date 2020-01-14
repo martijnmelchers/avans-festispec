@@ -16,12 +16,10 @@ namespace Festispec.Models
 
         [Required] [MaxLength(20)] public string CustomerName { get; set; }
 
+        [MaxLength(500)] public string Notes { get; set; }
+
         public Address Address { get; set; }
-
         public ContactDetails ContactDetails { get; set; }
-
-        public virtual ICollection<ContactPerson> ContactPersons { get; set; }
-
         public virtual ICollection<Festival> Festivals { get; set; }
     }
 }

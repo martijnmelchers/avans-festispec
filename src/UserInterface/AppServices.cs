@@ -11,7 +11,6 @@ using Festispec.UI.ViewModels;
 using Festispec.UI.ViewModels.Customers;
 using Festispec.UI.ViewModels.Employees;
 using Festispec.UI.ViewModels.Festivals;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Festispec.UI

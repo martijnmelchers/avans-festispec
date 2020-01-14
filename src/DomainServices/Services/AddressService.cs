@@ -21,8 +21,7 @@ namespace Festispec.DomainServices.Services
             if (!address.Validate())
                 throw new InvalidAddressException();
 
-            Address existing = await _db.Addresses.FirstOrDefaultAsync(a =>
-                a.Latitude != 0 && a.Latitude == address.Latitude && a.Longitude != 0 && a.Longitude == a.Longitude);
+            Address existing = await _db.Addresses.FirstOrDefaultAsync(a => a.Latitude == address.Latitude && a.Longitude == address.Longitude);
 
             if (existing != null)
                 return existing;
@@ -36,9 +35,9 @@ namespace Festispec.DomainServices.Services
         public async Task RemoveAddress(Address address)
         {
             var existing = 0;
-            existing += await _db.Festivals.Include(f => f.Address).CountAsync(a => a.Address.Id == address.Id);
-            existing += await _db.Employees.Include(e => e.Address).CountAsync(e => e.Address.Id == address.Id);
-            existing += await _db.Customers.Include(c => c.Address).CountAsync(c => c.Address.Id == address.Id);
+            existing += await _db.Festivals.Include(f => f.Address).CountAsync(a => a.Address.Id == address.Id && a.Address.Latitude == address.Latitude && a.Address.Longitude == address.Longitude);
+            existing += await _db.Employees.Include(e => e.Address).CountAsync(e => e.Address.Id == address.Id && e.Address.Latitude == address.Latitude && e.Address.Longitude == address.Longitude);
+            existing += await _db.Customers.Include(c => c.Address).CountAsync(c => c.Address.Id == address.Id && c.Address.Latitude == address.Latitude && c.Address.Longitude == address.Longitude);
 
             if (existing == 0)
                 _db.Addresses.Remove(address);

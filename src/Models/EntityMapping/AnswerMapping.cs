@@ -13,9 +13,7 @@ namespace Festispec.Models.EntityMapping
 
             HasRequired(a => a.PlannedInspection)
                 .WithMany(pi => pi.Answers)
-                .WillCascadeOnDelete(false);
-
-            HasMany(a => a.Attachments).WithRequired(a => a.Answer);
+                .WillCascadeOnDelete(false); 
         }
     }
 }

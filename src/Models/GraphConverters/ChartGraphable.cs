@@ -11,35 +11,25 @@ namespace Festispec.Models.GraphConverters
     {
         public List<GraphableSeries> TypeToChart(Question question)
         {
-            ICollection<Answer> multipleChoiceAnswers = question.Answers;
-
             var chartSeries = new List<GraphableSeries>();
+            var multipleChoiceQuestion = (MultipleChoiceQuestion) question;
 
-
-            if (multipleChoiceAnswers == null)
-                return chartSeries;
-
-
-            var quest = (MultipleChoiceQuestion) question;
-
-            for (var i = 0; i < quest.OptionCollection.Count; i++)
+            for (var i = 0; i < multipleChoiceQuestion.OptionCollection.Count; i++)
             {
-                StringObject option = quest.OptionCollection[i];
+                var option = multipleChoiceQuestion.OptionCollection[i];
                 // Hoevaak hebben we de index answered.
 
-                int count = quest.Answers.Count(a =>
-                {
-                    var answer = (MultipleChoiceAnswer) a;
-                    return answer.MultipleChoiceAnswerKey == i;
-                });
+                var count = multipleChoiceQuestion.Answers
+                    .OfType<MultipleChoiceAnswer>()
+                    .Count(a => a.MultipleChoiceAnswerKey == i);
 
-                var serie = new GraphableSeries
+                var graphableSeries = new GraphableSeries
                 {
                     Title = option.Value,
-                    Values = new ChartValues<int> {count}
+                    Values = new ChartValues<int> { count }
                 };
 
-                chartSeries.Add(serie);
+                chartSeries.Add(graphableSeries);
             }
 
 

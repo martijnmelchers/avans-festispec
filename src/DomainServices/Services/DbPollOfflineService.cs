@@ -1,9 +1,11 @@
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models.EntityMapping;
 
 namespace Festispec.DomainServices.Services
 {
+    [ExcludeFromCodeCoverage]
     public class DbPollOfflineService : IOfflineService
     {
         public bool IsOnline { get; }

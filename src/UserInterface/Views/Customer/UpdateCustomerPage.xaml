@@ -112,6 +112,10 @@
             <Label Content="Telefoonnummer" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" />
             <TextBox Grid.Column="2" Grid.Row="5"
                      Text="{Binding Customer.ContactDetails.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            
+            <Label Content="Notities" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" />
+            <TextBox Grid.Column="2" Grid.Row="7" Grid.RowSpan="5" TextWrapping="Wrap"
+                     Text="{Binding Customer.Notes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="15">
                 <Button Content="Annuleren" Command="{Binding NavigateToCustomerInfoCommand}"

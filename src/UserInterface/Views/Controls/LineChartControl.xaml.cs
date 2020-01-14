@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Festispec.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
-using Separator = LiveCharts.Wpf.Separator;
 
 namespace Festispec.UI.Views.Controls
 {

@@ -1,38 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Vragenlijst invullen";
 }
+@using Festispec.Models.Answers
+@using Festispec.Models.Questions
 @model Festispec.Models.PlannedInspection
 
 @{
-    List<Festispec.Models.Answers.Answer> answers = new List<Festispec.Models.Answers.Answer>(Model.Answers);
+    List<Answer> answers = new List<Answer>(Model.Answers);
 
     answers = ViewBag.answers;
 }
 
+<h4>Instructies</h4>
+<hr />
+<p>@{
+       @Html.Raw(Model.Instructions?
+           .Replace('<'.ToString(), "&lt;")
+           .Replace('>'.ToString(), "&gt;")
+           .Replace('\n'.ToString(), "<br />"));
+   }</p>
+
 @for (int i = 0; i < answers.Count; i++)
 {
-    if (answers[i] is Festispec.Models.Answers.StringAnswer && !(answers[i] is Festispec.Models.Answers.FileAnswer))
+    if (answers[i] is StringAnswer && !(answers[i] is FileAnswer))
     {
-        @await Html.PartialAsync("Answers/_stringAnswer", answers[i] as Festispec.Models.Answers.StringAnswer)
+        @await Html.PartialAsync("Answers/_stringAnswer", answers[i] as StringAnswer)
     }
-    else if (answers[i] is Festispec.Models.Answers.MultipleChoiceAnswer)
+    else if (answers[i] is MultipleChoiceAnswer)
     {
-        @await Html.PartialAsync("Answers/_multipleChoiceAnswer", answers[i] as Festispec.Models.Answers.MultipleChoiceAnswer)
+        @await Html.PartialAsync("Answers/_multipleChoiceAnswer", answers[i] as MultipleChoiceAnswer)
     }
-    else if (answers[i] is Festispec.Models.Answers.NumericAnswer && answers[i].Question is Festispec.Models.Questions.NumericQuestion)
+    else if (answers[i] is NumericAnswer && answers[i].Question is NumericQuestion)
     {
-        @await Html.PartialAsync("Answers/_numericAnswer", answers[i] as Festispec.Models.Answers.NumericAnswer)
+        @await Html.PartialAsync("Answers/_numericAnswer", answers[i] as NumericAnswer)
     }
-    else if ((answers[i] is Festispec.Models.Answers.NumericAnswer) && (answers[i].Question is Festispec.Models.Questions.RatingQuestion))
+    else if ((answers[i] is NumericAnswer) && (answers[i].Question is RatingQuestion))
     {
-        @await Html.PartialAsync("Answers/_ratingAnswer", answers[i] as Festispec.Models.Answers.NumericAnswer)
+        @await Html.PartialAsync("Answers/_ratingAnswer", answers[i] as NumericAnswer)
     }
-    else if ((answers[i] is Festispec.Models.Answers.FileAnswer && (answers[i].Question is Festispec.Models.Questions.DrawQuestion)))
+    else if ((answers[i] is FileAnswer && (answers[i].Question is DrawQuestion)))
     {
-        @await Html.PartialAsync("Answers/_DrawAnswer", answers[i] as Festispec.Models.Answers.FileAnswer)
+        @await Html.PartialAsync("Answers/_DrawAnswer", answers[i] as FileAnswer)
     }
-    else if ((answers[i] is Festispec.Models.Answers.FileAnswer && (answers[i].Question is Festispec.Models.Questions.UploadPictureQuestion)))
+    else if ((answers[i] is FileAnswer && (answers[i].Question is UploadPictureQuestion)))
     {
-        @await Html.PartialAsync("Answers/_FileAnswer", answers[i] as Festispec.Models.Answers.FileAnswer)
+        @await Html.PartialAsync("Answers/_FileAnswer", answers[i] as FileAnswer)
     }
 }

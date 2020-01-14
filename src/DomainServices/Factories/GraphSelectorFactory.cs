@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Festispec.Models;
 using Festispec.Models.GraphConverters;
 using Festispec.Models.Interfaces;
 
 namespace Festispec.DomainServices.Factories
 {
+    [ExcludeFromCodeCoverage]
     public class GraphSelectorFactory
     {
         private readonly Dictionary<GraphType, IGraphable> _converters;
