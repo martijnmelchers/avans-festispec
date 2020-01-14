@@ -114,7 +114,7 @@
             </ScrollViewer>
             
             <Label Content="Instructies bij deze inspectie" Grid.Row="6" Grid.Column="2" Margin="50,0,0,0" />
-            <TextBox Grid.Row="7" Grid.Column="2" Grid.RowSpan="2" Margin="50,0,0,0" AcceptsReturn="True"
+            <TextBox Grid.Row="7" Grid.Column="2" Grid.RowSpan="2" Margin="50,0,0,0" AcceptsReturn="True" TextWrapping="Wrap"
                      Text="{Binding Instructions, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             
             <Button Grid.Column="0" Grid.Row="9" Command="{Binding OpenDeleteCheckPopup}"
