@@ -52,29 +52,23 @@ namespace Festispec.UI.ViewModels
             GeneratePdfCommand = new RelayCommand(SavePdf);
             BackCommand = new RelayCommand(Back);
 
-
             GenerateReport();
-
         }
 
         public ObservableCollection<FrameworkElement> Controls { get; set; }
         public Festival SelectedFestival { get; set; }
-
-
+        
         public ICommand GeneratePdfCommand { get; set; }
         public ICommand BackCommand { get; set; }
-
-
+        
         private void CreateReport()
         {
             // this has been done deliberately.
             _pdfHtml = "";
 
             LoadStyles();
-            
-            var imageSrc = String.Concat(_config["Urls:WebApp"], "/images/festispec logo.png");
 
-            _pdfHtml += $"<img src='{imageSrc}'>";
+            _pdfHtml += $"<img src='{_config["Urls:WebApp"]}/Images/festispec logo.png'>";
             _pdfHtml += $"<h1>Festispec rapportage {SelectedFestival.FestivalName}</h1>";
 
             CustomerDetails();
@@ -83,13 +77,11 @@ namespace Festispec.UI.ViewModels
             _pdfHtml += $"<p>{DateTime.Today.ToShortDateString()}</p>";
         }
 
-
         private void LoadStyles() {
             _pdfHtml += "<link href='https://fonts.googleapis.com/css?family=Montserrat&display=swap' rel='stylesheet'>";
 
             _pdfHtml += "<style> * {font-family: 'Montserrat', sans-serif;} </style>";
         }
-
 
         private void CustomerDetails()
         {
@@ -101,7 +93,7 @@ namespace Festispec.UI.ViewModels
 
         private void GenerateReport()
         {
-            var questionnaire = SelectedFestival.Questionnaires.FirstOrDefault();
+            Questionnaire questionnaire = SelectedFestival.Questionnaires.FirstOrDefault();
 
             List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaire.Id);
 
@@ -120,7 +112,6 @@ namespace Festispec.UI.ViewModels
                 TextWrapping = TextWrapping.Wrap
             });
 
-
             Controls.Add(CreateLabel("Advies"));
             Controls.Add(new TextBox
             {
@@ -132,11 +123,8 @@ namespace Festispec.UI.ViewModels
                 TextWrapping = TextWrapping.Wrap
             });
 
-
-
-            Controls.Add(CreateLabel("VRAGEN"));
-
-
+            Controls.Add(CreateLabel("Vragen"));
+            
             foreach (Question question in questions)
                 AddQuestionToReport(question);
         }
@@ -165,7 +153,7 @@ namespace Festispec.UI.ViewModels
             if (chartValues.Count < 1)
                 return;
 
-            var lineControl = question.GraphType switch
+            Control lineControl = question.GraphType switch
             {
                 GraphType.Line => new LineChartControl(chartValues),
                 GraphType.Pie => new PieChartControl(chartValues),
@@ -194,7 +182,6 @@ namespace Festispec.UI.ViewModels
             foreach (FrameworkElement chart in Controls)
                 AddControlToPdf(chart);
 
-
             int questionnaireId = SelectedFestival.Questionnaires.FirstOrDefault().Id;
             List<Question> questions = _questionnaireService.GetQuestionsFromQuestionnaire(questionnaireId);
             GenerateReadout(questions);
@@ -214,7 +201,6 @@ namespace Festispec.UI.ViewModels
             }
         }
 
-
         private void AddAnswers(IEnumerable<Answer> answers)
         {
             foreach (Answer answer in answers)
@@ -226,7 +212,7 @@ namespace Festispec.UI.ViewModels
                         Label label = CreateLabel($"Inspecteur: {GetEmployee(answer).Name} / {date.ToString()}");
                         Image image = CreateImage(fileAnswer);
 
-                        TextBox textBox = new TextBox
+                        var textBox = new TextBox
                         {
                             Height = 150,
                             Width = 700,
@@ -235,7 +221,7 @@ namespace Festispec.UI.ViewModels
                             AcceptsTab = true,
                             TextWrapping = TextWrapping.Wrap,
                             Text = fileAnswer.AnswerContents,
-                            IsEnabled = false,
+                            IsEnabled = false
                         };
 
                         if (image != null)
@@ -248,23 +234,9 @@ namespace Festispec.UI.ViewModels
                         break;
                     }
                     case StringAnswer stringAnswer:
-                        Controls.Add(CreateTextboxFromStringAnswer(stringAnswer));
+                        Controls.Add(CreateTextBoxFromStringAnswer(stringAnswer));
                         break;
                 }
-        }
-
-
-
-        private Image Logo()
-        {
-            var image = new Image();
-
-
-            var imageSrc  = String.Concat(_config["Urls:WebApp"], "/Uploads/festispec logo.png");
-            var source = new BitmapImage(new Uri(imageSrc));
-            image.Source = source;
-            _imageSources.Add(image, source.UriSource.ToString());
-            return image;
         }
 
         private Image CreateImage(FileAnswer answer)
@@ -291,7 +263,6 @@ namespace Festispec.UI.ViewModels
                 return null;
             }
         }
-
 
         private Employee GetEmployee(Answer answer)
         {
@@ -341,7 +312,7 @@ namespace Festispec.UI.ViewModels
             };
         }
         
-        private static TextBox CreateTextboxFromStringAnswer(StringAnswer answer)
+        private static TextBox CreateTextBoxFromStringAnswer(StringAnswer answer)
         {
             return new TextBox
             {
@@ -356,33 +327,32 @@ namespace Festispec.UI.ViewModels
             };
         }
 
-
-        private void GenerateReadout(List<Question> questions)
+        private void GenerateReadout(IEnumerable<Question> questions)
         {
             _pdfHtml += "<div style='page-break-after: always;'></div>";
             _pdfHtml += "<h1>Bijlage</h1>";
             _pdfHtml += "<h2>Ruwe data</h2>";
-            foreach(var question in questions)
+            foreach(Question question in questions)
             {
                 _pdfHtml += $"<p style='font-weight: bold;'>{question.Contents}</p>";
                 ReadoutAnswers(question.Answers.ToList());
             }
         }
 
-        private void ReadoutAnswers(List<Answer> answers)
+        private void ReadoutAnswers(IEnumerable<Answer> answers)
         {
-            foreach(var answer in answers)
+            foreach(Answer answer in answers)
             {
                 _pdfHtml += answer switch
                 {
                     FileAnswer fileAnswer =>  $"<p>{GetEmployee(fileAnswer).Name}: {fileAnswer.UploadedFilePath}",
                     StringAnswer stringAnswer => $"<p>{GetEmployee(stringAnswer).Name}: {stringAnswer.AnswerContents}</p>",
                     NumericAnswer numericAnswer => $"<p>{GetEmployee(numericAnswer).Name}: {numericAnswer.IntAnswer}</p>",
-                    MultipleChoiceAnswer multiplechoiceAnswer => $"<p>{GetEmployee(multiplechoiceAnswer).Name}: {((MultipleChoiceQuestion)multiplechoiceAnswer.Question).OptionCollection[multiplechoiceAnswer.MultipleChoiceAnswerKey].Value.ToString()}</p>"
+                    MultipleChoiceAnswer multiplechoiceAnswer => $"<p>{GetEmployee(multiplechoiceAnswer).Name}: {((MultipleChoiceQuestion)multiplechoiceAnswer.Question).OptionCollection[multiplechoiceAnswer.MultipleChoiceAnswerKey].Value}</p>",
+                    _ => ""
                 };
             }
         }
-
 
         private void Back()
         {

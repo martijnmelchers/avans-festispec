@@ -87,7 +87,7 @@
                 </Button>
 
                 <Button Content="Rapport" Command="{Binding GenerateReportCommand}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" IsEnabled="{Binding HasQuestionnaires}" Width="190" Margin="0,0,10,0" />
+                        Style="{DynamicResource ButtonGreen}" Height="50" IsEnabled="{Binding HasAnswers}" Width="190" Margin="0,0,10,0" />
             </StackPanel>
         </Grid>
 

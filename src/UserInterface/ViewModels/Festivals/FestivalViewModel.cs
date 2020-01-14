@@ -100,19 +100,19 @@ namespace Festispec.UI.ViewModels.Festivals
             }
         }
 
-        public bool HasQuestionnaires
+        public bool HasAnswers
         {
             get
             {
-                var Questionnaire = Festival.Questionnaires.FirstOrDefault();
-                if (Questionnaire == null)
+                var questionnaire = Festival.Questionnaires.FirstOrDefault();
+                if (questionnaire == null)
                     return false;
 
-                var Questions = Questionnaire.Questions;
-                if (Questions.Count < 1)
+                var questions = questionnaire.Questions;
+                if (questions.Count < 1)
                     return false;
 
-                return Questions.FirstOrDefault().AnswerCount > 0;
+                return questions.FirstOrDefault().AnswerCount > 0;
             }
         }
 
