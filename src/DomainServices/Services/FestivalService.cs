@@ -50,6 +50,7 @@ namespace Festispec.DomainServices.Services
                 .Include(f => f.Questionnaires)
                 .Include(f => f.Questionnaires.Select(q => q.Questions.Select(qe => qe.Answers)))
                 .Include(f => f.PlannedInspections)
+                .Include(f => f.Address)
                 .Include(f => f.Customer)
                 .FirstOrDefaultAsync(f => f.Id == festivalId);
 
