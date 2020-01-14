@@ -85,11 +85,12 @@ namespace Festispec.DomainServices.Services
         
         [ExcludeFromCodeCoverage] // the _db.Entry makes this borderline untestable
         public async Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
-            Questionnaire questionnaire)
+            Questionnaire questionnaire, string instructions)
         {
             foreach (var plannedInspection in plannedInspections)
             {
                 plannedInspection.Questionnaire = questionnaire;
+                plannedInspection.Instructions = instructions;
                 if (plannedInspection.Id != 0)
                     _db.Entry(plannedInspection).State = EntityState.Modified;
                 else

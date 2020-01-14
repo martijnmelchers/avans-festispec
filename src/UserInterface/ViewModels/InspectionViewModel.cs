@@ -56,6 +56,7 @@ namespace Festispec.UI.ViewModels
         }
 
         public ICollection<PlannedInspection> PlannedInspections { get; private set; }
+        public string Instructions { get; set; }
         private ICollection<int> OriginalPlannedInspectionIds { get; set; }
 
         public Festival Festival
@@ -172,10 +173,10 @@ namespace Festispec.UI.ViewModels
                 if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
                     return true;
 
-                    if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
-                        (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
-                        return false;
-                }
+                if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
+                    (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
+                    return false;
+            }
 
             return true;
         }
@@ -191,6 +192,7 @@ namespace Festispec.UI.ViewModels
                 _endTime = (DateTime)temp.EndTime;
                 SelectedQuestionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
+                Instructions = temp.Instructions;
 
                 PlannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival.Id, temp.StartTime);
                 OriginalPlannedInspectionIds = PlannedInspections.Select(pi => pi.Id).ToList();
@@ -296,7 +298,7 @@ namespace Festispec.UI.ViewModels
         {
             try
             {
-                await _inspectionService.ProcessPlannedInspections(PlannedInspections, SelectedQuestionnaire);
+                await _inspectionService.ProcessPlannedInspections(PlannedInspections, SelectedQuestionnaire, Instructions);
 
                 foreach (int originalPlannedInspectionId in OriginalPlannedInspectionIds)
                 {
@@ -312,7 +314,7 @@ namespace Festispec.UI.ViewModels
             }
             catch (Exception e)
             {
-                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})");
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de inspectie ({e.GetType()})");
             }
         }
     }

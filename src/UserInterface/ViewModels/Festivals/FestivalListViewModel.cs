@@ -5,11 +5,12 @@ using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.UI.Interfaces;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace Festispec.UI.ViewModels.Festivals
 {
-    public class FestivalListViewModel
+    public class FestivalListViewModel : ViewModelBase
     {
         private readonly IFrameNavigationService _navigationService;
 

@@ -96,7 +96,7 @@ namespace Festispec.DomainServices.Services.Offline
         }
 
         public Task<int> ProcessPlannedInspections(IEnumerable<PlannedInspection> plannedInspections,
-            Questionnaire questionnaire)
+            Questionnaire questionnaire, string instructions)
         {
             throw new InvalidOperationException();
         }

@@ -11,6 +11,15 @@
     answers = ViewBag.answers;
 }
 
+<h4>Instructies</h4>
+<hr />
+<p>@{
+       @Html.Raw(Model.Instructions
+           .Replace('<'.ToString(), "&lt;")
+           .Replace('>'.ToString(), "&gt;")
+           .Replace('\n'.ToString(), "<br />"));
+   }</p>
+
 @for (int i = 0; i < answers.Count; i++)
 {
     if (answers[i] is StringAnswer && !(answers[i] is FileAnswer))
