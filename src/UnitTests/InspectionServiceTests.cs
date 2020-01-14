@@ -33,7 +33,6 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Questionnaires)
                 .Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Employees).Object);
-            _dbMock.Setup(x => x.TruncateTime(It.IsAny<DateTime>())).Returns<DateTime>(dt => dt.Date);
 
             // Create InspectionService
             _inspectionService =
