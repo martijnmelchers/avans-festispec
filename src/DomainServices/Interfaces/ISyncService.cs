@@ -16,8 +16,7 @@ namespace Festispec.DomainServices.Interfaces
         void AddEntities(IEnumerable<T> entities);
         
         void SaveChanges();
-        void SaveChangesAsync();
-        
+
         FestispecContext GetSyncContext();
         void Flush();
     }

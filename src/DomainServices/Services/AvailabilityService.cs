@@ -1,14 +1,12 @@
-﻿using Festispec.DomainServices.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
 using Festispec.Models.Exception;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Festispec.DomainServices.Services
 {
@@ -28,7 +26,7 @@ namespace Festispec.DomainServices.Services
 
             var employee = _db.Employees.FirstOrDefault(e => e.Id == employeeId);
 
-            var availability = new Availability()
+            var availability = new Availability
             {
                 IsAvailable = false,
                 Employee = employee,
@@ -42,19 +40,20 @@ namespace Festispec.DomainServices.Services
                 throw new InvalidDataException();
 
             _db.PlannedEvents.Add(availability);
-
-            if (await _db.SaveChangesAsync() == 0)
-                throw new NoRowsChangedException();
+            await _db.SaveChangesAsync();
 
             return availability;
         }  
 
         public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
         {
-            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && EntityFunctions.TruncateTime(a.StartTime) == EntityFunctions.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
+            return _db.Availabilities.FirstOrDefault(
+                a => a.Employee.Id == employeeId 
+                     && _db.TruncateTime(a.StartTime) == _db.TruncateTime(date) 
+                     && a.EventTitle == "Niet beschikbaar");
         }
 
-        public async Task RemoveUnavailablity(int availabilityId)
+        public async Task RemoveUnavailability(int availabilityId)
         {
             var availability = _db.Availabilities.FirstOrDefault(a => a.Id == availabilityId);
 
@@ -66,33 +65,32 @@ namespace Festispec.DomainServices.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task SaveChanges()
-        {
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<Dictionary<long, Availability>> GetUnavailabilitiesForFuture(int employeeId, DateTime startDate)
+        public async Task<Dictionary<long, Availability>> GetUnavailabilityForFuture(int employeeId, DateTime startDate)
         {
              var list = await _db.Availabilities
                 .OrderByDescending(c => c.EndTime)
-                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId && c.EventTitle == "Niet beschikbaar")
+                .Where(c => c.StartTime > startDate)
+                .Where(c => c.Employee.Id == employeeId)
+                .Where(c => c.EventTitle == "Niet beschikbaar") // This is really bad practice!
                 .ToListAsync();
             var dictionary = new Dictionary<long, Availability>();
-            foreach (Availability availability in list)
+            foreach (Availability availability in list.Where(availability => availability.EndTime != null))
             {
-                foreach (DateTime day in EachDay(availability.StartTime, (DateTime)availability.EndTime))
-                {
-                    long epoch = (long)(day - new DateTime(1970, 1, 1)).TotalSeconds;
-                    dictionary.Add(epoch, availability);
-                }
+                CalculateTimeFromEpoch(availability).ToList().ForEach(l => dictionary.Add(l, availability));
             }
             return dictionary;
         }
 
-        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        private static IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
+        }
+
+        public static IEnumerable<long> CalculateTimeFromEpoch(Availability availability)
+        {
+            return EachDay(availability.StartTime, (DateTime) availability.EndTime)
+                .Select(day => (long) (day - new DateTime(1970, 1, 1)).TotalSeconds);
         }
     }
 }

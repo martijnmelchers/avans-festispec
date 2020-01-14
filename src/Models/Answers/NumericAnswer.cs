@@ -2,7 +2,7 @@
 
 namespace Festispec.Models.Answers
 {
-    public class NumericAnswer : Answer, IAnswer<int>
+    public class NumericAnswer : Answer
     {
         public int IntAnswer { get; set; }
 

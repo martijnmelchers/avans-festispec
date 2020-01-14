@@ -6,6 +6,7 @@
       xmlns:festivals="clr-namespace:Festispec.UI.ViewModels.Festivals"
       xmlns:converters="clr-namespace:Festispec.UI.Converters"
       xmlns:controls="clr-namespace:Festispec.UI.Views.Controls"
+      xmlns:models="clr-namespace:Festispec.Models;assembly=Models"
       mc:Ignorable="d"
       d:DesignHeight="1011" d:DesignWidth="1920"
       Title="FestivalPage"
@@ -87,7 +88,7 @@
                 </Button>
 
                 <Button Content="Rapport" Command="{Binding GenerateReportCommand}"
-                        Style="{DynamicResource ButtonGreen}" Height="50" Width="190" Margin="0,0,10,0" />
+                        Style="{DynamicResource ButtonGreen}" Height="50" IsEnabled="{Binding HasAnswers}" Width="190" Margin="0,0,10,0" />
             </StackPanel>
         </Grid>
 
@@ -107,20 +108,20 @@
                       Background="{x:Null}" Width="500" Grid.Row="1">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MaxWidth="500">
+                        <Grid Width="475">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="240"/>
-                                <ColumnDefinition Width="240"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Style="{DynamicResource InspectionTextblock}" Text="{Binding [0].EventTitle}"/>
-                                <ListView ItemsSource="{Binding}" BorderThickness= "0">
-                                    <ListView.ItemTemplate>
+                                <ItemsControl ItemsSource="{Binding}" BorderThickness= "0">
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding Employee.Name}"/>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                                 <TextBlock Style="{DynamicResource InspectionTextblock}" Text="{Binding [0].Questionnaire.Name}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding [0].StartTime, StringFormat=HH:mm}"/>
@@ -130,21 +131,13 @@
                                 <TextBlock Style="{DynamicResource InspectionTextblockLight}" Text="{Binding [0].StartTime, StringFormat=D}"/>
                             </StackPanel>
 
-                            <StackPanel Orientation="Vertical" Width="250" Grid.Column="1">
+                            <StackPanel Orientation="Vertical" Width="70" Grid.Column="1" VerticalAlignment="Center">
                                 <Button Command="{Binding DataContext.EditPlannedInspectionCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
                                         CommandParameter="{Binding}"
                                         Style="{DynamicResource ButtonGreen}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,0"
                                         HorizontalAlignment="Right">
                                     <Button.Content>
                                         <Image Height="25" Source="{StaticResource EditWhite}"/>
-                                    </Button.Content>
-                                </Button>
-                                <Button Command="{Binding DataContext.DeletePlannedInspectionsCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                        CommandParameter="{Binding}"
-                                        Style="{DynamicResource ButtonRed}" Height="50" MinWidth="50" Width="50" Margin="0,10,10,10"
-                                        HorizontalAlignment="Right">
-                                    <Button.Content>
-                                        <Image Height="25" Source="{StaticResource TrashcanWhite}" />
                                     </Button.Content>
                                 </Button>
                             </StackPanel>
@@ -261,7 +254,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button HorizontalAlignment="Left" Content="Annuleren" Style="{DynamicResource ButtonRed}"
-                                Click="ToggleNewQuestionnairePopUp" Height="50" Width="185" Grid.Column="0" />
+                                Command="{Binding CloseCopyQuestionnaireCommand}" Height="50" Width="185" Grid.Column="0" />
                         <Button HorizontalAlignment="Right" Content="Aanmaken" Style="{DynamicResource ButtonGreen}"
                                 Click="ToggleNewQuestionnairePopUp" Command="{Binding CopyQuestionnaireCommand}"
                                 Height="50" Width="185" Grid.Column="2" />
@@ -303,7 +296,7 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <controls:ValidationPopup Caption="Festival Pagina" />
+        <controls:ValidationPopup Caption="Festival" />
         <controls:DeleteCheckPopup Caption="WAARSCHUWING" Subtext="Weet je zeker dat je dit festival wilt verwijderen?" />
     </Grid>
 

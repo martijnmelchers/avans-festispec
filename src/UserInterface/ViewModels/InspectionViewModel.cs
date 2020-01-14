@@ -34,7 +34,8 @@ namespace Festispec.UI.ViewModels
         public InspectionViewModel(
             IInspectionService inspectionService,
             IFrameNavigationService navigationService,
-            IGoogleMapsService googleService
+            IGoogleMapsService googleService,
+            IOfflineService offlineService
         )
         {
             _inspectionService = inspectionService;
@@ -44,6 +45,8 @@ namespace Festispec.UI.ViewModels
             CheckBoxCommand = new RelayCommand<AdvancedEmployee>(CheckBox);
             SaveCommand = new RelayCommand(Save);
             ReturnCommand = new RelayCommand(() => _navigationService.NavigateTo("FestivalInfo", Festival.Id));
+            OpenDeleteCheckPopup = new RelayCommand(OpenDeletePopup);
+            DeleteCommand = new RelayCommand(DeletePlannedInspection, () => offlineService.IsOnline, true);
 
             PlannedInspections = new List<PlannedInspection>();
             Questionnaires = new List<Questionnaire>();
@@ -53,7 +56,8 @@ namespace Festispec.UI.ViewModels
         }
 
         public ICollection<PlannedInspection> PlannedInspections { get; private set; }
-        private IEnumerable<int> OriginalPlannedInspectionIds { get; set; }
+        public string Instructions { get; set; }
+        private ICollection<int> OriginalPlannedInspectionIds { get; set; }
 
         public Festival Festival
         {
@@ -64,6 +68,7 @@ namespace Festispec.UI.ViewModels
         public ICommand CheckBoxCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
+        public ICommand OpenDeleteCheckPopup { get; set; }
 
         public ICollection<Questionnaire> Questionnaires { get; private set; }
 
@@ -168,10 +173,10 @@ namespace Festispec.UI.ViewModels
                 if (_originalStartTime == _startTime && _originalStartTime.Year > 100)
                     return true;
 
-                    if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
-                        (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
-                        return false;
-                }
+                if ((_startTime.Ticks >= item.StartTime.Ticks || _endTime.Ticks >= item.StartTime.Ticks) &&
+                    (_startTime.Ticks <= ((DateTime)item.EndTime).Ticks || _endTime.Ticks <= ((DateTime)item.EndTime).Ticks))
+                    return false;
+            }
 
             return true;
         }
@@ -187,9 +192,10 @@ namespace Festispec.UI.ViewModels
                 _endTime = (DateTime)temp.EndTime;
                 SelectedQuestionnaire = temp.Questionnaire;
                 _selectedDate = temp.StartTime;
+                Instructions = temp.Instructions;
 
                 PlannedInspections = await _inspectionService.GetPlannedInspections(temp.Festival.Id, temp.StartTime);
-                OriginalPlannedInspectionIds = PlannedInspections.Select(pi => pi.Id);
+                OriginalPlannedInspectionIds = PlannedInspections.Select(pi => pi.Id).ToList();
             }
             else if (parameter.FestivalId > 0)
             {
@@ -245,7 +251,7 @@ namespace Festispec.UI.ViewModels
                 {
                     StartTime = _startTime,
                     EndTime = _endTime,
-                    EventTitle = $"Ingeplande inspectie voor {advancedEmployee.Employee.Name}",
+                    EventTitle = $"Ingeplande inspectie voor {Festival.FestivalName}",
                     Employee = advancedEmployee.Employee,
                     Questionnaire = SelectedQuestionnaire,
                     Festival = Festival
@@ -254,12 +260,45 @@ namespace Festispec.UI.ViewModels
             else
                 PlannedInspections.Remove(existing);
         }
+        
+        private async void DeletePlannedInspection()
+        {
+            ICollection<int> keptPlannedInspectionIds = new List<int>(OriginalPlannedInspectionIds);
+            foreach (int plannedInspectionId in OriginalPlannedInspectionIds)
+            {
+                PlannedInspection plannedInspection = await _inspectionService.GetPlannedInspection(plannedInspectionId);
+                try
+                {
+                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Niet meer nodig");
+                    keptPlannedInspectionIds.Remove(plannedInspectionId);
+                    
+                    if (PlannedInspections.Any(pi => pi.Id == plannedInspectionId))
+                        PlannedInspections.Remove(PlannedInspections.First(pi => pi.Id == plannedInspectionId));
+                }
+                catch (QuestionHasAnswersException)
+                {
+                    OpenValidationPopup(
+                        $"De inspectie voor {plannedInspection.Employee.Name} kon niet worden verwijderd omdat er een vraag met antwoorden in zit.");
+                }
+                catch (InvalidDataException)
+                {
+                    OpenValidationPopup(
+                        $"De inspectie voor {plannedInspection.Employee.Name} kon niet worden verwijderd omdat de ingevulde gegevens niet voldoen.");
+                }
+            }
+
+            OriginalPlannedInspectionIds = keptPlannedInspectionIds;
+            RaisePropertyChanged(nameof(PlannedInspections));
+
+            if (!PopupIsOpen)
+                _navigationService.NavigateTo("FestivalInfo", _festival.Id);
+        }
 
         private async void Save()
         {
             try
             {
-                await _inspectionService.ProcessPlannedInspections(PlannedInspections);
+                await _inspectionService.ProcessPlannedInspections(PlannedInspections, SelectedQuestionnaire, Instructions);
 
                 foreach (int originalPlannedInspectionId in OriginalPlannedInspectionIds)
                 {
@@ -275,7 +314,7 @@ namespace Festispec.UI.ViewModels
             }
             catch (Exception e)
             {
-                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de klant ({e.GetType()})");
+                OpenValidationPopup($"Er is een fout opgetreden bij het opslaan van de inspectie ({e.GetType()})");
             }
         }
     }

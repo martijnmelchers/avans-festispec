@@ -13,81 +13,66 @@ namespace Festispec.Web.Controllers
     public class AvailabilityController : Controller
     {
 
-        private IAvailabilityService _availabilityService;
+        private readonly IAvailabilityService _availabilityService;
 
-        public AvailabilityController(IAvailabilityService availibilityService)
+        public AvailabilityController(IAvailabilityService availabilityService)
         {
-            _availabilityService = availibilityService;
+            _availabilityService = availabilityService;
         }
         public async Task<IActionResult> Index()
         {
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            try
-            {
-                ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
-            }
-            catch (Exception e)
-            {
-                if (Request.Cookies["CurrentUserId"] == null)
-                    return RedirectToAction("Login", "Authentication");
-            }
+            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailabilityToJson());
             return View();
         }
 
-        public async Task<Dictionary<string, int>> ConvertAvailibiltyToJson()
+        public async Task<Dictionary<string, int>> ConvertAvailabilityToJson()
         {
-            var dictionary = new Dictionary<string, int>();
-            var availibilityDictionary = await _availabilityService.GetUnavailabilitiesForFuture(Int32.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            var availabilityDictionary = await _availabilityService.GetUnavailabilityForFuture(int.Parse(Request.Cookies["CurrentUserID"]), new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
 
-            foreach (var availability in availibilityDictionary)
-            {
-                if (!availability.Value.IsAvailable || !availibilityDictionary.ContainsKey(availability.Key))
-                    dictionary.Add($"{availability.Key}000", 1);
-
-            }
-            return dictionary;
+            return availabilityDictionary
+                .Where(availability => !availability.Value.IsAvailable || !availabilityDictionary.ContainsKey(availability.Key))
+                .ToDictionary(availability => $"{availability.Key}000", availability => 1);
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Index(String j)
         {
-            List<DateTime> dateTimes = new List<DateTime>();
+            var dateTimes = new List<DateTime>();
             foreach (var item in Request.Form.Keys)
             {
-                var test = Request.Form[item].ToString();
-                foreach (var s in test.Split(','))
-                {
-                    dateTimes.Add(DateTime.Parse(s, new System.Globalization.CultureInfo("nl-NL")));
-                }
+                var dates = Request.Form[item].ToString();
+                dateTimes.AddRange(dates.Split(',').Select(s => DateTime.Parse(s, new System.Globalization.CultureInfo("nl-NL"))));
             }
 
-            foreach (DateTime time in dateTimes)
+            foreach (var time in dateTimes)
             {
-                var existing = _availabilityService.GetUnavailabilityForDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time);
+                var existing = _availabilityService.GetUnavailabilityForDay(int.Parse(Request.Cookies["CurrentUserID"]), time);
                 if (existing == null)
                     try
                     {
-                        await _availabilityService.AddUnavailabilityEntireDay(Int32.Parse(Request.Cookies["CurrentUserID"]), time, "test");
+                        await _availabilityService.AddUnavailabilityEntireDay(int.Parse(Request.Cookies["CurrentUserID"]), time, "test");
                     }
                     catch (Exception)
                     {
-
+                        // ignored
                     }
                 else
                 {
                     try
                     {
-                        await _availabilityService.RemoveUnavailablity(existing.Id);
+                        await _availabilityService.RemoveUnavailability(existing.Id);
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
                 }
             }
 
 
-            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailibiltyToJson());
+            ViewBag.SuccesBody = JsonConvert.SerializeObject(await ConvertAvailabilityToJson());
             return View();
         }
     }

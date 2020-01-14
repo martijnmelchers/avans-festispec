@@ -2,7 +2,7 @@
 
 namespace Festispec.Models.Answers
 {
-    public class StringAnswer : Answer, IAnswer<string>
+    public class StringAnswer : Answer
     {
         public string AnswerContents { get; set; }
 

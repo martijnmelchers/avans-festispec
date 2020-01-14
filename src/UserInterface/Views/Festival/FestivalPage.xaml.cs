@@ -25,5 +25,10 @@ namespace Festispec.UI.Views.Festival
         {
             DeleteQuestionnairePopUp.IsOpen = !DeleteQuestionnairePopUp.IsOpen;
         }
+
+        private void DeleteCheckPopup_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

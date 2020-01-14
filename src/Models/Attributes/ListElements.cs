@@ -16,9 +16,8 @@ namespace Festispec.Models.Attributes
 
         public override bool IsValid(object value)
         {
-            var list = value as ICollection;
-            if (list != null)
-                return list.Count >= _minElements && (_maxElements > 0 ? list.Count <= _maxElements : true);
+            if (value is ICollection list)
+                return list.Count >= _minElements && (_maxElements <= 0 || list.Count <= _maxElements);
             return false;
         }
     }

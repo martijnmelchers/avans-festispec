@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Festispec.Models.EntityMapping;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
@@ -15,14 +17,13 @@ namespace Festispec.UnitTests
     {
         private readonly Mock<FestispecContext> _dbMock;
         private readonly ICustomerService _customerService;
-        private ModelMocks _modelMocks;
+        private readonly ModelMocks _modelMocks;
 
         public CustomerServiceTests()
         {
             _dbMock = new Mock<FestispecContext>();
             _modelMocks = new ModelMocks();
             _dbMock.Setup(x => x.Customers).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Customers).Object);
-            _dbMock.Setup(x => x.ContactPersons).Returns(MockHelpers.CreateDbSetMock(_modelMocks.ContactPersons).Object);
             _dbMock.Setup(x => x.Addresses).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Addresses).Object);
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Festivals).Object);
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(_modelMocks.Employees).Object);
@@ -78,7 +79,7 @@ namespace Festispec.UnitTests
         {
             var address = new Address
             {
-                City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode
+                City = city, Country = country, HouseNumber = houseNumber, StreetName = street, ZipCode = zipCode, Latitude = 69, Longitude = 420
             };
 
             var contactDetails = new ContactDetails
@@ -121,9 +122,10 @@ namespace Festispec.UnitTests
         }
 
         [Theory]
-        [InlineData(1)]
+        [InlineData(3)]
         public async void RemoveCustomerRemovesCustomer(int customerId)
         {
+            Assert.True(_customerService.CanDeleteCustomer(_customerService.GetCustomer(customerId)));
             await _customerService.RemoveCustomerAsync(customerId);
             
             await Assert.ThrowsAsync<EntityNotFoundException>(() => _customerService.GetCustomerAsync(customerId));
@@ -144,7 +146,44 @@ namespace Festispec.UnitTests
         [InlineData(2)]
         public async void RemoveCustomerWithFestivalsThrowsException(int customerId)
         {
+            Assert.False(_customerService.CanDeleteCustomer(_customerService.GetCustomer(customerId)));
             await Assert.ThrowsAsync<CustomerHasFestivalsException>(() => _customerService.RemoveCustomerAsync(customerId));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncUpdatesAddress(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.Address.City = "Teststadje";
+            customer.Address.Id = 99;
+            await _customerService.UpdateCustomerAsync(customer);
+
+            Assert.Equal("Teststadje", _dbMock.Object.Addresses.First(x => x.Id == 99).City);
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncWithInvalidAddressThrowsException(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.Address.City = new string('A', 205);
+            await Assert.ThrowsAsync<InvalidAddressException>(async () => await _customerService.UpdateCustomerAsync(customer));
+            _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
+        }
+        
+        [Theory]
+        [InlineData(1)]
+        public async Task UpdateCustomerAsyncWithInvalidDataThrowsException(int customerId)
+        {
+            Customer customer = await _customerService.GetCustomerAsync(customerId);
+
+            customer.CustomerName = new string('A', 25);
+            await Assert.ThrowsAsync<InvalidDataException>(async () => await _customerService.UpdateCustomerAsync(customer));
             _dbMock.Verify(x => x.SaveChangesAsync(), Times.Never);
         }
     }

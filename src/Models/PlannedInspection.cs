@@ -20,5 +20,7 @@ namespace Festispec.Models
         [Required] public virtual Festival Festival { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
+        
+        [MaxLength(1000)] public string Instructions { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using Festispec.Models.Interfaces;
 
 namespace Festispec.Models.Questions
 {
-    public abstract class Question : Entity, IAnswerable<Answer>
+    public abstract class Question : Entity
     {
         public Question(string contents, Questionnaire questionnaire)
         {
@@ -25,9 +25,6 @@ namespace Festispec.Models.Questions
         [MinLength(5)]
         [MaxLength(250)]
         public string Contents { get; set; }
-
-        public virtual QuestionCategory Category { get; set; }
-
 
         public virtual Questionnaire Questionnaire { get; set; }
 

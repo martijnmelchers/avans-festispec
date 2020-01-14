@@ -154,11 +154,11 @@ namespace Festispec.UI.ViewModels.Customers
             }
         }
 
-        public async void Select(string id)
+        private async void Select(string id)
         {
             try
             {
-                Address address = await _googleService.GetAddress(id);
+                var address = await _googleService.GetAddress(id);
                 Customer.Address = address;
                 CurrentAddress = $"Geselecteerde adres: {Customer.Address}";
                 RaisePropertyChanged(nameof(CurrentAddress));
