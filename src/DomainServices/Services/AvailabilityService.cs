@@ -48,7 +48,10 @@ namespace Festispec.DomainServices.Services
 
         public Availability GetUnavailabilityForDay(int employeeId, DateTime date)
         {
-            return _db.Availabilities.FirstOrDefault(a => a.Employee.Id == employeeId && QueryHelpers.TruncateTime(a.StartTime) == QueryHelpers.TruncateTime(date) && a.EventTitle == "Niet beschikbaar");
+            return _db.Availabilities.FirstOrDefault(
+                a => a.Employee.Id == employeeId 
+                     && DbFunctions.TruncateTime(a.StartTime) == DbFunctions.TruncateTime(date) 
+                     && a.EventTitle == "Niet beschikbaar");
         }
 
         public async Task RemoveUnavailability(int availabilityId)
@@ -67,7 +70,8 @@ namespace Festispec.DomainServices.Services
         {
              var list = await _db.Availabilities
                 .OrderByDescending(c => c.EndTime)
-                .Where(c => c.StartTime > startDate &&  c.Employee.Id == employeeId)
+                .Where(c => c.StartTime > startDate)
+                .Where(c => c.Employee.Id == employeeId)
                 .Where(c => c.EventTitle == "Niet beschikbaar") // This is really bad practice!
                 .ToListAsync();
             var dictionary = new Dictionary<long, Availability>();

@@ -14,7 +14,7 @@
 <h4>Instructies</h4>
 <hr />
 <p>@{
-       @Html.Raw(Model.Instructions
+       @Html.Raw(Model.Instructions?
            .Replace('<'.ToString(), "&lt;")
            .Replace('>'.ToString(), "&gt;")
            .Replace('\n'.ToString(), "<br />"));
