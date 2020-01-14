@@ -52,6 +52,11 @@ namespace Festispec.Models.EntityMapping
             return await base.SaveChangesAsync();
         }
 
+        public virtual DateTime? TruncateTime(DateTime dateTime)
+        {
+            return DbFunctions.TruncateTime(dateTime);
+        }
+
         private void AddTimestamps()
         {
             foreach (DbEntityEntry entity in ChangeTracker.Entries().Where(x =>

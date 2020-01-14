@@ -4,7 +4,6 @@ using System.Data.Entity.Core.Objects;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Exception;
@@ -70,8 +69,7 @@ namespace Festispec.DomainServices.Services.Offline
         public async Task<List<PlannedInspection>> GetPlannedInspections(int employeeId)
         {
             return (await _plannedInspectionSyncService.GetAllAsync()).Where(e =>
-                e.Employee.Id == employeeId && QueryHelpers.TruncateTime(e.StartTime) ==
-                QueryHelpers.TruncateTime(DateTime.Now)).ToList();
+                e.Employee.Id == employeeId && e.StartTime.Date == DateTime.Now.Date).ToList();
         }
 
         public List<List<PlannedInspection>> GetPlannedInspectionsGrouped(Festival festival)

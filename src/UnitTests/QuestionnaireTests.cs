@@ -10,7 +10,6 @@ using Festispec.UnitTests.Helpers;
 using Festispec.Models.Exception;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.Models.Answers;
 using Festispec.Models.Questions;
 
@@ -34,6 +33,7 @@ namespace Festispec.UnitTests
                 .Returns(MockHelpers.CreateDbSetMock(new ModelMocks().PlannedInspections).Object);
             _dbMock.Setup(x => x.Festivals).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Festivals).Object);
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Employees).Object);
+            _dbMock.Setup(x => x.TruncateTime(It.IsAny<DateTime>())).Returns<DateTime>(dt => dt.Date);
             _dbMock.Setup(m => m.SaveChangesAsync()).ReturnsAsync(1);
 
             _questionnaireService =
@@ -286,7 +286,7 @@ namespace Festispec.UnitTests
         {
             var expected = await _dbMock.Object.PlannedInspections
                 .Where(p => p.Employee.Id == employeeId)
-                .Where(p => QueryHelpers.TruncateTime(p.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
+                .Where(p => p.StartTime.Date == DateTime.Now.Date)
                 .ToListAsync();
             var actual = await _questionnaireService.GetPlannedInspections(employeeId);
 

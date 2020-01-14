@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
@@ -168,7 +167,7 @@ namespace Festispec.DomainServices.Services
         {
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
-                .Where(e => e.Employee.Id == employeeId && QueryHelpers.TruncateTime(e.StartTime) == QueryHelpers.TruncateTime(DateTime.Now))
+                .Where(e => e.Employee.Id == employeeId && _db.TruncateTime(e.StartTime) == _db.TruncateTime(DateTime.Now))
                 .ToListAsync();
 
             if (plannedInspections.Count < 1)

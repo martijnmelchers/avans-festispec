@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.Answers;

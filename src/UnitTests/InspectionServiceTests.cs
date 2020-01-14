@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.DomainServices.Services;
 using Festispec.Models;
@@ -34,6 +33,7 @@ namespace Festispec.UnitTests
             _dbMock.Setup(x => x.Questionnaires)
                 .Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Questionnaires).Object);
             _dbMock.Setup(x => x.Employees).Returns(MockHelpers.CreateDbSetMock(new ModelMocks().Employees).Object);
+            _dbMock.Setup(x => x.TruncateTime(It.IsAny<DateTime>())).Returns<DateTime>(dt => dt.Date);
 
             // Create InspectionService
             _inspectionService =
@@ -217,7 +217,7 @@ namespace Festispec.UnitTests
         {
             List<PlannedInspection> expected =
                 _dbMock.Object.PlannedInspections.Where(p =>
-                    p.Employee.Id == employeeId && p.StartTime == QueryHelpers.TruncateTime(DateTime.Now)).ToList();
+                    p.Employee.Id == employeeId && p.StartTime == DateTime.Now.Date).ToList();
             List<PlannedInspection> actual = await _inspectionService.GetPlannedInspections(employeeId);
 
             Assert.Equal(expected, actual);

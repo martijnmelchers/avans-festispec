@@ -10,7 +10,6 @@ using Festispec.UnitTests.Helpers;
 using Festispec.Models.Exception;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 
 namespace Festispec.UnitTests
 {
@@ -81,8 +80,7 @@ namespace Festispec.UnitTests
             var expected = _modelMocks.PlannedEvents.First(pe => pe.Id == availabilityId) as Availability;
             Assert.True(expected != null);
 
-            Availability actual = _availabilityService.GetUnavailabilityForDay(expected.Employee.Id,
-                QueryHelpers.TruncateTime(expected.StartTime));
+            Availability actual = _availabilityService.GetUnavailabilityForDay(expected.Employee.Id, expected.StartTime.Date);
             
             Assert.Equal(expected, actual);
         }

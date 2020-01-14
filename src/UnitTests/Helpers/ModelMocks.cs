@@ -4,7 +4,6 @@ using Festispec.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Festispec.DomainServices.Helpers;
 
 namespace Festispec.UnitTests.Helpers
 {
@@ -370,7 +369,7 @@ namespace Festispec.UnitTests.Helpers
                 new PlannedInspection
                 {
                     Id = 3,
-                    StartTime = QueryHelpers.TruncateTime(DateTime.Now),
+                    StartTime = DateTime.Now.Date,
                     EndTime = new DateTime(2019, 12, 10, 20, 30, 0),
                     EventTitle = "ThunderDome Test",
                     Employee = Employees.First(e => e.Id == 2),

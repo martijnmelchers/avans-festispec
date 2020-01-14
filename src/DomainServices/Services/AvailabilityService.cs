@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Festispec.DomainServices.Helpers;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
 using Festispec.Models.EntityMapping;
@@ -50,7 +49,7 @@ namespace Festispec.DomainServices.Services
         {
             return _db.Availabilities.FirstOrDefault(
                 a => a.Employee.Id == employeeId 
-                     && DbFunctions.TruncateTime(a.StartTime) == DbFunctions.TruncateTime(date) 
+                     && _db.TruncateTime(a.StartTime) == _db.TruncateTime(date) 
                      && a.EventTitle == "Niet beschikbaar");
         }
 
