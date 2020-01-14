@@ -42,7 +42,7 @@ namespace Festispec.Web.Controllers
             {
                 //check if question exists
                 var modifiedQuestion = question;
-                if (question is ReferenceQuestion referenceQuestion)
+                while (modifiedQuestion is ReferenceQuestion referenceQuestion)
                 {
                     modifiedQuestion = referenceQuestion.Question;
                     modifiedQuestion.Id = referenceQuestion.Id;
