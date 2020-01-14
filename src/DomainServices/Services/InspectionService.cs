@@ -167,7 +167,7 @@ namespace Festispec.DomainServices.Services
         {
             var plannedInspections = await _db.PlannedInspections
                 .Include(e => e.Employee)
-                .Where(e => e.Employee.Id == employeeId && _db.TruncateTime(e.StartTime) == _db.TruncateTime(DateTime.Now))
+                .Where(e => e.Employee.Id == employeeId && FestispecContext.TruncateTime(e.StartTime) == FestispecContext.TruncateTime(DateTime.Now))
                 .ToListAsync();
 
             if (plannedInspections.Count < 1)
