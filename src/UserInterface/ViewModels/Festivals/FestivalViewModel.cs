@@ -45,8 +45,6 @@ namespace Festispec.UI.ViewModels.Festivals
             CloseCopyQuestionnaireCommand = new RelayCommand(CloseCopyQuestionnaire);
             CopyQuestionnaireCommand = new RelayCommand(CopyQuestionnaire);
             GenerateReportCommand = new RelayCommand(GenerateReport);
-            DeletePlannedInspectionsCommand =
-                new RelayCommand<List<PlannedInspection>>(DeletePlannedInspection, _ => offlineService.IsOnline, true);
             EditPlannedInspectionCommand = new RelayCommand<List<PlannedInspection>>(plannedInspections =>
                     _navigationService.NavigateTo("Inspection",
                         new { PlannedInspectionId = plannedInspections[0].Id, FestivalId = -1 }),
@@ -219,27 +217,6 @@ namespace Festispec.UI.ViewModels.Festivals
             Festival != null
                 ? _inspectionService.GetPlannedInspectionsGrouped(Festival)
                 : new List<List<PlannedInspection>>();
-
-        private async void DeletePlannedInspection(List<PlannedInspection> plannedInspections)
-        {
-            foreach (var plannedInspection in plannedInspections)
-                try
-                {
-                    await _inspectionService.RemoveInspection(plannedInspection.Id, "Niet meer nodig");
-                }
-                catch (QuestionHasAnswersException)
-                {
-                    OpenValidationPopup(
-                        "De inspectie kan niet worden verwijderd omdat er een vraag met antwoorden in zit.");
-                }
-                catch (InvalidDataException)
-                {
-                    OpenValidationPopup(
-                        "De inspectie kan niet worden verwijderd omdat de ingevulde gegevens niet voldoen.");
-                }
-
-            RaisePropertyChanged(nameof(PlannedInspections));
-        }
 
         #endregion PlannedInspections
     }

@@ -111,10 +111,21 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
             </ScrollViewer>
-            <Button Content="Terug" Style="{StaticResource ButtonBase}" Height="50" Width="200" Grid.Column="0"
-                    Grid.Row="9" Command="{Binding ReturnCommand}" HorizontalAlignment="Left" />
-            <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200" Grid.Column="1"
-                    Grid.Row="9" Command="{Binding SaveCommand}" HorizontalAlignment="Right" />
+            <Button Grid.Column="0" Grid.Row="9" Command="{Binding OpenDeleteCheckPopup}"
+                    Style="{DynamicResource ButtonRed}" Height="50" MinWidth="50" Width="50"
+                    HorizontalAlignment="Left">
+                <Button.Content>
+                    <Image Height="25" Source="{StaticResource TrashcanWhite}" />
+                </Button.Content>
+            </Button>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Content="Terug" Style="{StaticResource ButtonRed}" Height="50" Width="200" Margin="0,0,10,0"
+                        Command="{Binding ReturnCommand}" />
+                <Button Content="Opslaan" Style="{StaticResource ButtonGreen}" Height="50" Width="200"
+                        Command="{Binding SaveCommand}" />
+            </StackPanel>
         </Grid>
+        
+        <controls:DeleteCheckPopup Caption="Inspecties verwijderen" Subtext="Weet je zeker dat je deze inspectie(s) wilt verwijderen?" />
     </Grid>
 </Page>
