@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Festispec.DomainServices.Interfaces;
 using Festispec.Models;
@@ -92,6 +95,22 @@ namespace Festispec.UI.ViewModels.Festivals
             {
                 _copyQuestionnairePopupIsOpen = value;
                 RaisePropertyChanged(nameof(CopyQuestionnairePopupIsOpen));
+            }
+        }
+
+        public bool HasAnswers
+        {
+            get
+            {
+                var questionnaire = Festival.Questionnaires.FirstOrDefault();
+                if (questionnaire == null)
+                    return false;
+
+                var questions = questionnaire.Questions;
+                if (questions.Count < 1)
+                    return false;
+
+                return questions.FirstOrDefault().AnswerCount > 0;
             }
         }
 
